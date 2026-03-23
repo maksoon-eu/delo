@@ -6,6 +6,13 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 ---
 
+## Agent behaviour
+
+- При обнаружении нового соглашения, breaking change или паттерна, которого ещё нет в этом файле — **сразу добавить его в `AGENTS.md`**.
+- Это касается любых неожиданных поведений фреймворка, найденных ошибок типизации, исправлений конфигурации и договорённостей по коду.
+
+---
+
 # Project: Delo
 
 Веб-сервис для самозанятых и фрилансеров — управление клиентами, заказами, оплатами и документами.
@@ -60,6 +67,22 @@ src/
 ---
 
 ## Conventions
+
+### Next.js 15+ breaking changes
+
+- `params` и `searchParams` в pages и route handlers — всегда `Promise`, нужно `await`:
+
+```ts
+// page.tsx
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+}
+
+// route.ts
+export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+}
+```
 
 ### Naming
 
