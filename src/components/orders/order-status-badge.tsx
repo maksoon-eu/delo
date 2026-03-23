@@ -1,3 +1,3 @@
 export function OrderStatusBadge({ status }: { status: string }) {
-  return <span>{status}</span>
+  return <span>{status}</span>;
 }

@@ -1,3 +1,3 @@
 export function ActivityLog() {
-  return <div>ActivityLog</div>
+  return <div>ActivityLog</div>;
 }

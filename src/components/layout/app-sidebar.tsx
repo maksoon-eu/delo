@@ -1,3 +1,3 @@
 export function AppSidebar() {
-  return <aside>Sidebar</aside>
+  return <aside>Sidebar</aside>;
 }

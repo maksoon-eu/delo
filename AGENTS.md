@@ -1,4 +1,5 @@
 <!-- BEGIN:nextjs-agent-rules -->
+
 # This is NOT the Next.js you know
 
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
@@ -61,11 +62,13 @@ src/
 ## Conventions
 
 ### Naming
+
 - Папки и файлы — kebab-case (`order-form.tsx`, `activity-log.tsx`)
 - Компоненты внутри файлов — PascalCase
 - Server Actions — camelCase (`createOrder`, `updateClient`)
 
 ### Imports
+
 - Не импортировать `React` как дефолтный импорт — используем именованные импорты:
 
 ```tsx
@@ -79,6 +82,7 @@ React.ComponentProps<...>
 ```
 
 ### Components
+
 - Деструктурировать пропсы **внутри тела компонента**, а не в аргументе функции:
 
 ```tsx
@@ -98,28 +102,34 @@ export default function OrderCard({ order, onStatusChange }: OrderCardProps) {
 - Server Components по умолчанию — не добавлять `'use client'` без причины
 
 ### Data fetching
+
 - Данные загружаются в Server Components, передаются в клиентские как пропсы
 - Мутации — исключительно через Server Actions в `src/actions/`
 - Валидация через Zod-схему и на клиенте (react-hook-form), и на сервере (Server Action)
 
 ### Database
+
 - Prisma client — только через singleton из `src/lib/db.ts`
 - Никогда не импортировать `PrismaClient` напрямую
 
 ### Styles
+
 - Глобальные стили — `src/assets/styles/globals.css`
 - Утилита `cn()` из `src/lib/utils.ts` для conditional classnames
 - Не писать inline styles — только Tailwind классы
 
 ### Forms
+
 - Все формы через shadcn `Form` + `react-hook-form` + `zodResolver`
 - Zod-схемы выносить в отдельную константу рядом с формой или в `types/`
 
 ### Environment
+
 - Все env-переменные — через `src/lib/env.ts` (валидация через @t3-oss/env-nextjs)
 - Никогда не обращаться к `process.env` напрямую вне `env.ts`
 
 ### ClickUp
+
 - После выполнения задачи — обновить соответствующую задачу в ClickUp:
   - Перенести задачу из **📋 Бэклог** → **🔨 В работе** в начале работы
   - Перенести из **🔨 В работе** → **✅ Готово** после завершения

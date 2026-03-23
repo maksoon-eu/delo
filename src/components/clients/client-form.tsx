@@ -1,3 +1,3 @@
 export function ClientForm() {
-  return <div>ClientForm</div>
+  return <div>ClientForm</div>;
 }

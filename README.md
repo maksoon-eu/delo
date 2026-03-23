@@ -14,19 +14,19 @@
 
 ## Стек
 
-| Слой | Технология |
-|------|-----------|
-| Framework | Next.js 16 (App Router) |
-| Язык | TypeScript |
-| Стили | Tailwind CSS + shadcn/ui |
-| БД | PostgreSQL + Prisma |
-| Auth | Auth.js v5 (NextAuth) |
-| Валидация | Zod + react-hook-form |
-| Email | Resend |
-| PDF | @react-pdf/renderer |
-| Таблицы | @tanstack/react-table |
-| Уведомления | Sonner |
-| Деплой | Vercel + Neon |
+| Слой        | Технология               |
+| ----------- | ------------------------ |
+| Framework   | Next.js 16 (App Router)  |
+| Язык        | TypeScript               |
+| Стили       | Tailwind CSS + shadcn/ui |
+| БД          | PostgreSQL + Prisma      |
+| Auth        | Auth.js v5 (NextAuth)    |
+| Валидация   | Zod + react-hook-form    |
+| Email       | Resend                   |
+| PDF         | @react-pdf/renderer      |
+| Таблицы     | @tanstack/react-table    |
+| Уведомления | Sonner                   |
+| Деплой      | Vercel + Neon            |
 
 ## Быстрый старт
 
@@ -110,9 +110,9 @@ prisma/
 
 ## Ветки
 
-| Ветка | Назначение |
-|-------|-----------|
+| Ветка  | Назначение |
+| ------ | ---------- |
 | `main` | production |
-| `dev` | разработка |
+| `dev`  | разработка |
 
 Фичи разрабатываются в отдельных ветках от `dev`, мёрджатся в `dev`, затем в `main` при релизе.

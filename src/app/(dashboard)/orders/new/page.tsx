@@ -1,3 +1,3 @@
 export default function NewOrderPage() {
-  return <div>New Order</div>
+  return <div>New Order</div>;
 }

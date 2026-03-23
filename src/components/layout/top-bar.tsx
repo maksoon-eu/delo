@@ -1,3 +1,3 @@
 export function TopBar() {
-  return <header>TopBar</header>
+  return <header>TopBar</header>;
 }
