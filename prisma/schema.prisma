@@ -4,7 +4,182 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
-// Модели будут добавлены на следующем шаге
+// ─── NextAuth ────────────────────────────────────────────────────────────────
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?   // hashed, null при OAuth
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts  Account[]
+  sessions  Session[]
+  clients   Client[]
+  orders    Order[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ─── Клиенты ─────────────────────────────────────────────────────────────────
+
+model Client {
+  id        String   @id @default(cuid())
+  userId    String
+  name      String
+  email     String?
+  phone     String?
+  company   String?
+  inn       String?
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orders Order[]
+}
+
+// ─── Заказы ──────────────────────────────────────────────────────────────────
+
+enum OrderStatus {
+  DRAFT       // создан, не отправлен
+  SENT        // ссылка отправлена клиенту
+  CONFIRMED   // клиент подтвердил условия
+  IN_PROGRESS // в работе
+  COMPLETED   // завершён
+  CANCELLED   // отменён
+}
+
+enum PaymentStatus {
+  PENDING // ожидает оплаты
+  PARTIAL // предоплата получена
+  PAID    // оплачен полностью
+}
+
+model Order {
+  id             String        @id @default(cuid())
+  userId         String
+  clientId       String
+  title          String
+  description    String?
+  status         OrderStatus   @default(DRAFT)
+  paymentStatus  PaymentStatus @default(PENDING)
+
+  price          Decimal?      @db.Decimal(12, 2)
+  currency       String        @default("RUB")
+
+  startDate      DateTime?
+  deadline       DateTime?
+
+  // публичная страница для клиента
+  publicToken    String        @unique @default(cuid())
+  confirmedAt    DateTime?
+
+  // реквизиты для оплаты (текстовое поле)
+  paymentDetails String?
+
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  client     Client      @relation(fields: [clientId], references: [id])
+  items      OrderItem[]
+  payments   Payment[]
+  documents  Document[]
+  activities Activity[]
+}
+
+// ─── Состав работ ─────────────────────────────────────────────────────────────
+
+model OrderItem {
+  id          String  @id @default(cuid())
+  orderId     String
+  name        String
+  description String?
+  quantity    Decimal @default(1) @db.Decimal(10, 2)
+  unit        String? // шт, ч, услуга и т.д.
+  price       Decimal @db.Decimal(12, 2)
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+// ─── Платежи ─────────────────────────────────────────────────────────────────
+
+model Payment {
+  id        String   @id @default(cuid())
+  orderId   String
+  amount    Decimal  @db.Decimal(12, 2)
+  note      String?
+  paidAt    DateTime @default(now())
+  createdAt DateTime @default(now())
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+// ─── Документы ───────────────────────────────────────────────────────────────
+
+enum DocumentType {
+  CONTRACT // договор
+  ACT      // акт выполненных работ
+  INVOICE  // счёт
+}
+
+model Document {
+  id        String       @id @default(cuid())
+  orderId   String
+  type      DocumentType
+  url       String?      // путь к файлу (null = генерируется на лету)
+  createdAt DateTime     @default(now())
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+// ─── История действий ─────────────────────────────────────────────────────────
+
+model Activity {
+  id        String   @id @default(cuid())
+  orderId   String
+  text      String
+  createdAt DateTime @default(now())
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
