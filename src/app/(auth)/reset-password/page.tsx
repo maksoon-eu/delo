@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -14,7 +14,7 @@ import { ArrowRightIcon } from '@/components/icons/arrow-right';
 import { resetPassword } from '@/actions/auth';
 import { ResetPasswordSchema, type ResetPasswordInput } from '@/schemas/auth';
 
-export default function ResetPasswordPage() {
+function ResetPasswordForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
@@ -87,5 +87,13 @@ export default function ResetPasswordPage() {
         </form>
       </Form>
     </AuthCard>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense>
+      <ResetPasswordForm />
+    </Suspense>
   );
 }
