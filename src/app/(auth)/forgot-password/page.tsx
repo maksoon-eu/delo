@@ -45,7 +45,6 @@ export default function ForgotPasswordPage() {
       }
       formTitle="Сброс пароля"
       footerText="Вспомнили пароль?"
-      footerLinkText="Войти"
       footerLinkHref="/login"
     >
       {sent ? (
