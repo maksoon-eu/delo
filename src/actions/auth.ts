@@ -41,7 +41,7 @@ export async function registerUser(data: RegisterInput): Promise<{ error?: strin
 }
 
 export async function sendPasswordResetEmail(
-  data: ForgotPasswordInput,
+  data: ForgotPasswordInput
 ): Promise<{ error?: string }> {
   const { data: parsed, success, error } = ForgotPasswordSchema.safeParse(data);
   if (!success) return { error: error.issues[0].message };
@@ -76,7 +76,7 @@ export async function sendPasswordResetEmail(
 
 export async function resetPassword(
   token: string,
-  data: ResetPasswordInput,
+  data: ResetPasswordInput
 ): Promise<{ error?: string }> {
   const { data: parsed, success, error } = ResetPasswordSchema.safeParse(data);
   if (!success) return { error: error.issues[0].message };

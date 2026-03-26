@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "migrate": "prisma migrate deploy",
     "lint": "eslint",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
@@ -22,6 +23,8 @@
     "@t3-oss/env-nextjs": "^0.13.11",
     "@tanstack/react-table": "^8.21.3",
     "@types/bcryptjs": "^2.4.6",
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "bcryptjs": "^3.0.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

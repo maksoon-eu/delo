@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import type { Variants } from "motion/react";
-import { motion, useAnimation } from "motion/react";
-import type { HTMLAttributes } from "react";
-import { forwardRef, useCallback, useImperativeHandle, useRef } from "react";
+import type { Variants } from 'motion/react';
+import { motion, useAnimation } from 'motion/react';
+import type { HTMLAttributes } from 'react';
+import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
 export interface UserIconHandle {
   startAnimation: () => void;
@@ -47,8 +47,8 @@ const UserIcon = forwardRef<UserIconHandle, UserIconProps>(
       isControlledRef.current = true;
 
       return {
-        startAnimation: () => controls.start("animate"),
-        stopAnimation: () => controls.start("normal"),
+        startAnimation: () => controls.start('animate'),
+        stopAnimation: () => controls.start('normal'),
       };
     });
 
@@ -57,7 +57,7 @@ const UserIcon = forwardRef<UserIconHandle, UserIconProps>(
         if (isControlledRef.current) {
           onMouseEnter?.(e);
         } else {
-          controls.start("animate");
+          controls.start('animate');
         }
       },
       [controls, onMouseEnter]
@@ -68,7 +68,7 @@ const UserIcon = forwardRef<UserIconHandle, UserIconProps>(
         if (isControlledRef.current) {
           onMouseLeave?.(e);
         } else {
-          controls.start("normal");
+          controls.start('normal');
         }
       },
       [controls, onMouseLeave]
@@ -91,13 +91,7 @@ const UserIcon = forwardRef<UserIconHandle, UserIconProps>(
           width={size}
           xmlns="http://www.w3.org/2000/svg"
         >
-          <motion.circle
-            animate={controls}
-            cx="12"
-            cy="8"
-            r="5"
-            variants={CIRCLE_VARIANT}
-          />
+          <motion.circle animate={controls} cx="12" cy="8" r="5" variants={CIRCLE_VARIANT} />
 
           <motion.path
             animate={controls}
@@ -114,6 +108,6 @@ const UserIcon = forwardRef<UserIconHandle, UserIconProps>(
   }
 );
 
-UserIcon.displayName = "UserIcon";
+UserIcon.displayName = 'UserIcon';
 
 export { UserIcon };

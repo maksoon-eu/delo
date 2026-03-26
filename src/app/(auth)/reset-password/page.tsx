@@ -52,9 +52,7 @@ export default function ResetPasswordPage() {
         footerText="Запросить снова"
         footerLinkHref="/forgot-password"
       >
-        <p className="text-muted-foreground text-sm">
-          Ссылка отсутствует или повреждена.
-        </p>
+        <p className="text-muted-foreground text-sm">Ссылка отсутствует или повреждена.</p>
       </AuthCard>
     );
   }

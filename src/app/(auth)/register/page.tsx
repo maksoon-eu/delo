@@ -39,7 +39,11 @@ export default function RegisterPage() {
       return;
     }
 
-    const { error: signInError } = await signIn('credentials', { email, password, redirect: false });
+    const { error: signInError } = await signIn('credentials', {
+      email,
+      password,
+      redirect: false,
+    });
     setIsLoading(false);
     if (signInError) {
       toast.error('Регистрация прошла успешно. Войдите в аккаунт.');

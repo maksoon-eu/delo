@@ -1,11 +1,12 @@
 import { defineConfig } from 'prisma/config';
 import { loadEnvConfig } from '@next/env';
+import { env } from '@/lib/env';
 
 loadEnvConfig(process.cwd());
 
 export default defineConfig({
   schema: './prisma/schema.prisma',
   datasource: {
-    url: process.env.DATABASE_URL ?? '',
+    url: env.DATABASE_URL ?? '',
   },
 });

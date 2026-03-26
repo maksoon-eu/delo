@@ -159,24 +159,25 @@ export default function OrderCard({ order, onStatusChange }: OrderCardProps) {
 Тема — **Violet** (light + dark). Все цвета — через семантические CSS-переменные, никаких хардкодов.
 
 **Правила:**
+
 - Никогда не использовать `violet-*`, `purple-*`, `gray-*` и другие палитровые классы напрямую
 - Всегда использовать семантические токены:
 
-| Токен | Использование |
-|---|---|
-| `bg-background` / `text-foreground` | Основной фон и текст страницы |
-| `bg-card` / `text-card-foreground` | Поверхности: карточки, панели |
-| `bg-primary` / `text-primary-foreground` | CTA-кнопки, акцентные элементы |
-| `text-primary` | Акцентный текст, ссылки |
-| `bg-secondary` / `text-secondary-foreground` | Вторичные кнопки, теги, бейджи |
-| `bg-muted` / `text-muted-foreground` | Приглушённый фон и вспомогательный текст |
-| `bg-accent` / `text-accent-foreground` | Hover-состояния, подсветка |
-| `bg-destructive` / `text-destructive` | Ошибки, удаление |
-| `border-border` | Разделители, обводки |
-| `ring-ring` | Фокус-кольца |
-| `bg-sidebar` / `text-sidebar-foreground` | Sidebar и его элементы |
-| `bg-sidebar-primary` | Активный элемент sidebar |
-| `bg-sidebar-accent` | Hover в sidebar |
+| Токен                                        | Использование                            |
+| -------------------------------------------- | ---------------------------------------- |
+| `bg-background` / `text-foreground`          | Основной фон и текст страницы            |
+| `bg-card` / `text-card-foreground`           | Поверхности: карточки, панели            |
+| `bg-primary` / `text-primary-foreground`     | CTA-кнопки, акцентные элементы           |
+| `text-primary`                               | Акцентный текст, ссылки                  |
+| `bg-secondary` / `text-secondary-foreground` | Вторичные кнопки, теги, бейджи           |
+| `bg-muted` / `text-muted-foreground`         | Приглушённый фон и вспомогательный текст |
+| `bg-accent` / `text-accent-foreground`       | Hover-состояния, подсветка               |
+| `bg-destructive` / `text-destructive`        | Ошибки, удаление                         |
+| `border-border`                              | Разделители, обводки                     |
+| `ring-ring`                                  | Фокус-кольца                             |
+| `bg-sidebar` / `text-sidebar-foreground`     | Sidebar и его элементы                   |
+| `bg-sidebar-primary`                         | Активный элемент sidebar                 |
+| `bg-sidebar-accent`                          | Hover в sidebar                          |
 
 - Для фонов с прозрачностью — `bg-primary/10`, `bg-muted/40` и т.д.
 - Градиенты строить из тех же токенов: `from-secondary/70 to-background`

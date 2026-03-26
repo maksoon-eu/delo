@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { ComponentProps } from "react";
+import { ComponentProps } from 'react';
 
 function Label({ className, ...props }: ComponentProps<'label'>) {
   return (

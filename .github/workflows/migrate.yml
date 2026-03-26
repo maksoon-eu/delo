@@ -1,15 +1,14 @@
-name: CI
+name: Migrate
 
 on:
   push:
     branches: [main, dev]
-  pull_request:
-    branches: [main, dev]
 
 jobs:
-  check:
-    name: Type check, lint, format
+  migrate:
+    name: Run database migrations
     runs-on: ubuntu-latest
+    environment: ${{ github.ref_name == 'main' && 'production' || 'dev' }}
 
     steps:
       - name: Checkout
@@ -24,11 +23,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Type check
-        run: npx tsc --noEmit
-
-      - name: Lint
-        run: npm run lint
-
-      - name: Format check
-        run: npm run format:check
+      - name: Run migrations
+        run: npm run migrate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
