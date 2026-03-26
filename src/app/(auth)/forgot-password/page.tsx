@@ -15,7 +15,11 @@ import { ForgotPasswordSchema, type ForgotPasswordInput } from '@/schemas/auth';
 
 export default function ForgotPasswordPage() {
   const [isLoading, setIsLoading] = useState(false);
-  const { seconds: cooldownSeconds, start: startCooldown, isActive: isCoolingDown } = useCountdown();
+  const {
+    seconds: cooldownSeconds,
+    start: startCooldown,
+    isActive: isCoolingDown,
+  } = useCountdown();
 
   const form = useForm<ForgotPasswordInput>({
     resolver: zodResolver(ForgotPasswordSchema),
@@ -57,7 +61,9 @@ export default function ForgotPasswordPage() {
               isLoading={isLoading}
               disabled={isCoolingDown}
             >
-              {isCoolingDown ? `Повторная отправка через ${cooldownSeconds} сек.` : 'Отправить письмо'}
+              {isCoolingDown
+                ? `Повторная отправка через ${cooldownSeconds} сек.`
+                : 'Отправить письмо'}
             </IconButton>
           </div>
         </form>

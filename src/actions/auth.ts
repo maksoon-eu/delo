@@ -79,7 +79,10 @@ export async function sendPasswordResetEmail(
 
   const cooldown = await checkPasswordResetCooldown(parsed.email);
   if (cooldown.blocked) {
-    return { error: 'Письмо уже отправлено. Подождите перед повторной отправкой.', retryAfter: cooldown.retryAfter };
+    return {
+      error: 'Письмо уже отправлено. Подождите перед повторной отправкой.',
+      retryAfter: cooldown.retryAfter,
+    };
   }
 
   const user = await db.user.findUnique({ where: { email: parsed.email } });
