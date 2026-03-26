@@ -8,7 +8,7 @@ on:
 
 jobs:
   check:
-    name: Type check, lint, format
+    name: Type check, lint, format, build
     runs-on: ubuntu-latest
 
     steps:
@@ -36,7 +36,4 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
-          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
-          NEXT_PUBLIC_APP_URL: ${{ secrets.NEXT_PUBLIC_APP_URL }}
+          SKIP_ENV_VALIDATION: true
