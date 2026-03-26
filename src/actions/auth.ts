@@ -98,9 +98,8 @@ export async function sendPasswordResetEmail(
   const resetUrl = `${env.NEXT_PUBLIC_APP_URL}/reset-password?token=${token}`;
 
   const resend = new Resend(env.RESEND_API_KEY);
-  resend.domains.create({ name: env.RESEND_DOMAIN });
   await resend.emails.send({
-    from: 'Delo <noreply@deloapp.ru>',
+    from: `Delo <noreply@${env.RESEND_DOMAIN}>`,
     to: parsed.email,
     subject: 'Сброс пароля — Delo',
     html: `
@@ -116,7 +115,7 @@ export async function sendPasswordResetEmail(
 export async function resetPassword(
   token: string,
   data: ResetPasswordInput
-): Promise<{ error?: string }> {
+): Promise<{ error?: string; email?: string; password?: string }> {
   const { data: parsed, success, error } = ResetPasswordSchema.safeParse(data);
   if (!success) return { error: error.issues[0].message };
 
@@ -135,5 +134,5 @@ export async function resetPassword(
 
   await db.passwordResetToken.delete({ where: { token } });
 
-  return {};
+  return { email: resetToken.email, password: parsed.password };
 }

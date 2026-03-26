@@ -4,6 +4,7 @@ import { Suspense, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 import { toast } from 'sonner';
 import { Form } from '@/components/ui/form/form';
 import { FormInput } from '@/components/ui/form/form-input';
@@ -33,14 +34,17 @@ function ResetPasswordForm() {
       return;
     }
     setIsLoading(true);
-    const { error } = await resetPassword(token, data);
-    setIsLoading(false);
+    const { error, email, password } = await resetPassword(token, data);
     if (error) {
+      setIsLoading(false);
       toast.error(error);
       return;
     }
-    toast.success('Пароль изменён — войдите с новым паролем');
-    router.push('/login');
+
+    await signIn('credentials', { email, password, redirect: false });
+    setIsLoading(false);
+    router.push('/');
+    router.refresh();
   }
 
   if (!token) {

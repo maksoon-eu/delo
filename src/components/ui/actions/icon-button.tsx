@@ -1,11 +1,8 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { Button } from '@/components/ui/actions/button';
-import {
-  LoaderPinwheelIcon,
-  type LoaderPinwheelIconHandle,
-} from '@/components/icons/loader-pinwheel';
+import { LoaderCircle } from 'lucide-react';
 import type { ComponentProps } from 'react';
 
 interface AnimatedIconHandle {
@@ -26,11 +23,6 @@ type IconButtonProps = ComponentProps<typeof Button> & {
 export function IconButton(props: IconButtonProps) {
   const { isLoading, Icon, children, disabled, ...rest } = props;
   const iconRef = useRef<AnimatedIconHandle>(null);
-  const loaderRef = useRef<LoaderPinwheelIconHandle>(null);
-
-  useEffect(() => {
-    if (isLoading) loaderRef.current?.startAnimation();
-  }, [isLoading]);
 
   return (
     <Button
@@ -44,7 +36,7 @@ export function IconButton(props: IconButtonProps) {
       }}
     >
       {isLoading ? (
-        <LoaderPinwheelIcon ref={loaderRef} size={18} />
+        <LoaderCircle size={18} className="animate-spin" />
       ) : (
         Icon && <Icon size={18} ref={iconRef} />
       )}
