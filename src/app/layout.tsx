@@ -1,11 +1,13 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
-import '@/assets/styles/globals.css';
+import { Manrope, Geist_Mono } from 'next/font/google';
+import '@/styles/globals.css';
 import { ThemeProvider } from '@/components/layout/theme-provider';
+import { Footer } from '@/components/layout/footer';
+import { Toaster } from '@/components/ui/feedback/sonner';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
+const manrope = Manrope({
+  variable: '--font-sans',
+  subsets: ['latin', 'cyrillic'],
 });
 
 const geistMono = Geist_Mono({
@@ -18,16 +20,15 @@ export const metadata: Metadata = {
   description: 'Управляй клиентами, заказами и документами в одном месте',
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout(props: Readonly<{ children: React.ReactNode }>) {
+  const { children } = props;
   return (
-    <html lang="ru" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+    <html lang="ru" className={`${manrope.variable} ${geistMono.variable} h-full antialiased`} suppressHydrationWarning>
       <body className="flex min-h-full flex-col">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
+          <Footer />
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

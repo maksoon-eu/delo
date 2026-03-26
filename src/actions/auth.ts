@@ -1,0 +1,100 @@
+'use server';
+
+import { db } from '@/lib/db';
+import bcrypt from 'bcryptjs';
+import { Resend } from 'resend';
+import { env } from '@/lib/env';
+import {
+  RegisterSchema,
+  ForgotPasswordSchema,
+  ResetPasswordSchema,
+  type RegisterInput,
+  type ForgotPasswordInput,
+  type ResetPasswordInput,
+} from '@/schemas/auth';
+
+export async function registerUser(data: RegisterInput): Promise<{ error?: string }> {
+  const { data: parsedData, success, error } = RegisterSchema.safeParse(data);
+  if (!success) {
+    return { error: error.issues[0].message };
+  }
+
+  const existing = await db.user.findUnique({
+    where: { email: parsedData.email },
+  });
+
+  if (existing) {
+    return { error: 'Пользователь с таким email уже существует' };
+  }
+
+  const hashedPassword = await bcrypt.hash(parsedData.password, 10);
+
+  await db.user.create({
+    data: {
+      name: parsedData.name,
+      email: parsedData.email,
+      password: hashedPassword,
+    },
+  });
+
+  return {};
+}
+
+export async function sendPasswordResetEmail(
+  data: ForgotPasswordInput,
+): Promise<{ error?: string }> {
+  const { data: parsed, success, error } = ForgotPasswordSchema.safeParse(data);
+  if (!success) return { error: error.issues[0].message };
+
+  const user = await db.user.findUnique({ where: { email: parsed.email } });
+  if (!user) return {};
+
+  await db.passwordResetToken.deleteMany({ where: { email: parsed.email } });
+
+  const token = crypto.randomUUID();
+  const expires = new Date(Date.now() + 1000 * 60 * 60); // 1 час
+
+  await db.passwordResetToken.create({ data: { email: parsed.email, token, expires } });
+
+  const resetUrl = `${env.NEXT_PUBLIC_APP_URL}/reset-password?token=${token}`;
+
+  const resend = new Resend(env.RESEND_API_KEY);
+  resend.domains.create({ name: env.RESEND_DOMAIN });
+  await resend.emails.send({
+    from: 'Delo <noreply@deloapp.ru>',
+    to: parsed.email,
+    subject: 'Сброс пароля — Delo',
+    html: `
+      <p>Вы запросили сброс пароля.</p>
+      <p><a href="${resetUrl}">Нажмите здесь, чтобы задать новый пароль</a></p>
+      <p>Ссылка действительна 1 час. Если вы не запрашивали сброс — просто проигнорируйте это письмо.</p>
+    `,
+  });
+
+  return {};
+}
+
+export async function resetPassword(
+  token: string,
+  data: ResetPasswordInput,
+): Promise<{ error?: string }> {
+  const { data: parsed, success, error } = ResetPasswordSchema.safeParse(data);
+  if (!success) return { error: error.issues[0].message };
+
+  const resetToken = await db.passwordResetToken.findUnique({ where: { token } });
+
+  if (!resetToken || resetToken.expires < new Date()) {
+    return { error: 'Ссылка недействительна или истекла' };
+  }
+
+  const hashedPassword = await bcrypt.hash(parsed.password, 10);
+
+  await db.user.update({
+    where: { email: resetToken.email },
+    data: { password: hashedPassword },
+  });
+
+  await db.passwordResetToken.delete({ where: { token } });
+
+  return {};
+}

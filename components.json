@@ -17,9 +17,12 @@
     "utils": "@/lib/utils",
     "ui": "@/components/ui",
     "lib": "@/lib",
-    "hooks": "@/hooks"
+    "hooks": "@/hooks",
+    "icons": "@/components/icons"
   },
-  "menuColor": "default",
-  "menuAccent": "subtle",
-  "registries": {}
+  "registries": {
+    "@lucide-animated": {
+      "url": "https://lucide-animated.com/r/{name}.json"
+    }
+  }
 }
