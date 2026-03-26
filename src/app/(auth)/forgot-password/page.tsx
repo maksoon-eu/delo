@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useCountdown } from '@/hooks/use-countdown';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
@@ -9,71 +10,58 @@ import { FormInput } from '@/components/ui/form/form-input';
 import { IconButton } from '@/components/ui/actions/icon-button';
 import { AuthCard } from '@/components/auth/auth-card';
 import { AtSignIcon } from '@/components/icons/at-sign';
-import { ArrowRightIcon } from '@/components/icons/arrow-right';
 import { sendPasswordResetEmail } from '@/actions/auth';
 import { ForgotPasswordSchema, type ForgotPasswordInput } from '@/schemas/auth';
 
 export default function ForgotPasswordPage() {
-  const [sent, setSent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { seconds: cooldownSeconds, start: startCooldown, isActive: isCoolingDown } = useCountdown();
 
   const form = useForm<ForgotPasswordInput>({
     resolver: zodResolver(ForgotPasswordSchema),
     defaultValues: { email: '' },
   });
 
-  const { control, handleSubmit, getValues } = form;
+  const { control, handleSubmit } = form;
 
   async function onSubmit(data: ForgotPasswordInput) {
     setIsLoading(true);
-    const { error } = await sendPasswordResetEmail(data);
+    const result = await sendPasswordResetEmail(data);
     setIsLoading(false);
-    if (error) {
-      toast.error(error);
+
+    if (result.error) {
+      toast.error(result.error);
+      if (result.retryAfter) startCooldown(result.retryAfter);
       return;
     }
-    setSent(true);
+
+    toast.success('Письмо отправлено. Проверьте почту.');
+    startCooldown(30);
   }
 
   return (
     <AuthCard
-      title="Восстановление пароля."
-      description={
-        sent
-          ? `Письмо отправлено на ${getValues('email')}`
-          : 'Укажите email — пришлём ссылку для сброса'
-      }
-      formTitle="Сброс пароля"
-      footerText="Вспомнили пароль?"
+      title="Сброс пароля"
+      description="Введите email — мы пришлём ссылку для сброса"
+      formTitle="Восстановление доступа"
+      footerText="Вернуться ко входу"
       footerLinkHref="/login"
     >
-      {sent ? (
-        <div className="bg-primary/8 border-primary/20 rounded-lg border px-4 py-3 text-sm">
-          Проверьте почту. Ссылка действительна <span className="font-medium">1 час</span>.
-        </div>
-      ) : (
-        <Form {...form}>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
-            <FormInput
-              control={control}
-              name="email"
-              label="Email"
-              type="email"
-              Icon={AtSignIcon}
-            />
-            <div className="pt-1">
-              <IconButton
-                type="submit"
-                className="w-full"
-                isLoading={isLoading}
-                Icon={ArrowRightIcon}
-              >
-                Отправить ссылку
-              </IconButton>
-            </div>
-          </form>
-        </Form>
-      )}
+      <Form {...form}>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
+          <FormInput control={control} name="email" label="Email" type="email" Icon={AtSignIcon} />
+          <div className="pt-1">
+            <IconButton
+              type="submit"
+              className="w-full"
+              isLoading={isLoading}
+              disabled={isCoolingDown}
+            >
+              {isCoolingDown ? `Повторная отправка через ${cooldownSeconds} сек.` : 'Отправить письмо'}
+            </IconButton>
+          </div>
+        </form>
+      </Form>
     </AuthCard>
   );
 }

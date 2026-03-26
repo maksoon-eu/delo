@@ -5,13 +5,44 @@ import bcrypt from 'bcryptjs';
 import { Resend } from 'resend';
 import { env } from '@/lib/env';
 import {
+  LoginSchema,
   RegisterSchema,
   ForgotPasswordSchema,
   ResetPasswordSchema,
+  type LoginInput,
   type RegisterInput,
   type ForgotPasswordInput,
   type ResetPasswordInput,
 } from '@/schemas/auth';
+import {
+  checkLoginRateLimit,
+  recordFailedLogin,
+  clearLoginAttempts,
+  checkPasswordResetCooldown,
+} from '@/lib/rate-limit';
+
+export async function loginUser(
+  data: LoginInput
+): Promise<{ error?: string; retryAfter?: number }> {
+  const { data: parsed, success, error } = LoginSchema.safeParse(data);
+  if (!success) return { error: error.issues[0].message };
+
+  const rateLimit = await checkLoginRateLimit(parsed.email);
+  if (rateLimit.blocked) {
+    return { error: 'Слишком много попыток. Попробуйте позже.', retryAfter: rateLimit.retryAfter };
+  }
+
+  const user = await db.user.findUnique({ where: { email: parsed.email } });
+  const valid = user && (await bcrypt.compare(parsed.password, user.password));
+
+  if (!valid) {
+    await recordFailedLogin(parsed.email);
+    return { error: 'Неверный email или пароль' };
+  }
+
+  await clearLoginAttempts(parsed.email);
+  return {};
+}
 
 export async function registerUser(data: RegisterInput): Promise<{ error?: string }> {
   const { data: parsedData, success, error } = RegisterSchema.safeParse(data);
@@ -42,9 +73,14 @@ export async function registerUser(data: RegisterInput): Promise<{ error?: strin
 
 export async function sendPasswordResetEmail(
   data: ForgotPasswordInput
-): Promise<{ error?: string }> {
+): Promise<{ error?: string; retryAfter?: number }> {
   const { data: parsed, success, error } = ForgotPasswordSchema.safeParse(data);
   if (!success) return { error: error.issues[0].message };
+
+  const cooldown = await checkPasswordResetCooldown(parsed.email);
+  if (cooldown.blocked) {
+    return { error: 'Письмо уже отправлено. Подождите перед повторной отправкой.', retryAfter: cooldown.retryAfter };
+  }
 
   const user = await db.user.findUnique({ where: { email: parsed.email } });
   if (!user) return {};

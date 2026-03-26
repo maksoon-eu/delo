@@ -6,6 +6,7 @@ import { Footer } from '@/components/layout/footer';
 import { Toaster } from '@/components/ui/feedback/sonner';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { env } from '@/lib/env';
 
 const manrope = Manrope({
   variable: '--font-sans',
@@ -36,8 +37,8 @@ export default function RootLayout(props: Readonly<{ children: React.ReactNode }
           <Footer />
           <Toaster />
 
-          <Analytics />
-          <SpeedInsights />
+          {env.NODE_ENV === 'production' && <Analytics />}
+          {env.NODE_ENV === 'production' && <SpeedInsights />}
         </ThemeProvider>
       </body>
     </html>

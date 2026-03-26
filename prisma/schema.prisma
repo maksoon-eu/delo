@@ -70,6 +70,14 @@ model PasswordResetToken {
   @@index([email])
 }
 
+model LoginAttempt {
+  id        String   @id @default(cuid())
+  email     String
+  createdAt DateTime @default(now())
+
+  @@index([email, createdAt])
+}
+
 // ─── Клиенты ─────────────────────────────────────────────────────────────────
 
 model Client {

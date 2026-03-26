@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useCountdown } from '@/hooks/use-countdown';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
@@ -14,10 +15,12 @@ import { AuthCard } from '@/components/auth/auth-card';
 import { ArrowRightIcon } from '@/components/icons/arrow-right';
 import { AtSignIcon } from '@/components/icons/at-sign';
 import { LockKeyholeIcon } from '@/components/icons/lock-keyhole';
+import { loginUser } from '@/actions/auth';
 
 export default function LoginPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const { seconds: lockoutSeconds, start: startLockout, isActive: isLocked } = useCountdown();
 
   const form = useForm<LoginInput>({
     resolver: zodResolver(LoginSchema),
@@ -29,12 +32,28 @@ export default function LoginPage() {
   async function onSubmit(data: LoginInput) {
     const { email, password } = data;
     setIsLoading(true);
-    const { error } = await signIn('credentials', { email, password, redirect: false });
-    setIsLoading(false);
+
+    const { error, retryAfter } = await loginUser(data);
+
     if (error) {
-      toast.error('Неверный email или пароль');
+      setIsLoading(false);
+      toast.error(error);
+      if (retryAfter) startLockout(retryAfter);
       return;
     }
+
+    const { error: signInError } = await signIn('credentials', {
+      email,
+      password,
+      redirect: false,
+    });
+    setIsLoading(false);
+
+    if (signInError) {
+      toast.error('Произошла ошибка входа');
+      return;
+    }
+
     router.push('/');
     router.refresh();
   }
@@ -63,9 +82,10 @@ export default function LoginPage() {
               type="submit"
               className="w-full"
               isLoading={isLoading}
+              disabled={isLocked}
               Icon={ArrowRightIcon}
             >
-              Войти
+              {isLocked ? `Повторите через ${lockoutSeconds} сек.` : 'Войти'}
             </IconButton>
           </div>
         </form>
