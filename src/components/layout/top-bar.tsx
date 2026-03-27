@@ -2,6 +2,7 @@
 
 import { useTheme } from 'next-themes';
 import { useIsClient } from '@/hooks/use-is-client';
+import { useAsyncAction } from '@/hooks/use-async-action';
 import { Button } from '@/components/ui/actions/button';
 import { SunIcon } from '@/components/icons/sun';
 import { MoonIcon } from '@/components/icons/moon';
@@ -19,18 +20,19 @@ export function TopBar(props: TopBarProps) {
   const isClient = useIsClient();
   const isDark = resolvedTheme === 'dark';
   const initials = getInitials(userName);
+  const [handleLogout, isLoggingOut] = useAsyncAction(logoutUser);
 
   const toggleTheme = () => {
     setTheme(isDark ? 'light' : 'dark');
   };
 
   return (
-    <header className="border-border bg-background flex h-14 shrink-0 items-center justify-end gap-2 border-b px-4">
+    <header className="border-border relative flex h-14 shrink-0 items-center justify-end gap-2 border-b px-4 backdrop-blur-[100px]">
       {isClient && (
         <Button
           Icon={isDark ? SunIcon : MoonIcon}
           mode="icon"
-          variant="ghost"
+          variant="outline"
           tooltip={isDark ? 'Светлая тема' : 'Тёмная тема'}
           onClick={toggleTheme}
         />
@@ -41,7 +43,14 @@ export function TopBar(props: TopBarProps) {
         </div>
         <span className="text-foreground text-sm font-medium">{userName}</span>
       </div>
-      <Button Icon={LogoutIcon} mode="icon" variant="ghost" tooltip="Выйти" onClick={logoutUser} />
+      <Button
+        Icon={LogoutIcon}
+        mode="icon"
+        variant="outline"
+        tooltip="Выйти"
+        isLoading={isLoggingOut}
+        onClick={handleLogout}
+      />
     </header>
   );
 }

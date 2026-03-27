@@ -61,7 +61,7 @@
   --secondary-foreground: oklch(49.1% 0.27 277deg);
   --muted: oklch(96.7% 0 0deg);
   --muted-foreground: oklch(55.6% 0 0deg);
-  --accent: oklch(94.3% 0.029 295deg);
+  --accent: oklch(78.604% 0.1187 292deg);
   --accent-foreground: oklch(49.1% 0.27 277deg);
   --destructive: oklch(57.7% 0.245 27.325deg);
   --border: oklch(92.2% 0 0deg);
@@ -73,12 +73,12 @@
   --chart-4: oklch(81.1% 0.111 294deg);
   --chart-5: oklch(38% 0.189 278deg);
   --radius: 0.5rem;
-  --sidebar: oklch(96.9% 0.016 294deg);
+  --sidebar: oklch(100% 0.0001 271deg);
   --sidebar-foreground: oklch(9% 0.005 285deg);
   --sidebar-primary: oklch(54.1% 0.281 293deg);
   --sidebar-primary-foreground: oklch(98.5% 0 0deg);
   --sidebar-accent: oklch(94.3% 0.029 295deg);
-  --sidebar-accent-foreground: oklch(49.1% 0.27 277deg);
+  --sidebar-accent-foreground: oklch(9% 0.005 285deg);
   --sidebar-border: oklch(89.4% 0.057 293deg);
   --sidebar-ring: oklch(54.1% 0.281 293deg);
 }
@@ -99,7 +99,7 @@
   --accent: oklch(28.3% 0.141 291deg);
   --accent-foreground: oklch(81.1% 0.111 294deg);
   --destructive: oklch(70.4% 0.191 22.216deg);
-  --border: oklch(100% 0 0deg / 8%);
+  --border: oklch(100% 0 0deg / 20%);
   --input: oklch(100% 0 0deg / 12%);
   --ring: oklch(60.6% 0.25 293deg);
   --chart-1: oklch(70.2% 0.183 294deg);
@@ -113,7 +113,7 @@
   --sidebar-primary-foreground: oklch(98.5% 0 0deg);
   --sidebar-accent: oklch(18% 0.006 285deg);
   --sidebar-accent-foreground: oklch(98.5% 0 0deg);
-  --sidebar-border: oklch(100% 0 0deg / 8%);
+  --sidebar-border: oklch(100% 0 0deg / 20%);
   --sidebar-ring: oklch(60.6% 0.25 293deg);
 }
 
@@ -128,5 +128,22 @@
 
   html {
     @apply font-sans;
+  }
+}
+
+@layer components {
+  .dashboard-background {
+    background-image: none;
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .dark .dashboard-background {
+    background-image: url('../assets/background/dark.svg');
+  }
+
+  .light .dashboard-background {
+    background-image: url('../assets/background/light.svg');
   }
 }

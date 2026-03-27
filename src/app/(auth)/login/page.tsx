@@ -1,13 +1,12 @@
 'use client';
 
-import { useState } from 'react';
 import { useCountdown } from '@/hooks/use-countdown';
+import { useAsyncAction } from '@/hooks/use-async-action';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
 import { LoginSchema, type LoginInput } from '@/schemas/auth';
 import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
 import { Form } from '@/components/ui/form/form';
 import { FormInput } from '@/components/ui/form/form-input';
 import { Button } from '@/components/ui/actions/button';
@@ -19,7 +18,6 @@ import { loginUser } from '@/actions/auth';
 
 export default function LoginPage() {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
   const { seconds: lockoutSeconds, start: startLockout, isActive: isLocked } = useCountdown();
 
   const form = useForm<LoginInput>({
@@ -31,15 +29,11 @@ export default function LoginPage() {
 
   async function onSubmit(data: LoginInput) {
     const { email, password } = data;
-    setIsLoading(true);
-
     const { error, retryAfter } = await loginUser(data);
 
     if (error) {
-      setIsLoading(false);
-      toast.error(error);
       if (retryAfter) startLockout(retryAfter);
-      return;
+      throw new Error(error);
     }
 
     const { error: signInError } = await signIn('credentials', {
@@ -47,16 +41,16 @@ export default function LoginPage() {
       password,
       redirect: false,
     });
-    setIsLoading(false);
 
     if (signInError) {
-      toast.error('Произошла ошибка входа');
-      return;
+      throw new Error('Произошла ошибка входа');
     }
 
     router.push('/');
     router.refresh();
   }
+
+  const [execute, isLoading] = useAsyncAction(onSubmit);
 
   return (
     <AuthCard
@@ -68,7 +62,7 @@ export default function LoginPage() {
       forgotPasswordHref="/forgot-password"
     >
       <Form {...form}>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
+        <form onSubmit={handleSubmit(execute)} className="space-y-2">
           <FormInput control={control} name="email" label="Email" type="email" Icon={AtSignIcon} />
           <FormInput
             control={control}

@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
 import { useCountdown } from '@/hooks/use-countdown';
+import { useAsyncAction } from '@/hooks/use-async-action';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
@@ -14,7 +14,6 @@ import { sendPasswordResetEmail } from '@/actions/auth';
 import { ForgotPasswordSchema, type ForgotPasswordInput } from '@/schemas/auth';
 
 export default function ForgotPasswordPage() {
-  const [isLoading, setIsLoading] = useState(false);
   const {
     seconds: cooldownSeconds,
     start: startCooldown,
@@ -29,19 +28,18 @@ export default function ForgotPasswordPage() {
   const { control, handleSubmit } = form;
 
   async function onSubmit(data: ForgotPasswordInput) {
-    setIsLoading(true);
     const result = await sendPasswordResetEmail(data);
-    setIsLoading(false);
 
     if (result.error) {
-      toast.error(result.error);
       if (result.retryAfter) startCooldown(result.retryAfter);
-      return;
+      throw new Error(result.error);
     }
 
     toast.success('Письмо отправлено. Проверьте почту.');
     startCooldown(30);
   }
+
+  const [execute, isLoading] = useAsyncAction(onSubmit);
 
   return (
     <AuthCard
@@ -52,7 +50,7 @@ export default function ForgotPasswordPage() {
       footerLinkHref="/login"
     >
       <Form {...form}>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
+        <form onSubmit={handleSubmit(execute)} className="space-y-2">
           <FormInput control={control} name="email" label="Email" type="email" Icon={AtSignIcon} />
           <div className="pt-1">
             <Button type="submit" className="w-full" isLoading={isLoading} disabled={isCoolingDown}>

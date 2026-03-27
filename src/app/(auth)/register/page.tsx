@@ -1,11 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useAsyncAction } from '@/hooks/use-async-action';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
 import { Form } from '@/components/ui/form/form';
 import { FormInput } from '@/components/ui/form/form-input';
 import { Button } from '@/components/ui/actions/button';
@@ -19,7 +18,6 @@ import { RegisterSchema, type RegisterInput } from '@/schemas/auth';
 
 export default function RegisterPage() {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<RegisterInput>({
     resolver: zodResolver(RegisterSchema),
@@ -30,13 +28,10 @@ export default function RegisterPage() {
 
   async function onSubmit(data: RegisterInput) {
     const { email, password } = data;
-    setIsLoading(true);
-
     const { error } = await registerUser(data);
+
     if (error) {
-      setIsLoading(false);
-      toast.error(error);
-      return;
+      throw new Error(error);
     }
 
     const { error: signInError } = await signIn('credentials', {
@@ -44,16 +39,17 @@ export default function RegisterPage() {
       password,
       redirect: false,
     });
-    setIsLoading(false);
+
     if (signInError) {
-      toast.error('Регистрация прошла успешно. Войдите в аккаунт.');
       router.push('/login');
-      return;
+      throw new Error('Регистрация прошла успешно. Войдите в аккаунт.');
     }
 
     router.push('/');
     router.refresh();
   }
+
+  const [execute, isLoading] = useAsyncAction(onSubmit);
 
   return (
     <AuthCard
@@ -64,7 +60,7 @@ export default function RegisterPage() {
       footerLinkHref="/login"
     >
       <Form {...form}>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
+        <form onSubmit={handleSubmit(execute)} className="space-y-2">
           <FormInput control={control} name="name" label="Имя" Icon={UserIcon} />
           <FormInput control={control} name="email" label="Email" type="email" Icon={AtSignIcon} />
           <FormInput

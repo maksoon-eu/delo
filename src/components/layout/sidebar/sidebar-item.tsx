@@ -13,19 +13,30 @@ export function SidebarNavItem(props: SidebarNavItemProps) {
   const isActive = href === '/' ? pathname === '/' : pathname.startsWith(href);
   const iconRef = useRef<AnimatedIconHandle>(null);
 
+  const handleMouseEnter = () => {
+    iconRef.current?.startAnimation();
+  };
+  const handleMouseLeave = () => {
+    iconRef.current?.stopAnimation();
+  };
+
   return (
     <Link
       className={cn(
-        'flex h-10 items-center gap-3 overflow-hidden rounded-md px-3 text-sm font-medium transition-colors',
+        'relative flex h-10 items-center gap-3 overflow-hidden rounded-md px-3 text-sm font-medium transition-colors',
+        collapsed && 'justify-center',
         isActive
           ? 'bg-sidebar-primary/15 text-sidebar-primary font-semibold'
-          : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
+          : 'text-sidebar-foreground/70 hover:bg-sidebar-primary/15 hover:text-sidebar-accent-foreground'
       )}
       href={href}
       title={collapsed ? label : undefined}
-      onMouseEnter={() => iconRef.current?.startAnimation()}
-      onMouseLeave={() => iconRef.current?.stopAnimation()}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
+      {isActive && (
+        <span className="bg-sidebar-primary absolute inset-y-2 left-0 w-0.5 rounded-r-full" />
+      )}
       <span className="shrink-0">
         <Icon ref={iconRef} size={18} />
       </span>

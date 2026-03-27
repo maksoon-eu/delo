@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/actions/button';
 import { useCookieStorage } from '@/hooks/use-cookie-storage';
 import { NAV_ITEMS, SIDEBAR_COOKIE_KEY } from '@/constants';
 import { SidebarNavItem } from './sidebar-item';
+import { cn } from '@/lib/utils';
 
 type AppSidebarProps = {
   defaultCollapsed: boolean;
@@ -25,12 +26,19 @@ export function AppSidebar(props: AppSidebarProps) {
 
   return (
     <motion.aside
-      animate={{ width: collapsed ? 64 : 240 }}
-      className="border-sidebar-border bg-sidebar relative flex shrink-0 flex-col border-r transition-colors"
+      animate={{ width: collapsed ? 60 : 240 }}
+      className="border-sidebar-border relative flex shrink-0 flex-col border-r backdrop-blur-[100px] transition-colors"
       initial={false}
       transition={{ duration: 0.25, ease: 'easeInOut' }}
     >
-      <div className="border-sidebar-border flex h-14 shrink-0 items-center gap-2.5 overflow-hidden border-b px-3">
+      <div
+        className={cn(
+          'border-sidebar-border relative flex h-14 shrink-0 items-center gap-2.5 border-b px-3',
+          collapsed && 'justify-center'
+        )}
+      >
+        <span className="bg-primary absolute -right-1 top-1/2 z-10 h-10 w-1 -translate-y-1/2 rounded-r-full" />
+
         <div className="bg-sidebar-primary text-sidebar-primary-foreground flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-xs font-bold">
           Д
         </div>
@@ -55,14 +63,14 @@ export function AppSidebar(props: AppSidebarProps) {
         ))}
       </nav>
 
-      <div className="border-sidebar-border border-t p-2">
+      <div className="border-sidebar-border border-t">
         <Button
           Icon={collapsed ? PanelLeftOpenIcon : PanelLeftCloseIcon}
-          className="w-full"
+          className="h-14 w-full rounded-none border-none"
           onClick={toggle}
           mode="icon"
           tooltip={collapsed ? 'Развернуть' : 'Свернуть'}
-          variant="ghost"
+          variant="outline"
         />
       </div>
     </motion.aside>
