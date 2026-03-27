@@ -9,6 +9,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 ## Agent behaviour
 
 - При обнаружении нового соглашения, breaking change или паттерна, которого ещё нет в этом файле — **сразу добавить его в `AGENTS.md`**.
+- После завершения любой задачи обязательно запускать `npm run format && npm run lint` — оба вместе, без исключений.
 - Это касается любых неожиданных поведений фреймворка, найденных ошибок типизации, исправлений конфигурации и договорённостей по коду.
 
 ---
@@ -129,6 +130,20 @@ export default function OrderCard({ order, onStatusChange }: OrderCardProps) {
 }
 ```
 
+- Обработчики событий передавать ссылкой, без лишней обёртки:
+
+```tsx
+// ✓ правильно
+onClick={handleSubmit}
+onClick={toggleTheme}
+
+// ✗ неправильно
+onClick={() => handleSubmit()}
+onClick={() => toggleTheme()}
+```
+
+- Если обработчик требует аргументов или содержит несколько операций — выносить в именованную функцию внутри компонента, не инлайнить.
+
 - `'use client'` только там, где реально нужно (формы, хуки, события)
 - Server Components по умолчанию — не добавлять `'use client'` без причины
 
@@ -202,6 +217,51 @@ export default function OrderCard({ order, onStatusChange }: OrderCardProps) {
 
 - Не добавлять декоративные JSX-комментарии вида `{/* Nav */}`, `{/* Logo */}`, `{/* Toggle */}` — структура кода должна быть самодокументируемой
 - Комментарии только там, где логика неочевидна
+
+### SSR и гидрация
+
+**Проблема:** клиентские хуки (localStorage, тема, медиа-запросы) возвращают разные значения на сервере и на клиенте → hydration mismatch.
+
+**Правило:** использовать `useSyncExternalStore` с тремя аргументами: `subscribe`, `getSnapshot` (клиент), `getServerSnapshot` (сервер).
+
+```ts
+// ✓ правильно — useIsClient
+useSyncExternalStore(
+  () => () => {},
+  () => true,
+  () => false
+);
+
+// ✓ правильно — useLocalStorage
+useSyncExternalStore(
+  subscribe,
+  () => localStorage.getItem(key),
+  () => initialValue
+);
+
+// ✗ неправильно — вызывает hydration mismatch
+const [mounted, setMounted] = useState(false);
+useEffect(() => {
+  setMounted(true);
+}, []);
+
+// ✗ неправильно — читает localStorage при SSR
+useState(() => localStorage.getItem(key));
+```
+
+- `getServerSnapshot` всегда возвращает стабильное значение (initialValue, false, null и т.д.)
+- `getSnapshot` (клиент) читает из внешнего хранилища
+- Все хуки, зависящие от браузерных API, реализовывать через `useSyncExternalStore`
+- Скрытие элементов до гидрации: `useIsClient()` из `src/hooks/use-is-client.ts`
+
+**Куки vs localStorage:**
+
+| Использовать       | Когда                                                                  |
+| ------------------ | ---------------------------------------------------------------------- |
+| `useCookieStorage` | состояние влияет на серверный рендер (layout, sidebar, размеры)        |
+| `useLocalStorage`  | клиентские данные, которые не влияют на первый рендер (черновики, кэш) |
+
+Для SSR-safe чтения куки на сервере: `cookies()` из `next/headers` → передать как `defaultValue` пропс в клиентский компонент.
 
 ### Animations
 
@@ -289,7 +349,7 @@ const { control, handleSubmit } = form
 
 ### Github
 
-- Перед выполненем задачи - переключиться на ветку dev
+- Перед выполненем задачи - переключиться на ветку dev подтянуть последние изменения
 - Создать от dev ветку формата `id из кликапа-название-задачи`
 - Работать в этой ветке
 

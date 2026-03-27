@@ -1,22 +1,33 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useSyncExternalStore } from 'react';
+
+function dispatchStorageEvent(key: string) {
+  window.dispatchEvent(new StorageEvent('storage', { key }));
+}
+
+function subscribe(callback: () => void) {
+  window.addEventListener('storage', callback);
+  return () => window.removeEventListener('storage', callback);
+}
 
 export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T) => void] {
-  const [storedValue, setStoredValue] = useState<T>(() => {
+  const getSnapshot = useCallback(() => {
     try {
       const item = localStorage.getItem(key);
       return item !== null ? (JSON.parse(item) as T) : initialValue;
     } catch {
       return initialValue;
     }
-  });
+  }, [key, initialValue]);
+
+  const value = useSyncExternalStore(subscribe, getSnapshot, () => initialValue);
 
   const setValue = useCallback(
-    (value: T) => {
+    (newValue: T) => {
       try {
-        setStoredValue(value);
-        localStorage.setItem(key, JSON.stringify(value));
+        localStorage.setItem(key, JSON.stringify(newValue));
+        dispatchStorageEvent(key);
       } catch {
         // ignore write errors
       }
@@ -24,5 +35,5 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T)
     [key]
   );
 
-  return [storedValue, setValue];
+  return [value, setValue];
 }

@@ -4,7 +4,7 @@ import { HomeIcon } from '@/components/icons/home';
 import { TrendingUpIcon } from '@/components/icons/trending-up';
 import { UsersIcon } from '@/components/icons/users';
 
-export const SIDEBAR_STORAGE_KEY = 'sidebar-collapsed';
+export const SIDEBAR_COOKIE_KEY = 'sidebar-collapsed';
 
 export const NAV_ITEMS: NavItem[] = [
   { href: '/', label: 'Главная', Icon: HomeIcon },
