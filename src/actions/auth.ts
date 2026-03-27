@@ -1,5 +1,6 @@
 'use server';
 
+import { signOut } from '@/lib/auth';
 import { db } from '@/lib/db';
 import bcrypt from 'bcryptjs';
 import { Resend } from 'resend';
@@ -20,6 +21,10 @@ import {
   clearLoginAttempts,
   checkPasswordResetCooldown,
 } from '@/lib/rate-limit';
+
+export async function logoutUser() {
+  await signOut({ redirectTo: '/login' });
+}
 
 export async function loginUser(
   data: LoginInput
