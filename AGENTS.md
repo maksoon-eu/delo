@@ -170,6 +170,7 @@ onClick={() => toggleTheme()}
 - Глобальные стили — `src/styles/globals.css`
 - Утилита `cn()` из `src/lib/utils.ts` для conditional classnames
 - Не писать inline styles — только Tailwind классы
+- SVG/image backgrounds подключать отдельным CSS-классом на layout/контейнер, а не через inline styles и не через цветовые токены темы
 
 ### Colors
 
@@ -199,6 +200,7 @@ onClick={() => toggleTheme()}
 - Для фонов с прозрачностью — `bg-primary/10`, `bg-muted/40` и т.д.
 - Градиенты строить из тех же токенов: `from-secondary/70 to-background`
 - В Tailwind v4 `bg-gradient-to-*` переименован в `bg-linear-to-*`
+- `--background`, `--card`, `--sidebar` и другие семантические токены должны содержать только цветовые значения; `url(...)` и `background` shorthand в них не класть
 
 ### Schemas and Types
 
@@ -303,6 +305,49 @@ useState(() => localStorage.getItem(key));
 - Принимает пропы: `Icon`, `isLoading`, `tooltip`, `mode`, `variant`, `size` и все стандартные HTML-атрибуты кнопки
 - `mode="icon"` — иконочная кнопка без текста, автоматически применяет `size="icon"`
 - **Правило**: если кнопка рендерит только иконку (без текста рядом) — обязательно передавать `tooltip` с описанием действия
+
+### Async actions: loading state и обработка ошибок
+
+Для любого асинхронного действия из клиентского компонента использовать хук `useAsyncAction` из `src/hooks/use-async-action.ts`.
+
+**Правила:**
+
+- Обработчик объявлять именованной функцией отдельно, затем передавать в `useAsyncAction`
+- Внутри функции никогда не вызывать `toast.error` — вместо этого `throw new Error(message)`
+- Хук перехватывает throw и показывает `toast.error(e.message)` — единственное место для error-тостов
+- Если нужен side effect перед ошибкой (напр. `startLockout`) — выполнить его до `throw`
+- `toast.success` при необходимости вызывается внутри функции напрямую — это не ошибка
+- `isLoading` и спиннер на кнопке — из хука, не через `useState` вручную
+
+```tsx
+// ✓ правильно
+async function onSubmit(data: LoginInput) {
+  const { error, retryAfter } = await loginUser(data);
+
+  if (error) {
+    if (retryAfter) startLockout(retryAfter); // side effect до throw
+    throw new Error(error); // хук покажет toast.error
+  }
+
+  router.push('/');
+}
+
+const [execute, isLoading] = useAsyncAction(onSubmit);
+
+// В JSX:
+// <form onSubmit={handleSubmit(execute)}>
+// <Button isLoading={isLoading} />
+
+// ✗ неправильно — toast внутри функции и ручной useState
+async function onSubmit() {
+  setIsLoading(true);
+  try {
+    if (error) toast.error(error); // не так
+  } finally {
+    setIsLoading(false);
+  }
+}
+```
 
 ### Icons
 

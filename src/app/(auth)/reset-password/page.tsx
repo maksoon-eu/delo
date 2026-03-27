@@ -1,11 +1,11 @@
 'use client';
 
-import { Suspense, useState } from 'react';
+import { Suspense } from 'react';
+import { useAsyncAction } from '@/hooks/use-async-action';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
-import { toast } from 'sonner';
 import { Form } from '@/components/ui/form/form';
 import { FormInput } from '@/components/ui/form/form-input';
 import { Button } from '@/components/ui/actions/button';
@@ -19,7 +19,6 @@ function ResetPasswordForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
-  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<ResetPasswordInput>({
     resolver: zodResolver(ResetPasswordSchema),
@@ -30,22 +29,21 @@ function ResetPasswordForm() {
 
   async function onSubmit(data: ResetPasswordInput) {
     if (!token) {
-      toast.error('Токен отсутствует');
-      return;
+      throw new Error('Токен отсутствует');
     }
-    setIsLoading(true);
+
     const { error, email, password } = await resetPassword(token, data);
+
     if (error) {
-      setIsLoading(false);
-      toast.error(error);
-      return;
+      throw new Error(error);
     }
 
     await signIn('credentials', { email, password, redirect: false });
-    setIsLoading(false);
     router.push('/');
     router.refresh();
   }
+
+  const [execute, isLoading] = useAsyncAction(onSubmit);
 
   if (!token) {
     return (
@@ -70,7 +68,7 @@ function ResetPasswordForm() {
       footerLinkHref="/login"
     >
       <Form {...form}>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
+        <form onSubmit={handleSubmit(execute)} className="space-y-2">
           <FormInput
             control={control}
             name="password"

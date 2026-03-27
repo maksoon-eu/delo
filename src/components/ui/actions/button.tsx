@@ -15,7 +15,7 @@ const buttonVariants = cva(
       variant: {
         default: 'bg-primary text-primary-foreground [a]:hover:bg-primary/80',
         outline:
-          'border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50',
+          'border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-accent bg-accent/30 hover:bg-accent/50',
         secondary:
           'bg-secondary text-secondary-foreground hover:bg-secondary/80 aria-expanded:bg-secondary aria-expanded:text-secondary-foreground',
         ghost:
@@ -65,6 +65,13 @@ export function Button(props: ButtonProps) {
     props;
   const iconRef = useRef<AnimatedIconHandle>(null);
 
+  const handleMouseEnter = () => {
+    if (!isLoading) iconRef.current?.startAnimation();
+  };
+  const handleMouseLeave = () => {
+    if (!isLoading) iconRef.current?.stopAnimation();
+  };
+
   return (
     <ButtonPrimitive
       data-slot="button"
@@ -72,12 +79,8 @@ export function Button(props: ButtonProps) {
       className={cn(buttonVariants({ variant, size: mode === 'icon' ? 'icon' : size, className }))}
       title={tooltip}
       disabled={disabled || isLoading}
-      onMouseEnter={() => {
-        if (!isLoading) iconRef.current?.startAnimation();
-      }}
-      onMouseLeave={() => {
-        if (!isLoading) iconRef.current?.stopAnimation();
-      }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {isLoading ? (
         <LoaderCircle size={18} className="animate-spin" />

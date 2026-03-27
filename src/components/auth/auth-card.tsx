@@ -26,7 +26,7 @@ export function AuthCard(props: AuthCardProps) {
 
   return (
     <AnimateIn className="w-full max-w-sm">
-      <div className="bg-card rounded-xl border shadow-sm">
+      <div className="backdrop-blur-[100px] rounded-xl border shadow-sm">
         <div className="space-y-1 p-6 pb-4">
           <h1 className="text-primary text-2xl font-bold leading-tight">{title}</h1>
           <p className="text-muted-foreground text-sm">{description}</p>
