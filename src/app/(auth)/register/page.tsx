@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { Form } from '@/components/ui/form/form';
 import { FormInput } from '@/components/ui/form/form-input';
-import { IconButton } from '@/components/ui/actions/icon-button';
+import { Button } from '@/components/ui/actions/button';
 import { AuthCard } from '@/components/auth/auth-card';
 import { UserRoundPlusIcon } from '@/components/icons/user-round-plus';
 import { UserIcon } from '@/components/icons/user';
@@ -75,14 +75,9 @@ export default function RegisterPage() {
             Icon={LockKeyholeIcon}
           />
           <div className="pt-1">
-            <IconButton
-              type="submit"
-              className="w-full"
-              isLoading={isLoading}
-              Icon={UserRoundPlusIcon}
-            >
+            <Button type="submit" className="w-full" isLoading={isLoading} Icon={UserRoundPlusIcon}>
               Зарегистрироваться
-            </IconButton>
+            </Button>
           </div>
         </form>
       </Form>

@@ -47,7 +47,6 @@ cp .env.local.example .env.local
 ```env
 DATABASE_URL="postgresql://user:password@localhost:5432/delo"
 AUTH_SECRET="your-secret"
-AUTH_URL="http://localhost:3000"
 RESEND_API_KEY="your-resend-key"
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
 ```

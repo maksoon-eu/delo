@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 import { Form } from '@/components/ui/form/form';
 import { FormInput } from '@/components/ui/form/form-input';
-import { IconButton } from '@/components/ui/actions/icon-button';
+import { Button } from '@/components/ui/actions/button';
 import { AuthCard } from '@/components/auth/auth-card';
 import { AtSignIcon } from '@/components/icons/at-sign';
 import { sendPasswordResetEmail } from '@/actions/auth';
@@ -55,16 +55,11 @@ export default function ForgotPasswordPage() {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
           <FormInput control={control} name="email" label="Email" type="email" Icon={AtSignIcon} />
           <div className="pt-1">
-            <IconButton
-              type="submit"
-              className="w-full"
-              isLoading={isLoading}
-              disabled={isCoolingDown}
-            >
+            <Button type="submit" className="w-full" isLoading={isLoading} disabled={isCoolingDown}>
               {isCoolingDown
                 ? `Повторная отправка через ${cooldownSeconds} сек.`
                 : 'Отправить письмо'}
-            </IconButton>
+            </Button>
           </div>
         </form>
       </Form>

@@ -1,8 +1,11 @@
 'use client';
 
+import { useRef } from 'react';
 import { Button as ButtonPrimitive } from '@base-ui/react/button';
 import { cva, type VariantProps } from 'class-variance-authority';
-
+import { LoaderCircle } from 'lucide-react';
+import type { ComponentType, Ref } from 'react';
+import type { AnimatedIconHandle } from '@/types';
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
@@ -42,19 +45,46 @@ const buttonVariants = cva(
   }
 );
 
-function Button({
-  className,
-  variant = 'default',
-  size = 'default',
-  ...props
-}: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
+type AnimatedIconComponent = ComponentType<{
+  size?: number;
+  ref?: Ref<AnimatedIconHandle>;
+}>;
+
+type ButtonMode = 'icon' | 'default';
+
+type ButtonProps = ButtonPrimitive.Props &
+  VariantProps<typeof buttonVariants> & {
+    isLoading?: boolean;
+    Icon?: AnimatedIconComponent;
+    tooltip?: string;
+    mode?: ButtonMode;
+  };
+
+export function Button(props: ButtonProps) {
+  const { className, variant, size, isLoading, Icon, children, disabled, tooltip, mode, ...rest } =
+    props;
+  const iconRef = useRef<AnimatedIconHandle>(null);
+
   return (
     <ButtonPrimitive
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }))}
-      {...props}
-    />
+      {...rest}
+      className={cn(buttonVariants({ variant, size: mode === 'icon' ? 'icon' : size, className }))}
+      title={tooltip}
+      disabled={disabled || isLoading}
+      onMouseEnter={() => {
+        if (!isLoading) iconRef.current?.startAnimation();
+      }}
+      onMouseLeave={() => {
+        if (!isLoading) iconRef.current?.stopAnimation();
+      }}
+    >
+      {isLoading ? (
+        <LoaderCircle size={18} className="animate-spin" />
+      ) : (
+        Icon && <Icon size={18} ref={iconRef} />
+      )}
+      {children}
+    </ButtonPrimitive>
   );
 }
-
-export { Button, buttonVariants };
