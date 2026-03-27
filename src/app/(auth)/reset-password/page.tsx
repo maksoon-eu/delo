@@ -8,7 +8,7 @@ import { signIn } from 'next-auth/react';
 import { toast } from 'sonner';
 import { Form } from '@/components/ui/form/form';
 import { FormInput } from '@/components/ui/form/form-input';
-import { IconButton } from '@/components/ui/actions/icon-button';
+import { Button } from '@/components/ui/actions/button';
 import { AuthCard } from '@/components/auth/auth-card';
 import { LockKeyholeIcon } from '@/components/icons/lock-keyhole';
 import { ArrowRightIcon } from '@/components/icons/arrow-right';
@@ -79,14 +79,9 @@ function ResetPasswordForm() {
             Icon={LockKeyholeIcon}
           />
           <div className="pt-1">
-            <IconButton
-              type="submit"
-              className="w-full"
-              isLoading={isLoading}
-              Icon={ArrowRightIcon}
-            >
+            <Button type="submit" className="w-full" isLoading={isLoading} Icon={ArrowRightIcon}>
               Сохранить пароль
-            </IconButton>
+            </Button>
           </div>
         </form>
       </Form>

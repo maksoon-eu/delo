@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { Form } from '@/components/ui/form/form';
 import { FormInput } from '@/components/ui/form/form-input';
-import { IconButton } from '@/components/ui/actions/icon-button';
+import { Button } from '@/components/ui/actions/button';
 import { AuthCard } from '@/components/auth/auth-card';
 import { ArrowRightIcon } from '@/components/icons/arrow-right';
 import { AtSignIcon } from '@/components/icons/at-sign';
@@ -78,7 +78,7 @@ export default function LoginPage() {
             Icon={LockKeyholeIcon}
           />
           <div className="pt-1">
-            <IconButton
+            <Button
               type="submit"
               className="w-full"
               isLoading={isLoading}
@@ -86,7 +86,7 @@ export default function LoginPage() {
               Icon={ArrowRightIcon}
             >
               {isLocked ? `Повторите через ${lockoutSeconds} сек.` : 'Войти'}
-            </IconButton>
+            </Button>
           </div>
         </form>
       </Form>

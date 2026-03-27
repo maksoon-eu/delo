@@ -60,7 +60,9 @@ src/
 │   ├── orders/
 │   └── public/
 ├── lib/                 # auth.ts, db.ts, pdf.ts, utils.ts, env.ts
-├── types/               # чистые TypeScript-интерфейсы без Zod
+├── hooks/               # кастомные React-хуки (useLocalStorage и т.д.)
+├── constants/           # все константы приложения (index.ts)
+├── types/               # чистые TypeScript-интерфейсы без Zod (index.ts)
 └── prisma/
     └── schema.prisma
 ```
@@ -186,8 +188,20 @@ export default function OrderCard({ order, onStatusChange }: OrderCardProps) {
 ### Schemas and Types
 
 - `src/schemas/` — Zod-схемы и выведенные из них типы через `z.infer<>` (например `LoginSchema`, `RegisterInput`)
-- `src/types/` — чистые TypeScript-интерфейсы без зависимости от Zod
+- `src/types/index.ts` — чистые TypeScript-интерфейсы без зависимости от Zod (`AnimatedIconHandle`, `NavItem` и т.д.)
 - Никогда не объявлять схемы локально внутри компонентов или action-файлов — только в `src/schemas/`
+- Никогда не объявлять типы локально внутри компонентов или файлов — только в `src/types/index.ts`
+
+### Constants
+
+- `src/constants/index.ts` — единственное место для всех констант приложения (ключи localStorage, массивы данных, магические строки/числа)
+- Никогда не объявлять константы локально внутри компонентов или модулей — только в `src/constants/index.ts`
+- Импортировать через `@/constants`
+
+### Comments
+
+- Не добавлять декоративные JSX-комментарии вида `{/* Nav */}`, `{/* Logo */}`, `{/* Toggle */}` — структура кода должна быть самодокументируемой
+- Комментарии только там, где логика неочевидна
 
 ### Animations
 
@@ -222,6 +236,13 @@ export default function OrderCard({ order, onStatusChange }: OrderCardProps) {
 - Анимируй **обёртку страницы** (layout или корневой div страницы), а не каждый элемент отдельно
 - Не используй `transition-all` — только конкретные свойства (`transition-colors`, `transition-opacity`)
 - Уважай `prefers-reduced-motion` — не добавляй анимации к критически важным UI-элементам без проверки
+
+### Button
+
+- Единственная кнопка в проекте — `Button` из `src/components/ui/actions/icon-button.tsx`
+- Принимает пропы: `Icon`, `isLoading`, `tooltip`, `mode`, `variant`, `size` и все стандартные HTML-атрибуты кнопки
+- `mode="icon"` — иконочная кнопка без текста, автоматически применяет `size="icon"`
+- **Правило**: если кнопка рендерит только иконку (без текста рядом) — обязательно передавать `tooltip` с описанием действия
 
 ### Icons
 
@@ -265,5 +286,11 @@ const { control, handleSubmit } = form
   - Поменять статус задачи с **TO DO** → **IN PROGRESS** в начале работы
   - Перенести из **IN PROGRESS** → **READY TO TEST** после завершения
 - Если задачи в ClickUp нет — создать её в **MVP Разработка** перед началом работы
+
+### Github
+
+- Перед выполненем задачи - переключиться на ветку dev
+- Создать от dev ветку формата `id из кликапа-название-задачи`
+- Работать в этой ветке
 
 <!-- END:nextjs-agent-rules -->
