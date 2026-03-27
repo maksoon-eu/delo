@@ -1,3 +1,10 @@
-export default function OrderPage({ params }: { params: { id: string } }) {
-  return <div>Order {params.id}</div>;
+type OrderPageProps = {
+  params: Promise<{ id: string }>;
+};
+
+export default async function OrderPage(props: OrderPageProps) {
+  const { params } = props;
+  const { id } = await params;
+
+  return <div>Order {id}</div>;
 }

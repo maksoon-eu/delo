@@ -63,12 +63,20 @@ export default function LoginPage() {
     >
       <Form {...form}>
         <form onSubmit={handleSubmit(execute)} className="space-y-2">
-          <FormInput control={control} name="email" label="Email" type="email" Icon={AtSignIcon} />
+          <FormInput
+            control={control}
+            name="email"
+            label="Email"
+            type="email"
+            autoComplete="username"
+            Icon={AtSignIcon}
+          />
           <FormInput
             control={control}
             name="password"
             label="Пароль"
             type="password"
+            autoComplete="current-password"
             Icon={LockKeyholeIcon}
           />
           <div className="pt-1">

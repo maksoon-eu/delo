@@ -51,7 +51,14 @@ export default function ForgotPasswordPage() {
     >
       <Form {...form}>
         <form onSubmit={handleSubmit(execute)} className="space-y-2">
-          <FormInput control={control} name="email" label="Email" type="email" Icon={AtSignIcon} />
+          <FormInput
+            control={control}
+            name="email"
+            label="Email"
+            type="email"
+            autoComplete="email"
+            Icon={AtSignIcon}
+          />
           <div className="pt-1">
             <Button type="submit" className="w-full" isLoading={isLoading} disabled={isCoolingDown}>
               {isCoolingDown

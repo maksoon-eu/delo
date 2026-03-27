@@ -23,7 +23,7 @@ import {
 } from '@/lib/rate-limit';
 
 export async function logoutUser() {
-  await signOut({ redirectTo: '/login' });
+  await signOut({ redirect: false });
 }
 
 export async function loginUser(

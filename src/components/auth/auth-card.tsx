@@ -1,3 +1,4 @@
+import type { Route } from 'next';
 import Link from 'next/link';
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
 import { ShieldCheck, LockKeyholeOpen } from 'lucide-react';
@@ -8,8 +9,8 @@ type AuthCardProps = {
   description: string;
   formTitle: string;
   footerText: string;
-  footerLinkHref: string;
-  forgotPasswordHref?: string;
+  footerLinkHref: Route;
+  forgotPasswordHref?: Route;
   children: ReactNode;
 };
 

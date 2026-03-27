@@ -74,6 +74,7 @@ function ResetPasswordForm() {
             name="password"
             label="Новый пароль"
             type="password"
+            autoComplete="new-password"
             Icon={LockKeyholeIcon}
           />
           <div className="pt-1">

@@ -4,12 +4,11 @@ import { useRef } from 'react';
 import { Button as ButtonPrimitive } from '@base-ui/react/button';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { LoaderCircle } from 'lucide-react';
-import type { ComponentType, Ref } from 'react';
-import type { AnimatedIconHandle } from '@/types';
-import { cn } from '@/lib/utils';
+import type { AnimatedIconComponent, AnimatedIconHandle } from '@/types';
+import { cn, startAnimatedIcon, stopAnimatedIcon } from '@/lib/utils';
 
 const buttonVariants = cva(
-  "group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 hover:scale-[1.02] active:scale-[0.97] active:translate-y-px cursor-pointer disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-colors transition-transform outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 hover:scale-[1.02] active:scale-[0.97] active:translate-y-px cursor-pointer disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
@@ -45,11 +44,6 @@ const buttonVariants = cva(
   }
 );
 
-type AnimatedIconComponent = ComponentType<{
-  size?: number;
-  ref?: Ref<AnimatedIconHandle>;
-}>;
-
 type ButtonMode = 'icon' | 'default';
 
 type ButtonProps = ButtonPrimitive.Props &
@@ -65,12 +59,13 @@ export function Button(props: ButtonProps) {
     props;
   const iconRef = useRef<AnimatedIconHandle>(null);
 
-  const handleMouseEnter = () => {
-    if (!isLoading) iconRef.current?.startAnimation();
-  };
-  const handleMouseLeave = () => {
-    if (!isLoading) iconRef.current?.stopAnimation();
-  };
+  function handleMouseEnter() {
+    startAnimatedIcon(iconRef, !!isLoading);
+  }
+
+  function handleMouseLeave() {
+    stopAnimatedIcon(iconRef, !!isLoading);
+  }
 
   return (
     <ButtonPrimitive

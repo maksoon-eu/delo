@@ -1,8 +1,18 @@
 import { clsx, type ClassValue } from 'clsx';
+import type { RefObject } from 'react';
 import { twMerge } from 'tailwind-merge';
+import type { AnimatedIconHandle } from '@/types';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+}
+
+export function startAnimatedIcon(ref: RefObject<AnimatedIconHandle | null>, disabled?: boolean) {
+  if (!disabled) ref.current?.startAnimation();
+}
+
+export function stopAnimatedIcon(ref: RefObject<AnimatedIconHandle | null>, disabled?: boolean) {
+  if (!disabled) ref.current?.stopAnimation();
 }
 
 export function getInitials(name: string): string {

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useRef } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { cn } from '@/lib/utils';
+import { cn, startAnimatedIcon, stopAnimatedIcon } from '@/lib/utils';
 import type { AnimatedIconHandle, NavItem } from '@/types';
 
 type SidebarNavItemProps = NavItem & { collapsed: boolean; pathname: string };
@@ -13,12 +13,13 @@ export function SidebarNavItem(props: SidebarNavItemProps) {
   const isActive = href === '/' ? pathname === '/' : pathname.startsWith(href);
   const iconRef = useRef<AnimatedIconHandle>(null);
 
-  const handleMouseEnter = () => {
-    iconRef.current?.startAnimation();
-  };
-  const handleMouseLeave = () => {
-    iconRef.current?.stopAnimation();
-  };
+  function handleMouseEnter() {
+    startAnimatedIcon(iconRef);
+  }
+
+  function handleMouseLeave() {
+    stopAnimatedIcon(iconRef);
+  }
 
   return (
     <Link
