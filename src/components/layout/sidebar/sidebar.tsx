@@ -27,7 +27,7 @@ export function AppSidebar(props: AppSidebarProps) {
   return (
     <motion.aside
       animate={{ width: collapsed ? 60 : 240 }}
-      className="border-sidebar-border backdrop-blur-[100px] relative flex shrink-0 flex-col border-r transition-colors"
+      className="border-sidebar-border relative flex shrink-0 flex-col border-r backdrop-blur-[100px] transition-colors"
       initial={false}
       transition={{ duration: 0.25, ease: 'easeInOut' }}
     >

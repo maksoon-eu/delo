@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 export default function AuthLayout(props: { children: ReactNode }) {
   const { children } = props;

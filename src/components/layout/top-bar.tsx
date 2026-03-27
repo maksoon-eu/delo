@@ -27,7 +27,7 @@ export function TopBar(props: TopBarProps) {
   };
 
   return (
-    <header className="border-border backdrop-blur-[100px] relative flex h-14 shrink-0 items-center justify-end gap-2 border-b px-4">
+    <header className="border-border relative flex h-14 shrink-0 items-center justify-end gap-2 border-b px-4 backdrop-blur-[100px]">
       {isClient && (
         <Button
           Icon={isDark ? SunIcon : MoonIcon}
