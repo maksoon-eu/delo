@@ -143,6 +143,7 @@ onClick={() => toggleTheme()}
 ```
 
 - Если обработчик требует аргументов или содержит несколько операций — выносить в именованную функцию внутри компонента, не инлайнить.
+- Для повторяющихся start/stop-обработчиков анимации иконок по ref использовать `startAnimatedIcon()` и `stopAnimatedIcon()` из `src/lib/utils.ts`, а не дублировать логику доступа к `ref.current` в компонентах.
 
 - `'use client'` только там, где реально нужно (формы, хуки, события)
 - Server Components по умолчанию — не добавлять `'use client'` без причины
@@ -207,7 +208,8 @@ onClick={() => toggleTheme()}
 - `src/schemas/` — Zod-схемы и выведенные из них типы через `z.infer<>` (например `LoginSchema`, `RegisterInput`)
 - `src/types/index.ts` — чистые TypeScript-интерфейсы без зависимости от Zod (`AnimatedIconHandle`, `NavItem` и т.д.)
 - Никогда не объявлять схемы локально внутри компонентов или action-файлов — только в `src/schemas/`
-- Никогда не объявлять типы локально внутри компонентов или файлов — только в `src/types/index.ts`
+- Типы пропсов компонента (`*Props`) оставлять в файле самого компонента
+- Общие и переиспользуемые типы, не привязанные к одному компоненту, выносить в `src/types/index.ts`
 
 ### Constants
 
@@ -318,6 +320,7 @@ useState(() => localStorage.getItem(key));
 - Если нужен side effect перед ошибкой (напр. `startLockout`) — выполнить его до `throw`
 - `toast.success` при необходимости вызывается внутри функции напрямую — это не ошибка
 - `isLoading` и спиннер на кнопке — из хука, не через `useState` вручную
+- Если action, вызванный через `useAsyncAction`, должен навигировать пользователя, не делать `redirect()` или `signOut({ redirectTo })` внутри Server Action: они бросают `NEXT_REDIRECT`. В таких кейсах делать `redirect: false` и выполнять `router.push()` / `router.refresh()` в клиентском обработчике
 
 ```tsx
 // ✓ правильно

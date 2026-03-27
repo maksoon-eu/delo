@@ -1,3 +1,10 @@
-export default function PublicOrderPage({ params }: { params: { token: string } }) {
-  return <div>Public Order {params.token}</div>;
+type PublicOrderPageProps = {
+  params: Promise<{ token: string }>;
+};
+
+export default async function PublicOrderPage(props: PublicOrderPageProps) {
+  const { params } = props;
+  const { token } = await params;
+
+  return <div>Public Order {token}</div>;
 }

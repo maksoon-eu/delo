@@ -1,19 +1,20 @@
 import { db } from '@/lib/db';
-
-const ATTEMPTS_PER_TIER = 4;
-const BASE_LOCKOUT_SECONDS = 30;
-const PASSWORD_RESET_COOLDOWN_MS = 30 * 1000; // 30 секунд
+import {
+  LOGIN_ATTEMPTS_PER_TIER,
+  LOGIN_BASE_LOCKOUT_SECONDS,
+  PASSWORD_RESET_COOLDOWN_MS,
+} from '@/constants';
 
 // 5 попыток → 30с, 10 → 60с, 15 → 120с, ...
 function getLockoutSeconds(count: number): number {
-  const tier = Math.floor(count / ATTEMPTS_PER_TIER);
-  return BASE_LOCKOUT_SECONDS * Math.pow(2, tier - 1);
+  const tier = Math.floor(count / LOGIN_ATTEMPTS_PER_TIER);
+  return LOGIN_BASE_LOCKOUT_SECONDS * Math.pow(2, tier - 1);
 }
 
 export async function checkLoginRateLimit(email: string) {
   const count = await db.loginAttempt.count({ where: { email } });
 
-  if (count < ATTEMPTS_PER_TIER) {
+  if (count < LOGIN_ATTEMPTS_PER_TIER) {
     return { blocked: false, retryAfter: 0 };
   }
 

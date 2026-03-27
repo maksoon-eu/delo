@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import { useIsClient } from '@/hooks/use-is-client';
 import { useAsyncAction } from '@/hooks/use-async-action';
@@ -16,15 +17,23 @@ type TopBarProps = {
 
 export function TopBar(props: TopBarProps) {
   const { userName } = props;
+  const router = useRouter();
   const { resolvedTheme, setTheme } = useTheme();
   const isClient = useIsClient();
   const isDark = resolvedTheme === 'dark';
   const initials = getInitials(userName);
-  const [handleLogout, isLoggingOut] = useAsyncAction(logoutUser);
 
   const toggleTheme = () => {
     setTheme(isDark ? 'light' : 'dark');
   };
+
+  async function handleLogout() {
+    await logoutUser();
+    router.push('/login');
+    router.refresh();
+  }
+
+  const [executeLogout, isLoggingOut] = useAsyncAction(handleLogout);
 
   return (
     <header className="border-border relative flex h-14 shrink-0 items-center justify-end gap-2 border-b px-4 backdrop-blur-[100px]">
@@ -49,7 +58,7 @@ export function TopBar(props: TopBarProps) {
         variant="outline"
         tooltip="Выйти"
         isLoading={isLoggingOut}
-        onClick={handleLogout}
+        onClick={executeLogout}
       />
     </header>
   );
