@@ -61,13 +61,27 @@ export default function RegisterPage() {
     >
       <Form {...form}>
         <form onSubmit={handleSubmit(execute)} className="space-y-2">
-          <FormInput control={control} name="name" label="Имя" Icon={UserIcon} />
-          <FormInput control={control} name="email" label="Email" type="email" Icon={AtSignIcon} />
+          <FormInput
+            control={control}
+            name="name"
+            label="Имя"
+            autoComplete="name"
+            Icon={UserIcon}
+          />
+          <FormInput
+            control={control}
+            name="email"
+            label="Email"
+            type="email"
+            autoComplete="email"
+            Icon={AtSignIcon}
+          />
           <FormInput
             control={control}
             name="password"
             label="Пароль"
             type="password"
+            autoComplete="new-password"
             Icon={LockKeyholeIcon}
           />
           <div className="pt-1">

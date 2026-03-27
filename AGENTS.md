@@ -373,6 +373,7 @@ async function onSubmit() {
 - Все формы через shadcn `Form` + `react-hook-form` + `zodResolver`
 - Схемы и типы для форм брать из `src/schemas/`
 - Поля форм — через компонент `FormInput` из `src/components/ui/form-input.tsx`
+- Для auth-форм всегда задавать явные `autocomplete`-значения (`username`, `current-password`, `new-password`, `email`, `name`) и использовать настоящий `<label htmlFor=...>`: без этого браузеры и password manager хуже распознают логин и могут не предлагать сохранение данных
 - Из `useForm` деструктурировать нужные методы явно, `form` оставлять для `<Form {...form}>`:
 
 ```tsx
