@@ -34,6 +34,11 @@ export function FormInput<T extends FieldValues>(props: FormInputProps<T>) {
   const isPassword = type === 'password';
   const inputType = isPassword ? (showPassword ? 'text' : 'password') : type;
 
+  const togglePassword = () => {
+    eyeRef.current?.startAnimation();
+    setShowPassword((v) => !v);
+  };
+
   return (
     <FormField
       control={control}
@@ -62,10 +67,7 @@ export function FormInput<T extends FieldValues>(props: FormInputProps<T>) {
             {isPassword && field.value?.length > 0 && (
               <button
                 type="button"
-                onClick={() => {
-                  eyeRef.current?.startAnimation();
-                  setShowPassword((v) => !v);
-                }}
+                onClick={togglePassword}
                 className="text-muted-foreground hover:text-foreground absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer transition-colors"
               >
                 <EyeIcon size={16} ref={eyeRef} />

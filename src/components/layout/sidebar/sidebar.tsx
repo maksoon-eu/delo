@@ -6,12 +6,17 @@ import { AnimatePresence, motion } from 'motion/react';
 import { PanelLeftCloseIcon } from '@/components/icons/panel-left-close';
 import { PanelLeftOpenIcon } from '@/components/icons/panel-left-open';
 import { Button } from '@/components/ui/actions/button';
-import { useLocalStorage } from '@/hooks/use-local-storage';
-import { NAV_ITEMS, SIDEBAR_STORAGE_KEY } from '@/constants';
+import { useCookieStorage } from '@/hooks/use-cookie-storage';
+import { NAV_ITEMS, SIDEBAR_COOKIE_KEY } from '@/constants';
 import { SidebarNavItem } from './sidebar-item';
 
-export function AppSidebar() {
-  const [collapsed, setCollapsed] = useLocalStorage(SIDEBAR_STORAGE_KEY, false);
+type AppSidebarProps = {
+  defaultCollapsed: boolean;
+};
+
+export function AppSidebar(props: AppSidebarProps) {
+  const { defaultCollapsed } = props;
+  const [collapsed, setCollapsed] = useCookieStorage(SIDEBAR_COOKIE_KEY, defaultCollapsed);
   const pathname = usePathname();
 
   const toggle = useCallback(() => {
