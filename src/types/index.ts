@@ -1,3 +1,4 @@
+import type { Route } from 'next';
 import type { ComponentType, Ref } from 'react';
 
 export interface AnimatedIconHandle {
@@ -11,7 +12,7 @@ export type AnimatedIconComponent = ComponentType<{
 }>;
 
 export type NavItem = {
-  href: string;
+  href: Route;
   label: string;
   Icon: AnimatedIconComponent;
 };

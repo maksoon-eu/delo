@@ -11,6 +11,7 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  typedRoutes: true,
   turbopack: {
     root: __dirname,
   },
