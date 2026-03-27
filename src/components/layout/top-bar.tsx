@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import { Button } from '@/components/ui/actions/button';
 import { SunIcon } from '@/components/icons/sun';
@@ -16,18 +15,14 @@ type TopBarProps = {
 export function TopBar(props: TopBarProps) {
   const { userName } = props;
   const { resolvedTheme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const isDark = resolvedTheme === 'dark';
+  const isReady = resolvedTheme !== undefined;
   const initials = getInitials(userName);
 
   return (
     <header className="border-border bg-background flex h-14 shrink-0 items-center justify-end gap-2 border-b px-4">
-      {mounted && (
+      {isReady && (
         <Button
           Icon={isDark ? SunIcon : MoonIcon}
           mode="icon"
