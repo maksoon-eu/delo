@@ -17,12 +17,16 @@ import { UserRoundPlusIcon } from '@/components/icons/user-round-plus';
 import { AppDialog } from '@/components/ui/overlay/dialog';
 import { ClientForm } from '@/components/clients/client-form';
 import { getInitials } from '@/lib/utils';
+import { getClients } from '@/actions/clients';
+import { CLIENTS_PAGE_SIZE } from '@/constants';
+import { useInfiniteList } from '@/hooks/use-infinite-list';
 import type { ClientListItem } from '@/types';
 import { Building2, CalendarDays, Mail, Phone, Search, User, Wallet } from 'lucide-react';
 import { AnimateIn } from '../ui/feedback/animate-in';
 
 type ClientsTableProps = {
-  clients: ClientListItem[];
+  initialItems: ClientListItem[];
+  initialHasMore: boolean;
 };
 
 const columns: ColumnDef<ClientListItem>[] = [
@@ -108,13 +112,19 @@ const columns: ColumnDef<ClientListItem>[] = [
 ];
 
 export function ClientsTable(props: ClientsTableProps) {
-  const { clients } = props;
+  const { initialItems, initialHasMore } = props;
   const router = useRouter();
+  const { items, hasMore, isLoadingMore, loadMore } = useInfiniteList<ClientListItem>({
+    initialItems,
+    initialHasMore,
+    fetch: (offset, take) => getClients({ offset, take }),
+    pageSize: CLIENTS_PAGE_SIZE,
+  });
   const [globalFilter, setGlobalFilter] = useState('');
   const [createOpen, setCreateOpen] = useState(false);
 
   const table = useReactTable({
-    data: clients,
+    data: items,
     columns,
     state: { globalFilter },
     onGlobalFilterChange: setGlobalFilter,
@@ -136,10 +146,11 @@ export function ClientsTable(props: ClientsTableProps) {
 
   function handleCreateSuccess() {
     setCreateOpen(false);
+    router.refresh();
   }
 
   return (
-    <AnimateIn className="space-y-4">
+    <AnimateIn className="flex flex-1 flex-col space-y-4">
       <div className="flex items-center justify-between gap-4">
         <div className="relative max-w-sm flex-1">
           <Search className="text-muted-foreground absolute left-2.5 top-1/2 size-4 -translate-y-1/2" />
@@ -159,6 +170,7 @@ export function ClientsTable(props: ClientsTableProps) {
         table={table}
         emptyMessage={globalFilter ? 'Ничего не найдено' : 'Клиентов пока нет'}
         onRowClick={handleRowClick}
+        onEndReached={hasMore && !isLoadingMore ? loadMore : undefined}
       />
 
       <AppDialog
