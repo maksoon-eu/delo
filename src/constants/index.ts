@@ -12,8 +12,28 @@ export const LOGIN_BASE_LOCKOUT_SECONDS = 30;
 export const PASSWORD_RESET_COOLDOWN_MS = 30 * 1000;
 
 export const NAV_ITEMS: NavItem[] = [
-  { href: '/', label: 'Главная', Icon: HomeIcon },
-  { href: '/clients', label: 'Клиенты', Icon: UsersIcon },
-  { href: '/orders', label: 'Заказы', Icon: FileTextIcon },
-  { href: '/reports', label: 'Отчёты', Icon: TrendingUpIcon },
+  {
+    href: '/',
+    label: 'Главная',
+    description: 'Обзор ключевых показателей и последних активностей',
+    Icon: HomeIcon,
+  },
+  {
+    href: '/clients',
+    label: 'Клиенты',
+    description: 'Управляйте базой клиентов и историей работы с ними',
+    Icon: UsersIcon,
+  },
+  {
+    href: '/orders',
+    label: 'Заказы',
+    description: 'Отслеживайте заказы, статусы и оплаты',
+    Icon: FileTextIcon,
+  },
+  {
+    href: '/reports',
+    label: 'Отчёты',
+    description: 'Анализируйте доходы и статистику по периодам',
+    Icon: TrendingUpIcon,
+  },
 ];

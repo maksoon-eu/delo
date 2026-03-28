@@ -14,5 +14,6 @@ export type AnimatedIconComponent = ComponentType<{
 export type NavItem = {
   href: Route;
   label: string;
+  description: string;
   Icon: AnimatedIconComponent;
 };

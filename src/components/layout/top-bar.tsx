@@ -36,7 +36,7 @@ export function TopBar(props: TopBarProps) {
   const [executeLogout, isLoggingOut] = useAsyncAction(handleLogout);
 
   return (
-    <header className="border-border relative flex h-14 shrink-0 items-center justify-end gap-2 border-b px-4 backdrop-blur-[100px]">
+    <header className="glass border-border relative flex h-14 shrink-0 items-center justify-end gap-2 border-b px-4">
       {isClient && (
         <Button
           Icon={isDark ? SunIcon : MoonIcon}

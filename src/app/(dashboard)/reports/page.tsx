@@ -1,3 +1,12 @@
+import { NAV_ITEMS } from '@/constants';
+import { PageHeader } from '@/components/layout/page-header';
+
+const item = NAV_ITEMS[3];
+
 export default function ReportsPage() {
-  return <div>Reports</div>;
+  return (
+    <div>
+      <PageHeader Icon={item.Icon} title={item.label} description={item.description} />
+    </div>
+  );
 }
