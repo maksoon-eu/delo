@@ -6,11 +6,16 @@ import { db } from '@/lib/db';
 import { ClientSchema, type ClientInput } from '@/schemas/clients';
 import type { ClientDetails, ClientListItem } from '@/types';
 
-export async function getClients(): Promise<ClientListItem[]> {
+export async function getClients(params: {
+  offset: number;
+  take: number;
+}): Promise<{ items: ClientListItem[]; hasMore: boolean }> {
   const session = await auth();
-  if (!session) return [];
+  if (!session) return { items: [], hasMore: false };
 
-  return db.$queryRaw<ClientListItem[]>`
+  const { offset, take } = params;
+
+  const items = await db.$queryRaw<ClientListItem[]>`
     SELECT
       c.id,
       c.name,
@@ -25,7 +30,11 @@ export async function getClients(): Promise<ClientListItem[]> {
     WHERE c."userId" = ${session.user.id}
     GROUP BY c.id
     ORDER BY c."createdAt" DESC
+    LIMIT ${take}
+    OFFSET ${offset}
   `;
+
+  return { items, hasMore: items.length === take };
 }
 
 export async function getClient(id: string): Promise<ClientDetails | null> {
