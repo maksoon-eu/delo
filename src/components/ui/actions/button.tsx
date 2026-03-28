@@ -1,9 +1,11 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Button as ButtonPrimitive } from '@base-ui/react/button';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { LoaderCircle } from 'lucide-react';
+import { Check, LoaderCircle } from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
+import { CopyIcon } from '@/components/icons/copy';
 import type { AnimatedIconComponent, AnimatedIconHandle } from '@/types';
 import { cn, startAnimatedIcon, stopAnimatedIcon } from '@/lib/utils';
 
@@ -44,7 +46,7 @@ const buttonVariants = cva(
   }
 );
 
-type ButtonMode = 'icon' | 'default';
+type ButtonMode = 'icon' | 'copy' | 'default';
 
 type ButtonProps = ButtonPrimitive.Props &
   VariantProps<typeof buttonVariants> & {
@@ -52,12 +54,31 @@ type ButtonProps = ButtonPrimitive.Props &
     Icon?: AnimatedIconComponent;
     tooltip?: string;
     mode?: ButtonMode;
+    copyValue?: string;
   };
 
 export function Button(props: ButtonProps) {
-  const { className, variant, size, isLoading, Icon, children, disabled, tooltip, mode, ...rest } =
-    props;
+  const {
+    className,
+    variant,
+    size,
+    isLoading,
+    Icon,
+    children,
+    disabled,
+    tooltip,
+    mode,
+    copyValue,
+    onClick,
+    ...rest
+  } = props;
   const iconRef = useRef<AnimatedIconHandle>(null);
+  const [copied, setCopied] = useState(false);
+
+  const isCopyMode = mode === 'copy';
+  const IconComponent = isCopyMode ? CopyIcon : Icon;
+  const effectiveTooltip = isCopyMode ? (tooltip ?? 'Копировать') : tooltip;
+  const effectiveSize = mode === 'icon' || isCopyMode ? 'icon' : size;
 
   function handleMouseEnter() {
     startAnimatedIcon(iconRef, !!isLoading);
@@ -67,20 +88,56 @@ export function Button(props: ButtonProps) {
     stopAnimatedIcon(iconRef, !!isLoading);
   }
 
+  function handleCopyClick(e: React.MouseEvent<HTMLButtonElement>) {
+    e.stopPropagation();
+    if (copyValue != null) {
+      navigator.clipboard.writeText(copyValue);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    }
+  }
+
   return (
     <ButtonPrimitive
       data-slot="button"
       {...rest}
-      className={cn(buttonVariants({ variant, size: mode === 'icon' ? 'icon' : size, className }))}
-      title={tooltip}
+      onClick={isCopyMode ? handleCopyClick : onClick}
+      className={cn(buttonVariants({ variant, size: effectiveSize, className }))}
+      title={effectiveTooltip}
       disabled={disabled || isLoading}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {isLoading ? (
         <LoaderCircle size={18} className="animate-spin" />
+      ) : isCopyMode ? (
+        <AnimatePresence mode="wait" initial={false}>
+          {copied ? (
+            <motion.span
+              key="check"
+              className="inline-flex"
+              initial={{ opacity: 0, scale: 0.7 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.7 }}
+              transition={{ duration: 0.15 }}
+            >
+              <Check size={18} />
+            </motion.span>
+          ) : (
+            <motion.span
+              key="copy"
+              className="inline-flex"
+              initial={{ opacity: 0, scale: 0.7 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.7 }}
+              transition={{ duration: 0.15 }}
+            >
+              {IconComponent && <IconComponent size={18} ref={iconRef} />}
+            </motion.span>
+          )}
+        </AnimatePresence>
       ) : (
-        Icon && <Icon size={18} ref={iconRef} />
+        IconComponent && <IconComponent size={18} ref={iconRef} />
       )}
       {children}
     </ButtonPrimitive>

@@ -85,7 +85,7 @@ export function FormInput<T extends FieldValues>(props: FormInputProps<T>) {
               )}
               <FormLabel
                 className={cn(
-                  'text-muted-foreground absolute top-1/2 -translate-y-1/2 text-sm font-normal transition-[top,left,transform,padding,background-color,color] duration-200',
+                  'text-muted-foreground pointer-events-none absolute top-1/2 -translate-y-1/2 text-sm font-normal transition-[top,left,transform,padding,background-color,color] duration-200',
                   Icon ? 'left-9' : 'left-3',
                   'peer-focus:bg-card peer-focus:text-primary peer-focus:left-2.5 peer-focus:top-0 peer-focus:scale-[0.82] peer-focus:px-1',
                   'peer-[:not(:placeholder-shown)]:bg-card peer-[:not(:placeholder-shown)]:text-muted-foreground peer-[:not(:placeholder-shown)]:left-2.5 peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:scale-[0.82] peer-[:not(:placeholder-shown)]:px-1',

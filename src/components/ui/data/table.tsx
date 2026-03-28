@@ -20,7 +20,13 @@ function Table(props: ComponentProps<'table'>) {
 function TableHeader(props: ComponentProps<'thead'>) {
   const { className, ...rest } = props;
 
-  return <thead data-slot="table-header" className={cn('[&_tr]:border-b', className)} {...rest} />;
+  return (
+    <thead
+      data-slot="table-header"
+      className={cn('[&_tr]:border-b [&_tr]:hover:bg-transparent', className)}
+      {...rest}
+    />
+  );
 }
 
 function TableBody(props: ComponentProps<'tbody'>) {
@@ -54,7 +60,7 @@ function TableRow(props: ComponentProps<'tr'>) {
     <tr
       data-slot="table-row"
       className={cn(
-        'hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors',
+        'hover:bg-accent/20 data-[state=selected]:bg-muted border-b transition-colors',
         className
       )}
       {...rest}

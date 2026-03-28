@@ -11,6 +11,15 @@ export const LOGIN_ATTEMPTS_PER_TIER = 4;
 export const LOGIN_BASE_LOCKOUT_SECONDS = 30;
 export const PASSWORD_RESET_COOLDOWN_MS = 30 * 1000;
 
+export const ORDER_STATUS_LABELS: Record<string, string> = {
+  DRAFT: 'Черновик',
+  SENT: 'Отправлен',
+  CONFIRMED: 'Подтверждён',
+  IN_PROGRESS: 'В работе',
+  COMPLETED: 'Завершён',
+  CANCELLED: 'Отменён',
+};
+
 export const NAV_ITEMS: NavItem[] = [
   {
     href: '/',

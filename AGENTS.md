@@ -396,6 +396,10 @@ const { control, handleSubmit } = form
   - Перенести из **IN PROGRESS** → **READY TO TEST** после завершения
 - Если задачи в ClickUp нет — создать её в **MVP Разработка** перед началом работы
 
+### TanStack Table + React Compiler
+
+`useReactTable()` несовместим с React Compiler — возвращает функции, которые нельзя безопасно мемоизировать. Предупреждение `react-hooks/incompatible-library` оставляем как есть — не подавлять ни `'use no memo'`, ни `eslint-disable`.
+
 ### Github
 
 - Перед выполненем задачи - переключиться на ветку dev подтянуть последние изменения
