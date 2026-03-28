@@ -10,19 +10,22 @@ export async function getClients(): Promise<ClientListItem[]> {
   const session = await auth();
   if (!session) return [];
 
-  const clients = await db.client.findMany({
-    where: { userId: session.user.id },
-    orderBy: { createdAt: 'desc' },
-  });
-
-  return clients.map((client) => ({
-    id: client.id,
-    name: client.name,
-    email: client.email,
-    phone: client.phone,
-    company: client.company,
-    createdAt: client.createdAt,
-  }));
+  return db.$queryRaw<ClientListItem[]>`
+    SELECT
+      c.id,
+      c.name,
+      c.email,
+      c.phone,
+      c.company,
+      c."createdAt",
+      COALESCE(SUM(p.amount), 0)::float AS "totalPaid"
+    FROM "Client" c
+    LEFT JOIN "Order" o ON o."clientId" = c.id
+    LEFT JOIN "Payment" p ON p."orderId" = o.id
+    WHERE c."userId" = ${session.user.id}
+    GROUP BY c.id
+    ORDER BY c."createdAt" DESC
+  `;
 }
 
 export async function getClient(id: string): Promise<ClientDetails | null> {

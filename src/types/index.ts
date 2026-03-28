@@ -25,6 +25,7 @@ export type ClientListItem = {
   phone: string | null;
   company: string | null;
   createdAt: Date;
+  totalPaid: number;
 };
 
 export type ClientOrderSummary = {

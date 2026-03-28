@@ -1,4 +1,4 @@
-import { AnimateIn } from "@/components/ui/feedback/animate-in";
+import { AnimateIn } from '@/components/ui/feedback/animate-in';
 import { Skeleton } from '@/components/ui/feedback/skeleton';
 
 export default function ClientsLoading() {
@@ -30,7 +30,7 @@ export default function ClientsLoading() {
             <div key={i} className="border-b px-4 py-3 last:border-0">
               <div className="flex items-center gap-6">
                 <Skeleton className="size-8 shrink-0 rounded-full" />
-                {Array.from({ length: 5 }).map((_, j) => (
+                {Array.from({ length: 6 }).map((_, j) => (
                   <Skeleton key={j} className="h-4 w-24" />
                 ))}
               </div>

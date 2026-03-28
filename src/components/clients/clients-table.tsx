@@ -18,7 +18,7 @@ import { AppDialog } from '@/components/ui/overlay/dialog';
 import { ClientForm } from '@/components/clients/client-form';
 import { getInitials } from '@/lib/utils';
 import type { ClientListItem } from '@/types';
-import { Building2, CalendarDays, Mail, Phone, Search, User } from 'lucide-react';
+import { Building2, CalendarDays, Mail, Phone, Search, User, Wallet } from 'lucide-react';
 import { AnimateIn } from '../ui/feedback/animate-in';
 
 type ClientsTableProps = {
@@ -81,6 +81,19 @@ const columns: ColumnDef<ClientListItem>[] = [
     ),
     cell: ({ getValue }) => getValue<string | null>() ?? '—',
     meta: { copyable: true },
+  },
+  {
+    accessorKey: 'totalPaid',
+    header: () => (
+      <span className="flex items-center gap-1.5">
+        <Wallet className="size-3.5" />
+        Оплачено
+      </span>
+    ),
+    cell: ({ getValue }) => {
+      const val = getValue<number>();
+      return val > 0 ? val.toLocaleString('ru-RU') + ' ₽' : '—';
+    },
   },
   {
     accessorKey: 'createdAt',

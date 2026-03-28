@@ -1,4 +1,4 @@
-import { AnimateIn } from "@/components/ui/feedback/animate-in";
+import { AnimateIn } from '@/components/ui/feedback/animate-in';
 import { Skeleton } from '@/components/ui/feedback/skeleton';
 
 export default function ClientLoading() {
