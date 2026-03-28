@@ -89,7 +89,7 @@ function TableCell(props: ComponentProps<'td'>) {
   return (
     <td
       data-slot="table-cell"
-      className={cn('whitespace-nowrap p-2 align-middle [&:has([role=checkbox])]:pr-0', className)}
+      className={cn('whitespace-nowrap p-3 align-middle [&:has([role=checkbox])]:pr-0', className)}
       {...rest}
     />
   );
