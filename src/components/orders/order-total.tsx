@@ -1,0 +1,26 @@
+'use client';
+
+import { useWatch, type Control } from 'react-hook-form';
+import type { OrderInput } from '@/schemas/orders';
+
+type OrderTotalProps = { control: Control<OrderInput> };
+
+export function OrderTotal(props: OrderTotalProps) {
+  const { control } = props;
+  const items = useWatch({ control, name: 'items' });
+  const currency = useWatch({ control, name: 'currency' });
+
+  const total = items.reduce((sum, item) => {
+    const qty = Number(item.quantity) || 0;
+    const price = Number(item.price) || 0;
+    return sum + qty * price;
+  }, 0);
+
+  if (total === 0) return null;
+
+  return (
+    <span className="text-muted-foreground text-sm">
+      Итого: {total.toLocaleString('ru-RU')} {currency}
+    </span>
+  );
+}

@@ -10,10 +10,7 @@ import {
 } from '@tanstack/react-table';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
-import { Input } from '@/components/ui/form/input';
 import { DataTable } from '@/components/ui/data/data-table';
-import { Button } from '@/components/ui/actions/button';
-import { UserRoundPlusIcon } from '@/components/icons/user-round-plus';
 import { AppDialog } from '@/components/ui/overlay/dialog';
 import { ClientForm } from '@/components/clients/client-form';
 import { getInitials } from '@/lib/utils';
@@ -21,8 +18,9 @@ import { getClients } from '@/actions/clients';
 import { CLIENTS_PAGE_SIZE } from '@/constants';
 import { useInfiniteList } from '@/hooks/use-infinite-list';
 import type { ClientListItem } from '@/types';
-import { Building2, CalendarDays, Mail, Phone, Search, User, Wallet } from 'lucide-react';
+import { Building2, CalendarDays, Mail, Phone, User, Wallet } from 'lucide-react';
 import { AnimateIn } from '../ui/feedback/animate-in';
+import { FilterCard } from "../ui/data/filter-card";
 
 type ClientsTableProps = {
   initialItems: ClientListItem[];
@@ -151,20 +149,13 @@ export function ClientsTable(props: ClientsTableProps) {
 
   return (
     <AnimateIn className="flex flex-1 flex-col space-y-4">
-      <div className="flex items-center justify-between gap-4">
-        <div className="relative max-w-sm flex-1">
-          <Search className="text-muted-foreground absolute left-2.5 top-1/2 size-4 -translate-y-1/2" />
-          <Input
-            placeholder="Поиск по клиентам"
-            value={globalFilter}
-            onChange={handleSearchChange}
-            className="pl-8"
-          />
-        </div>
-        <Button Icon={UserRoundPlusIcon} onClick={handleNewClient}>
-          Новый клиент
-        </Button>
-      </div>
+      <FilterCard
+        filterValue={globalFilter}
+        onFilterChange={handleSearchChange}
+        onBtnAction={handleNewClient}
+        btnLabel="Новый клиент"
+        inputLabel="Поиск по клиентам"
+      />
 
       <DataTable
         table={table}

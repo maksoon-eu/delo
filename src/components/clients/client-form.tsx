@@ -4,26 +4,22 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-} from '@/components/ui/form/form';
+import { Form } from '@/components/ui/form/form';
 import { FormInput } from '@/components/ui/form/form-input';
-import { Textarea } from '@/components/ui/form/textarea';
+import { FormTextarea } from '@/components/ui/form/form-textarea';
 import { Button } from '@/components/ui/actions/button';
 import { UserIcon } from '@/components/icons/user';
 import { AtSignIcon } from '@/components/icons/at-sign';
 import { ArrowRightIcon } from '@/components/icons/arrow-right';
+import { MessageCircleIcon } from '@/components/icons/message-circle';
+import { MapPinIcon } from '@/components/icons/map-pin';
+import { IdCardIcon } from '@/components/icons/id-card';
 import { ClientSchema, type ClientInput } from '@/schemas/clients';
 import { createClient, updateClient } from '@/actions/clients';
 import { useAsyncAction } from '@/hooks/use-async-action';
 
 type ClientFormProps =
-  | { mode: 'create'; onSuccess?: () => void }
+  | { mode: 'create'; onSuccess?: (id: string, name: string) => void }
   | { mode: 'edit'; clientId: string; defaultValues: ClientInput; onSuccess?: () => void };
 
 export function ClientForm(props: ClientFormProps) {
@@ -41,11 +37,11 @@ export function ClientForm(props: ClientFormProps) {
 
   async function onSubmit(data: ClientInput) {
     if (props.mode === 'create') {
-      const { error } = await createClient(data);
-      if (error) throw new Error(error);
+      const result = await createClient(data);
+      if ('error' in result) throw new Error(result.error);
       toast.success('Клиент создан');
       router.refresh();
-      props.onSuccess?.();
+      props.onSuccess?.(result.id, result.name);
     } else {
       const { error } = await updateClient(props.clientId, data);
       if (error) throw new Error(error);
@@ -70,23 +66,23 @@ export function ClientForm(props: ClientFormProps) {
             autoComplete="email"
             Icon={AtSignIcon}
           />
-          <FormInput control={control} name="phone" label="Телефон" type="tel" autoComplete="tel" />
-          <FormInput control={control} name="company" label="Компания" />
-          <FormInput control={control} name="inn" label="ИНН" />
+          <FormInput
+            control={control}
+            name="phone"
+            label="Телефон"
+            type="tel"
+            autoComplete="tel"
+            Icon={MessageCircleIcon}
+          />
+          <FormInput control={control} name="company" label="Компания" Icon={MapPinIcon} />
+          <FormInput control={control} name="inn" label="ИНН" Icon={IdCardIcon} />
         </div>
 
-        <FormField
+        <FormTextarea
           control={control}
           name="notes"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Заметки</FormLabel>
-              <FormControl>
-                <Textarea {...field} placeholder="Любые дополнительные сведения..." />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Заметки"
+          placeholder="Любые дополнительные сведения..."
         />
 
         <div className="flex justify-end">
