@@ -5,8 +5,6 @@ export const OrderItemSchema = z.object({
   id: z.string().optional(),
   name: z.string().min(1, 'Название позиции обязательно'),
   description: z.string(),
-  quantity: z.number().min(0.01, 'Количество должно быть больше 0'),
-  unit: z.string(),
   price: z.number().min(0.01, 'Цена должна быть больше 0'),
 });
 

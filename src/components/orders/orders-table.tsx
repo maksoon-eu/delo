@@ -6,7 +6,9 @@ import { parseAsStringLiteral, useQueryState } from 'nuqs';
 import { useReactTable, getCoreRowModel, getFilteredRowModel } from '@tanstack/react-table';
 import { DataTable } from '@/components/ui/data/data-table';
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
+import { AppDialog } from '@/components/ui/overlay/dialog';
 import { SelectInput } from '@/components/ui/form/fields/select-input';
+import { OrderForm } from '@/components/orders/order-form';
 import { getOrders } from '@/actions/orders';
 import { ORDERS_PAGE_SIZE } from '@/constants';
 import { useInfiniteList } from '@/hooks/use-infinite-list';
@@ -29,6 +31,7 @@ export function OrdersTable(props: OrdersTableProps) {
   );
   const [clientIdFilter] = useQueryState('clientId', { defaultValue: '' });
   const [globalFilter, setGlobalFilter] = useState('');
+  const [createOpen, setCreateOpen] = useState(false);
 
   const { items, hasMore, isLoadingMore, loadMore } = useInfiniteList<OrderListItem>({
     initialItems,
@@ -57,7 +60,7 @@ export function OrdersTable(props: OrdersTableProps) {
   }
 
   function handleNewOrder() {
-    router.push('/orders/new');
+    setCreateOpen(true);
   }
 
   function handleSearchChange(e: ChangeEvent<HTMLInputElement>) {
@@ -67,6 +70,11 @@ export function OrdersTable(props: OrdersTableProps) {
   function handleStatusChange(option: SelectOption | null) {
     const value = option?.value ?? null;
     setStatusFilter(value === 'ALL' ? null : (value as OrderStatus));
+  }
+
+  function handleCreateSuccess() {
+    setCreateOpen(false);
+    router.refresh();
   }
 
   const statusOption =
@@ -96,6 +104,16 @@ export function OrdersTable(props: OrdersTableProps) {
         onRowClick={handleRowClick}
         onEndReached={hasMore && !isLoadingMore ? loadMore : undefined}
       />
+
+      <AppDialog
+        open={createOpen}
+        onOpenChange={setCreateOpen}
+        title="Новый заказ"
+        description="Создайте новый заказ"
+        size="lg"
+      >
+        <OrderForm mode="create" onSuccess={handleCreateSuccess} />
+      </AppDialog>
     </AnimateIn>
   );
 }

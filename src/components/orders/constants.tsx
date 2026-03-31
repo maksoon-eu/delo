@@ -81,6 +81,12 @@ export const ORDERS_TABLE_COLUMNS: ColumnDef<OrderListItem>[] = [
   },
 ];
 
+export const ORDER_ITEM_DEFAULT = {
+  name: '',
+  description: '',
+  price: 0,
+};
+
 export const ORDER_CREATE_DEFAULT_VALUES: OrderInput = {
   clientId: '',
   title: '',
@@ -89,15 +95,7 @@ export const ORDER_CREATE_DEFAULT_VALUES: OrderInput = {
   deadline: '',
   price: null,
   paymentMethod: null,
-  items: [],
-};
-
-export const ORDER_ITEM_DEFAULT = {
-  name: '',
-  description: '',
-  quantity: 1,
-  unit: 'шт',
-  price: 0,
+  items: [ORDER_ITEM_DEFAULT],
 };
 
 export function orderToFormValues(order: OrderDetails): OrderInput {

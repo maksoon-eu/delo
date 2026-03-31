@@ -9,7 +9,7 @@ import { SelectOption } from '@/types';
 type ComboboxProps = {
   options: SelectOption[];
   value: SelectOption;
-  onChange: (value: SelectOption | null) => void;
+  onChange: (value: string | null) => void;
   onInputChange?: (value: string) => void;
   onOpen?: () => void;
   onEndReached?: () => void;
@@ -38,10 +38,12 @@ export function Combobox(props: ComboboxProps) {
   } = props;
 
   const [isFocused, setIsFocused] = useState(false);
+  const [selectedOption, setSelectedOption] = useState<SelectOption | null>(value);
   const isFloating = isFocused || !!value;
 
   function handleValueChange(newValue: SelectOption | null) {
-    onChange(newValue);
+    setSelectedOption(newValue);
+    onChange(newValue?.value ?? null);
   }
 
   function handleListScroll(e: UIEvent<HTMLElement>) {
@@ -59,13 +61,22 @@ export function Combobox(props: ComboboxProps) {
     setIsFocused(false);
   }
 
+  function handleOpen(open: boolean) {
+    if (open) {
+      onOpen?.();
+    }
+  }
+
   return (
     <div className="relative">
-      <ComboboxPrimitive.Root value={value || null} onValueChange={handleValueChange}>
+      <ComboboxPrimitive.Root
+        value={selectedOption}
+        onValueChange={handleValueChange}
+        onOpenChange={handleOpen}
+      >
         <ComboboxPrimitive.Trigger
-          onClick={onOpen}
           className={cn(
-            'border-accent bg-accent/30 hover:border-ring hover:ring-ring/50',
+            'border-accent bg-accent/30 hover:border-ring hover:ring-ring/50 cursor-pointer',
             'focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50',
             'h-10 w-full rounded-lg border text-sm transition-colors'
           )}
@@ -73,7 +84,7 @@ export function Combobox(props: ComboboxProps) {
           <ComboboxPrimitive.InputGroup className="flex w-full items-center px-3">
             <ComboboxPrimitive.Input
               placeholder={label ? ' ' : placeholder}
-              className="placeholder:text-muted-foreground min-w-0 flex-1 bg-transparent outline-none"
+              className="placeholder:text-muted-foreground min-w-0 flex-1 cursor-pointer bg-transparent outline-none"
               onChange={(e) => onInputChange?.(e.target.value)}
               onFocus={handleFocus}
               onBlur={handleBlur}

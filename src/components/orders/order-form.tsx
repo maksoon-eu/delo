@@ -121,56 +121,57 @@ export function OrderForm(props: OrderFormProps) {
               <span className="text-muted-foreground text-xs">Позиции</span>
               <OrderTotal control={control} />
             </div>
+            <div className="h-37.5 space-y-2 overflow-auto">
+              {fields.length > 0 && (
+                <>
+                  <div className="text-muted-foreground grid grid-cols-[1fr_1fr_1fr_auto] gap-2 px-1 text-xs">
+                    <span>Название</span>
+                    <span>Описание</span>
+                    <span>Цена</span>
+                    <span />
+                  </div>
 
-            {fields.length > 0 && (
-              <div className="space-y-2">
-                <div className="text-muted-foreground grid grid-cols-[1fr_1fr_1fr_auto] gap-2 px-1 text-xs">
-                  <span>Название</span>
-                  <span>Описание</span>
-                  <span>Цена</span>
-                  <span />
-                </div>
+                  {fields.map((field, index) => {
+                    function handleRemove() {
+                      remove(index);
+                    }
 
-                {fields.map((field, index) => {
-                  function handleRemove() {
-                    remove(index);
-                  }
-
-                  return (
-                    <div
-                      key={field.id}
-                      className="grid grid-cols-[1fr_1fr_1fr_auto] items-start gap-2"
-                    >
-                      <FormInput
-                        control={control}
-                        name={`items.${index}.name`}
-                        placeholder="Название"
-                      />
-                      <FormInput
-                        control={control}
-                        name={`items.${index}.description`}
-                        placeholder="Описание"
-                      />
-                      <FormInput
-                        control={control}
-                        name={`items.${index}.price`}
-                        type="number"
-                        placeholder="0"
-                      />
-                      <Button
-                        type="button"
-                        mode="icon"
-                        variant="ghost"
-                        tooltip="Удалить позицию"
-                        Icon={XIcon}
-                        onClick={handleRemove}
-                        className="mt-0.5"
-                      />
-                    </div>
-                  );
-                })}
-              </div>
-            )}
+                    return (
+                      <div
+                        key={field.id}
+                        className="grid grid-cols-[1fr_1fr_1fr_auto] items-start gap-2"
+                      >
+                        <FormInput
+                          control={control}
+                          name={`items.${index}.name`}
+                          placeholder="Название"
+                        />
+                        <FormInput
+                          control={control}
+                          name={`items.${index}.description`}
+                          placeholder="Описание"
+                        />
+                        <FormInput
+                          control={control}
+                          name={`items.${index}.price`}
+                          type="number"
+                          placeholder="0"
+                        />
+                        <Button
+                          type="button"
+                          mode="icon"
+                          variant="ghost"
+                          tooltip="Удалить позицию"
+                          Icon={XIcon}
+                          onClick={handleRemove}
+                          className="mt-0.5"
+                        />
+                      </div>
+                    );
+                  })}
+                </>
+              )}
+            </div>
 
             <Button
               type="button"
