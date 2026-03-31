@@ -1,4 +1,4 @@
-import { Input } from '@/components/ui/form/input';
+import { Input } from '@/components/ui/form/primitives/input';
 import { Search } from 'lucide-react';
 import { ChangeEvent, ReactNode } from 'react';
 import { Button } from '../actions/button';

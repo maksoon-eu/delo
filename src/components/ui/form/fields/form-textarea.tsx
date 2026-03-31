@@ -9,7 +9,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form/form';
-import { Textarea } from '@/components/ui/form/textarea';
+import { Textarea } from '@/components/ui/form/primitives/textarea';
 import { cn } from '@/lib/utils';
 
 type FormTextareaProps<T extends FieldValues> = {

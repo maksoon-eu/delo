@@ -377,9 +377,11 @@ async function onSubmit() {
 
 - Все формы через shadcn `Form` + `react-hook-form` + `zodResolver`
 - Схемы и типы для форм брать из `src/schemas/`
-- Поля форм — через компонент `FormInput` из `src/components/ui/form-input.tsx`
-- Для `<select>` **внутри RHF-формы** использовать `FormSelect` из `src/components/ui/form/form-select.tsx` (принимает `control`, `name`, `label`, `options`)
-- Для standalone `<select>` **вне формы** (фильтры, настройки) использовать `SelectInput` из `src/components/ui/form/select-input.tsx` (принимает `value`, `onValueChange`, `options`) — не раскрывать `Select/SelectTrigger/SelectContent/SelectItem` вручную
+- Низкоуровневые form-контролы (`Input`, `Textarea`, `Select`, `Combobox`, `Label`) хранить в `src/components/ui/form/primitives/`
+- Form-aware обёртки и составные поля (`FormInput`, `FormSelect`, `FormTextarea`, `FormCombobox`, `FormDateInput`, `SelectInput`) хранить в `src/components/ui/form/fields/`
+- Поля форм — через компонент `FormInput` из `src/components/ui/form/fields/form-input.tsx`
+- Для `<select>` **внутри RHF-формы** использовать `FormSelect` из `src/components/ui/form/fields/form-select.tsx` (принимает `control`, `name`, `label`, `options`)
+- Для standalone `<select>` **вне формы** (фильтры, настройки) использовать `SelectInput` из `src/components/ui/form/fields/select-input.tsx` (принимает `value`, `onValueChange`, `options`) — не раскрывать `Select/SelectTrigger/SelectContent/SelectItem` вручную
 - Для auth-форм всегда задавать явные `autocomplete`-значения (`username`, `current-password`, `new-password`, `email`, `name`) и использовать настоящий `<label htmlFor=...>`: без этого браузеры и password manager хуже распознают логин и могут не предлагать сохранение данных
 - Из `useForm` деструктурировать нужные методы явно, `form` оставлять для `<Form {...form}>`:
 

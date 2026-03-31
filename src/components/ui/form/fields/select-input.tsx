@@ -7,7 +7,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/form/select';
+} from '@/components/ui/form/primitives/select';
 import { SelectOption } from '@/types';
 
 type SelectInputProps = {

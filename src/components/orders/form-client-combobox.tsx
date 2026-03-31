@@ -11,7 +11,7 @@ import type { OrderInput } from '@/schemas/orders';
 import {
   FormCombobox,
   type FormComboboxLoadOptionsParams,
-} from '@/components/ui/form/form-combobox';
+} from '@/components/ui/form/fields/form-combobox';
 import type { SelectOption } from '@/types';
 
 type ClientOption = { id: string; name: string };

@@ -6,7 +6,7 @@ import { parseAsStringLiteral, useQueryState } from 'nuqs';
 import { useReactTable, getCoreRowModel, getFilteredRowModel } from '@tanstack/react-table';
 import { DataTable } from '@/components/ui/data/data-table';
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
-import { SelectInput } from '@/components/ui/form/select-input';
+import { SelectInput } from '@/components/ui/form/fields/select-input';
 import { getOrders } from '@/actions/orders';
 import { ORDERS_PAGE_SIZE } from '@/constants';
 import { useInfiniteList } from '@/hooks/use-infinite-list';

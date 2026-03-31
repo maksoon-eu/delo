@@ -11,7 +11,7 @@ import {
   FormMessage,
 } from '@/components/ui/form/form';
 import { Button } from '@/components/ui/actions/button';
-import { Input } from '@/components/ui/form/input';
+import { Input } from '@/components/ui/form/primitives/input';
 import { EyeIcon } from '@/components/icons/eye';
 import type { AnimatedIconComponent, AnimatedIconHandle } from '@/types';
 import { cn, startAnimatedIcon, stopAnimatedIcon } from '@/lib/utils';

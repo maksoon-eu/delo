@@ -8,7 +8,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form/form';
-import { Input } from '@/components/ui/form/input';
+import { Input } from '@/components/ui/form/primitives/input';
 
 type FormDateInputProps<T extends FieldValues> = {
   control: Control<T>;
