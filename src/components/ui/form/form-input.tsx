@@ -77,6 +77,7 @@ export function FormInput<T extends FieldValues>(props: FormInputProps<T>) {
                 <FormControl>
                   <Input
                     {...field}
+                    value={field.value ?? ''}
                     type={inputType}
                     autoComplete={autoComplete}
                     placeholder=" "
@@ -122,6 +123,7 @@ export function FormInput<T extends FieldValues>(props: FormInputProps<T>) {
               <FormControl>
                 <Input
                   {...field}
+                  value={field.value ?? ''}
                   type={inputType}
                   autoComplete={autoComplete}
                   placeholder={placeholder}

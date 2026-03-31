@@ -1,25 +1,9 @@
 'use client';
 
 import { Control, FieldPath, FieldValues } from 'react-hook-form';
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form/form';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/form/select';
-
-type SelectOption = {
-  value: string;
-  label: string;
-};
+import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form/form';
+import { SelectOption } from '@/types';
+import { SelectInput } from './select-input';
 
 type FormSelectProps<T extends FieldValues> = {
   control: Control<T>;
@@ -37,20 +21,14 @@ export function FormSelect<T extends FieldValues>(props: FormSelectProps<T>) {
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Select value={field.value} onValueChange={field.onChange}>
-              <SelectTrigger className="w-full">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {options.map((opt) => (
-                  <SelectItem key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <SelectInput
+              value={field.value}
+              onValueChange={field.onChange}
+              options={options}
+              className="w-full"
+              label={label}
+            />
           </FormControl>
           <FormMessage />
         </FormItem>

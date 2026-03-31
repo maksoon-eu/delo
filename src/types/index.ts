@@ -1,6 +1,6 @@
 import type { Route } from 'next';
 import type { ComponentType, Ref } from 'react';
-import type { OrderStatus } from '@prisma/client';
+import type { OrderStatus, PaymentMethod } from '@prisma/client';
 
 export interface AnimatedIconHandle {
   startAnimation: () => void;
@@ -32,9 +32,8 @@ export type ClientListItem = {
 export type ClientOrderSummary = {
   id: string;
   title: string;
-  status: string;
+  status: OrderStatus;
   price: number | null;
-  currency: string;
   createdAt: Date;
 };
 
@@ -57,7 +56,6 @@ export type OrderListItem = {
   clientId: string;
   clientName: string;
   price: number | null;
-  currency: string;
   deadline: Date | null;
   createdAt: Date;
 };
@@ -84,12 +82,11 @@ export type OrderDetails = {
   status: OrderStatus;
   paymentStatus: string;
   price: number | null;
-  currency: string;
+  paymentMethod: PaymentMethod | null;
   startDate: Date | null;
   deadline: Date | null;
   publicToken: string;
   confirmedAt: Date | null;
-  paymentDetails: string | null;
   createdAt: Date;
   updatedAt: Date;
   clientId: string;
@@ -97,4 +94,9 @@ export type OrderDetails = {
   clientEmail: string | null;
   items: OrderItemData[];
   activities: ActivityEntry[];
+};
+
+export type SelectOption = {
+  value: string;
+  label: string;
 };

@@ -23,12 +23,13 @@ type ClientFormProps =
   | { mode: 'edit'; clientId: string; defaultValues: ClientInput; onSuccess?: () => void };
 
 export function ClientForm(props: ClientFormProps) {
+  const { mode, onSuccess } = props;
   const router = useRouter();
 
   const form = useForm<ClientInput>({
     resolver: zodResolver(ClientSchema),
     defaultValues:
-      props.mode === 'edit'
+      mode === 'edit'
         ? props.defaultValues
         : { name: '', email: '', phone: '', company: '', inn: '', notes: '' },
   });
@@ -36,18 +37,18 @@ export function ClientForm(props: ClientFormProps) {
   const { control, handleSubmit } = form;
 
   async function onSubmit(data: ClientInput) {
-    if (props.mode === 'create') {
+    if (mode === 'create') {
       const result = await createClient(data);
       if ('error' in result) throw new Error(result.error);
       toast.success('Клиент создан');
       router.refresh();
-      props.onSuccess?.(result.id, result.name);
+      onSuccess?.(result.id, result.name);
     } else {
       const { error } = await updateClient(props.clientId, data);
       if (error) throw new Error(error);
       toast.success('Клиент обновлён');
       router.refresh();
-      props.onSuccess?.();
+      onSuccess?.();
     }
   }
 

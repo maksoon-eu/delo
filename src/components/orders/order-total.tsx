@@ -8,7 +8,6 @@ type OrderTotalProps = { control: Control<OrderInput> };
 export function OrderTotal(props: OrderTotalProps) {
   const { control } = props;
   const items = useWatch({ control, name: 'items' });
-  const currency = useWatch({ control, name: 'currency' });
 
   const total = items.reduce((sum, item) => {
     const qty = Number(item.quantity) || 0;
@@ -19,8 +18,6 @@ export function OrderTotal(props: OrderTotalProps) {
   if (total === 0) return null;
 
   return (
-    <span className="text-muted-foreground text-sm">
-      Итого: {total.toLocaleString('ru-RU')} {currency}
-    </span>
+    <span className="text-muted-foreground text-sm">Итого: {total.toLocaleString('ru-RU')} ₽</span>
   );
 }

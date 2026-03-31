@@ -4,10 +4,10 @@ import { FileText, CalendarDays, Tag, UserRound, Banknote } from 'lucide-react';
 import { type ColumnDef } from '@tanstack/react-table';
 import { OrderStatusBadge } from '@/components/orders/order-status-badge';
 import { ORDER_STATUS_LABELS } from '@/constants';
-import type { OrderListItem, OrderDetails } from '@/types';
+import type { OrderListItem, OrderDetails, SelectOption } from '@/types';
 import type { OrderInput } from '@/schemas/orders';
 
-export const ORDER_STATUS_FILTER_OPTIONS = [
+export const ORDER_STATUS_FILTER_OPTIONS: SelectOption[] = [
   { value: 'ALL', label: 'Все статусы' },
   ...Object.entries(ORDER_STATUS_LABELS).map(([value, label]) => ({ value, label })),
 ];
@@ -52,8 +52,8 @@ export const ORDERS_TABLE_COLUMNS: ColumnDef<OrderListItem>[] = [
       </span>
     ),
     cell: ({ row }) => {
-      const { price, currency } = row.original;
-      return price != null ? `${price.toLocaleString('ru-RU')} ${currency}` : '—';
+      const { price } = row.original;
+      return price != null ? `${price.toLocaleString('ru-RU')} ₽` : '—';
     },
   },
   {
@@ -88,8 +88,7 @@ export const ORDER_CREATE_DEFAULT_VALUES: OrderInput = {
   startDate: '',
   deadline: '',
   price: null,
-  currency: 'RUB',
-  paymentDetails: '',
+  paymentMethod: null,
   items: [],
 };
 
@@ -109,8 +108,7 @@ export function orderToFormValues(order: OrderDetails): OrderInput {
     startDate: order.startDate ? format(order.startDate, 'yyyy-MM-dd') : '',
     deadline: order.deadline ? format(order.deadline, 'yyyy-MM-dd') : '',
     price: order.price,
-    currency: order.currency,
-    paymentDetails: order.paymentDetails ?? '',
+    paymentMethod: order.paymentMethod ?? null,
     items: order.items.map((i) => ({
       id: i.id,
       name: i.name,

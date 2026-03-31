@@ -16,7 +16,7 @@ type FilterCardProps = {
 export function FilterCard(props: FilterCardProps) {
   const { children, filterValue, onFilterChange, onBtnAction, btnLabel, inputLabel } = props;
   return (
-    <div className="glass flex flex-col gap-5 rounded-xl border p-4 shadow-sm lg:flex-row lg:items-center lg:justify-between">
+    <div className="glass border-glass flex flex-col gap-5 rounded-xl p-4 shadow-sm lg:flex-row lg:items-center lg:justify-between">
       <div className="flex flex-1 flex-col gap-3 sm:flex-row">
         <div className="relative flex-1">
           <Search className="text-muted-foreground absolute left-3 top-1/2 size-4 -translate-y-1/2" />

@@ -70,7 +70,6 @@ export async function getClient(id: string): Promise<ClientDetails | null> {
       title: order.title,
       status: order.status,
       price: order.price ? Number(order.price) : null,
-      currency: order.currency,
       createdAt: order.createdAt,
     })),
   };

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { PaymentMethod } from '@prisma/client';
 
 export const OrderItemSchema = z.object({
   id: z.string().optional(),
@@ -16,8 +17,7 @@ export const OrderSchema = z.object({
   startDate: z.string(),
   deadline: z.string(),
   price: z.number().min(0).nullable().optional(),
-  currency: z.string(),
-  paymentDetails: z.string(),
+  paymentMethod: z.enum(PaymentMethod).nullable().optional(),
   items: z.array(OrderItemSchema),
 });
 

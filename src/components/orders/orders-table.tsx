@@ -2,17 +2,15 @@
 
 import { useState, type ChangeEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import { parseAsStringEnum, useQueryState } from 'nuqs';
+import { parseAsStringLiteral, useQueryState } from 'nuqs';
 import { useReactTable, getCoreRowModel, getFilteredRowModel } from '@tanstack/react-table';
 import { DataTable } from '@/components/ui/data/data-table';
-import { AppDialog } from '@/components/ui/overlay/dialog';
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
 import { SelectInput } from '@/components/ui/form/select-input';
-import { OrderForm } from '@/components/orders/order-form';
 import { getOrders } from '@/actions/orders';
 import { ORDERS_PAGE_SIZE } from '@/constants';
 import { useInfiniteList } from '@/hooks/use-infinite-list';
-import type { OrderListItem } from '@/types';
+import type { OrderListItem, SelectOption } from '@/types';
 import { OrderStatus } from '@prisma/client';
 import { ORDERS_TABLE_COLUMNS, ORDER_STATUS_FILTER_OPTIONS } from './constants';
 import { FilterCard } from '../ui/data/filter-card';
@@ -27,11 +25,10 @@ export function OrdersTable(props: OrdersTableProps) {
   const router = useRouter();
   const [statusFilter, setStatusFilter] = useQueryState(
     'status',
-    parseAsStringEnum<OrderStatus>(Object.values(OrderStatus))
+    parseAsStringLiteral(Object.values(OrderStatus))
   );
   const [clientIdFilter] = useQueryState('clientId', { defaultValue: '' });
   const [globalFilter, setGlobalFilter] = useState('');
-  const [createOpen, setCreateOpen] = useState(false);
 
   const { items, hasMore, isLoadingMore, loadMore } = useInfiniteList<OrderListItem>({
     initialItems,
@@ -60,21 +57,20 @@ export function OrdersTable(props: OrdersTableProps) {
   }
 
   function handleNewOrder() {
-    setCreateOpen(true);
+    router.push('/orders/new');
   }
 
   function handleSearchChange(e: ChangeEvent<HTMLInputElement>) {
     setGlobalFilter(e.target.value);
   }
 
-  function handleStatusChange(value: string | null) {
-    setStatusFilter(value === 'ALL' ? null : (value as OrderStatus | null));
+  function handleStatusChange(option: SelectOption | null) {
+    const value = option?.value ?? null;
+    setStatusFilter(value === 'ALL' ? null : (value as OrderStatus));
   }
 
-  function handleCreateSuccess(id: string) {
-    setCreateOpen(false);
-    router.push(`/orders/${id}`);
-  }
+  const statusOption =
+    ORDER_STATUS_FILTER_OPTIONS.find((opt) => opt.value === statusFilter) ?? null;
 
   return (
     <AnimateIn className="flex flex-1 flex-col gap-4">
@@ -86,10 +82,11 @@ export function OrdersTable(props: OrdersTableProps) {
         inputLabel="Поиск по заказам"
       >
         <SelectInput
-          value={statusFilter || 'ALL'}
+          value={statusOption}
           onValueChange={handleStatusChange}
           options={ORDER_STATUS_FILTER_OPTIONS}
           className="min-w-44"
+          label="Фильтр по статусу"
         />
       </FilterCard>
 
@@ -99,10 +96,6 @@ export function OrdersTable(props: OrdersTableProps) {
         onRowClick={handleRowClick}
         onEndReached={hasMore && !isLoadingMore ? loadMore : undefined}
       />
-
-      <AppDialog open={createOpen} onOpenChange={setCreateOpen} title="Новый заказ" size="lg">
-        <OrderForm mode="create" onSuccess={handleCreateSuccess} />
-      </AppDialog>
     </AnimateIn>
   );
 }

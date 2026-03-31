@@ -3,6 +3,7 @@ import { NAV_ITEMS } from '@/constants';
 import { PageHeader } from '@/components/layout/page-header';
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
 import { BackLink } from '@/components/ui/navigation/back-link';
+import { ContentCard } from '@/components/ui/data/content-card';
 import { EditOrderPageContent } from '@/components/orders/edit-order-page-content';
 import { orderToFormValues } from '@/components/orders/constants';
 import { getOrder } from '@/actions/orders';
@@ -30,7 +31,7 @@ export default async function EditOrderPage(props: EditOrderPageProps) {
         title={`Редактировать: ${order.title}`}
         description={`Клиент: ${order.clientName}`}
       />
-      <div className="glass rounded-xl border p-6 shadow-sm">
+      <ContentCard>
         <BackLink href={`/orders/${id}` as Route<string>} label="заказу" />
         <div className="mt-6">
           <EditOrderPageContent
@@ -39,7 +40,7 @@ export default async function EditOrderPage(props: EditOrderPageProps) {
             defaultValues={defaultValues}
           />
         </div>
-      </div>
+      </ContentCard>
     </AnimateIn>
   );
 }

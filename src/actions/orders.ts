@@ -36,7 +36,6 @@ export async function getOrders(params: {
       clientId: true,
       client: { select: { name: true } },
       price: true,
-      currency: true,
       deadline: true,
       createdAt: true,
     },
@@ -52,7 +51,6 @@ export async function getOrders(params: {
     clientId: row.clientId,
     clientName: row.client.name,
     price: row.price ? Number(row.price) : null,
-    currency: row.currency,
     deadline: row.deadline,
     createdAt: row.createdAt,
   }));
@@ -82,12 +80,11 @@ export async function getOrder(id: string): Promise<OrderDetails | null> {
     status: order.status,
     paymentStatus: order.paymentStatus,
     price: order.price ? Number(order.price) : null,
-    currency: order.currency,
+    paymentMethod: order.paymentMethod ?? null,
     startDate: order.startDate,
     deadline: order.deadline,
     publicToken: order.publicToken,
     confirmedAt: order.confirmedAt,
-    paymentDetails: order.paymentDetails,
     createdAt: order.createdAt,
     updatedAt: order.updatedAt,
     clientId: order.clientId,
@@ -146,8 +143,7 @@ export async function createOrder(data: OrderInput): Promise<{ error: string } |
       startDate: parsed.startDate ? new Date(parsed.startDate) : null,
       deadline: parsed.deadline ? new Date(parsed.deadline) : null,
       price: parsed.price ?? null,
-      currency: parsed.currency,
-      paymentDetails: parsed.paymentDetails || null,
+      paymentMethod: parsed.paymentMethod ?? null,
       items: {
         create: parsed.items.map((item) => ({
           name: item.name,
@@ -188,8 +184,7 @@ export async function updateOrder(id: string, data: OrderInput): Promise<{ error
         startDate: parsed.startDate ? new Date(parsed.startDate) : null,
         deadline: parsed.deadline ? new Date(parsed.deadline) : null,
         price: parsed.price ?? null,
-        currency: parsed.currency,
-        paymentDetails: parsed.paymentDetails || null,
+        paymentMethod: parsed.paymentMethod ?? null,
         items: {
           create: parsed.items.map((item) => ({
             name: item.name,

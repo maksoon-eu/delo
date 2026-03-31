@@ -69,9 +69,7 @@ export default async function OrderPage(props: OrderPageProps) {
                   </DetailItem>
                 )}
                 {order.price != null && (
-                  <DetailItem label="Стоимость">
-                    {order.price.toLocaleString('ru-RU')} {order.currency}
-                  </DetailItem>
+                  <DetailItem label="Стоимость">{order.price.toLocaleString('ru-RU')} ₽</DetailItem>
                 )}
                 <DetailItem label="Создан">
                   {format(order.createdAt, 'd MMM yyyy', { locale: ru })}
@@ -129,7 +127,7 @@ export default async function OrderPage(props: OrderPageProps) {
                           Итого:
                         </td>
                         <td className="pt-2 text-right font-semibold">
-                          {totalItems.toLocaleString('ru-RU')} {order.currency}
+                          {totalItems.toLocaleString('ru-RU')} ₽
                         </td>
                       </tr>
                     </tfoot>

@@ -3,7 +3,7 @@ import { FileTextIcon } from '@/components/icons/file-text';
 import { HomeIcon } from '@/components/icons/home';
 import { TrendingUpIcon } from '@/components/icons/trending-up';
 import { UsersIcon } from '@/components/icons/users';
-import { OrderStatus } from '@prisma/client';
+import { OrderStatus, PaymentMethod } from '@prisma/client';
 
 export const SIDEBAR_COOKIE_KEY = 'sidebar-collapsed';
 export const COOKIE_STORAGE_MAX_AGE = 60 * 60 * 24 * 365;
@@ -37,10 +37,12 @@ export const ORDER_STATUS_VARIANTS: Record<
 
 export const ORDERS_PAGE_SIZE = 20;
 
-export const CURRENCY_OPTIONS = [
-  { value: 'RUB', label: 'RUB — Рубль' },
-  { value: 'USD', label: 'USD — Доллар' },
-  { value: 'EUR', label: 'EUR — Евро' },
+export const PAYMENT_METHOD_OPTIONS = [
+  { value: '', label: 'Не указан' },
+  { value: PaymentMethod.CARD, label: 'Банковская карта' },
+  { value: PaymentMethod.SBP, label: 'СБП' },
+  { value: PaymentMethod.BANK_ACCOUNT, label: 'Расчётный счёт' },
+  { value: PaymentMethod.CASH, label: 'Наличные' },
 ];
 
 export const ORDER_STATUS_TRANSITIONS: Record<OrderStatus, OrderStatus[]> = {

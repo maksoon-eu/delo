@@ -1,26 +1,24 @@
 'use client';
 
-import { ReactNode, UIEvent } from 'react';
+import { ReactNode, UIEvent, useState } from 'react';
 import { Combobox as ComboboxPrimitive } from '@base-ui/react/combobox';
 import { ChevronDown, Check, LoaderCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
-
-type ComboboxOption = {
-  value: string;
-  label: string;
-};
+import { SelectOption } from '@/types';
 
 type ComboboxProps = {
-  options: ComboboxOption[];
-  value: string;
-  onChange: (value: string) => void;
+  options: SelectOption[];
+  value: SelectOption;
+  onChange: (value: SelectOption | null) => void;
   onInputChange?: (value: string) => void;
   onOpen?: () => void;
   onEndReached?: () => void;
   isLoadingMore?: boolean;
   placeholder?: string;
+  label?: string;
   emptyMessage?: string;
-  footer?: ReactNode;
+  action?: ReactNode;
+  className?: string;
 };
 
 export function Combobox(props: ComboboxProps) {
@@ -33,12 +31,17 @@ export function Combobox(props: ComboboxProps) {
     onEndReached,
     isLoadingMore,
     placeholder,
+    label,
     emptyMessage = 'Ничего не найдено',
-    footer,
+    action,
+    className,
   } = props;
 
-  function handleValueChange(newValue: string | null) {
-    onChange(newValue ?? '');
+  const [isFocused, setIsFocused] = useState(false);
+  const isFloating = isFocused || !!value;
+
+  function handleValueChange(newValue: SelectOption | null) {
+    onChange(newValue);
   }
 
   function handleListScroll(e: UIEvent<HTMLElement>) {
@@ -48,73 +51,102 @@ export function Combobox(props: ComboboxProps) {
     }
   }
 
+  function handleFocus() {
+    setIsFocused(true);
+  }
+
+  function handleBlur() {
+    setIsFocused(false);
+  }
+
   return (
-    <ComboboxPrimitive.Root
-      value={value || null}
-      onValueChange={handleValueChange}
-      itemToStringLabel={(v) => options.find((o) => o.value === v)?.label ?? ''}
-    >
-      <ComboboxPrimitive.InputGroup
-        className={cn(
-          'border-input focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50',
-          'flex h-8 w-full items-center rounded-lg border bg-transparent px-2.5 text-sm transition-colors'
-        )}
-      >
-        <ComboboxPrimitive.Input
-          placeholder={placeholder}
-          className="placeholder:text-muted-foreground min-w-0 flex-1 bg-transparent outline-none"
-          onFocus={onOpen}
-          onChange={(e) => onInputChange?.(e.target.value)}
-        />
-        <ComboboxPrimitive.Trigger className="text-muted-foreground ml-1 cursor-pointer">
-          <ChevronDown className="size-4" />
+    <div className="relative">
+      <ComboboxPrimitive.Root value={value || null} onValueChange={handleValueChange}>
+        <ComboboxPrimitive.Trigger
+          onClick={onOpen}
+          className={cn(
+            'border-accent bg-accent/30 hover:border-ring hover:ring-ring/50',
+            'focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50',
+            'h-10 w-full rounded-lg border text-sm transition-colors'
+          )}
+        >
+          <ComboboxPrimitive.InputGroup className="flex w-full items-center px-3">
+            <ComboboxPrimitive.Input
+              placeholder={label ? ' ' : placeholder}
+              className="placeholder:text-muted-foreground min-w-0 flex-1 bg-transparent outline-none"
+              onChange={(e) => onInputChange?.(e.target.value)}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+            />
+            <div className="text-muted-foreground ml-1 cursor-pointer">
+              <ChevronDown className="size-4" />
+            </div>
+          </ComboboxPrimitive.InputGroup>
         </ComboboxPrimitive.Trigger>
-      </ComboboxPrimitive.InputGroup>
 
-      <ComboboxPrimitive.Portal>
-        <ComboboxPrimitive.Positioner sideOffset={4} className="isolate z-50">
-          <ComboboxPrimitive.Popup
-            className={cn(
-              'bg-popover text-popover-foreground ring-foreground/10',
-              'data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95',
-              'data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95',
-              'w-(--anchor-width) origin-(--transform-origin) overflow-hidden rounded-lg shadow-md ring-1 duration-100'
-            )}
-          >
-            <ComboboxPrimitive.List
-              className="max-h-60 overflow-y-auto p-1"
-              onScroll={handleListScroll}
-            >
-              {options.map((option) => (
-                <ComboboxPrimitive.Item
-                  key={option.value}
-                  value={option.value}
-                  className={cn(
-                    'data-highlighted:bg-accent data-highlighted:text-accent-foreground',
-                    'relative flex w-full cursor-default select-none items-center gap-2 rounded-md py-1 pl-2 pr-8 text-sm outline-none',
-                    'data-disabled:pointer-events-none data-disabled:opacity-50'
-                  )}
-                >
-                  {option.label}
-                  <ComboboxPrimitive.ItemIndicator className="absolute right-2 flex size-4 items-center justify-center">
-                    <Check className="size-3.5" />
-                  </ComboboxPrimitive.ItemIndicator>
-                </ComboboxPrimitive.Item>
-              ))}
-              <ComboboxPrimitive.Empty className="text-muted-foreground py-2 text-center text-sm">
-                {emptyMessage}
-              </ComboboxPrimitive.Empty>
-              {isLoadingMore && (
-                <div className="flex justify-center py-2">
-                  <LoaderCircle size={16} className="text-muted-foreground animate-spin" />
-                </div>
+        <ComboboxPrimitive.Portal>
+          <ComboboxPrimitive.Positioner sideOffset={20} className="isolate z-50">
+            <ComboboxPrimitive.Popup
+              className={cn(
+                'bg-card border-border/70 text-popover-foreground shadow-xl',
+                'data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95',
+                'data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95',
+                'w-(--anchor-width) origin-(--transform-origin) overflow-hidden rounded-lg border duration-100'
               )}
-            </ComboboxPrimitive.List>
+            >
+              {action && <div className="border-b p-1">{action}</div>}
 
-            {footer && <div className="border-t p-1">{footer}</div>}
-          </ComboboxPrimitive.Popup>
-        </ComboboxPrimitive.Positioner>
-      </ComboboxPrimitive.Portal>
-    </ComboboxPrimitive.Root>
+              <ComboboxPrimitive.List
+                className={cn('max-h-60 overflow-y-auto', className)}
+                onScroll={handleListScroll}
+              >
+                {options.map((option) => (
+                  <ComboboxPrimitive.Item
+                    key={option.value}
+                    value={option}
+                    className={cn(
+                      'data-highlighted:bg-accent/40 data-highlighted:text-foreground',
+                      'relative flex w-full cursor-pointer select-none items-center gap-2.5',
+                      'not-last-of-type:border-b p-3 text-sm outline-none transition-colors',
+                      'data-disabled:pointer-events-none data-disabled:opacity-50'
+                    )}
+                  >
+                    <span className="border-border flex size-4 shrink-0 items-center justify-center rounded-sm border">
+                      <ComboboxPrimitive.ItemIndicator>
+                        <Check className="text-primary size-3" />
+                      </ComboboxPrimitive.ItemIndicator>
+                    </span>
+                    {option.label}
+                  </ComboboxPrimitive.Item>
+                ))}
+
+                {options.length === 0 && !isLoadingMore && (
+                  <div className="text-muted-foreground py-6 text-center text-sm">
+                    {emptyMessage}
+                  </div>
+                )}
+
+                {isLoadingMore && (
+                  <div className="flex justify-center py-2">
+                    <LoaderCircle size={16} className="text-muted-foreground animate-spin" />
+                  </div>
+                )}
+              </ComboboxPrimitive.List>
+            </ComboboxPrimitive.Popup>
+          </ComboboxPrimitive.Positioner>
+        </ComboboxPrimitive.Portal>
+      </ComboboxPrimitive.Root>
+
+      {label && (
+        <span
+          className={cn(
+            'text-muted-foreground pointer-events-none absolute top-1/2 -translate-y-1/2 text-sm font-normal transition-[top,left,transform,padding,background-color,color] duration-200',
+            isFloating ? 'bg-card text-primary left-2.5 top-0 scale-[0.82] px-1' : 'left-3'
+          )}
+        >
+          {label}
+        </span>
+      )}
+    </div>
   );
 }

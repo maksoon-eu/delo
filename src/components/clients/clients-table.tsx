@@ -20,7 +20,7 @@ import { useInfiniteList } from '@/hooks/use-infinite-list';
 import type { ClientListItem } from '@/types';
 import { Building2, CalendarDays, Mail, Phone, User, Wallet } from 'lucide-react';
 import { AnimateIn } from '../ui/feedback/animate-in';
-import { FilterCard } from "../ui/data/filter-card";
+import { FilterCard } from '../ui/data/filter-card';
 
 type ClientsTableProps = {
   initialItems: ClientListItem[];
