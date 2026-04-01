@@ -148,8 +148,6 @@ export async function createOrder(data: OrderInput): Promise<{ error: string } |
         create: parsed.items.map((item) => ({
           name: item.name,
           description: item.description || null,
-          quantity: item.quantity,
-          unit: item.unit || null,
           price: item.price,
         })),
       },
@@ -189,8 +187,6 @@ export async function updateOrder(id: string, data: OrderInput): Promise<{ error
           create: parsed.items.map((item) => ({
             name: item.name,
             description: item.description || null,
-            quantity: item.quantity,
-            unit: item.unit || null,
             price: item.price,
           })),
         },

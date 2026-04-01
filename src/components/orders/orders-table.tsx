@@ -10,12 +10,14 @@ import { AppDialog } from '@/components/ui/overlay/dialog';
 import { SelectInput } from '@/components/ui/form/fields/select-input';
 import { OrderForm } from '@/components/orders/order-form';
 import { getOrders } from '@/actions/orders';
-import { ORDERS_PAGE_SIZE } from '@/constants';
+import { NAV_ITEMS, ORDERS_PAGE_SIZE } from '@/constants';
 import { useInfiniteList } from '@/hooks/use-infinite-list';
 import type { OrderListItem, SelectOption } from '@/types';
 import { OrderStatus } from '@prisma/client';
 import { ORDERS_TABLE_COLUMNS, ORDER_STATUS_FILTER_OPTIONS } from './constants';
 import { FilterCard } from '../ui/data/filter-card';
+
+const item = NAV_ITEMS.orders;
 
 type OrdersTableProps = {
   initialItems: OrderListItem[];
@@ -111,6 +113,7 @@ export function OrdersTable(props: OrdersTableProps) {
         title="Новый заказ"
         description="Создайте новый заказ"
         size="lg"
+        Icon={item.Icon}
       >
         <OrderForm mode="create" onSuccess={handleCreateSuccess} />
       </AppDialog>

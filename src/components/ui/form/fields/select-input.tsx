@@ -22,6 +22,19 @@ type SelectInputProps = {
 export function SelectInput(props: SelectInputProps) {
   const { value, onValueChange, options, placeholder, className, label } = props;
   const effectiveValue = value ?? options[0];
+  const hasVisibleValue = effectiveValue.value !== options[0].value;
+
+  function renderValue(selected: SelectOption | null) {
+    if (!selected) {
+      return placeholder ?? null;
+    }
+
+    if (!hasVisibleValue) {
+      return null;
+    }
+
+    return selected.label;
+  }
 
   return (
     <Select value={effectiveValue} onValueChange={onValueChange}>
@@ -32,7 +45,7 @@ export function SelectInput(props: SelectInputProps) {
             className
           )}
         >
-          <SelectValue placeholder={placeholder} />
+          <SelectValue placeholder={placeholder}>{renderValue}</SelectValue>
         </SelectTrigger>
         <SelectContent
           className="glass border-border/70 bg-popover/95 shadow-xl"
@@ -48,8 +61,8 @@ export function SelectInput(props: SelectInputProps) {
         <span
           className={cn(
             'text-muted-foreground pointer-events-none absolute top-1/2 -translate-y-1/2 text-sm font-normal transition-[top,left,transform,padding,background-color,color] duration-200',
-            effectiveValue ? 'bg-card left-2.5 top-0 scale-[0.82] px-1' : 'left-3',
-            'peer-data-popup-open:bg-card peer-data-popup-open:text-primary peer-data-popup-open:left-2.5 peer-data-popup-open:top-0 peer-data-peer-data-popup-open:scale-[0.82] peer-data-popup-open:px-1'
+            hasVisibleValue ? 'bg-card left-2.5 top-0 scale-[0.82] px-1' : 'left-3',
+            'peer-data-popup-open:bg-card peer-data-popup-open:text-primary peer-data-popup-open:left-2.5 peer-data-popup-open:top-0 peer-data-popup-open:scale-[0.82] peer-data-popup-open:px-1'
           )}
         >
           {label}

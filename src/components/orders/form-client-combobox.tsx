@@ -13,6 +13,9 @@ import {
   type FormComboboxLoadOptionsParams,
 } from '@/components/ui/form/fields/form-combobox';
 import type { SelectOption } from '@/types';
+import { NAV_ITEMS } from '@/constants';
+
+const item = NAV_ITEMS.clients;
 
 type ClientOption = { id: string; name: string };
 
@@ -73,6 +76,8 @@ export function FormClientCombobox(props: FormClientComboboxProps) {
         onOpenChange={setCreateOpen}
         title="Новый клиент"
         description="Добавьте нового клиента в базу"
+        layer="nested"
+        Icon={item.Icon}
       >
         <ClientForm mode="create" onSuccess={handleCreateSuccess} />
       </AppDialog>

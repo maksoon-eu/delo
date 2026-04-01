@@ -4,7 +4,7 @@ import { OrdersTable } from '@/components/orders/orders-table';
 import { getOrders } from '@/actions/orders';
 import { OrderStatus } from '@prisma/client';
 
-const item = NAV_ITEMS[2];
+const item = NAV_ITEMS.orders;
 
 type OrdersPageProps = {
   searchParams: Promise<{ status?: OrderStatus; clientId?: string }>;

@@ -11,7 +11,7 @@ export function FormSection(props: FormSectionProps) {
   const { title, Icon, children, className, ...rest } = props;
 
   return (
-    <div className={cn('bg-card border-glass rounded-xl p-5', className)} {...rest}>
+    <div className={cn('bg-card border-glass rounded-xl p-3', className)} {...rest}>
       <div className="mb-4 flex items-center gap-2.5">
         <div className="bg-muted text-primary flex size-7 items-center justify-center rounded-lg">
           <Icon size={15} />

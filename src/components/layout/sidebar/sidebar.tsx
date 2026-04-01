@@ -58,7 +58,7 @@ export function AppSidebar(props: AppSidebarProps) {
       </div>
 
       <nav className="flex flex-1 flex-col gap-1 p-2">
-        {NAV_ITEMS.map((item) => (
+        {Object.values(NAV_ITEMS).map((item) => (
           <SidebarNavItem key={item.href} {...item} collapsed={collapsed} pathname={pathname} />
         ))}
       </nav>

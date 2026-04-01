@@ -6,7 +6,7 @@ import { BackLink } from '@/components/ui/navigation/back-link';
 import { getClient } from '@/actions/clients';
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
 
-const item = NAV_ITEMS[1];
+const item = NAV_ITEMS.clients;
 
 type ClientPageProps = {
   params: Promise<{ id: string }>;

@@ -3,7 +3,7 @@ import { PageHeader } from '@/components/layout/page-header';
 import { ClientsTable } from '@/components/clients/clients-table';
 import { getClients } from '@/actions/clients';
 
-const item = NAV_ITEMS[1];
+const item = NAV_ITEMS.clients;
 
 export default async function ClientsPage() {
   const { items, hasMore } = await getClients({ offset: 0, take: CLIENTS_PAGE_SIZE });

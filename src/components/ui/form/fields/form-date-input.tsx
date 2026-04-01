@@ -1,14 +1,8 @@
 'use client';
 
 import { Control, FieldPath, FieldValues } from 'react-hook-form';
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form/form';
-import { Input } from '@/components/ui/form/primitives/input';
+import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form/form';
+import { DatePicker } from '@/components/ui/form/primitives/date-picker';
 
 type FormDateInputProps<T extends FieldValues> = {
   control: Control<T>;
@@ -25,9 +19,8 @@ export function FormDateInput<T extends FieldValues>(props: FormDateInputProps<T
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input type="date" {...field} />
+            <DatePicker {...field} value={field.value ?? ''} label={label} />
           </FormControl>
           <FormMessage />
         </FormItem>

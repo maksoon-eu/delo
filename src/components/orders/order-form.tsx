@@ -121,10 +121,10 @@ export function OrderForm(props: OrderFormProps) {
               <span className="text-muted-foreground text-xs">Позиции</span>
               <OrderTotal control={control} />
             </div>
-            <div className="h-37.5 space-y-2 overflow-auto">
+            <div className="h-37.5 space-y-2 overflow-y-auto px-1">
               {fields.length > 0 && (
                 <>
-                  <div className="text-muted-foreground grid grid-cols-[1fr_1fr_1fr_auto] gap-2 px-1 text-xs">
+                  <div className="text-muted-foreground grid grid-cols-[1fr_1fr_1fr_auto] gap-2 text-xs">
                     <span>Название</span>
                     <span>Описание</span>
                     <span>Цена</span>

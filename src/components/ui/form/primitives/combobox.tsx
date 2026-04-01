@@ -122,11 +122,9 @@ export function Combobox(props: ComboboxProps) {
                       'data-disabled:pointer-events-none data-disabled:opacity-50'
                     )}
                   >
-                    <span className="border-border flex size-4 shrink-0 items-center justify-center rounded-sm border">
-                      <ComboboxPrimitive.ItemIndicator>
-                        <Check className="text-primary size-3" />
-                      </ComboboxPrimitive.ItemIndicator>
-                    </span>
+                    <ComboboxPrimitive.ItemIndicator>
+                      <Check className="text-primary size-3" />
+                    </ComboboxPrimitive.ItemIndicator>
                     {option.label}
                   </ComboboxPrimitive.Item>
                 ))}

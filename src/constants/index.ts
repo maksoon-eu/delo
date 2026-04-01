@@ -62,29 +62,29 @@ export const ORDER_STATUS_ACTIVITY_MESSAGES: Record<string, string> = {
   CANCELLED: 'Заказ отменён',
 };
 
-export const NAV_ITEMS: NavItem[] = [
-  {
+export const NAV_ITEMS: Record<string, NavItem> = {
+  main: {
     href: '/',
     label: 'Главная',
     description: 'Обзор ключевых показателей и последних активностей',
     Icon: HomeIcon,
   },
-  {
+  clients: {
     href: '/clients',
     label: 'Клиенты',
     description: 'Управляйте базой клиентов и историей работы с ними',
     Icon: UsersIcon,
   },
-  {
+  orders: {
     href: '/orders',
     label: 'Заказы',
     description: 'Отслеживайте заказы, статусы и оплаты',
     Icon: FileTextIcon,
   },
-  {
+  reports: {
     href: '/reports',
     label: 'Отчёты',
     description: 'Анализируйте доходы и статистику по периодам',
     Icon: TrendingUpIcon,
   },
-];
+};

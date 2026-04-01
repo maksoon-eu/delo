@@ -13,7 +13,7 @@ import { ArrowRightIcon } from '@/components/icons/arrow-right';
 import { DetailItem } from '@/components/ui/data/detail-item';
 import { getOrder } from '@/actions/orders';
 
-const item = NAV_ITEMS[2];
+const item = NAV_ITEMS.orders;
 
 type OrderPageProps = {
   params: Promise<{ id: string }>;

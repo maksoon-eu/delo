@@ -9,7 +9,7 @@ import { orderToFormValues } from '@/components/orders/constants';
 import { getOrder } from '@/actions/orders';
 import type { Route } from 'next';
 
-const item = NAV_ITEMS[2];
+const item = NAV_ITEMS.orders;
 
 type EditOrderPageProps = {
   params: Promise<{ id: string }>;
