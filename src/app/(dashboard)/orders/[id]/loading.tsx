@@ -1,4 +1,5 @@
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
+import { ContentCard } from '@/components/ui/data/content-card';
 import { Skeleton } from '@/components/ui/feedback/skeleton';
 
 export default function OrderLoading() {
@@ -13,7 +14,7 @@ export default function OrderLoading() {
       </div>
 
       <div className="space-y-5">
-        <div className="glass rounded-xl border p-5 shadow-sm">
+        <ContentCard>
           <div className="mb-4 flex items-center justify-between">
             <Skeleton className="h-8 w-10" />
             <Skeleton className="h-8 w-32" />
@@ -24,11 +25,11 @@ export default function OrderLoading() {
             <Skeleton className="h-7 w-24" />
             <Skeleton className="h-7 w-24" />
           </div>
-        </div>
+        </ContentCard>
 
         <div className="grid gap-5 lg:grid-cols-3">
           <div className="space-y-5 lg:col-span-2">
-            <div className="glass rounded-xl border p-5 shadow-sm">
+            <ContentCard>
               <Skeleton className="mb-4 h-5 w-28" />
               <div className="grid grid-cols-2 gap-x-4 gap-y-3">
                 {Array.from({ length: 6 }).map((_, i) => (
@@ -38,19 +39,19 @@ export default function OrderLoading() {
                   </div>
                 ))}
               </div>
-            </div>
+            </ContentCard>
 
-            <div className="glass rounded-xl border p-5 shadow-sm">
+            <ContentCard>
               <Skeleton className="mb-4 h-5 w-28" />
               <div className="space-y-2">
                 {Array.from({ length: 3 }).map((_, i) => (
                   <Skeleton key={i} className="h-10 w-full" />
                 ))}
               </div>
-            </div>
+            </ContentCard>
           </div>
 
-          <div className="glass rounded-xl border p-5 shadow-sm">
+          <ContentCard>
             <Skeleton className="mb-4 h-5 w-20" />
             <div className="space-y-4">
               {Array.from({ length: 4 }).map((_, i) => (
@@ -63,7 +64,7 @@ export default function OrderLoading() {
                 </div>
               ))}
             </div>
-          </div>
+          </ContentCard>
         </div>
       </div>
     </AnimateIn>

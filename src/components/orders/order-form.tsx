@@ -19,7 +19,7 @@ import { CircleDollarSignIcon } from '@/components/icons/circle-dollar-sign';
 import { OrderSchema, type OrderInput } from '@/schemas/orders';
 import { createOrder, updateOrder } from '@/actions/orders';
 import { useAsyncAction } from '@/hooks/use-async-action';
-import { PAYMENT_METHOD_OPTIONS } from '@/constants';
+import { PAYMENT_METHOD_OPTIONS, PAYMENT_METHOD_OPTIONS_MAP } from '@/constants';
 import { ORDER_CREATE_DEFAULT_VALUES, ORDER_ITEM_DEFAULT } from './constants';
 import { OrderTotal } from './order-total';
 
@@ -36,28 +36,32 @@ type OrderFormProps =
     };
 
 export function OrderForm(props: OrderFormProps) {
-  const { mode } = props;
-  const defaultClient = props.mode === 'edit' ? props.defaultClient : undefined;
+  const { mode, onSuccess } = props;
+  const defaultClient = mode === 'edit' ? props.defaultClient : undefined;
+  const defaultPaymentMethod =
+    mode === 'edit'
+      ? PAYMENT_METHOD_OPTIONS_MAP[props.defaultValues.paymentMethod ?? '']
+      : undefined;
 
   const form = useForm<OrderInput>({
     resolver: zodResolver(OrderSchema),
-    defaultValues: props.mode === 'edit' ? props.defaultValues : ORDER_CREATE_DEFAULT_VALUES,
+    defaultValues: mode === 'edit' ? props.defaultValues : ORDER_CREATE_DEFAULT_VALUES,
   });
 
   const { control, handleSubmit } = form;
   const { fields, append, remove } = useFieldArray({ control, name: 'items' });
 
   async function onSubmit(data: OrderInput) {
-    if (props.mode === 'create') {
+    if (mode === 'create') {
       const result = await createOrder(data);
       if ('error' in result) throw new Error(result.error);
       toast.success('Заказ создан');
-      props.onSuccess?.(result.id);
+      onSuccess?.(result.id);
     } else {
       const { error } = await updateOrder(props.orderId, data);
       if (error) throw new Error(error);
       toast.success('Заказ обновлён');
-      props.onSuccess?.();
+      onSuccess?.();
     }
   }
 
@@ -110,6 +114,7 @@ export function OrderForm(props: OrderFormProps) {
                 name="paymentMethod"
                 label="Способ оплаты"
                 options={PAYMENT_METHOD_OPTIONS}
+                defaultOption={defaultPaymentMethod}
               />
             </div>
           </FormSection>
@@ -124,13 +129,6 @@ export function OrderForm(props: OrderFormProps) {
             <div className="h-37.5 space-y-2 overflow-y-auto px-1">
               {fields.length > 0 && (
                 <>
-                  <div className="text-muted-foreground grid grid-cols-[1fr_1fr_1fr_auto] gap-2 text-xs">
-                    <span>Название</span>
-                    <span>Описание</span>
-                    <span>Цена</span>
-                    <span />
-                  </div>
-
                   {fields.map((field, index) => {
                     function handleRemove() {
                       remove(index);
@@ -139,23 +137,23 @@ export function OrderForm(props: OrderFormProps) {
                     return (
                       <div
                         key={field.id}
-                        className="grid grid-cols-[1fr_1fr_1fr_auto] items-start gap-2"
+                        className="grid grid-cols-[1fr_1fr_1fr_auto] items-start gap-2 pt-1.5"
                       >
                         <FormInput
                           control={control}
                           name={`items.${index}.name`}
-                          placeholder="Название"
+                          label="Название"
                         />
                         <FormInput
                           control={control}
                           name={`items.${index}.description`}
-                          placeholder="Описание"
+                          label="Описание"
                         />
                         <FormInput
                           control={control}
                           name={`items.${index}.price`}
                           type="number"
-                          placeholder="0"
+                          label="Стоимость"
                         />
                         <Button
                           type="button"

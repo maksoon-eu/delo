@@ -9,7 +9,7 @@ export function DetailItem(props: DetailItemProps) {
   const { label, children } = props;
   return (
     <div>
-      <dt className="text-muted-foreground">{label}</dt>
+      <dt className="text-muted-foreground text-xs font-bold">{label}</dt>
       <dd className="font-medium">{children}</dd>
     </div>
   );

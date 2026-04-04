@@ -12,7 +12,7 @@ import { OrderForm } from '@/components/orders/order-form';
 import { getOrders } from '@/actions/orders';
 import { NAV_ITEMS, ORDERS_PAGE_SIZE } from '@/constants';
 import { useInfiniteList } from '@/hooks/use-infinite-list';
-import type { OrderListItem, SelectOption } from '@/types';
+import type { OrderListItem } from '@/types';
 import { OrderStatus } from '@prisma/client';
 import { ORDERS_TABLE_COLUMNS, ORDER_STATUS_FILTER_OPTIONS } from './constants';
 import { FilterCard } from '../ui/data/filter-card';
@@ -69,8 +69,8 @@ export function OrdersTable(props: OrdersTableProps) {
     setGlobalFilter(e.target.value);
   }
 
-  function handleStatusChange(option: SelectOption | null) {
-    const value = option?.value ?? null;
+  function handleStatusChange(option: string | null) {
+    const value = option ?? null;
     setStatusFilter(value === 'ALL' ? null : (value as OrderStatus));
   }
 

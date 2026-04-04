@@ -21,7 +21,7 @@ export const ORDERS_TABLE_COLUMNS: ColumnDef<OrderListItem>[] = [
         Статус
       </span>
     ),
-    cell: ({ row }) => <OrderStatusBadge status={row.original.status} />,
+    cell: ({ row }) => <OrderStatusBadge size="sm" status={row.original.status} />,
   },
   {
     accessorKey: 'title',
@@ -106,13 +106,11 @@ export function orderToFormValues(order: OrderDetails): OrderInput {
     startDate: order.startDate ? format(order.startDate, 'yyyy-MM-dd') : '',
     deadline: order.deadline ? format(order.deadline, 'yyyy-MM-dd') : '',
     price: order.price,
-    paymentMethod: order.paymentMethod ?? null,
+    paymentMethod: order.paymentMethod,
     items: order.items.map((i) => ({
       id: i.id,
       name: i.name,
       description: i.description,
-      quantity: i.quantity,
-      unit: i.unit,
       price: i.price,
     })),
   };

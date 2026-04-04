@@ -5,7 +5,7 @@ export const OrderItemSchema = z.object({
   id: z.string().optional(),
   name: z.string().min(1, 'Название позиции обязательно'),
   description: z.string(),
-  price: z.number().min(0.01, 'Цена должна быть больше 0'),
+  price: z.coerce.number().min(0.01, 'Цена должна быть больше 0'),
 });
 
 export const OrderSchema = z
@@ -15,7 +15,7 @@ export const OrderSchema = z
     description: z.string(),
     startDate: z.string(),
     deadline: z.string(),
-    price: z.number().min(0).nullable().optional(),
+    price: z.coerce.number().min(0).nullable().optional(),
     paymentMethod: z.enum(PaymentMethod).nullable().optional(),
     items: z.array(OrderItemSchema),
   })

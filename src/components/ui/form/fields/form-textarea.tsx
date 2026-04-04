@@ -35,7 +35,7 @@ export function FormTextarea<T extends FieldValues>(props: FormTextareaProps<T>)
                 value={field.value ?? ''}
                 placeholder=" "
                 rows={rows}
-                className="peer pt-6"
+                className="peer pt-2"
               />
             </FormControl>
             <FormLabel

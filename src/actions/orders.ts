@@ -89,7 +89,6 @@ export async function getOrder(id: string): Promise<OrderDetails | null> {
     updatedAt: order.updatedAt,
     clientId: order.clientId,
     clientName: order.client.name,
-    clientEmail: order.client.email,
     items: order.items.map((item) => ({
       id: item.id,
       name: item.name,
@@ -100,6 +99,7 @@ export async function getOrder(id: string): Promise<OrderDetails | null> {
     })),
     activities: order.activities.map((a) => ({
       id: a.id,
+      type: a.type,
       text: a.text,
       createdAt: a.createdAt,
     })),
@@ -152,7 +152,7 @@ export async function createOrder(data: OrderInput): Promise<{ error: string } |
         })),
       },
       activities: {
-        create: { text: 'Заказ создан' },
+        create: { type: 'DRAFT', text: 'Заказ создан' },
       },
     },
   });
@@ -223,6 +223,7 @@ export async function updateOrderStatus(
     db.activity.create({
       data: {
         orderId: id,
+        type: newStatus,
         text: ORDER_STATUS_ACTIVITY_MESSAGES[newStatus] ?? `Статус изменён на ${newStatus}`,
       },
     }),

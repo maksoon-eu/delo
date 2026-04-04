@@ -19,6 +19,7 @@ type FormComboboxProps<T extends FieldValues> = {
   name: FieldPath<T>;
   label: string;
   loadOptions: (params: FormComboboxLoadOptionsParams) => Promise<SelectOption[]>;
+  defaultOption?: SelectOption;
   defaultOptions?: SelectOption[];
   createdOption?: SelectOption;
   placeholder?: string;
@@ -33,6 +34,7 @@ export function FormCombobox<T extends FieldValues>(props: FormComboboxProps<T>)
     name,
     label,
     loadOptions,
+    defaultOption,
     defaultOptions = [],
     createdOption,
     placeholder,
@@ -101,7 +103,7 @@ export function FormCombobox<T extends FieldValues>(props: FormComboboxProps<T>)
             <FormControl>
               <Combobox
                 options={options}
-                value={field.value}
+                value={defaultOption ?? null}
                 onChange={field.onChange}
                 onInputChange={handleInputChange}
                 onOpen={handleOpen}

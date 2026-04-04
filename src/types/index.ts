@@ -1,6 +1,6 @@
 import type { Route } from 'next';
 import type { ComponentType, Ref } from 'react';
-import type { OrderStatus, PaymentMethod } from '@prisma/client';
+import type { ActivityType, OrderStatus, PaymentMethod } from '@prisma/client';
 
 export interface AnimatedIconHandle {
   startAnimation: () => void;
@@ -62,6 +62,7 @@ export type OrderListItem = {
 
 export type ActivityEntry = {
   id: string;
+  type: ActivityType;
   text: string;
   createdAt: Date;
 };
@@ -70,8 +71,6 @@ export type OrderItemData = {
   id?: string;
   name: string;
   description: string;
-  quantity: number;
-  unit: string;
   price: number;
 };
 
@@ -91,7 +90,6 @@ export type OrderDetails = {
   updatedAt: Date;
   clientId: string;
   clientName: string;
-  clientEmail: string | null;
   items: OrderItemData[];
   activities: ActivityEntry[];
 };

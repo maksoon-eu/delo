@@ -1,4 +1,5 @@
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
+import { ContentCard } from '@/components/ui/data/content-card';
 import { Skeleton } from '@/components/ui/feedback/skeleton';
 
 export default function ClientLoading() {
@@ -12,7 +13,7 @@ export default function ClientLoading() {
         <Skeleton className="h-4 w-32" />
       </div>
 
-      <div className="glass flex flex-col gap-6 rounded-xl border p-5 shadow-sm">
+      <ContentCard className="flex flex-col gap-6">
         <Skeleton className="h-4 w-24" />
 
         <div className="flex items-center gap-3">
@@ -43,7 +44,7 @@ export default function ClientLoading() {
             ))}
           </div>
         </div>
-      </div>
+      </ContentCard>
     </AnimateIn>
   );
 }

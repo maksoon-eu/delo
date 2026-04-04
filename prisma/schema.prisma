@@ -197,11 +197,23 @@ model Document {
 
 // ─── История действий ─────────────────────────────────────────────────────────
 
+enum ActivityType {
+  DRAFT
+  SENT
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  NOTE
+  PAYMENT
+}
+
 model Activity {
-  id        String   @id @default(cuid())
+  id        String       @id @default(cuid())
   orderId   String
+  type      ActivityType
   text      String
-  createdAt DateTime @default(now())
+  createdAt DateTime     @default(now())
 
   order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
 }

@@ -10,7 +10,9 @@ import { Button } from '@/components/ui/actions/button';
 import { OrderStatusPanel } from '@/components/orders/order-status-panel';
 import { ActivityLog } from '@/components/orders/activity-log';
 import { ArrowRightIcon } from '@/components/icons/arrow-right';
+import { ArrowUpRightIcon } from '@/components/icons/arrow-up-right';
 import { DetailItem } from '@/components/ui/data/detail-item';
+import { ContentCard } from '@/components/ui/data/content-card';
 import { getOrder } from '@/actions/orders';
 
 const item = NAV_ITEMS.orders;
@@ -26,7 +28,7 @@ export default async function OrderPage(props: OrderPageProps) {
   const order = await getOrder(id);
   if (!order) notFound();
 
-  const totalItems = order.items.reduce((sum, i) => sum + i.quantity * i.price, 0);
+  const totalItems = order.items.reduce((sum, i) => sum + i.price, 0);
 
   return (
     <div className="flex flex-1 flex-col">
@@ -36,28 +38,42 @@ export default async function OrderPage(props: OrderPageProps) {
         description={`Заказ · ${order.clientName}`}
       />
       <AnimateIn className="space-y-5">
-        <div className="glass rounded-xl border p-5 shadow-sm">
-          <div className="mb-4 flex items-center justify-between">
+        <ContentCard>
+          <div className="flex items-center justify-between">
             <BackLink href="/orders" label="заказам" />
             <Link href={`/orders/${id}/edit`}>
-              <Button variant="outline" size="sm" Icon={ArrowRightIcon}>
+              <Button variant="outline" Icon={ArrowRightIcon}>
                 Редактировать
               </Button>
             </Link>
           </div>
+        </ContentCard>
 
+        <ContentCard>
           <OrderStatusPanel orderId={order.id} currentStatus={order.status} />
-        </div>
+        </ContentCard>
 
         <div className="grid gap-5 lg:grid-cols-3">
           <div className="space-y-5 lg:col-span-2">
-            <div className="glass rounded-xl border p-5 shadow-sm">
-              <h2 className="mb-4 text-sm font-semibold">Детали заказа</h2>
-              <dl className="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
-                <DetailItem label="Клиент">{order.clientName}</DetailItem>
-                {order.clientEmail && (
-                  <DetailItem label="Email клиента">{order.clientEmail}</DetailItem>
-                )}
+            <ContentCard>
+              <h2 className="mb-4 font-semibold">Детали заказа</h2>
+              <dl className="grid grid-cols-2 gap-x-4 gap-y-6">
+                <DetailItem label="Клиент">
+                  <div className="flex items-center">
+                    {order.clientName}
+                    <Link href={`/clients/${order.clientId}`}>
+                      <Button
+                        mode="icon"
+                        variant="ghost"
+                        Icon={ArrowUpRightIcon}
+                        tooltip="Открыть клиента"
+                      />
+                    </Link>
+                  </div>
+                </DetailItem>
+                <DetailItem label="Создан">
+                  {format(order.createdAt, 'd MMM yyyy', { locale: ru })}
+                </DetailItem>
                 {order.startDate && (
                   <DetailItem label="Дата начала">
                     {format(order.startDate, 'd MMM yyyy', { locale: ru })}
@@ -71,30 +87,23 @@ export default async function OrderPage(props: OrderPageProps) {
                 {order.price != null && (
                   <DetailItem label="Стоимость">{order.price.toLocaleString('ru-RU')} ₽</DetailItem>
                 )}
-                <DetailItem label="Создан">
-                  {format(order.createdAt, 'd MMM yyyy', { locale: ru })}
-                </DetailItem>
               </dl>
               {order.description && (
                 <div className="border-border mt-4 border-t pt-4">
-                  <p className="text-muted-foreground mb-1 text-xs">Описание</p>
-                  <p className="text-sm">{order.description}</p>
+                  <DetailItem label="Описание">{order.description}</DetailItem>
                 </div>
               )}
-            </div>
+            </ContentCard>
 
             {order.items.length > 0 && (
-              <div className="glass rounded-xl border p-5 shadow-sm">
-                <h2 className="mb-4 text-sm font-semibold">Состав работ</h2>
+              <ContentCard>
+                <h2 className="mb-4 font-semibold">Состав работ</h2>
                 <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
+                  <table className="w-full">
                     <thead>
                       <tr className="text-muted-foreground border-border border-b text-xs">
-                        <th className="pb-2 text-left font-medium">Название</th>
-                        <th className="pb-2 text-right font-medium">Кол-во</th>
-                        <th className="pb-2 text-right font-medium">Ед.</th>
-                        <th className="pb-2 text-right font-medium">Цена</th>
-                        <th className="pb-2 text-right font-medium">Сумма</th>
+                        <th className="pb-2 text-left font-bold">Название</th>
+                        <th className="pb-2 text-right font-bold">Стоимость</th>
                       </tr>
                     </thead>
                     <tbody className="divide-border divide-y">
@@ -108,39 +117,34 @@ export default async function OrderPage(props: OrderPageProps) {
                               </p>
                             )}
                           </td>
-                          <td className="py-2 text-right">{orderItem.quantity}</td>
-                          <td className="text-muted-foreground py-2 text-right">
-                            {orderItem.unit || '—'}
-                          </td>
-                          <td className="py-2 text-right">
-                            {orderItem.price.toLocaleString('ru-RU')}
-                          </td>
                           <td className="py-2 text-right font-medium">
-                            {(orderItem.quantity * orderItem.price).toLocaleString('ru-RU')}
+                            {orderItem.price.toLocaleString('ru-RU')}
+                            <span className="text-muted-foreground ml-1 text-xs font-bold">₽</span>
                           </td>
                         </tr>
                       ))}
                     </tbody>
                     <tfoot>
                       <tr className="border-border border-t">
-                        <td colSpan={4} className="pt-2 text-right text-sm font-medium">
-                          Итого:
-                        </td>
-                        <td className="pt-2 text-right font-semibold">
-                          {totalItems.toLocaleString('ru-RU')} ₽
+                        <td colSpan={2} className="pt-2 text-right font-semibold">
+                          <span className="text-muted-foreground mr-2 text-xs font-bold">
+                            Итого:
+                          </span>
+                          {totalItems.toLocaleString('ru-RU')}
+                          <span className="text-muted-foreground ml-1 text-xs font-bold">₽</span>
                         </td>
                       </tr>
                     </tfoot>
                   </table>
                 </div>
-              </div>
+              </ContentCard>
             )}
           </div>
 
-          <div className="glass rounded-xl border p-5 shadow-sm">
-            <h2 className="mb-4 text-sm font-semibold">История</h2>
+          <ContentCard>
+            <h2 className="mb-4 font-semibold">История</h2>
             <ActivityLog activities={order.activities} />
-          </div>
+          </ContentCard>
         </div>
       </AnimateIn>
     </div>

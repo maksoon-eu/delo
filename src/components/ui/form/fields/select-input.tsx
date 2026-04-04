@@ -9,10 +9,11 @@ import {
   SelectValue,
 } from '@/components/ui/form/primitives/select';
 import { SelectOption } from '@/types';
+import { useState } from 'react';
 
 type SelectInputProps = {
   value: SelectOption | null;
-  onValueChange: (value: SelectOption | null) => void;
+  onValueChange: (value: string | null) => void;
   options: SelectOption[];
   label: string;
   placeholder?: string;
@@ -21,23 +22,21 @@ type SelectInputProps = {
 
 export function SelectInput(props: SelectInputProps) {
   const { value, onValueChange, options, placeholder, className, label } = props;
-  const effectiveValue = value ?? options[0];
-  const hasVisibleValue = effectiveValue.value !== options[0].value;
 
-  function renderValue(selected: SelectOption | null) {
-    if (!selected) {
-      return placeholder ?? null;
-    }
+  const [selectedOption, setSelectedOption] = useState<SelectOption | null>(value);
 
-    if (!hasVisibleValue) {
-      return null;
-    }
+  const hasVisibleValue = !!selectedOption && selectedOption.value !== options[0]?.value;
 
-    return selected.label;
+  function handleValueChange(newValue: string | null) {
+    onValueChange(newValue);
+  }
+
+  function renderValue() {
+    return hasVisibleValue ? selectedOption?.label : null;
   }
 
   return (
-    <Select value={effectiveValue} onValueChange={onValueChange}>
+    <Select value={selectedOption?.value ?? null} onValueChange={handleValueChange}>
       <div className="relative">
         <SelectTrigger
           className={cn(
@@ -53,7 +52,7 @@ export function SelectInput(props: SelectInputProps) {
           sideOffset={10}
         >
           {options.map((opt) => (
-            <SelectItem key={opt.value} value={opt}>
+            <SelectItem key={opt.value} value={opt.value} onClick={() => setSelectedOption(opt)}>
               {opt.label}
             </SelectItem>
           ))}

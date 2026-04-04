@@ -29,9 +29,10 @@ export function FormClientCombobox(props: FormClientComboboxProps) {
   const [createOpen, setCreateOpen] = useState(false);
   const [createdOption, setCreatedOption] = useState<SelectOption | undefined>();
 
-  const defaultOptions = defaultClient
-    ? [{ value: defaultClient.id, label: defaultClient.name }]
-    : [];
+  const defaultOption = defaultClient
+    ? { value: defaultClient.id, label: defaultClient.name }
+    : undefined;
+  const defaultOptions = defaultOption ? [defaultOption] : [];
 
   async function loadOptions(params: FormComboboxLoadOptionsParams) {
     const { query, offset, take } = params;
@@ -56,6 +57,7 @@ export function FormClientCombobox(props: FormClientComboboxProps) {
         name="clientId"
         label="Клиент"
         loadOptions={loadOptions}
+        defaultOption={defaultOption}
         defaultOptions={defaultOptions}
         createdOption={createdOption}
         action={

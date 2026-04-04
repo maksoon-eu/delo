@@ -8,7 +8,7 @@ import { SelectOption } from '@/types';
 
 type ComboboxProps = {
   options: SelectOption[];
-  value: SelectOption;
+  value: SelectOption | null;
   onChange: (value: string | null) => void;
   onInputChange?: (value: string) => void;
   onOpen?: () => void;
@@ -41,9 +41,8 @@ export function Combobox(props: ComboboxProps) {
   const [selectedOption, setSelectedOption] = useState<SelectOption | null>(value);
   const isFloating = isFocused || !!value;
 
-  function handleValueChange(newValue: SelectOption | null) {
-    setSelectedOption(newValue);
-    onChange(newValue?.value ?? null);
+  function handleValueChange(newValue: string | null) {
+    onChange(newValue ?? null);
   }
 
   function handleListScroll(e: UIEvent<HTMLElement>) {
@@ -70,7 +69,8 @@ export function Combobox(props: ComboboxProps) {
   return (
     <div className="relative">
       <ComboboxPrimitive.Root
-        value={selectedOption}
+        value={selectedOption?.value ?? null}
+        itemToStringLabel={() => selectedOption?.label || ''}
         onValueChange={handleValueChange}
         onOpenChange={handleOpen}
       >
@@ -114,9 +114,10 @@ export function Combobox(props: ComboboxProps) {
                 {options.map((option) => (
                   <ComboboxPrimitive.Item
                     key={option.value}
-                    value={option}
+                    value={option.value}
+                    onClick={() => setSelectedOption(option)}
                     className={cn(
-                      'data-highlighted:bg-accent/40 data-highlighted:text-foreground',
+                      'data-highlighted:bg-accent/40 data-highlighted:text-foreground aria-selected:bg-accent/40 aria-selected:text-foreground',
                       'relative flex w-full cursor-pointer select-none items-center gap-2.5',
                       'not-last-of-type:border-b p-3 text-sm outline-none transition-colors',
                       'data-disabled:pointer-events-none data-disabled:opacity-50'

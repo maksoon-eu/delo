@@ -1,9 +1,15 @@
-import { NavItem } from '@/types';
+import { AnimatedIconComponent, NavItem } from '@/types';
+import { CircleCheckIcon } from '@/components/icons/circle-check';
 import { FileTextIcon } from '@/components/icons/file-text';
 import { HomeIcon } from '@/components/icons/home';
+import { SendIcon } from '@/components/icons/send';
 import { TrendingUpIcon } from '@/components/icons/trending-up';
 import { UsersIcon } from '@/components/icons/users';
-import { OrderStatus, PaymentMethod } from '@prisma/client';
+import { XIcon } from '@/components/icons/x';
+import { ZapIcon } from '@/components/icons/zap';
+import { ActivityType, OrderStatus, PaymentMethod } from '@prisma/client';
+import { CircleDollarSign, CircleCheck, FileText, MessageCircle, Send, X, Zap } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 
 export const SIDEBAR_COOKIE_KEY = 'sidebar-collapsed';
 export const COOKIE_STORAGE_MAX_AGE = 60 * 60 * 24 * 365;
@@ -21,6 +27,24 @@ export const ORDER_STATUS_LABELS: Record<OrderStatus, string> = {
   IN_PROGRESS: 'В работе',
   COMPLETED: 'Завершён',
   CANCELLED: 'Отменён',
+};
+
+export const ORDER_STATUS_ACTION_LABELS: Record<OrderStatus, string> = {
+  DRAFT: 'Черновик',
+  SENT: 'Отправить',
+  CONFIRMED: 'Подтвердить',
+  IN_PROGRESS: 'Взять в работу',
+  COMPLETED: 'Завершить',
+  CANCELLED: 'Отменить',
+};
+
+export const ORDER_STATUS_ICONS: Record<OrderStatus, AnimatedIconComponent> = {
+  DRAFT: FileTextIcon,
+  SENT: SendIcon,
+  CONFIRMED: CircleCheckIcon,
+  IN_PROGRESS: ZapIcon,
+  COMPLETED: CircleCheckIcon,
+  CANCELLED: XIcon,
 };
 
 export const ORDER_STATUS_VARIANTS: Record<
@@ -45,9 +69,12 @@ export const PAYMENT_METHOD_OPTIONS = [
   { value: PaymentMethod.CASH, label: 'Наличные' },
 ];
 
+export const PAYMENT_METHOD_OPTIONS_MAP: Record<string, (typeof PAYMENT_METHOD_OPTIONS)[number]> =
+  Object.fromEntries(PAYMENT_METHOD_OPTIONS.map((o) => [o.value, o]));
+
 export const ORDER_STATUS_TRANSITIONS: Record<OrderStatus, OrderStatus[]> = {
   DRAFT: ['SENT', 'CANCELLED'],
-  SENT: ['CONFIRMED', 'CANCELLED'],
+  SENT: ['CANCELLED'],
   CONFIRMED: ['IN_PROGRESS', 'CANCELLED'],
   IN_PROGRESS: ['COMPLETED', 'CANCELLED'],
   COMPLETED: [],
@@ -60,6 +87,26 @@ export const ORDER_STATUS_ACTIVITY_MESSAGES: Record<string, string> = {
   IN_PROGRESS: 'Заказ взят в работу',
   COMPLETED: 'Заказ завершён',
   CANCELLED: 'Заказ отменён',
+};
+
+export const ORDER_STATUS_STATIC_ICONS: Record<OrderStatus, LucideIcon> = {
+  DRAFT: FileText,
+  SENT: Send,
+  CONFIRMED: CircleCheck,
+  IN_PROGRESS: Zap,
+  COMPLETED: CircleCheck,
+  CANCELLED: X,
+};
+
+export const ACTIVITY_TYPE_ICONS: Record<ActivityType, LucideIcon> = {
+  DRAFT: FileText,
+  SENT: Send,
+  CONFIRMED: CircleCheck,
+  IN_PROGRESS: Zap,
+  COMPLETED: CircleCheck,
+  CANCELLED: X,
+  NOTE: MessageCircle,
+  PAYMENT: CircleDollarSign,
 };
 
 export const NAV_ITEMS: Record<string, NavItem> = {

@@ -10,10 +10,11 @@ type FormSelectProps<T extends FieldValues> = {
   name: FieldPath<T>;
   label: string;
   options: SelectOption[];
+  defaultOption?: SelectOption;
 };
 
 export function FormSelect<T extends FieldValues>(props: FormSelectProps<T>) {
-  const { control, name, label, options } = props;
+  const { control, name, label, options, defaultOption } = props;
 
   return (
     <FormField
@@ -23,7 +24,7 @@ export function FormSelect<T extends FieldValues>(props: FormSelectProps<T>) {
         <FormItem>
           <FormControl>
             <SelectInput
-              value={field.value}
+              value={defaultOption ?? null}
               onValueChange={field.onChange}
               options={options}
               className="w-full"
