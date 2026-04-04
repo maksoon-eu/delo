@@ -9,7 +9,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 ## Agent behaviour
 
 - При обнаружении нового соглашения, breaking change или паттерна, которого ещё нет в этом файле — **сразу добавить его в `AGENTS.md`**.
-- После завершения любой задачи обязательно запускать `npm run format && npm run lint` — оба вместе, без исключений.
+- После завершения любой задачи обязательно запускать `npm run format && npm run lint && npm run typecheck` — оба вместе, без исключений.
 - Это касается любых неожиданных поведений фреймворка, найденных ошибок типизации, исправлений конфигурации и договорённостей по коду.
 
 ---
@@ -210,12 +210,19 @@ onClick={() => toggleTheme()}
 - Никогда не объявлять схемы локально внутри компонентов или action-файлов — только в `src/schemas/`
 - Типы пропсов компонента (`*Props`) оставлять в файле самого компонента
 - Общие и переиспользуемые типы, не привязанные к одному компоненту, выносить в `src/types/index.ts`
+- В Zod v4 `z.ZodIssueCode` устарел — в `ctx.addIssue()` использовать строковые literal-коды (`'custom'`, `'invalid_type'` и т.д.)
 
 ### Constants
 
-- `src/constants/index.ts` — единственное место для всех констант приложения (ключи localStorage, массивы данных, магические строки/числа)
-- Никогда не объявлять константы локально внутри компонентов или модулей — только в `src/constants/index.ts`
-- Импортировать через `@/constants`
+- `src/constants/index.ts` — глобальные константы приложения: ключи localStorage, опции select, метки статусов, магические числа/строки. Импортировать через `@/constants`
+- Компонентно-специфические данные (колонки таблиц, `defaultValues` форм) выносить в `constants.tsx` рядом с компонентом — не в глобальный `src/constants/index.ts`
+- Никогда не объявлять ни те ни другие локально внутри компонентов
+
+### Components
+
+- Один файл — один компонент. Никогда не объявлять два и более компонентов в одном файле
+- Вспомогательный компонент, нужный только одному — выносить в отдельный файл рядом
+- Для nested-модалок на `@base-ui/react/dialog` `Dialog.Backdrop` по умолчанию не рендерится. Для вложенного диалога нужно ставить `forceRender`, а слои разводить отдельно: базовые модалки ниже dropdown (`z-[40]`), вложенные выше (`z-[60]`). Использовать валидные Tailwind-классы вида `z-[60]`, не `z-60`
 
 ### Comments
 
@@ -372,7 +379,11 @@ async function onSubmit() {
 
 - Все формы через shadcn `Form` + `react-hook-form` + `zodResolver`
 - Схемы и типы для форм брать из `src/schemas/`
-- Поля форм — через компонент `FormInput` из `src/components/ui/form-input.tsx`
+- Низкоуровневые form-контролы (`Input`, `Textarea`, `Select`, `Combobox`, `Label`) хранить в `src/components/ui/form/primitives/`
+- Form-aware обёртки и составные поля (`FormInput`, `FormSelect`, `FormTextarea`, `FormCombobox`, `FormDateInput`, `SelectInput`) хранить в `src/components/ui/form/fields/`
+- Поля форм — через компонент `FormInput` из `src/components/ui/form/fields/form-input.tsx`
+- Для `<select>` **внутри RHF-формы** использовать `FormSelect` из `src/components/ui/form/fields/form-select.tsx` (принимает `control`, `name`, `label`, `options`)
+- Для standalone `<select>` **вне формы** (фильтры, настройки) использовать `SelectInput` из `src/components/ui/form/fields/select-input.tsx` (принимает `value`, `onValueChange`, `options`) — не раскрывать `Select/SelectTrigger/SelectContent/SelectItem` вручную
 - Для auth-форм всегда задавать явные `autocomplete`-значения (`username`, `current-password`, `new-password`, `email`, `name`) и использовать настоящий `<label htmlFor=...>`: без этого браузеры и password manager хуже распознают логин и могут не предлагать сохранение данных
 - Из `useForm` деструктурировать нужные методы явно, `form` оставлять для `<Form {...form}>`:
 
@@ -395,6 +406,31 @@ const { control, handleSubmit } = form
   - Поменять статус задачи с **TO DO** → **IN PROGRESS** в начале работы
   - Перенести из **IN PROGRESS** → **READY TO TEST** после завершения
 - Если задачи в ClickUp нет — создать её в **MVP Разработка** перед началом работы
+
+### EmptyList
+
+Для любого списка, который может быть пустым, использовать обёртку `EmptyList` из `src/components/ui/feedback/empty-list.tsx`:
+
+```tsx
+<EmptyList items={items} message="Нет элементов">
+  {/* содержимое, отображаемое когда список не пуст */}
+</EmptyList>
+```
+
+- Не проверять `items.length === 0` вручную в компоненте — делегировать `EmptyList`
+
+### DetailItem
+
+Для отображения пар метка/значение в `<dl>`-списках использовать `DetailItem` из `src/components/ui/data/detail-item.tsx`:
+
+```tsx
+<dl className="...">
+  <DetailItem label="Клиент">{order.clientName}</DetailItem>
+  {order.clientEmail && <DetailItem label="Email">{order.clientEmail}</DetailItem>}
+</dl>
+```
+
+- Не дублировать паттерн `<div><dt>...</dt><dd>...</dd></div>` вручную
 
 ### TanStack Table + React Compiler
 

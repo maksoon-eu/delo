@@ -2,114 +2,24 @@
 
 import { useState, type ChangeEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import {
-  useReactTable,
-  getCoreRowModel,
-  getFilteredRowModel,
-  type ColumnDef,
-} from '@tanstack/react-table';
-import { format } from 'date-fns';
-import { ru } from 'date-fns/locale';
-import { Input } from '@/components/ui/form/input';
+import { useReactTable, getCoreRowModel, getFilteredRowModel } from '@tanstack/react-table';
 import { DataTable } from '@/components/ui/data/data-table';
-import { Button } from '@/components/ui/actions/button';
-import { UserRoundPlusIcon } from '@/components/icons/user-round-plus';
 import { AppDialog } from '@/components/ui/overlay/dialog';
 import { ClientForm } from '@/components/clients/client-form';
-import { getInitials } from '@/lib/utils';
 import { getClients } from '@/actions/clients';
-import { CLIENTS_PAGE_SIZE } from '@/constants';
+import { CLIENTS_PAGE_SIZE, NAV_ITEMS } from '@/constants';
 import { useInfiniteList } from '@/hooks/use-infinite-list';
 import type { ClientListItem } from '@/types';
-import { Building2, CalendarDays, Mail, Phone, Search, User, Wallet } from 'lucide-react';
 import { AnimateIn } from '../ui/feedback/animate-in';
+import { FilterCard } from '../ui/data/filter-card';
+import { columns } from './constants';
 
 type ClientsTableProps = {
   initialItems: ClientListItem[];
   initialHasMore: boolean;
 };
 
-const columns: ColumnDef<ClientListItem>[] = [
-  {
-    id: 'avatar',
-    header: '',
-    cell: ({ row }) => {
-      const { name } = row.original;
-      return (
-        <div className="bg-primary/10 text-primary flex size-8 items-center justify-center rounded-full text-xs font-semibold">
-          {getInitials(name)}
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: 'name',
-    header: () => (
-      <span className="flex items-center gap-1.5">
-        <User className="size-3.5" />
-        Имя
-      </span>
-    ),
-    enableGlobalFilter: true,
-  },
-  {
-    accessorKey: 'company',
-    header: () => (
-      <span className="flex items-center gap-1.5">
-        <Building2 className="size-3.5" />
-        Компания
-      </span>
-    ),
-    cell: ({ getValue }) => getValue<string | null>() ?? '—',
-    enableGlobalFilter: true,
-  },
-  {
-    accessorKey: 'email',
-    header: () => (
-      <span className="flex items-center gap-1.5">
-        <Mail className="size-3.5" />
-        Email
-      </span>
-    ),
-    cell: ({ getValue }) => getValue<string | null>() ?? '—',
-    enableGlobalFilter: true,
-    meta: { copyable: true },
-  },
-  {
-    accessorKey: 'phone',
-    header: () => (
-      <span className="flex items-center gap-1.5">
-        <Phone className="size-3.5" />
-        Телефон
-      </span>
-    ),
-    cell: ({ getValue }) => getValue<string | null>() ?? '—',
-    meta: { copyable: true },
-  },
-  {
-    accessorKey: 'totalPaid',
-    header: () => (
-      <span className="flex items-center gap-1.5">
-        <Wallet className="size-3.5" />
-        Оплачено
-      </span>
-    ),
-    cell: ({ getValue }) => {
-      const val = getValue<number>();
-      return val > 0 ? val.toLocaleString('ru-RU') + ' ₽' : '—';
-    },
-  },
-  {
-    accessorKey: 'createdAt',
-    header: () => (
-      <span className="flex items-center gap-1.5">
-        <CalendarDays className="size-3.5" />
-        Добавлен
-      </span>
-    ),
-    cell: ({ getValue }) => format(getValue<Date>(), 'd MMM yyyy', { locale: ru }),
-  },
-];
+const item = NAV_ITEMS.clients;
 
 export function ClientsTable(props: ClientsTableProps) {
   const { initialItems, initialHasMore } = props;
@@ -151,20 +61,13 @@ export function ClientsTable(props: ClientsTableProps) {
 
   return (
     <AnimateIn className="flex flex-1 flex-col space-y-4">
-      <div className="flex items-center justify-between gap-4">
-        <div className="relative max-w-sm flex-1">
-          <Search className="text-muted-foreground absolute left-2.5 top-1/2 size-4 -translate-y-1/2" />
-          <Input
-            placeholder="Поиск по клиентам"
-            value={globalFilter}
-            onChange={handleSearchChange}
-            className="pl-8"
-          />
-        </div>
-        <Button Icon={UserRoundPlusIcon} onClick={handleNewClient}>
-          Новый клиент
-        </Button>
-      </div>
+      <FilterCard
+        filterValue={globalFilter}
+        onFilterChange={handleSearchChange}
+        onBtnAction={handleNewClient}
+        btnLabel="Новый клиент"
+        inputLabel="Поиск по клиентам"
+      />
 
       <DataTable
         table={table}
@@ -178,6 +81,7 @@ export function ClientsTable(props: ClientsTableProps) {
         onOpenChange={setCreateOpen}
         title="Новый клиент"
         description="Добавьте нового клиента в базу"
+        Icon={item.Icon}
       >
         <ClientForm mode="create" onSuccess={handleCreateSuccess} />
       </AppDialog>

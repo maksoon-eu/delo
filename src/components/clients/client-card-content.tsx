@@ -64,7 +64,7 @@ export function ClientCardContent(props: ClientCardContentProps) {
                   <span className="text-sm font-medium">{order.title}</span>
                   {order.price !== null && (
                     <span className="shrink-0 text-sm font-semibold">
-                      {order.price.toLocaleString('ru-RU')} {order.currency}
+                      {order.price.toLocaleString('ru-RU')} ₽
                     </span>
                   )}
                 </div>

@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 import { Form } from '@/components/ui/form/form';
-import { FormInput } from '@/components/ui/form/form-input';
+import { FormInput } from '@/components/ui/form/fields/form-input';
 import { Button } from '@/components/ui/actions/button';
 import { AuthCard } from '@/components/auth/auth-card';
 import { AtSignIcon } from '@/components/icons/at-sign';

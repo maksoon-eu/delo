@@ -1,7 +1,7 @@
 import { NAV_ITEMS } from '@/constants';
 import { PageHeader } from '@/components/layout/page-header';
 
-const item = NAV_ITEMS[3];
+const item = NAV_ITEMS.reports;
 
 export default function ReportsPage() {
   return (

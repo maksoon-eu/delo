@@ -4,7 +4,7 @@ import { Button } from '../actions/button';
 import { ArrowLeftIcon } from '@/components/icons/arrow-left';
 
 type BackLinkProps = {
-  href: Route;
+  href: string;
   label: string;
 };
 
@@ -12,7 +12,7 @@ export function BackLink(props: BackLinkProps) {
   const { href, label } = props;
 
   return (
-    <Link href={href} className="text-primary text-sm hover:underline">
+    <Link href={href as Route<string>} className="text-primary text-sm hover:underline">
       <Button variant="outline" tooltip={`Вернуться к ${label}`} Icon={ArrowLeftIcon} />
     </Link>
   );

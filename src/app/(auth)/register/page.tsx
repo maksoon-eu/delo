@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { Form } from '@/components/ui/form/form';
-import { FormInput } from '@/components/ui/form/form-input';
+import { FormInput } from '@/components/ui/form/fields/form-input';
 import { Button } from '@/components/ui/actions/button';
 import { AuthCard } from '@/components/auth/auth-card';
 import { UserRoundPlusIcon } from '@/components/icons/user-round-plus';

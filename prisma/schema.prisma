@@ -113,27 +113,31 @@ enum PaymentStatus {
   PAID    // оплачен полностью
 }
 
+enum PaymentMethod {
+  CARD         // банковская карта
+  SBP          // Система быстрых платежей
+  BANK_ACCOUNT // расчётный счёт
+  CASH         // наличные
+}
+
 model Order {
   id             String        @id @default(cuid())
   userId         String
   clientId       String
   title          String
   description    String?
-  status         OrderStatus   @default(DRAFT)
-  paymentStatus  PaymentStatus @default(PENDING)
+  status         OrderStatus    @default(DRAFT)
+  paymentStatus  PaymentStatus  @default(PENDING)
+  paymentMethod  PaymentMethod?
 
-  price          Decimal?      @db.Decimal(12, 2)
-  currency       String        @default("RUB")
+  price          Decimal?       @db.Decimal(12, 2)
 
   startDate      DateTime?
   deadline       DateTime?
 
   // публичная страница для клиента
-  publicToken    String        @unique @default(cuid())
+  publicToken    String         @unique @default(cuid())
   confirmedAt    DateTime?
-
-  // реквизиты для оплаты (текстовое поле)
-  paymentDetails String?
 
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
@@ -193,11 +197,23 @@ model Document {
 
 // ─── История действий ─────────────────────────────────────────────────────────
 
+enum ActivityType {
+  DRAFT
+  SENT
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  NOTE
+  PAYMENT
+}
+
 model Activity {
-  id        String   @id @default(cuid())
+  id        String       @id @default(cuid())
   orderId   String
+  type      ActivityType
   text      String
-  createdAt DateTime @default(now())
+  createdAt DateTime     @default(now())
 
   order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
 }

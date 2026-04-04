@@ -70,20 +70,21 @@ export async function getClient(id: string): Promise<ClientDetails | null> {
       title: order.title,
       status: order.status,
       price: order.price ? Number(order.price) : null,
-      currency: order.currency,
       createdAt: order.createdAt,
     })),
   };
 }
 
-export async function createClient(data: ClientInput): Promise<{ error?: string }> {
+export async function createClient(
+  data: ClientInput
+): Promise<{ error: string } | { id: string; name: string }> {
   const session = await auth();
   if (!session) return { error: 'Не авторизован' };
 
   const { data: parsed, success, error } = ClientSchema.safeParse(data);
   if (!success) return { error: error.issues[0].message };
 
-  await db.client.create({
+  const client = await db.client.create({
     data: {
       userId: session.user.id,
       name: parsed.name,
@@ -96,7 +97,7 @@ export async function createClient(data: ClientInput): Promise<{ error?: string 
   });
 
   revalidatePath('/clients');
-  return {};
+  return { id: client.id, name: client.name };
 }
 
 export async function updateClient(id: string, data: ClientInput): Promise<{ error?: string }> {
