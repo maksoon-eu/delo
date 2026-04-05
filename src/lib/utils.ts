@@ -1,4 +1,6 @@
 import { clsx, type ClassValue } from 'clsx';
+import { format } from 'date-fns';
+import { ru } from 'date-fns/locale';
 import type { RefObject } from 'react';
 import { twMerge } from 'tailwind-merge';
 import type { AnimatedIconHandle } from '@/types';
@@ -13,6 +15,18 @@ export function startAnimatedIcon(ref: RefObject<AnimatedIconHandle | null>, dis
 
 export function stopAnimatedIcon(ref: RefObject<AnimatedIconHandle | null>, disabled?: boolean) {
   if (!disabled) ref.current?.stopAnimation();
+}
+
+export function formatPrice(value: number): string {
+  return value.toLocaleString('ru-RU', {
+    style: 'currency',
+    currency: 'RUB',
+    maximumFractionDigits: 0,
+  });
+}
+
+export function formatDate(date: Date, fmt = 'd MMM yyyy'): string {
+  return format(date, fmt, { locale: ru });
 }
 
 export function getInitials(name: string): string {

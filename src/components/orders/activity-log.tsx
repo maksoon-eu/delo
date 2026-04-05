@@ -1,9 +1,8 @@
 'use client';
 
-import { format } from 'date-fns';
-import { ru } from 'date-fns/locale';
 import { EmptyList } from '@/components/ui/feedback/empty-list';
 import { ACTIVITY_TYPE_ICONS } from '@/constants';
+import { formatDate } from '@/lib/utils';
 import type { ActivityEntry } from '@/types';
 
 type ActivityLogProps = {
@@ -26,7 +25,7 @@ export function ActivityLog(props: ActivityLogProps) {
               <div>
                 <p className="">{activity.text}</p>
                 <p className="text-muted-foreground text-xs font-bold">
-                  {format(activity.createdAt, 'd MMM yyyy, HH:mm', { locale: ru })}
+                  {formatDate(activity.createdAt, 'd MMM yyyy, HH:mm')}
                 </p>
               </div>
             </div>

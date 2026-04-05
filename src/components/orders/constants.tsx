@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
-import { ru } from 'date-fns/locale';
 import { FileText, CalendarDays, Tag, UserRound, Banknote } from 'lucide-react';
+import { formatDate, formatPrice } from '@/lib/utils';
 import { type ColumnDef } from '@tanstack/react-table';
 import { OrderStatusBadge } from '@/components/orders/order-status-badge';
 import { ORDER_STATUS_LABELS } from '@/constants';
@@ -53,7 +53,7 @@ export const ORDERS_TABLE_COLUMNS: ColumnDef<OrderListItem>[] = [
     ),
     cell: ({ row }) => {
       const { price } = row.original;
-      return price != null ? `${price.toLocaleString('ru-RU')} ₽` : '—';
+      return price != null ? formatPrice(price) : '—';
     },
   },
   {
@@ -66,7 +66,7 @@ export const ORDERS_TABLE_COLUMNS: ColumnDef<OrderListItem>[] = [
     ),
     cell: ({ getValue }) => {
       const val = getValue<Date | null>();
-      return val ? format(val, 'd MMM yyyy', { locale: ru }) : '—';
+      return val ? formatDate(val) : '—';
     },
   },
   {
@@ -77,7 +77,7 @@ export const ORDERS_TABLE_COLUMNS: ColumnDef<OrderListItem>[] = [
         Создан
       </span>
     ),
-    cell: ({ getValue }) => format(getValue<Date>(), 'd MMM yyyy', { locale: ru }),
+    cell: ({ getValue }) => formatDate(getValue<Date>()),
   },
 ];
 

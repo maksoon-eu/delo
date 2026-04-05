@@ -98,3 +98,34 @@ export type SelectOption = {
   value: string;
   label: string;
 };
+
+export type PublicOrderItemData = {
+  id: string;
+  name: string;
+  description: string | null;
+  price: number;
+};
+
+export type PublicOrderData = {
+  id: string;
+  title: string;
+  description: string | null;
+  status: OrderStatus;
+  paymentStatus: string;
+  paymentMethod: PaymentMethod | null;
+  price: number | null;
+  startDate: Date | null;
+  deadline: Date | null;
+  confirmedAt: Date | null;
+  createdAt: Date;
+  client: {
+    name: string;
+    email: string | null;
+    phone: string | null;
+    company: string | null;
+  };
+  executorName: string;
+  items: PublicOrderItemData[];
+  totalPaid: number;
+  statusDates: Partial<Record<string, Date>>;
+};

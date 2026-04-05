@@ -157,8 +157,6 @@ model OrderItem {
   orderId     String
   name        String
   description String?
-  quantity    Decimal @default(1) @db.Decimal(10, 2)
-  unit        String? // шт, ч, услуга и т.д.
   price       Decimal @db.Decimal(12, 2)
 
   order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)

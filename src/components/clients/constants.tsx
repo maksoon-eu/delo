@@ -1,8 +1,6 @@
-import { getInitials } from '@/lib/utils';
+import { formatDate, formatPrice, getInitials } from '@/lib/utils';
 import { type ClientListItem } from '@/types';
 import { type ColumnDef } from '@tanstack/react-table';
-import { format } from 'date-fns';
-import { ru } from 'date-fns/locale';
 import { Building2, CalendarDays, Mail, Phone, User, Wallet } from 'lucide-react';
 
 export const columns: ColumnDef<ClientListItem>[] = [
@@ -72,7 +70,7 @@ export const columns: ColumnDef<ClientListItem>[] = [
     ),
     cell: ({ getValue }) => {
       const val = getValue<number>();
-      return val > 0 ? val.toLocaleString('ru-RU') + ' ₽' : '—';
+      return val > 0 ? formatPrice(val) : '—';
     },
   },
   {
@@ -83,6 +81,6 @@ export const columns: ColumnDef<ClientListItem>[] = [
         Добавлен
       </span>
     ),
-    cell: ({ getValue }) => format(getValue<Date>(), 'd MMM yyyy', { locale: ru }),
+    cell: ({ getValue }) => formatDate(getValue<Date>()),
   },
 ];

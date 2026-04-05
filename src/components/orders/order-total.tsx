@@ -1,6 +1,7 @@
 'use client';
 
 import { useWatch, type Control } from 'react-hook-form';
+import { formatPrice } from '@/lib/utils';
 import type { OrderInput } from '@/schemas/orders';
 
 type OrderTotalProps = { control: Control<OrderInput> };
@@ -13,7 +14,5 @@ export function OrderTotal(props: OrderTotalProps) {
 
   if (total === 0) return null;
 
-  return (
-    <span className="text-muted-foreground text-sm">Итого: {total.toLocaleString('ru-RU')} ₽</span>
-  );
+  return <span className="text-muted-foreground text-sm">Итого: {formatPrice(total)}</span>;
 }

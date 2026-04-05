@@ -93,8 +93,6 @@ export async function getOrder(id: string): Promise<OrderDetails | null> {
       id: item.id,
       name: item.name,
       description: item.description ?? '',
-      quantity: Number(item.quantity),
-      unit: item.unit ?? '',
       price: Number(item.price),
     })),
     activities: order.activities.map((a) => ({
