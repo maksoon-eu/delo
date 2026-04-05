@@ -1,5 +1,6 @@
 import { AnimatedIconComponent, NavItem } from '@/types';
 import { CircleCheckIcon } from '@/components/icons/circle-check';
+import { CheckCheckIcon } from '@/components/icons/check-check';
 import { FileTextIcon } from '@/components/icons/file-text';
 import { HomeIcon } from '@/components/icons/home';
 import { SendIcon } from '@/components/icons/send';
@@ -8,7 +9,16 @@ import { UsersIcon } from '@/components/icons/users';
 import { XIcon } from '@/components/icons/x';
 import { ZapIcon } from '@/components/icons/zap';
 import { ActivityType, OrderStatus, PaymentMethod } from '@prisma/client';
-import { CircleDollarSign, CircleCheck, FileText, MessageCircle, Send, X, Zap } from 'lucide-react';
+import {
+  CheckCheck,
+  CircleDollarSign,
+  CircleCheck,
+  FileText,
+  MessageCircle,
+  Send,
+  X,
+  Zap,
+} from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 export const SIDEBAR_COOKIE_KEY = 'sidebar-collapsed';
@@ -43,7 +53,7 @@ export const ORDER_STATUS_ICONS: Record<OrderStatus, AnimatedIconComponent> = {
   SENT: SendIcon,
   CONFIRMED: CircleCheckIcon,
   IN_PROGRESS: ZapIcon,
-  COMPLETED: CircleCheckIcon,
+  COMPLETED: CheckCheckIcon,
   CANCELLED: XIcon,
 };
 
@@ -72,6 +82,12 @@ export const PAYMENT_METHOD_OPTIONS = [
 export const PAYMENT_METHOD_OPTIONS_MAP: Record<string, (typeof PAYMENT_METHOD_OPTIONS)[number]> =
   Object.fromEntries(PAYMENT_METHOD_OPTIONS.map((o) => [o.value, o]));
 
+export const PAYMENT_STATUS_LABELS: Record<string, string> = {
+  PENDING: 'Ожидает оплаты',
+  PARTIAL: 'Предоплата получена',
+  PAID: 'Оплачен',
+};
+
 export const ORDER_STATUS_TRANSITIONS: Record<OrderStatus, OrderStatus[]> = {
   DRAFT: ['SENT', 'CANCELLED'],
   SENT: ['CANCELLED'],
@@ -94,7 +110,7 @@ export const ORDER_STATUS_STATIC_ICONS: Record<OrderStatus, LucideIcon> = {
   SENT: Send,
   CONFIRMED: CircleCheck,
   IN_PROGRESS: Zap,
-  COMPLETED: CircleCheck,
+  COMPLETED: CheckCheck,
   CANCELLED: X,
 };
 
@@ -103,7 +119,7 @@ export const ACTIVITY_TYPE_ICONS: Record<ActivityType, LucideIcon> = {
   SENT: Send,
   CONFIRMED: CircleCheck,
   IN_PROGRESS: Zap,
-  COMPLETED: CircleCheck,
+  COMPLETED: CheckCheck,
   CANCELLED: X,
   NOTE: MessageCircle,
   PAYMENT: CircleDollarSign,

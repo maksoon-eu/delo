@@ -1,8 +1,7 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { format } from 'date-fns';
-import { ru } from 'date-fns/locale';
 import { NAV_ITEMS } from '@/constants';
+import { formatDate, formatPrice } from '@/lib/utils';
 import { PageHeader } from '@/components/layout/page-header';
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
 import { BackLink } from '@/components/ui/navigation/back-link';
@@ -71,21 +70,15 @@ export default async function OrderPage(props: OrderPageProps) {
                     </Link>
                   </div>
                 </DetailItem>
-                <DetailItem label="Создан">
-                  {format(order.createdAt, 'd MMM yyyy', { locale: ru })}
-                </DetailItem>
+                <DetailItem label="Создан">{formatDate(order.createdAt)}</DetailItem>
                 {order.startDate && (
-                  <DetailItem label="Дата начала">
-                    {format(order.startDate, 'd MMM yyyy', { locale: ru })}
-                  </DetailItem>
+                  <DetailItem label="Дата начала">{formatDate(order.startDate)}</DetailItem>
                 )}
                 {order.deadline && (
-                  <DetailItem label="Дедлайн">
-                    {format(order.deadline, 'd MMM yyyy', { locale: ru })}
-                  </DetailItem>
+                  <DetailItem label="Дедлайн">{formatDate(order.deadline)}</DetailItem>
                 )}
                 {order.price != null && (
-                  <DetailItem label="Стоимость">{order.price.toLocaleString('ru-RU')} ₽</DetailItem>
+                  <DetailItem label="Стоимость">{formatPrice(order.price)}</DetailItem>
                 )}
               </dl>
               {order.description && (
@@ -118,8 +111,7 @@ export default async function OrderPage(props: OrderPageProps) {
                             )}
                           </td>
                           <td className="py-2 text-right font-medium">
-                            {orderItem.price.toLocaleString('ru-RU')}
-                            <span className="text-muted-foreground ml-1 text-xs font-bold">₽</span>
+                            {formatPrice(orderItem.price)}
                           </td>
                         </tr>
                       ))}
@@ -130,8 +122,7 @@ export default async function OrderPage(props: OrderPageProps) {
                           <span className="text-muted-foreground mr-2 text-xs font-bold">
                             Итого:
                           </span>
-                          {totalItems.toLocaleString('ru-RU')}
-                          <span className="text-muted-foreground ml-1 text-xs font-bold">₽</span>
+                          {formatPrice(totalItems)}
                         </td>
                       </tr>
                     </tfoot>

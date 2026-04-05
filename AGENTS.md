@@ -159,6 +159,25 @@ onClick={() => toggleTheme()}
 - Prisma client — только через singleton из `src/lib/db.ts`
 - Никогда не импортировать `PrismaClient` напрямую
 
+### Formatting helpers
+
+- Форматирование цен — только через `formatPrice(value: number)` из `src/lib/utils.ts`
+- Форматирование дат — только через `formatDate(date: Date, fmt?)` из `src/lib/utils.ts` (по умолчанию `'d MMM yyyy'`, локаль `ru` встроена)
+- Никогда не использовать `toLocaleString('ru-RU', ...)`, `format(date, ..., { locale: ru })` напрямую в компонентах и константах
+- Метки статусов оплаты — из `PAYMENT_STATUS_LABELS` в `src/constants/index.ts`
+
+```ts
+// ✓ правильно
+import { formatPrice, formatDate } from '@/lib/utils';
+formatPrice(order.price); // → '1 500 ₽'
+formatDate(order.createdAt); // → '5 апр 2026'
+formatDate(order.deadline, 'd MMMM yyyy'); // → '5 апреля 2026'
+
+// ✗ неправильно
+price.toLocaleString('ru-RU') + ' ₽';
+format(date, 'd MMM yyyy', { locale: ru });
+```
+
 ### Formatting
 
 - Форматирование — **Prettier** (`.prettierrc` в корне): `singleQuote`, `semi`, `tabWidth: 2`, `trailingComma: "es5"`, `printWidth: 100`

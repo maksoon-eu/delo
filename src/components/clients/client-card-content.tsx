@@ -1,13 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { format } from 'date-fns';
-import { ru } from 'date-fns/locale';
 import { ClientForm } from '@/components/clients/client-form';
 import { ArrowRightIcon } from '@/components/icons/arrow-right';
 import { Button } from '@/components/ui/actions/button';
 import { ORDER_STATUS_LABELS } from '@/constants';
-import { cn, getInitials } from '@/lib/utils';
+import { cn, formatDate, formatPrice, getInitials } from '@/lib/utils';
 import type { ClientInput } from '@/schemas/clients';
 import type { ClientDetails } from '@/types';
 
@@ -64,13 +62,13 @@ export function ClientCardContent(props: ClientCardContentProps) {
                   <span className="text-sm font-medium">{order.title}</span>
                   {order.price !== null && (
                     <span className="shrink-0 text-sm font-semibold">
-                      {order.price.toLocaleString('ru-RU')} ₽
+                      {formatPrice(order.price)}
                     </span>
                   )}
                 </div>
                 <div className="mt-0.5 flex items-center justify-between">
                   <span className="text-muted-foreground text-xs">
-                    {format(order.createdAt, 'd MMM yyyy', { locale: ru })}
+                    {formatDate(order.createdAt)}
                   </span>
                   <span className="text-muted-foreground text-xs">
                     {ORDER_STATUS_LABELS[order.status] ?? order.status}
