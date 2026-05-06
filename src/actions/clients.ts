@@ -69,7 +69,7 @@ export async function getClient(id: string): Promise<ClientDetails | null> {
       id: order.id,
       title: order.title,
       status: order.status,
-      price: order.price ? +order.price : null,
+      price: +order.price,
       createdAt: order.createdAt,
     })),
   };

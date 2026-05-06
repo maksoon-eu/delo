@@ -33,7 +33,7 @@ export type ClientOrderSummary = {
   id: string;
   title: string;
   status: OrderStatus;
-  price: number | null;
+  price: number;
   createdAt: Date;
 };
 
@@ -55,7 +55,7 @@ export type OrderListItem = {
   status: string;
   clientId: string;
   clientName: string;
-  price: number | null;
+  price: number;
   deadline: Date | null;
   createdAt: Date;
 };
@@ -88,7 +88,7 @@ export type OrderDetails = {
   description: string | null;
   status: OrderStatus;
   paymentStatus: PaymentStatus;
-  price: number | null;
+  price: number;
   paymentMethod: PaymentMethod | null;
   startDate: Date | null;
   deadline: Date | null;
@@ -122,7 +122,7 @@ export type PublicOrderData = {
   status: OrderStatus;
   paymentStatus: PaymentStatus;
   paymentMethod: PaymentMethod | null;
-  price: number | null;
+  price: number;
   startDate: Date | null;
   deadline: Date | null;
   confirmedAt: Date | null;

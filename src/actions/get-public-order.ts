@@ -34,7 +34,7 @@ export async function getPublicOrder(token: string): Promise<PublicOrderData> {
     status: order.status,
     paymentStatus: order.paymentStatus,
     paymentMethod: order.paymentMethod,
-    price: order.price ? +order.price : null,
+    price: +order.price,
     startDate: order.startDate,
     deadline: order.deadline,
     confirmedAt: order.confirmedAt,
