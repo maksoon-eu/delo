@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import type { RefObject } from 'react';
 import { twMerge } from 'tailwind-merge';
+import { z } from 'zod';
 import type { AnimatedIconHandle } from '@/types';
 
 export function cn(...inputs: ClassValue[]) {
@@ -35,4 +36,20 @@ export function getInitials(name: string): string {
     return (parts[0][0] + parts[1][0]).toUpperCase();
   }
   return name.slice(0, 1).toUpperCase();
+}
+
+export function requiredAmount(
+  requiredMessage: string,
+  minMessage: string,
+  integerMessage: string
+) {
+  return z
+    .union([z.number(), z.string(), z.null(), z.undefined()])
+    .refine((value) => value !== '' && value != null, requiredMessage)
+    .pipe(
+      z.coerce
+        .number<string | number | null | undefined>({ error: requiredMessage })
+        .int(integerMessage)
+        .min(1, minMessage)
+    );
 }

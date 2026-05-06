@@ -1,6 +1,8 @@
+import { FileText } from 'lucide-react';
 import { Badge } from '@/components/ui/data/badge';
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
 import { ContentCard } from '@/components/ui/data/content-card';
+import { DetailItem } from '@/components/ui/data/detail-item';
 import { ORDER_STATUS_LABELS, ORDER_STATUS_VARIANTS } from '@/constants';
 import { formatDate } from '@/lib/utils';
 import type { PublicOrderData } from '@/types';
@@ -26,37 +28,27 @@ export function OrderHero(props: OrderHeroProps) {
           <p className="text-muted-foreground text-sm leading-relaxed">{order.description}</p>
         )}
 
-        <ContentCard className="grid grid-cols-2 gap-x-6 gap-y-3 bg-card text-sm">
-          <div>
-            <dt className="text-muted-foreground text-xs font-bold">Исполнитель</dt>
-            <dd className="font-medium">{order.executorName}</dd>
-          </div>
-          <div>
-            <dt className="text-muted-foreground text-xs font-bold">Клиент</dt>
-            <dd className="font-medium">{order.client.name}</dd>
-          </div>
-          {order.client.company && (
-            <div>
-              <dt className="text-muted-foreground text-xs font-bold">Компания</dt>
-              <dd className="font-medium">{order.client.company}</dd>
-            </div>
-          )}
-          {order.deadline && (
-            <div>
-              <dt className="text-muted-foreground text-xs font-bold">Срок</dt>
-              <dd className="font-medium">{formatDate(order.deadline, 'd MMMM yyyy')}</dd>
-            </div>
-          )}
-          <div>
-            <dt className="text-muted-foreground text-xs font-bold">Создан</dt>
-            <dd className="font-medium">{formatDate(order.createdAt, 'd MMMM yyyy')}</dd>
-          </div>
-          {order.confirmedAt && (
-            <div>
-              <dt className="text-muted-foreground text-xs font-bold">Подтверждён</dt>
-              <dd className="font-medium">{formatDate(order.confirmedAt, 'd MMMM yyyy')}</dd>
-            </div>
-          )}
+        <ContentCard className="bg-card">
+          <h2 className="text-foreground mb-4 flex items-center gap-2 text-base font-semibold">
+            <FileText className="size-4" />
+            О заказе
+          </h2>
+          <dl className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm">
+            <DetailItem label="Исполнитель">{order.executorName}</DetailItem>
+            <DetailItem label="Клиент">{order.client.name}</DetailItem>
+            {order.client.company && (
+              <DetailItem label="Компания">{order.client.company}</DetailItem>
+            )}
+            {order.deadline && (
+              <DetailItem label="Срок">{formatDate(order.deadline, 'd MMMM yyyy')}</DetailItem>
+            )}
+            <DetailItem label="Создан">{formatDate(order.createdAt, 'd MMMM yyyy')}</DetailItem>
+            {order.confirmedAt && (
+              <DetailItem label="Подтверждён">
+                {formatDate(order.confirmedAt, 'd MMMM yyyy')}
+              </DetailItem>
+            )}
+          </dl>
         </ContentCard>
       </div>
     </AnimateIn>

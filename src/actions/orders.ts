@@ -7,6 +7,7 @@ import { OrderSchema, type OrderInput } from '@/schemas/orders';
 import { ORDER_STATUS_TRANSITIONS, ORDER_STATUS_ACTIVITY_MESSAGES } from '@/constants';
 import type { OrderListItem, OrderDetails } from '@/types';
 import type { OrderStatus } from '@prisma/client';
+import { notFound } from 'next/navigation';
 
 export async function getOrders(params: {
   offset: number;
@@ -50,7 +51,7 @@ export async function getOrders(params: {
     status: row.status,
     clientId: row.clientId,
     clientName: row.client.name,
-    price: row.price ? Number(row.price) : null,
+    price: row.price ? +row.price : null,
     deadline: row.deadline,
     createdAt: row.createdAt,
   }));
@@ -67,6 +68,7 @@ export async function getOrder(id: string): Promise<OrderDetails | null> {
     include: {
       client: true,
       items: true,
+      payments: { orderBy: { paidAt: 'desc' } },
       activities: { orderBy: { createdAt: 'desc' } },
     },
   });
@@ -79,7 +81,7 @@ export async function getOrder(id: string): Promise<OrderDetails | null> {
     description: order.description,
     status: order.status,
     paymentStatus: order.paymentStatus,
-    price: order.price ? Number(order.price) : null,
+    price: order.price ? +order.price : null,
     paymentMethod: order.paymentMethod ?? null,
     startDate: order.startDate,
     deadline: order.deadline,
@@ -93,7 +95,14 @@ export async function getOrder(id: string): Promise<OrderDetails | null> {
       id: item.id,
       name: item.name,
       description: item.description ?? '',
-      price: Number(item.price),
+      price: +item.price,
+    })),
+    payments: order.payments.map((p) => ({
+      id: p.id,
+      amount: +p.amount,
+      note: p.note,
+      paidAt: p.paidAt,
+      createdAt: p.createdAt,
     })),
     activities: order.activities.map((a) => ({
       id: a.id,
@@ -242,5 +251,30 @@ export async function deleteOrder(id: string): Promise<{ error?: string }> {
   await db.order.delete({ where: { id } });
 
   revalidatePath('/orders');
+  return {};
+}
+
+export async function confirmOrderByClient(token: string): Promise<{ error?: string }> {
+  const order = await db.order.findUnique({ where: { publicToken: token } });
+  if (!order) notFound();
+
+  if (order.status !== 'SENT')
+    return { error: 'Заказ уже подтверждён или не готов к подтверждению' };
+
+  await db.$transaction([
+    db.order.update({
+      where: { id: order.id },
+      data: { status: 'CONFIRMED', confirmedAt: new Date() },
+    }),
+    db.activity.create({
+      data: {
+        orderId: order.id,
+        type: 'CONFIRMED',
+        text: 'Клиент подтвердил условия',
+      },
+    }),
+  ]);
+
+  revalidatePath(`/order/${token}`);
   return {};
 }

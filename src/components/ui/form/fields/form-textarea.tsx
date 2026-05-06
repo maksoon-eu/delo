@@ -1,7 +1,7 @@
 'use client';
 
-import { ComponentProps } from 'react';
-import { Control, FieldPath, FieldValues } from 'react-hook-form';
+import type { ComponentProps } from 'react';
+import type { Control, FieldPath, FieldValues } from 'react-hook-form';
 import {
   FormControl,
   FormField,

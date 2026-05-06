@@ -1,3 +1,4 @@
+import { List } from 'lucide-react';
 import { ContentCard } from '@/components/ui/data/content-card';
 import { EmptyList } from '@/components/ui/feedback/empty-list';
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
@@ -16,7 +17,10 @@ export function OrderItemsSection(props: OrderItemsSectionProps) {
   return (
     <AnimateIn variant="slide-up">
       <ContentCard className="bg-card">
-        <h2 className="text-foreground mb-4 text-base font-semibold">Состав работ</h2>
+        <h2 className="text-foreground mb-4 flex items-center gap-2 text-base font-semibold">
+          <List className="size-4" />
+          Состав работ
+        </h2>
         <EmptyList items={items} message="Состав работ не указан">
           <div className="space-y-0">
             <div className="text-muted-foreground mb-2 grid grid-cols-[1fr_auto] gap-x-4 text-xs font-bold">

@@ -8,6 +8,7 @@ import { BackLink } from '@/components/ui/navigation/back-link';
 import { Button } from '@/components/ui/actions/button';
 import { OrderStatusPanel } from '@/components/orders/order-status-panel';
 import { ActivityLog } from '@/components/orders/activity-log';
+import { PaymentsSection } from '@/components/orders/payments-section';
 import { ArrowRightIcon } from '@/components/icons/arrow-right';
 import { ArrowUpRightIcon } from '@/components/icons/arrow-up-right';
 import { DetailItem } from '@/components/ui/data/detail-item';
@@ -53,8 +54,8 @@ export default async function OrderPage(props: OrderPageProps) {
         </ContentCard>
 
         <div className="grid gap-5 lg:grid-cols-3">
-          <div className="space-y-5 lg:col-span-2">
-            <ContentCard>
+          <div className="flex flex-col gap-5 lg:col-span-2">
+            <ContentCard className={order.items.length === 0 ? 'flex-1' : undefined}>
               <h2 className="mb-4 font-semibold">Детали заказа</h2>
               <dl className="grid grid-cols-2 gap-x-4 gap-y-6">
                 <DetailItem label="Клиент">
@@ -89,7 +90,7 @@ export default async function OrderPage(props: OrderPageProps) {
             </ContentCard>
 
             {order.items.length > 0 && (
-              <ContentCard>
+              <ContentCard className="flex-1">
                 <h2 className="mb-4 font-semibold">Состав работ</h2>
                 <div className="overflow-x-auto">
                   <table className="w-full">
@@ -132,10 +133,21 @@ export default async function OrderPage(props: OrderPageProps) {
             )}
           </div>
 
-          <ContentCard>
-            <h2 className="mb-4 font-semibold">История</h2>
-            <ActivityLog activities={order.activities} />
-          </ContentCard>
+          <div className="flex flex-col gap-5">
+            <ContentCard>
+              <PaymentsSection
+                orderId={order.id}
+                payments={order.payments}
+                paymentStatus={order.paymentStatus}
+                orderPrice={order.price}
+              />
+            </ContentCard>
+
+            <ContentCard className="flex-1">
+              <h2 className="mb-4 font-semibold">История</h2>
+              <ActivityLog activities={order.activities} />
+            </ContentCard>
+          </div>
         </div>
       </AnimateIn>
     </div>

@@ -1,5 +1,7 @@
 <!-- BEGIN:nextjs-agent-rules -->
 
+Do not make any changes until you have 95% confidence in what you need to build. Ask me follow-up questions until you reach that confidence.
+
 # This is NOT the Next.js you know
 
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
@@ -102,10 +104,12 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
 ### Imports
 
 - Не импортировать `React` как дефолтный импорт — используем именованные импорты:
+- При `verbatimModuleSyntax: true` все сущности, используемые только как типы, импортировать через `import type` или inline `type` в смешанном импорте.
+- Для приведения значения к `number` использовать унарный плюс (`+value`), а не конструктор `Number(value)`.
 
 ```tsx
 // ✓ правильно
-import { useState, useEffect, ComponentProps } from 'react'
+import { useState, useEffect, type ComponentProps } from 'react'
 
 // ✗ неправильно
 import React from 'react'
@@ -148,6 +152,8 @@ onClick={() => toggleTheme()}
 - `'use client'` только там, где реально нужно (формы, хуки, события)
 - Server Components по умолчанию — не добавлять `'use client'` без причины
 
+- В `void`-функциях и React effects для явного выхода использовать `return;`, а не `return undefined;`.
+
 ### Data fetching
 
 - Данные загружаются в Server Components, передаются в клиентские как пропсы
@@ -162,6 +168,7 @@ onClick={() => toggleTheme()}
 ### Formatting helpers
 
 - Форматирование цен — только через `formatPrice(value: number)` из `src/lib/utils.ts`
+- Денежные суммы вводятся и валидируются только в целых рублях, без копеек и дробной части.
 - Форматирование дат — только через `formatDate(date: Date, fmt?)` из `src/lib/utils.ts` (по умолчанию `'d MMM yyyy'`, локаль `ru` встроена)
 - Никогда не использовать `toLocaleString('ru-RU', ...)`, `format(date, ..., { locale: ru })` напрямую в компонентах и константах
 - Метки статусов оплаты — из `PAYMENT_STATUS_LABELS` в `src/constants/index.ts`

@@ -1,4 +1,4 @@
-import { AnimatedIconComponent, NavItem } from '@/types';
+import type { AnimatedIconComponent, NavItem } from '@/types';
 import { CircleCheckIcon } from '@/components/icons/circle-check';
 import { CheckCheckIcon } from '@/components/icons/check-check';
 import { FileTextIcon } from '@/components/icons/file-text';

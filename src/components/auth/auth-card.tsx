@@ -2,7 +2,7 @@ import type { Route } from 'next';
 import Link from 'next/link';
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
 import { ShieldCheck, LockKeyholeOpen } from 'lucide-react';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 type AuthCardProps = {
   title: string;

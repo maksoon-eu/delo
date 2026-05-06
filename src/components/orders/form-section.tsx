@@ -1,4 +1,4 @@
-import { ComponentProps, ComponentType, ReactNode } from 'react';
+import type { ComponentProps, ComponentType, ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 
 type FormSectionProps = ComponentProps<'div'> & {

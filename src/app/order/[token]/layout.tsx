@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { PublicHeader } from '@/components/public/public-header';
 
 export default function PublicOrderLayout(props: { children: ReactNode }) {

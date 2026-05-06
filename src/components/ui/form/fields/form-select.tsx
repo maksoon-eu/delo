@@ -1,8 +1,8 @@
 'use client';
 
-import { Control, FieldPath, FieldValues } from 'react-hook-form';
+import type { Control, FieldPath, FieldValues } from 'react-hook-form';
 import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form/form';
-import { SelectOption } from '@/types';
+import type { SelectOption } from '@/types';
 import { SelectInput } from './select-input';
 
 type FormSelectProps<T extends FieldValues> = {
