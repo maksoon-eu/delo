@@ -165,6 +165,7 @@ onClick={() => toggleTheme()}
 - Prisma client — только через singleton из `src/lib/db.ts`
 - Никогда не импортировать `PrismaClient` напрямую
 - Для Auth.js `User.emailVerified` оставлять `DateTime?`: `null` означает, что email не подтверждён, `Date` хранит момент подтверждения. Не менять на boolean — `@auth/prisma-adapter` ожидает `Date | null`.
+- Миграции Prisma не писать руками. После изменения `prisma/schema.prisma` генерировать SQL через Prisma CLI на основе схемы: `npx prisma migrate dev --name <migration-name> --create-only`, затем проверять сгенерированный файл.
 
 ### Formatting helpers
 
