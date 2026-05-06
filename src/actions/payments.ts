@@ -7,9 +7,9 @@ import { formatPrice } from '@/lib/utils';
 import { PaymentSchema, type PaymentInput } from '@/schemas/payments';
 import type { PaymentStatus } from '@prisma/client';
 
-function calcPaymentStatus(totalPaid: number, orderPrice: number | null): PaymentStatus {
+function calcPaymentStatus(totalPaid: number, orderPrice: number): PaymentStatus {
   if (totalPaid <= 0) return 'PENDING';
-  if (orderPrice != null && orderPrice > 0 && totalPaid >= orderPrice) return 'PAID';
+  if (orderPrice > 0 && totalPaid >= orderPrice) return 'PAID';
   return 'PARTIAL';
 }
 
@@ -28,7 +28,7 @@ export async function addPayment(orderId: string, data: PaymentInput): Promise<{
 
   const existingPaid = order.payments.reduce((sum, p) => sum + +p.amount, 0);
   const newTotal = existingPaid + parsed.amount;
-  const orderPrice = order.price ? +order.price : null;
+  const orderPrice = +order.price;
   const newPaymentStatus = calcPaymentStatus(newTotal, orderPrice);
 
   const activityText = `Получена оплата ${formatPrice(parsed.amount)}${parsed.note ? ` — ${parsed.note}` : ''}`;

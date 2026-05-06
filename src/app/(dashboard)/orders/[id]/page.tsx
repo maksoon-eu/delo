@@ -78,9 +78,7 @@ export default async function OrderPage(props: OrderPageProps) {
                 {order.deadline && (
                   <DetailItem label="Дедлайн">{formatDate(order.deadline)}</DetailItem>
                 )}
-                {order.price != null && (
-                  <DetailItem label="Стоимость">{formatPrice(order.price)}</DetailItem>
-                )}
+                <DetailItem label="Стоимость">{formatPrice(order.price)}</DetailItem>
               </dl>
               {order.description && (
                 <div className="border-border mt-4 border-t pt-4">

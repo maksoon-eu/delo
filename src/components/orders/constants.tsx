@@ -53,7 +53,7 @@ export const ORDERS_TABLE_COLUMNS: ColumnDef<OrderListItem>[] = [
     ),
     cell: ({ row }) => {
       const { price } = row.original;
-      return price != null ? formatPrice(price) : '—';
+      return formatPrice(price);
     },
   },
   {
@@ -105,7 +105,7 @@ export function orderToFormValues(order: OrderDetails): OrderInput {
     description: order.description ?? '',
     startDate: order.startDate ? format(order.startDate, 'yyyy-MM-dd') : '',
     deadline: order.deadline ? format(order.deadline, 'yyyy-MM-dd') : '',
-    price: order.price ?? '',
+    price: order.price,
     paymentMethod: order.paymentMethod,
     items: order.items.map((i) => ({
       id: i.id,

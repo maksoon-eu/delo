@@ -15,7 +15,7 @@ export function PaymentInfoSection(props: PaymentInfoSectionProps) {
 
   const { price, paymentMethod, paymentStatus, payments, totalPaid } = order;
   const isPaid = paymentStatus === 'PAID';
-  const remaining = price != null ? Math.max(0, price - totalPaid) : null;
+  const remaining = Math.max(0, price - totalPaid);
 
   return (
     <AnimateIn variant="slide-up">
@@ -47,12 +47,10 @@ export function PaymentInfoSection(props: PaymentInfoSectionProps) {
                 </p>
               </div>
             )}
-            {price != null && (
-              <div>
-                <p className="text-muted-foreground text-xs font-bold">Сумма заказа</p>
-                <p className="text-sm font-medium">{formatPrice(price)}</p>
-              </div>
-            )}
+            <div>
+              <p className="text-muted-foreground text-xs font-bold">Сумма заказа</p>
+              <p className="text-sm font-medium">{formatPrice(price)}</p>
+            </div>
           </div>
 
           <div className="border-border border-y py-3">
@@ -83,12 +81,10 @@ export function PaymentInfoSection(props: PaymentInfoSectionProps) {
               <p className="text-muted-foreground text-xs font-bold">Внесено</p>
               <p className="text-sm font-medium">{formatPrice(totalPaid)}</p>
             </div>
-            {remaining != null && (
-              <div>
-                <p className="text-muted-foreground text-xs font-bold">Остаток</p>
-                <p className="text-sm font-medium">{formatPrice(remaining)}</p>
-              </div>
-            )}
+            <div>
+              <p className="text-muted-foreground text-xs font-bold">Остаток</p>
+              <p className="text-sm font-medium">{formatPrice(remaining)}</p>
+            </div>
           </div>
         </div>
       </ContentCard>

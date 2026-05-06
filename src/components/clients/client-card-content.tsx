@@ -60,11 +60,7 @@ export function ClientCardContent(props: ClientCardContentProps) {
               <div key={order.id} className="bg-muted/40 rounded-lg px-3 py-2">
                 <div className="flex items-center justify-between gap-2">
                   <span className="text-sm font-medium">{order.title}</span>
-                  {order.price !== null && (
-                    <span className="shrink-0 text-sm font-semibold">
-                      {formatPrice(order.price)}
-                    </span>
-                  )}
+                  <span className="shrink-0 text-sm font-semibold">{formatPrice(order.price)}</span>
                 </div>
                 <div className="mt-0.5 flex items-center justify-between">
                   <span className="text-muted-foreground text-xs">

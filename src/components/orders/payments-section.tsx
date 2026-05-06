@@ -10,7 +10,7 @@ type PaymentsSectionProps = {
   orderId: string;
   payments: PaymentEntry[];
   paymentStatus: PaymentStatus;
-  orderPrice: number | null;
+  orderPrice: number;
 };
 
 export function PaymentsSection(props: PaymentsSectionProps) {
@@ -29,7 +29,7 @@ export function PaymentsSection(props: PaymentsSectionProps) {
         <DetailItem label="Статус">
           {PAYMENT_STATUS_LABELS[paymentStatus] ?? paymentStatus}
         </DetailItem>
-        {orderPrice != null && <DetailItem label="Стоимость">{formatPrice(orderPrice)}</DetailItem>}
+        <DetailItem label="Стоимость">{formatPrice(orderPrice)}</DetailItem>
       </dl>
 
       <div className="border-border border-y py-3">
@@ -56,11 +56,7 @@ export function PaymentsSection(props: PaymentsSectionProps) {
       <div className="flex flex-wrap justify-between gap-x-6">
         <DetailItem label="Оплачено">{formatPrice(totalPaid)}</DetailItem>
 
-        {orderPrice != null && (
-          <DetailItem label="Остаток">
-            {formatPrice(Math.max(0, orderPrice - totalPaid))}
-          </DetailItem>
-        )}
+        <DetailItem label="Остаток">{formatPrice(Math.max(0, orderPrice - totalPaid))}</DetailItem>
       </div>
     </div>
   );

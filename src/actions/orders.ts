@@ -51,7 +51,7 @@ export async function getOrders(params: {
     status: row.status,
     clientId: row.clientId,
     clientName: row.client.name,
-    price: row.price ? +row.price : null,
+    price: +row.price,
     deadline: row.deadline,
     createdAt: row.createdAt,
   }));
@@ -81,7 +81,7 @@ export async function getOrder(id: string): Promise<OrderDetails | null> {
     description: order.description,
     status: order.status,
     paymentStatus: order.paymentStatus,
-    price: order.price ? +order.price : null,
+    price: +order.price,
     paymentMethod: order.paymentMethod ?? null,
     startDate: order.startDate,
     deadline: order.deadline,
@@ -149,7 +149,7 @@ export async function createOrder(data: OrderInput): Promise<{ error: string } |
       description: parsed.description || null,
       startDate: parsed.startDate ? new Date(parsed.startDate) : null,
       deadline: parsed.deadline ? new Date(parsed.deadline) : null,
-      price: parsed.price ?? null,
+      price: parsed.price,
       paymentMethod: parsed.paymentMethod ?? null,
       items: {
         create: parsed.items.map((item) => ({
@@ -188,7 +188,7 @@ export async function updateOrder(id: string, data: OrderInput): Promise<{ error
         description: parsed.description || null,
         startDate: parsed.startDate ? new Date(parsed.startDate) : null,
         deadline: parsed.deadline ? new Date(parsed.deadline) : null,
-        price: parsed.price ?? null,
+        price: parsed.price,
         paymentMethod: parsed.paymentMethod ?? null,
         items: {
           create: parsed.items.map((item) => ({
