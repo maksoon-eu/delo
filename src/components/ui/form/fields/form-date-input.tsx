@@ -1,6 +1,6 @@
 'use client';
 
-import { Control, FieldPath, FieldValues } from 'react-hook-form';
+import type { Control, FieldPath, FieldValues } from 'react-hook-form';
 import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form/form';
 import { DatePicker } from '@/components/ui/form/primitives/date-picker';
 

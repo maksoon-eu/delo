@@ -1,6 +1,6 @@
 import { Input } from '@/components/ui/form/primitives/input';
 import { Search } from 'lucide-react';
-import { ChangeEvent, ReactNode } from 'react';
+import type { ChangeEvent, ReactNode } from 'react';
 import { Button } from '../actions/button';
 import { ArrowRightIcon } from '@/components/icons/arrow-right';
 

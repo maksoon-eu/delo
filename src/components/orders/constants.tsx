@@ -84,7 +84,7 @@ export const ORDERS_TABLE_COLUMNS: ColumnDef<OrderListItem>[] = [
 export const ORDER_ITEM_DEFAULT = {
   name: '',
   description: '',
-  price: 0,
+  price: '',
 };
 
 export const ORDER_CREATE_DEFAULT_VALUES: OrderInput = {
@@ -93,7 +93,7 @@ export const ORDER_CREATE_DEFAULT_VALUES: OrderInput = {
   description: '',
   startDate: '',
   deadline: '',
-  price: null,
+  price: '',
   paymentMethod: null,
   items: [ORDER_ITEM_DEFAULT],
 };
@@ -105,7 +105,7 @@ export function orderToFormValues(order: OrderDetails): OrderInput {
     description: order.description ?? '',
     startDate: order.startDate ? format(order.startDate, 'yyyy-MM-dd') : '',
     deadline: order.deadline ? format(order.deadline, 'yyyy-MM-dd') : '',
-    price: order.price,
+    price: order.price ?? '',
     paymentMethod: order.paymentMethod,
     items: order.items.map((i) => ({
       id: i.id,

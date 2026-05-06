@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { ComponentProps } from 'react';
+import type { ComponentProps } from 'react';
 
 function Table(props: ComponentProps<'table'>) {
   const { className, ...rest } = props;

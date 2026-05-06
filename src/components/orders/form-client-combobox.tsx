@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Control } from 'react-hook-form';
+import type { Control } from 'react-hook-form';
 import { Button } from '@/components/ui/actions/button';
 import { UserRoundPlusIcon } from '@/components/icons/user-round-plus';
 import { AppDialog } from '@/components/ui/overlay/dialog';

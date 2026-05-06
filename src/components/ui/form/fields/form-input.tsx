@@ -1,8 +1,8 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { ComponentProps } from 'react';
-import { Control, FieldPath, FieldValues } from 'react-hook-form';
+import type { ComponentProps } from 'react';
+import type { Control, FieldPath, FieldValues } from 'react-hook-form';
 import {
   FormControl,
   FormField,
@@ -35,6 +35,7 @@ export function FormInput<T extends FieldValues>(props: FormInputProps<T>) {
 
   const isPassword = type === 'password';
   const inputType = isPassword ? (showPassword ? 'text' : 'password') : type;
+  const inputStep = type === 'number' ? 1 : undefined;
 
   const togglePassword = () => {
     setShowPassword((v) => !v);
@@ -79,6 +80,7 @@ export function FormInput<T extends FieldValues>(props: FormInputProps<T>) {
                     {...field}
                     value={field.value ?? ''}
                     type={inputType}
+                    step={inputStep}
                     autoComplete={autoComplete}
                     placeholder=" "
                     className={cn('peer', Icon && 'pl-9', isPassword && 'pr-10')}
@@ -125,6 +127,7 @@ export function FormInput<T extends FieldValues>(props: FormInputProps<T>) {
                   {...field}
                   value={field.value ?? ''}
                   type={inputType}
+                  step={inputStep}
                   autoComplete={autoComplete}
                   placeholder={placeholder}
                   className={cn(Icon && 'pl-9')}

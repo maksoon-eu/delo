@@ -1,11 +1,16 @@
 import { z } from 'zod';
 import { PaymentMethod } from '@prisma/client';
+import { requiredAmount } from '@/lib/utils';
 
 export const OrderItemSchema = z.object({
   id: z.string().optional(),
   name: z.string().min(1, 'Название позиции обязательно'),
   description: z.string(),
-  price: z.coerce.number().min(0.01, 'Цена должна быть больше 0'),
+  price: requiredAmount(
+    'Цена обязательна',
+    'Цена должна быть больше 0',
+    'Цена должна быть в рублях без копеек'
+  ),
 });
 
 export const OrderSchema = z
@@ -15,20 +20,30 @@ export const OrderSchema = z
     description: z.string(),
     startDate: z.string(),
     deadline: z.string(),
-    price: z.coerce.number().min(0).nullable().optional(),
+    price: requiredAmount(
+      'Стоимость обязательна',
+      'Стоимость должна быть больше 0',
+      'Стоимость должна быть в рублях без копеек'
+    ),
     paymentMethod: z.enum(PaymentMethod).nullable().optional(),
     items: z.array(OrderItemSchema),
   })
   .superRefine((data, ctx) => {
-    if (!data.startDate || !data.deadline) {
-      return;
-    }
-
-    if (data.startDate >= data.deadline) {
+    if (data.startDate && data.deadline && data.startDate >= data.deadline) {
       ctx.addIssue({
         code: 'custom',
         message: 'Дедлайн должен быть позже даты начала',
         path: ['deadline'],
+      });
+    }
+
+    const itemsTotal = data.items.reduce((sum, item) => sum + item.price, 0);
+
+    if (data.price !== itemsTotal) {
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Стоимость должна совпадать с суммой состава работ',
+        path: ['price'],
       });
     }
   });

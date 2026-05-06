@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 import { auth } from '@/lib/auth';
 import { AppSidebarServer } from '@/components/layout/sidebar/sidebar-server';
 import { TopBar } from '@/components/layout/top-bar';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 export default async function DashboardLayout(props: { children: ReactNode }) {
   const { children } = props;

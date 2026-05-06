@@ -18,7 +18,7 @@ export async function getPublicOrder(token: string): Promise<PublicOrderData> {
 
   if (!order) notFound();
 
-  const totalPaid = order.payments.reduce((sum, p) => sum + Number(p.amount), 0);
+  const totalPaid = order.payments.reduce((sum, p) => sum + +p.amount, 0);
 
   const statusDates: Partial<Record<string, Date>> = { DRAFT: order.createdAt };
   for (const activity of order.activities) {
@@ -34,7 +34,7 @@ export async function getPublicOrder(token: string): Promise<PublicOrderData> {
     status: order.status,
     paymentStatus: order.paymentStatus,
     paymentMethod: order.paymentMethod,
-    price: order.price ? Number(order.price) : null,
+    price: order.price ? +order.price : null,
     startDate: order.startDate,
     deadline: order.deadline,
     confirmedAt: order.confirmedAt,
@@ -45,7 +45,14 @@ export async function getPublicOrder(token: string): Promise<PublicOrderData> {
       id: item.id,
       name: item.name,
       description: item.description,
-      price: Number(item.price),
+      price: +item.price,
+    })),
+    payments: order.payments.map((p) => ({
+      id: p.id,
+      amount: +p.amount,
+      note: p.note,
+      paidAt: p.paidAt,
+      createdAt: p.createdAt,
     })),
     totalPaid,
     statusDates,
