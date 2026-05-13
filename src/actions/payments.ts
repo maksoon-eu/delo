@@ -1,21 +1,15 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { auth } from '@/lib/auth';
 import { db } from '@/lib/db';
-import { formatPrice } from '@/lib/utils';
+import { getVerifiedSession } from '@/lib/verified-email';
+import { calcPaymentStatus, formatPrice } from '@/lib/utils';
 import { PaymentSchema, type PaymentInput } from '@/schemas/payments';
-import type { PaymentStatus } from '@prisma/client';
-
-function calcPaymentStatus(totalPaid: number, orderPrice: number): PaymentStatus {
-  if (totalPaid <= 0) return 'PENDING';
-  if (orderPrice > 0 && totalPaid >= orderPrice) return 'PAID';
-  return 'PARTIAL';
-}
 
 export async function addPayment(orderId: string, data: PaymentInput): Promise<{ error?: string }> {
-  const session = await auth();
-  if (!session) return { error: 'Не авторизован' };
+  const verifiedSession = await getVerifiedSession();
+  if (!verifiedSession.ok) return { error: verifiedSession.error };
+  const { session } = verifiedSession;
 
   const { data: parsed, success, error } = PaymentSchema.safeParse(data);
   if (!success) return { error: error.issues[0].message };

@@ -1,4 +1,5 @@
-import { NAV_ITEMS, CLIENTS_PAGE_SIZE } from '@/constants';
+import { NAV_ITEMS } from '@/constants/navigation';
+import { CLIENTS_PAGE_SIZE } from '@/constants/pagination';
 import { PageHeader } from '@/components/layout/page-header';
 import { ClientsTable } from '@/components/clients/clients-table';
 import { getClients } from '@/actions/clients';

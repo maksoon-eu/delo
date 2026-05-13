@@ -2,9 +2,9 @@ import { CircleDollarSign } from 'lucide-react';
 import { ContentCard } from '@/components/ui/data/content-card';
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
 import { EmptyList } from '@/components/ui/feedback/empty-list';
-import { PAYMENT_METHOD_OPTIONS_MAP, PAYMENT_STATUS_LABELS } from '@/constants';
+import { PAYMENT_METHOD_OPTIONS_MAP, PAYMENT_STATUS_LABELS } from '@/constants/payments';
 import { cn, formatDate, formatPrice } from '@/lib/utils';
-import type { PublicOrderData } from '@/types';
+import type { PublicOrderData } from '@/types/public-orders';
 
 type PaymentInfoSectionProps = {
   order: PublicOrderData;

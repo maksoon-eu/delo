@@ -3,8 +3,9 @@
 import { revalidatePath } from 'next/cache';
 import { auth } from '@/lib/auth';
 import { db } from '@/lib/db';
+import { getVerifiedSession } from '@/lib/verified-email';
 import { ClientSchema, type ClientInput } from '@/schemas/clients';
-import type { ClientDetails, ClientListItem } from '@/types';
+import type { ClientDetails, ClientListItem } from '@/types/clients';
 
 export async function getClients(params: {
   offset: number;
@@ -19,8 +20,7 @@ export async function getClients(params: {
     SELECT
       c.id,
       c.name,
-      c.email,
-      c.phone,
+      c.contact,
       c.company,
       c."createdAt",
       COALESCE(SUM(p.amount), 0)::float AS "totalPaid"
@@ -59,8 +59,7 @@ export async function getClient(id: string): Promise<ClientDetails | null> {
   return {
     id: client.id,
     name: client.name,
-    email: client.email,
-    phone: client.phone,
+    contact: client.contact,
     company: client.company,
     inn: client.inn,
     notes: client.notes,
@@ -78,8 +77,9 @@ export async function getClient(id: string): Promise<ClientDetails | null> {
 export async function createClient(
   data: ClientInput
 ): Promise<{ error: string } | { id: string; name: string }> {
-  const session = await auth();
-  if (!session) return { error: 'Не авторизован' };
+  const verifiedSession = await getVerifiedSession();
+  if (!verifiedSession.ok) return { error: verifiedSession.error };
+  const { session } = verifiedSession;
 
   const { data: parsed, success, error } = ClientSchema.safeParse(data);
   if (!success) return { error: error.issues[0].message };
@@ -88,8 +88,7 @@ export async function createClient(
     data: {
       userId: session.user.id,
       name: parsed.name,
-      email: parsed.email || null,
-      phone: parsed.phone || null,
+      contact: parsed.contact || null,
       company: parsed.company || null,
       inn: parsed.inn || null,
       notes: parsed.notes || null,
@@ -101,8 +100,9 @@ export async function createClient(
 }
 
 export async function updateClient(id: string, data: ClientInput): Promise<{ error?: string }> {
-  const session = await auth();
-  if (!session) return { error: 'Не авторизован' };
+  const verifiedSession = await getVerifiedSession();
+  if (!verifiedSession.ok) return { error: verifiedSession.error };
+  const { session } = verifiedSession;
 
   const { data: parsed, success, error } = ClientSchema.safeParse(data);
   if (!success) return { error: error.issues[0].message };
@@ -114,8 +114,7 @@ export async function updateClient(id: string, data: ClientInput): Promise<{ err
     where: { id },
     data: {
       name: parsed.name,
-      email: parsed.email || null,
-      phone: parsed.phone || null,
+      contact: parsed.contact || null,
       company: parsed.company || null,
       inn: parsed.inn || null,
       notes: parsed.notes || null,
@@ -127,8 +126,9 @@ export async function updateClient(id: string, data: ClientInput): Promise<{ err
 }
 
 export async function deleteClient(id: string): Promise<{ error?: string }> {
-  const session = await auth();
-  if (!session) return { error: 'Не авторизован' };
+  const verifiedSession = await getVerifiedSession();
+  if (!verifiedSession.ok) return { error: verifiedSession.error };
+  const { session } = verifiedSession;
 
   const existing = await db.client.findUnique({ where: { id, userId: session.user.id } });
   if (!existing) return { error: 'Клиент не найден' };

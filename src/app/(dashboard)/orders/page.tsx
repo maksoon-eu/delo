@@ -1,4 +1,5 @@
-import { NAV_ITEMS, ORDERS_PAGE_SIZE } from '@/constants';
+import { NAV_ITEMS } from '@/constants/navigation';
+import { ORDERS_PAGE_SIZE } from '@/constants/pagination';
 import { PageHeader } from '@/components/layout/page-header';
 import { OrdersTable } from '@/components/orders/orders-table';
 import { getOrders } from '@/actions/orders';

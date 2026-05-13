@@ -12,8 +12,9 @@ import {
   FormCombobox,
   type FormComboboxLoadOptionsParams,
 } from '@/components/ui/form/fields/form-combobox';
-import type { SelectOption } from '@/types';
-import { NAV_ITEMS } from '@/constants';
+import { useRequireVerifiedEmail } from '@/hooks/use-require-verified-email';
+import type { SelectOption } from '@/types/forms';
+import { NAV_ITEMS } from '@/constants/navigation';
 
 const item = NAV_ITEMS.clients;
 
@@ -28,6 +29,7 @@ export function FormClientCombobox(props: FormClientComboboxProps) {
   const { control, defaultClient } = props;
   const [createOpen, setCreateOpen] = useState(false);
   const [createdOption, setCreatedOption] = useState<SelectOption | undefined>();
+  const requireVerifiedEmail = useRequireVerifiedEmail();
 
   const defaultOption = defaultClient
     ? { value: defaultClient.id, label: defaultClient.name }
@@ -42,6 +44,8 @@ export function FormClientCombobox(props: FormClientComboboxProps) {
   }
 
   function handleOpenCreate() {
+    if (!requireVerifiedEmail()) return;
+
     setCreateOpen(true);
   }
 

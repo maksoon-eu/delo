@@ -1,0 +1,155 @@
+'use server';
+
+import { randomUUID } from 'crypto';
+import { revalidatePath } from 'next/cache';
+import { auth } from '@/lib/auth';
+import { db } from '@/lib/db';
+import { sendEmailVerificationMessage } from '@/lib/email-verification';
+import { checkEmailVerificationCooldown } from '@/lib/rate-limit';
+import { deleteS3ObjectByKey, uploadToS3 } from '@/lib/s3';
+import { ProfileSchema, type ProfileInput } from '@/schemas/profile';
+import {
+  PROFILE_IMAGE_ALLOWED_TYPES,
+  PROFILE_IMAGE_EXTENSION_BY_TYPE,
+  PROFILE_IMAGE_MAX_BYTES,
+} from '@/constants/profile';
+import type { UploadProfileImageResult, UserProfile } from '@/types/profile';
+
+export async function getProfile(): Promise<UserProfile | null> {
+  const session = await auth();
+  if (!session) return null;
+
+  return db.user.findUnique({
+    where: { id: session.user.id },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      image: true,
+      workTerms: true,
+      emailVerified: true,
+      createdAt: true,
+    },
+  });
+}
+
+export async function updateProfile(data: ProfileInput): Promise<{ error?: string }> {
+  const session = await auth();
+  if (!session) return { error: 'Не авторизован' };
+
+  const { data: parsed, success, error } = ProfileSchema.safeParse(data);
+  if (!success) return { error: error.issues[0].message };
+
+  await db.user.update({
+    where: { id: session.user.id },
+    data: {
+      name: parsed.name,
+      workTerms: parsed.workTerms || null,
+    },
+  });
+
+  revalidatePath('/profile');
+  revalidatePath('/');
+  return {};
+}
+
+export async function uploadProfileImage(formData: FormData): Promise<UploadProfileImageResult> {
+  const session = await auth();
+  if (!session) return { error: 'Не авторизован' };
+
+  const file = formData.get('image');
+  if (!(file instanceof File)) return { error: 'Выберите изображение' };
+
+  if (
+    !PROFILE_IMAGE_ALLOWED_TYPES.includes(file.type as (typeof PROFILE_IMAGE_ALLOWED_TYPES)[number])
+  ) {
+    return { error: 'Загрузите JPG, PNG или WebP' };
+  }
+
+  if (file.size > PROFILE_IMAGE_MAX_BYTES) {
+    return { error: 'Изображение должно быть не больше 5 МБ' };
+  }
+
+  const contentType = file.type as (typeof PROFILE_IMAGE_ALLOWED_TYPES)[number];
+  const extension = PROFILE_IMAGE_EXTENSION_BY_TYPE[contentType];
+  const key = `profiles/${session.user.id}/${randomUUID()}.${extension}`;
+  const body = Buffer.from(await file.arrayBuffer());
+  const user = await db.user.findUnique({
+    where: { id: session.user.id },
+    select: { image: true },
+  });
+
+  if (!user) return { error: 'Пользователь не найден' };
+
+  await uploadToS3({ key, body, contentType });
+
+  try {
+    await db.user.update({
+      where: { id: session.user.id },
+      data: { image: key },
+    });
+
+    await deleteS3ObjectByKey(user.image);
+  } catch {
+    return { error: 'Не удалось обновить фото профиля' };
+  }
+
+  revalidatePath('/profile');
+  revalidatePath('/');
+
+  return { image: key };
+}
+
+export async function deleteProfileImage(): Promise<{ error?: string }> {
+  const session = await auth();
+  if (!session) return { error: 'Не авторизован' };
+
+  const user = await db.user.findUnique({
+    where: { id: session.user.id },
+    select: { image: true },
+  });
+
+  if (!user) return { error: 'Пользователь не найден' };
+  if (!user.image) return {};
+
+  try {
+    await db.user.update({
+      where: { id: session.user.id },
+      data: { image: null },
+    });
+
+    await deleteS3ObjectByKey(user.image);
+  } catch {
+    return { error: 'Не удалось удалить фото профиля' };
+  }
+
+  revalidatePath('/profile');
+  revalidatePath('/');
+
+  return {};
+}
+
+export async function resendEmailVerification(): Promise<{ error?: string; retryAfter?: number }> {
+  const session = await auth();
+  if (!session) return { error: 'Не авторизован' };
+
+  const user = await db.user.findUnique({
+    where: { id: session.user.id },
+    select: { email: true, emailVerified: true },
+  });
+
+  if (!user) return { error: 'Пользователь не найден' };
+  if (user.emailVerified) return { error: 'Email уже подтверждён' };
+
+  const cooldown = await checkEmailVerificationCooldown(user.email);
+  if (cooldown.blocked) {
+    return {
+      error: 'Письмо уже отправлено. Подождите перед повторной отправкой.',
+      retryAfter: cooldown.retryAfter,
+    };
+  }
+
+  await sendEmailVerificationMessage(user.email);
+
+  return {};
+}

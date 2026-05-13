@@ -3,8 +3,9 @@ import { FileText, CalendarDays, Tag, UserRound, Banknote } from 'lucide-react';
 import { formatDate, formatPrice } from '@/lib/utils';
 import { type ColumnDef } from '@tanstack/react-table';
 import { OrderStatusBadge } from '@/components/orders/order-status-badge';
-import { ORDER_STATUS_LABELS } from '@/constants';
-import type { OrderListItem, OrderDetails, SelectOption } from '@/types';
+import { ORDER_STATUS_LABELS } from '@/constants/orders';
+import type { SelectOption } from '@/types/forms';
+import type { OrderDetails, OrderListItem } from '@/types/orders';
 import type { OrderInput } from '@/schemas/orders';
 
 export const ORDER_STATUS_FILTER_OPTIONS: SelectOption[] = [

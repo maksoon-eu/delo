@@ -3,7 +3,7 @@ import { ContentCard } from '@/components/ui/data/content-card';
 import { EmptyList } from '@/components/ui/feedback/empty-list';
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
 import { formatPrice } from '@/lib/utils';
-import type { PublicOrderItemData } from '@/types';
+import type { PublicOrderItemData } from '@/types/public-orders';
 
 type OrderItemsSectionProps = {
   items: PublicOrderItemData[];

@@ -2,9 +2,9 @@
 
 import { useRef } from 'react';
 import { cn, formatDate, startAnimatedIcon, stopAnimatedIcon } from '@/lib/utils';
-import { ORDER_STATUS_LABELS, ORDER_STATUS_ICONS } from '@/constants';
+import { ORDER_STATUS_ICONS, ORDER_STATUS_LABELS } from '@/constants/orders';
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
-import type { AnimatedIconHandle } from '@/types';
+import type { AnimatedIconHandle } from '@/types/icons';
 import type { OrderStatus } from '@prisma/client';
 
 const PROGRESS_STATUSES: OrderStatus[] = ['DRAFT', 'SENT', 'CONFIRMED', 'IN_PROGRESS', 'COMPLETED'];

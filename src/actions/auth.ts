@@ -2,8 +2,10 @@
 
 import { signOut } from '@/lib/auth';
 import { db } from '@/lib/db';
+import { createPasswordResetEmail } from '@/emails/password-reset';
+import { sendEmailVerificationMessage } from '@/lib/email-verification';
 import bcrypt from 'bcryptjs';
-import { Resend } from 'resend';
+import { sendEmail } from '@/lib/email';
 import { env } from '@/lib/env';
 import {
   LoginSchema,
@@ -73,6 +75,10 @@ export async function registerUser(data: RegisterInput): Promise<{ error?: strin
     },
   });
 
+  await sendEmailVerificationMessage(parsedData.email).catch(() => {
+    return;
+  });
+
   return {};
 }
 
@@ -101,18 +107,7 @@ export async function sendPasswordResetEmail(
   await db.passwordResetToken.create({ data: { email: parsed.email, token, expires } });
 
   const resetUrl = `${env.NEXT_PUBLIC_APP_URL}/reset-password?token=${token}`;
-
-  const resend = new Resend(env.RESEND_API_KEY);
-  await resend.emails.send({
-    from: `Delo <noreply@${env.RESEND_DOMAIN}>`,
-    to: parsed.email,
-    subject: 'Сброс пароля — Delo',
-    html: `
-      <p>Вы запросили сброс пароля.</p>
-      <p><a href="${resetUrl}">Нажмите здесь, чтобы задать новый пароль</a></p>
-      <p>Ссылка действительна 1 час. Если вы не запрашивали сброс — просто проигнорируйте это письмо.</p>
-    `,
-  });
+  await sendEmail(parsed.email, createPasswordResetEmail(resetUrl));
 
   return {};
 }

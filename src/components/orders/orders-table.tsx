@@ -10,9 +10,11 @@ import { AppDialog } from '@/components/ui/overlay/dialog';
 import { SelectInput } from '@/components/ui/form/fields/select-input';
 import { OrderForm } from '@/components/orders/order-form';
 import { getOrders } from '@/actions/orders';
-import { NAV_ITEMS, ORDERS_PAGE_SIZE } from '@/constants';
+import { NAV_ITEMS } from '@/constants/navigation';
+import { ORDERS_PAGE_SIZE } from '@/constants/pagination';
 import { useInfiniteList } from '@/hooks/use-infinite-list';
-import type { OrderListItem } from '@/types';
+import { useRequireVerifiedEmail } from '@/hooks/use-require-verified-email';
+import type { OrderListItem } from '@/types/orders';
 import { OrderStatus } from '@prisma/client';
 import { ORDERS_TABLE_COLUMNS, ORDER_STATUS_FILTER_OPTIONS } from './constants';
 import { FilterCard } from '../ui/data/filter-card';
@@ -34,6 +36,7 @@ export function OrdersTable(props: OrdersTableProps) {
   const [clientIdFilter] = useQueryState('clientId', { defaultValue: '' });
   const [globalFilter, setGlobalFilter] = useState('');
   const [createOpen, setCreateOpen] = useState(false);
+  const requireVerifiedEmail = useRequireVerifiedEmail();
 
   const { items, hasMore, isLoadingMore, loadMore } = useInfiniteList<OrderListItem>({
     initialItems,
@@ -62,6 +65,8 @@ export function OrdersTable(props: OrdersTableProps) {
   }
 
   function handleNewOrder() {
+    if (!requireVerifiedEmail()) return;
+
     setCreateOpen(true);
   }
 

@@ -3,6 +3,7 @@ import { OrderHero } from '@/components/public/order-hero';
 import { OrderItemsSection } from '@/components/public/order-items-section';
 import { OrderStatusProgress } from '@/components/public/order-status-progress';
 import { PaymentInfoSection } from '@/components/public/payment-info-section';
+import { WorkTermsSection } from '@/components/public/work-terms-section';
 import { ConfirmOrderButton } from '@/components/public/confirm-order-button';
 import { ContentCard } from '@/components/ui/data/content-card';
 
@@ -21,6 +22,7 @@ export default async function PublicOrderPage(props: PublicOrderPageProps) {
       <OrderHero order={order} />
       <OrderStatusProgress status={order.status} statusDates={order.statusDates} />
       <OrderItemsSection items={order.items} />
+      <WorkTermsSection order={order} />
       <PaymentInfoSection order={order} />
       {order.status === 'SENT' && (
         <div className="flex justify-center">

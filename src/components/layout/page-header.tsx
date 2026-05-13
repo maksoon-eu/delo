@@ -1,4 +1,4 @@
-import type { AnimatedIconComponent } from '@/types';
+import type { AnimatedIconComponent } from '@/types/icons';
 
 type PageHeaderProps = {
   Icon: AnimatedIconComponent;

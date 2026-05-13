@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { NAV_ITEMS } from '@/constants';
+import { NAV_ITEMS } from '@/constants/navigation';
 import { PageHeader } from '@/components/layout/page-header';
 import { ClientCardContent } from '@/components/clients/client-card-content';
 import { BackLink } from '@/components/ui/navigation/back-link';
