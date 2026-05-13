@@ -29,3 +29,12 @@
 - Add `APP_ENV` only inside `src/lib/s3.ts` when reading, writing, or deleting S3 objects.
 - Build browser-facing image URLs with `getProfileImageUrl()` from `src/lib/profile-image.ts`.
 - Serve profile images through `/api/profile-images/[...key]`.
+
+## Validation and fallbacks
+
+- Avoid defensive fallback values for data that has already been validated or is guaranteed by a storage invariant.
+- Keep checks focused on meaningful validation, authorization, ownership, and external boundary failures.
+
+## Order documents
+
+- Store uploaded order document keys with `uuid~safe-file-name`; `~` is outside the UUID alphabet, so display/download names can be extracted by splitting the final path segment.

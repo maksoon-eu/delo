@@ -19,3 +19,9 @@
 
 - Client contact details are stored in free-form `Client.contact`.
 - Old `Client.email` and `Client.phone` data are merged into `contact` during migration, because contact may contain a phone number, Telegram/VK nickname, email, or any other text.
+
+## 2026-05-13: Order payment documents
+
+- User-uploaded receipts and bank payment PDFs are stored as `Document` rows attached to the order.
+- Until a dedicated receipt document type is introduced, uploaded payment documents use existing `DocumentType.INVOICE`.
+- The order details page lists only `INVOICE` documents in the "Прикрепить чеки" area; future contract/act documents should not appear in that receipt list.
