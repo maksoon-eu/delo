@@ -565,6 +565,7 @@ const { control, handleSubmit } = form
 
 - Все env-переменные — через `src/lib/env.ts` (валидация через @t3-oss/env-nextjs)
 - Никогда не обращаться к `process.env` напрямую вне `env.ts`
+- Клиенты внешних сервисов, которые требуют обязательные env при создании (например `Resend`), инициализировать лениво внутри helper-функции, а не на уровне модуля, чтобы `next build` мог импортировать Server Actions при сборе page data без runtime-секретов.
 - Файлы профиля загружать только через S3-хелперы из `src/lib/s3.ts`; `User.image` хранит ключ вида `profiles/<userId>/<file>`, а не публичный URL.
 - S3-ключи разделяются по окружениям через `APP_ENV=local | dev | prod`; helper `src/lib/s3.ts` добавляет окружение при обращении к S3, но в базе окружение не хранится.
 - Фото профиля отдавать через локальный route handler `/api/profile-images/[...key]`, а клиентский URL строить через `getProfileImageUrl()` из `src/lib/profile-image.ts`.
