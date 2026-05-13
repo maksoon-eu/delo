@@ -57,6 +57,8 @@ export const ORDER_STATUS_TRANSITIONS: Record<OrderStatus, OrderStatus[]> = {
   CANCELLED: [],
 };
 
+export const ORDER_FINAL_STATUSES = [OrderStatus.COMPLETED, OrderStatus.CANCELLED] as const;
+
 export const ORDER_STATUS_ACTIVITY_MESSAGES: Record<string, string> = {
   SENT: 'Заказ отправлен клиенту',
   CONFIRMED: 'Клиент подтвердил условия',

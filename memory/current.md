@@ -19,3 +19,6 @@
 - Client `email` and `phone` were replaced by a free-form `contact` field for phone numbers, Telegram/VK nicknames, email, or any other contact text.
 - Dashboard order status panel is a titled "Действия по заказу" section with aligned status, inline next actions, and client link controls.
 - Order status badges now use per-status active highlight styles, so the current status in the order panel and status chips in the orders table are visually distinct.
+- Finalized orders (`COMPLETED`, `CANCELLED`) no longer show the dashboard "Редактировать" button.
+- The order actions panel now supports attaching receipt/payment PDFs through `Document` rows and lists attached files under the upload button.
+- Receipt/payment PDFs now render in a separate "Чеки по оплатам" section under the order actions panel, not inside the actions grid.

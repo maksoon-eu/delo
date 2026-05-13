@@ -1,4 +1,4 @@
-import type { OrderStatus, PaymentMethod, PaymentStatus } from '@prisma/client';
+import type { DocumentType, OrderStatus, PaymentMethod, PaymentStatus } from '@prisma/client';
 import type { ActivityEntry, PaymentEntry } from '@/types/payments';
 
 export type OrderListItem = {
@@ -17,6 +17,13 @@ export type OrderItemData = {
   name: string;
   description: string;
   price: number;
+};
+
+export type OrderDocumentEntry = {
+  id: string;
+  type: DocumentType;
+  name: string;
+  createdAt: Date;
 };
 
 export type OrderDetails = {
@@ -38,5 +45,6 @@ export type OrderDetails = {
   clientName: string;
   items: OrderItemData[];
   payments: PaymentEntry[];
+  documents: OrderDocumentEntry[];
   activities: ActivityEntry[];
 };

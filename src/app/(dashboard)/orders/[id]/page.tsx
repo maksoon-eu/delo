@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { NAV_ITEMS } from '@/constants/navigation';
+import { ORDER_FINAL_STATUSES } from '@/constants/orders';
 import { env } from '@/lib/env';
 import { formatDate, formatPrice } from '@/lib/utils';
 import { PageHeader } from '@/components/layout/page-header';
@@ -8,6 +9,7 @@ import { AnimateIn } from '@/components/ui/feedback/animate-in';
 import { BackLink } from '@/components/ui/navigation/back-link';
 import { Button } from '@/components/ui/actions/button';
 import { OrderStatusPanel } from '@/components/orders/order-status-panel';
+import { OrderDocumentsSection } from '@/components/orders/order-documents-section';
 import { ActivityLog } from '@/components/orders/activity-log';
 import { PaymentsSection } from '@/components/orders/payments-section';
 import { ArrowRightIcon } from '@/components/icons/arrow-right';
@@ -31,6 +33,7 @@ export default async function OrderPage(props: OrderPageProps) {
 
   const totalItems = order.items.reduce((sum, i) => sum + i.price, 0);
   const publicOrderUrl = new URL(`/order/${order.publicToken}`, env.NEXT_PUBLIC_APP_URL).toString();
+  const canEditOrder = !ORDER_FINAL_STATUSES.some((status) => status === order.status);
 
   return (
     <div className="flex flex-1 flex-col">
@@ -43,11 +46,13 @@ export default async function OrderPage(props: OrderPageProps) {
         <ContentCard>
           <div className="flex items-center justify-between">
             <BackLink href="/orders" label="заказам" />
-            <Link href={`/orders/${id}/edit`}>
-              <Button variant="outline" Icon={ArrowRightIcon}>
-                Редактировать
-              </Button>
-            </Link>
+            {canEditOrder && (
+              <Link href={`/orders/${id}/edit`}>
+                <Button variant="outline" Icon={ArrowRightIcon}>
+                  Редактировать
+                </Button>
+              </Link>
+            )}
           </div>
         </ContentCard>
 
@@ -57,6 +62,10 @@ export default async function OrderPage(props: OrderPageProps) {
             currentStatus={order.status}
             publicOrderUrl={publicOrderUrl}
           />
+        </ContentCard>
+
+        <ContentCard>
+          <OrderDocumentsSection orderId={order.id} documents={order.documents} />
         </ContentCard>
 
         <div className="grid gap-5 lg:grid-cols-3">

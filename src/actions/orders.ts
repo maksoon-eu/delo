@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { auth } from '@/lib/auth';
 import { db } from '@/lib/db';
+import { getDocumentFileName } from '@/lib/document-file';
 import { getVerifiedSession } from '@/lib/verified-email';
 import { OrderSchema, type OrderInput } from '@/schemas/orders';
 import {
@@ -74,6 +75,10 @@ export async function getOrder(id: string): Promise<OrderDetails | null> {
       client: true,
       items: true,
       payments: { orderBy: { paidAt: 'desc' } },
+      documents: {
+        where: { type: 'INVOICE', url: { not: null } },
+        orderBy: { createdAt: 'desc' },
+      },
       activities: { orderBy: { createdAt: 'desc' } },
     },
   });
@@ -109,6 +114,12 @@ export async function getOrder(id: string): Promise<OrderDetails | null> {
       note: p.note,
       paidAt: p.paidAt,
       createdAt: p.createdAt,
+    })),
+    documents: order.documents.map((document) => ({
+      id: document.id,
+      type: document.type,
+      name: getDocumentFileName(document.url!),
+      createdAt: document.createdAt,
     })),
     activities: order.activities.map((a) => ({
       id: a.id,
