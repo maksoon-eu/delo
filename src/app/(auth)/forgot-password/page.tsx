@@ -12,6 +12,7 @@ import { AuthCard } from '@/components/auth/auth-card';
 import { AtSignIcon } from '@/components/icons/at-sign';
 import { sendPasswordResetEmail } from '@/actions/auth';
 import { ForgotPasswordSchema, type ForgotPasswordInput } from '@/schemas/auth';
+import { PASSWORD_RESET_COOLDOWN_MS } from '@/constants/auth';
 
 export default function ForgotPasswordPage() {
   const {
@@ -36,7 +37,7 @@ export default function ForgotPasswordPage() {
     }
 
     toast.success('Письмо отправлено. Проверьте почту.');
-    startCooldown(30);
+    startCooldown(Math.ceil(PASSWORD_RESET_COOLDOWN_MS / 1000));
   }
 
   const [execute, isLoading] = useAsyncAction(onSubmit);

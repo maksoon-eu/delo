@@ -7,9 +7,11 @@ import { DataTable } from '@/components/ui/data/data-table';
 import { AppDialog } from '@/components/ui/overlay/dialog';
 import { ClientForm } from '@/components/clients/client-form';
 import { getClients } from '@/actions/clients';
-import { CLIENTS_PAGE_SIZE, NAV_ITEMS } from '@/constants';
+import { NAV_ITEMS } from '@/constants/navigation';
+import { CLIENTS_PAGE_SIZE } from '@/constants/pagination';
 import { useInfiniteList } from '@/hooks/use-infinite-list';
-import type { ClientListItem } from '@/types';
+import { useRequireVerifiedEmail } from '@/hooks/use-require-verified-email';
+import type { ClientListItem } from '@/types/clients';
 import { AnimateIn } from '../ui/feedback/animate-in';
 import { FilterCard } from '../ui/data/filter-card';
 import { columns } from './constants';
@@ -32,6 +34,7 @@ export function ClientsTable(props: ClientsTableProps) {
   });
   const [globalFilter, setGlobalFilter] = useState('');
   const [createOpen, setCreateOpen] = useState(false);
+  const requireVerifiedEmail = useRequireVerifiedEmail();
 
   const table = useReactTable({
     data: items,
@@ -47,6 +50,8 @@ export function ClientsTable(props: ClientsTableProps) {
   }
 
   function handleNewClient() {
+    if (!requireVerifiedEmail()) return;
+
     setCreateOpen(true);
   }
 

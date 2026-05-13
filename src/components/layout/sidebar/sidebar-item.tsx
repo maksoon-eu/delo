@@ -4,7 +4,8 @@ import Link from 'next/link';
 import { useRef } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { cn, startAnimatedIcon, stopAnimatedIcon } from '@/lib/utils';
-import type { AnimatedIconHandle, NavItem } from '@/types';
+import type { AnimatedIconHandle } from '@/types/icons';
+import type { NavItem } from '@/types/navigation';
 
 type SidebarNavItemProps = NavItem & { collapsed: boolean; pathname: string };
 

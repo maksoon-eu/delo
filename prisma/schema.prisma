@@ -14,6 +14,7 @@ model User {
   email         String    @unique
   emailVerified DateTime?
   image         String?
+  workTerms     String?
   password      String
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -56,6 +57,7 @@ model VerificationToken {
   identifier String
   token      String
   expires    DateTime
+  createdAt  DateTime @default(now())
 
   @@unique([identifier, token])
 }
@@ -84,8 +86,7 @@ model Client {
   id        String   @id @default(cuid())
   userId    String
   name      String
-  email     String?
-  phone     String?
+  contact   String?
   company   String?
   inn       String?
   notes     String?
@@ -136,8 +137,9 @@ model Order {
   deadline       DateTime?
 
   // публичная страница для клиента
-  publicToken    String         @unique @default(cuid())
-  confirmedAt    DateTime?
+  publicToken           String    @unique @default(cuid())
+  sentAt                DateTime?
+  confirmedAt           DateTime?
 
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt

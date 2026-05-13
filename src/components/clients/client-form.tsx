@@ -9,7 +9,6 @@ import { FormInput } from '@/components/ui/form/fields/form-input';
 import { FormTextarea } from '@/components/ui/form/fields/form-textarea';
 import { Button } from '@/components/ui/actions/button';
 import { UserIcon } from '@/components/icons/user';
-import { AtSignIcon } from '@/components/icons/at-sign';
 import { ArrowRightIcon } from '@/components/icons/arrow-right';
 import { MessageCircleIcon } from '@/components/icons/message-circle';
 import { MapPinIcon } from '@/components/icons/map-pin';
@@ -31,7 +30,7 @@ export function ClientForm(props: ClientFormProps) {
     defaultValues:
       mode === 'edit'
         ? props.defaultValues
-        : { name: '', email: '', phone: '', company: '', inn: '', notes: '' },
+        : { name: '', contact: '', company: '', inn: '', notes: '' },
   });
 
   const { control, handleSubmit } = form;
@@ -61,18 +60,9 @@ export function ClientForm(props: ClientFormProps) {
           <FormInput control={control} name="name" label="Имя / Название" Icon={UserIcon} />
           <FormInput
             control={control}
-            name="email"
-            label="Email"
-            type="email"
-            autoComplete="email"
-            Icon={AtSignIcon}
-          />
-          <FormInput
-            control={control}
-            name="phone"
-            label="Телефон"
-            type="tel"
-            autoComplete="tel"
+            name="contact"
+            label="Контакт"
+            autoComplete="off"
             Icon={MessageCircleIcon}
           />
           <FormInput control={control} name="company" label="Компания" Icon={MapPinIcon} />

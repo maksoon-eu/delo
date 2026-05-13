@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { NAV_ITEMS } from '@/constants';
+import { NAV_ITEMS } from '@/constants/navigation';
 import { PageHeader } from '@/components/layout/page-header';
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
 import { BackLink } from '@/components/ui/navigation/back-link';

@@ -4,7 +4,8 @@ import { ru } from 'date-fns/locale';
 import type { RefObject } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { z } from 'zod';
-import type { AnimatedIconHandle } from '@/types';
+import type { AnimatedIconHandle } from '@/types/icons';
+import type { PaymentStatus } from '@prisma/client';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -16,6 +17,16 @@ export function startAnimatedIcon(ref: RefObject<AnimatedIconHandle | null>, dis
 
 export function stopAnimatedIcon(ref: RefObject<AnimatedIconHandle | null>, disabled?: boolean) {
   if (!disabled) ref.current?.stopAnimation();
+}
+
+export function matchesRoutes(pathname: string, routes: readonly string[]) {
+  return routes.some((route) => pathname === route || pathname.startsWith(`${route}/`));
+}
+
+export function calcPaymentStatus(totalPaid: number, orderPrice: number): PaymentStatus {
+  if (totalPaid <= 0) return 'PENDING';
+  if (orderPrice > 0 && totalPaid >= orderPrice) return 'PAID';
+  return 'PARTIAL';
 }
 
 export function formatPrice(value: number): string {

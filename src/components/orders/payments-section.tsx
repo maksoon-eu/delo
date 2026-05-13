@@ -1,9 +1,9 @@
 import { EmptyList } from '@/components/ui/feedback/empty-list';
 import { DetailItem } from '@/components/ui/data/detail-item';
 import { PaymentFormDialog } from '@/components/orders/payment-form-dialog';
-import { PAYMENT_STATUS_LABELS } from '@/constants';
+import { PAYMENT_STATUS_LABELS } from '@/constants/payments';
 import { formatDate, formatPrice } from '@/lib/utils';
-import type { PaymentEntry } from '@/types';
+import type { PaymentEntry } from '@/types/payments';
 import type { PaymentStatus } from '@prisma/client';
 
 type PaymentsSectionProps = {

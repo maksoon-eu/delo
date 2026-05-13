@@ -3,9 +3,14 @@
 import { revalidatePath } from 'next/cache';
 import { auth } from '@/lib/auth';
 import { db } from '@/lib/db';
+import { getVerifiedSession } from '@/lib/verified-email';
 import { OrderSchema, type OrderInput } from '@/schemas/orders';
-import { ORDER_STATUS_TRANSITIONS, ORDER_STATUS_ACTIVITY_MESSAGES } from '@/constants';
-import type { OrderListItem, OrderDetails } from '@/types';
+import {
+  ORDER_LINK_COPIED_ACTIVITY_MESSAGE,
+  ORDER_STATUS_ACTIVITY_MESSAGES,
+  ORDER_STATUS_TRANSITIONS,
+} from '@/constants/orders';
+import type { OrderDetails, OrderListItem } from '@/types/orders';
 import type { OrderStatus } from '@prisma/client';
 import { notFound } from 'next/navigation';
 
@@ -86,6 +91,7 @@ export async function getOrder(id: string): Promise<OrderDetails | null> {
     startDate: order.startDate,
     deadline: order.deadline,
     publicToken: order.publicToken,
+    sentAt: order.sentAt,
     confirmedAt: order.confirmedAt,
     createdAt: order.createdAt,
     updatedAt: order.updatedAt,
@@ -135,8 +141,9 @@ export async function searchClients(params: {
 }
 
 export async function createOrder(data: OrderInput): Promise<{ error: string } | { id: string }> {
-  const session = await auth();
-  if (!session) return { error: 'Не авторизован' };
+  const verifiedSession = await getVerifiedSession();
+  if (!verifiedSession.ok) return { error: verifiedSession.error };
+  const { session } = verifiedSession;
 
   const { data: parsed, success, error } = OrderSchema.safeParse(data);
   if (!success) return { error: error.issues[0].message };
@@ -169,8 +176,9 @@ export async function createOrder(data: OrderInput): Promise<{ error: string } |
 }
 
 export async function updateOrder(id: string, data: OrderInput): Promise<{ error?: string }> {
-  const session = await auth();
-  if (!session) return { error: 'Не авторизован' };
+  const verifiedSession = await getVerifiedSession();
+  if (!verifiedSession.ok) return { error: verifiedSession.error };
+  const { session } = verifiedSession;
 
   const { data: parsed, success, error } = OrderSchema.safeParse(data);
   if (!success) return { error: error.issues[0].message };
@@ -210,8 +218,9 @@ export async function updateOrderStatus(
   id: string,
   newStatus: OrderStatus
 ): Promise<{ error?: string }> {
-  const session = await auth();
-  if (!session) return { error: 'Не авторизован' };
+  const verifiedSession = await getVerifiedSession();
+  if (!verifiedSession.ok) return { error: verifiedSession.error };
+  const { session } = verifiedSession;
 
   const existing = await db.order.findUnique({ where: { id, userId: session.user.id } });
   if (!existing) return { error: 'Заказ не найден' };
@@ -242,8 +251,9 @@ export async function updateOrderStatus(
 }
 
 export async function deleteOrder(id: string): Promise<{ error?: string }> {
-  const session = await auth();
-  if (!session) return { error: 'Не авторизован' };
+  const verifiedSession = await getVerifiedSession();
+  if (!verifiedSession.ok) return { error: verifiedSession.error };
+  const { session } = verifiedSession;
 
   const existing = await db.order.findUnique({ where: { id, userId: session.user.id } });
   if (!existing) return { error: 'Заказ не найден' };
@@ -251,6 +261,40 @@ export async function deleteOrder(id: string): Promise<{ error?: string }> {
   await db.order.delete({ where: { id } });
 
   revalidatePath('/orders');
+  return {};
+}
+
+export async function markOrderSentByLinkCopy(id: string): Promise<{ error?: string }> {
+  const verifiedSession = await getVerifiedSession();
+  if (!verifiedSession.ok) return { error: verifiedSession.error };
+  const { session } = verifiedSession;
+
+  const order = await db.order.findUnique({
+    where: { id, userId: session.user.id },
+    select: { id: true, status: true, sentAt: true },
+  });
+
+  if (!order) return { error: 'Заказ не найден' };
+
+  if (order.status === 'DRAFT') {
+    await db.$transaction([
+      db.order.update({
+        where: { id: order.id },
+        data: { status: 'SENT', sentAt: order.sentAt ?? new Date() },
+      }),
+      db.activity.create({
+        data: {
+          orderId: order.id,
+          type: 'SENT',
+          text: ORDER_LINK_COPIED_ACTIVITY_MESSAGE,
+        },
+      }),
+    ]);
+
+    revalidatePath('/orders');
+    revalidatePath(`/orders/${id}`);
+  }
+
   return {};
 }
 

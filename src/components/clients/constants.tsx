@@ -1,7 +1,7 @@
 import { formatDate, formatPrice, getInitials } from '@/lib/utils';
-import { type ClientListItem } from '@/types';
+import { type ClientListItem } from '@/types/clients';
 import { type ColumnDef } from '@tanstack/react-table';
-import { Building2, CalendarDays, Mail, Phone, User, Wallet } from 'lucide-react';
+import { Building2, CalendarDays, MessageCircle, User, Wallet } from 'lucide-react';
 
 export const columns: ColumnDef<ClientListItem>[] = [
   {
@@ -38,26 +38,15 @@ export const columns: ColumnDef<ClientListItem>[] = [
     enableGlobalFilter: true,
   },
   {
-    accessorKey: 'email',
+    accessorKey: 'contact',
     header: () => (
       <span className="flex items-center gap-1.5">
-        <Mail className="size-3.5" />
-        Email
+        <MessageCircle className="size-3.5" />
+        Контакт
       </span>
     ),
     cell: ({ getValue }) => getValue<string | null>() ?? '—',
     enableGlobalFilter: true,
-    meta: { copyable: true },
-  },
-  {
-    accessorKey: 'phone',
-    header: () => (
-      <span className="flex items-center gap-1.5">
-        <Phone className="size-3.5" />
-        Телефон
-      </span>
-    ),
-    cell: ({ getValue }) => getValue<string | null>() ?? '—',
     meta: { copyable: true },
   },
   {

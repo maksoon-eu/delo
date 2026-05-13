@@ -1,9 +1,19 @@
 import { db } from '@/lib/db';
 import {
+  EMAIL_VERIFICATION_COOLDOWN_MS,
   LOGIN_ATTEMPTS_PER_TIER,
   LOGIN_BASE_LOCKOUT_SECONDS,
   PASSWORD_RESET_COOLDOWN_MS,
-} from '@/constants';
+} from '@/constants/auth';
+
+function getCooldownState(createdAt: Date | null, cooldownMs: number) {
+  if (!createdAt) return { blocked: false, retryAfter: 0 };
+
+  const elapsed = Date.now() - createdAt.getTime();
+  if (elapsed >= cooldownMs) return { blocked: false, retryAfter: 0 };
+
+  return { blocked: true, retryAfter: Math.ceil((cooldownMs - elapsed) / 1000) };
+}
 
 // 5 попыток → 30с, 10 → 60с, 15 → 120с, ...
 function getLockoutSeconds(count: number): number {
@@ -50,12 +60,14 @@ export async function checkPasswordResetCooldown(email: string) {
     orderBy: { createdAt: 'desc' },
   });
 
-  if (!recent) return { blocked: false, retryAfter: 0 };
+  return getCooldownState(recent?.createdAt ?? null, PASSWORD_RESET_COOLDOWN_MS);
+}
 
-  const elapsed = Date.now() - recent.createdAt.getTime();
-  if (elapsed < PASSWORD_RESET_COOLDOWN_MS) {
-    return { blocked: true, retryAfter: Math.ceil((PASSWORD_RESET_COOLDOWN_MS - elapsed) / 1000) };
-  }
+export async function checkEmailVerificationCooldown(email: string) {
+  const recent = await db.verificationToken.findFirst({
+    where: { identifier: email },
+    orderBy: { createdAt: 'desc' },
+  });
 
-  return { blocked: false, retryAfter: 0 };
+  return getCooldownState(recent?.createdAt ?? null, EMAIL_VERIFICATION_COOLDOWN_MS);
 }

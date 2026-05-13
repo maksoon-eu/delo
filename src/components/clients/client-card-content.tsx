@@ -4,10 +4,10 @@ import Link from 'next/link';
 import { ClientForm } from '@/components/clients/client-form';
 import { ArrowRightIcon } from '@/components/icons/arrow-right';
 import { Button } from '@/components/ui/actions/button';
-import { ORDER_STATUS_LABELS } from '@/constants';
+import { ORDER_STATUS_LABELS } from '@/constants/orders';
 import { cn, formatDate, formatPrice, getInitials } from '@/lib/utils';
 import type { ClientInput } from '@/schemas/clients';
-import type { ClientDetails } from '@/types';
+import type { ClientDetails } from '@/types/clients';
 
 type ClientCardContentProps = {
   client: ClientDetails;
@@ -20,8 +20,7 @@ export function ClientCardContent(props: ClientCardContentProps) {
 
   const defaultValues: ClientInput = {
     name: client.name,
-    email: client.email ?? '',
-    phone: client.phone ?? '',
+    contact: client.contact ?? '',
     company: client.company ?? '',
     inn: client.inn ?? '',
     notes: client.notes ?? '',
@@ -37,7 +36,7 @@ export function ClientCardContent(props: ClientCardContentProps) {
         </div>
         <div>
           <p className="font-semibold">{client.name}</p>
-          {client.email && <p className="text-muted-foreground text-sm">{client.email}</p>}
+          {client.contact && <p className="text-muted-foreground text-sm">{client.contact}</p>}
         </div>
       </div>
 

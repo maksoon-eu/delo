@@ -4,7 +4,7 @@ import { Dialog } from '@base-ui/react/dialog';
 import type { ReactNode } from 'react';
 import { XIcon } from '@/components/icons/x';
 import { cn } from '@/lib/utils';
-import type { AnimatedIconComponent } from '@/types';
+import type { AnimatedIconComponent } from '@/types/icons';
 
 type AppDialogProps = {
   open: boolean;

@@ -5,6 +5,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+import type { Route } from 'next';
 import { Form } from '@/components/ui/form/form';
 import { FormInput } from '@/components/ui/form/fields/form-input';
 import { Button } from '@/components/ui/actions/button';
@@ -45,7 +47,8 @@ export default function RegisterPage() {
       throw new Error('Регистрация прошла успешно. Войдите в аккаунт.');
     }
 
-    router.push('/');
+    toast.success('Мы отправили ссылку подтверждения на ваш email');
+    router.push('/profile' as Route);
     router.refresh();
   }
 

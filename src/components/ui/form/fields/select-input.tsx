@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/form/primitives/select';
-import type { SelectOption } from '@/types';
+import type { SelectOption } from '@/types/forms';
 import { useState } from 'react';
 
 type SelectInputProps = {

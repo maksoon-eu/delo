@@ -6,7 +6,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { Check, LoaderCircle } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { CopyIcon } from '@/components/icons/copy';
-import type { AnimatedIconComponent, AnimatedIconHandle } from '@/types';
+import type { AnimatedIconComponent, AnimatedIconHandle } from '@/types/icons';
 import { cn, startAnimatedIcon, stopAnimatedIcon } from '@/lib/utils';
 
 const buttonVariants = cva(

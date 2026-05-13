@@ -55,9 +55,13 @@ export function PaymentFormDialog(props: PaymentFormDialogProps) {
     setOpen(value);
   }
 
+  function handleOpenPayment() {
+    setOpen(true);
+  }
+
   return (
     <>
-      <Button Icon={PlusIcon} onClick={() => setOpen(true)} variant="outline" size="sm">
+      <Button Icon={PlusIcon} onClick={handleOpenPayment} variant="outline" size="sm">
         Добавить оплату
       </Button>
 

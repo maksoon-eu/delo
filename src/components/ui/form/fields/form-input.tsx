@@ -13,7 +13,7 @@ import {
 import { Button } from '@/components/ui/actions/button';
 import { Input } from '@/components/ui/form/primitives/input';
 import { EyeIcon } from '@/components/icons/eye';
-import type { AnimatedIconComponent, AnimatedIconHandle } from '@/types';
+import type { AnimatedIconComponent, AnimatedIconHandle } from '@/types/icons';
 import { cn, startAnimatedIcon, stopAnimatedIcon } from '@/lib/utils';
 
 type FormInputProps<T extends FieldValues> = {

@@ -19,7 +19,7 @@ import { CircleDollarSignIcon } from '@/components/icons/circle-dollar-sign';
 import { OrderSchema, type OrderInput } from '@/schemas/orders';
 import { createOrder, updateOrder } from '@/actions/orders';
 import { useAsyncAction } from '@/hooks/use-async-action';
-import { PAYMENT_METHOD_OPTIONS, PAYMENT_METHOD_OPTIONS_MAP } from '@/constants';
+import { PAYMENT_METHOD_OPTIONS, PAYMENT_METHOD_OPTIONS_MAP } from '@/constants/payments';
 import { ORDER_CREATE_DEFAULT_VALUES, ORDER_ITEM_DEFAULT } from './constants';
 import { OrderTotal } from './order-total';
 

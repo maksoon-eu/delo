@@ -1,26 +1,31 @@
 import { auth } from '@/lib/auth';
+import {
+  AUTH_ROUTES,
+  LOGIN_ROUTE,
+  PROTECTED_ROUTES,
+  PUBLIC_ROUTES,
+  ROOT_ROUTE,
+} from '@/constants/routes';
+import { matchesRoutes } from '@/lib/utils';
 import { NextResponse } from 'next/server';
 
 export default auth((req) => {
   const isLoggedIn = !!req.auth;
   const { pathname } = req.nextUrl;
 
-  const isAuthPage =
-    pathname.startsWith('/login') ||
-    pathname.startsWith('/register') ||
-    pathname.startsWith('/forgot-password') ||
-    pathname.startsWith('/reset-password');
-  const isPublicPage = pathname.startsWith('/order') || pathname.startsWith('/api/auth');
+  const isAuthPage = matchesRoutes(pathname, AUTH_ROUTES);
+  const isPublicPage = matchesRoutes(pathname, PUBLIC_ROUTES);
+  const isProtectedPage = matchesRoutes(pathname, PROTECTED_ROUTES);
 
   if (isPublicPage) return NextResponse.next();
 
   if (isAuthPage) {
-    if (isLoggedIn) return NextResponse.redirect(new URL('/', req.nextUrl));
+    if (isLoggedIn) return NextResponse.redirect(new URL(ROOT_ROUTE, req.nextUrl));
     return NextResponse.next();
   }
 
-  if (!isLoggedIn) {
-    return NextResponse.redirect(new URL('/login', req.nextUrl));
+  if (isProtectedPage && !isLoggedIn) {
+    return NextResponse.redirect(new URL(LOGIN_ROUTE, req.nextUrl));
   }
 
   return NextResponse.next();

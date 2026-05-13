@@ -2,7 +2,7 @@
 
 import type { Control, FieldPath, FieldValues } from 'react-hook-form';
 import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form/form';
-import type { SelectOption } from '@/types';
+import type { SelectOption } from '@/types/forms';
 import { SelectInput } from './select-input';
 
 type FormSelectProps<T extends FieldValues> = {

@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { NAV_ITEMS } from '@/constants';
+import { NAV_ITEMS } from '@/constants/navigation';
+import { env } from '@/lib/env';
 import { formatDate, formatPrice } from '@/lib/utils';
 import { PageHeader } from '@/components/layout/page-header';
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
@@ -29,6 +30,7 @@ export default async function OrderPage(props: OrderPageProps) {
   if (!order) notFound();
 
   const totalItems = order.items.reduce((sum, i) => sum + i.price, 0);
+  const publicOrderUrl = new URL(`/order/${order.publicToken}`, env.NEXT_PUBLIC_APP_URL).toString();
 
   return (
     <div className="flex flex-1 flex-col">
@@ -50,7 +52,11 @@ export default async function OrderPage(props: OrderPageProps) {
         </ContentCard>
 
         <ContentCard>
-          <OrderStatusPanel orderId={order.id} currentStatus={order.status} />
+          <OrderStatusPanel
+            orderId={order.id}
+            currentStatus={order.status}
+            publicOrderUrl={publicOrderUrl}
+          />
         </ContentCard>
 
         <div className="grid gap-5 lg:grid-cols-3">

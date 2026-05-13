@@ -1,0 +1,39 @@
+import type { NavItem } from '@/types/navigation';
+import { FileTextIcon } from '@/components/icons/file-text';
+import { HomeIcon } from '@/components/icons/home';
+import { TrendingUpIcon } from '@/components/icons/trending-up';
+import { UserIcon } from '@/components/icons/user';
+import { UsersIcon } from '@/components/icons/users';
+
+export const NAV_ITEMS: Record<string, NavItem> = {
+  main: {
+    href: '/',
+    label: 'Главная',
+    description: 'Обзор ключевых показателей и последних активностей',
+    Icon: HomeIcon,
+  },
+  clients: {
+    href: '/clients',
+    label: 'Клиенты',
+    description: 'Управляйте базой клиентов и историей работы с ними',
+    Icon: UsersIcon,
+  },
+  orders: {
+    href: '/orders',
+    label: 'Заказы',
+    description: 'Отслеживайте заказы, статусы и оплаты',
+    Icon: FileTextIcon,
+  },
+  reports: {
+    href: '/reports',
+    label: 'Отчёты',
+    description: 'Анализируйте доходы и статистику по периодам',
+    Icon: TrendingUpIcon,
+  },
+  profile: {
+    href: '/profile',
+    label: 'Профиль',
+    description: 'Настройки профиля, реквизиты и подтверждение email',
+    Icon: UserIcon,
+  },
+};

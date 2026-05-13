@@ -5,7 +5,7 @@ import type { ReactNode, UIEvent } from 'react';
 import { Combobox as ComboboxPrimitive } from '@base-ui/react/combobox';
 import { ChevronDown, Check, LoaderCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import type { SelectOption } from '@/types';
+import type { SelectOption } from '@/types/forms';
 
 type ComboboxProps = {
   options: SelectOption[];

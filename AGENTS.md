@@ -1,6 +1,131 @@
 <!-- BEGIN:nextjs-agent-rules -->
 
-Do not make any changes until you have 95% confidence in what you need to build. Ask me follow-up questions until you reach that confidence.
+# Agent Instructions
+
+## Memory model
+
+This project uses two memory layers:
+
+1. Local project memory in `memory/`
+2. Global cross-project memory through Basic Memory
+
+Local memory is for repository-specific facts.
+Global memory is for reusable knowledge across projects.
+
+---
+
+## Local memory
+
+Use:
+
+- `memory/project.md` — stable project facts, stack, architecture, constraints
+- `memory/current.md` — current task state, active work, open problems, next steps
+- `memory/decisions.md` — project-specific technical/product decisions
+- `memory/patterns.md` — patterns specific to this repository
+
+Write locally:
+
+- project-specific facts
+- current task state
+- local architecture decisions
+- API quirks
+- repository structure
+- project-specific bugs
+- implementation details unique to this project
+- technical debt specific to this codebase
+
+---
+
+## Global memory
+
+Use Basic Memory for reusable cross-project knowledge.
+
+Write globally only when information is clearly reusable beyond this repository:
+
+- stable coding preferences
+- reusable frontend patterns
+- reusable backend/.NET patterns
+- API design principles
+- recurring mistakes
+- workflow improvements
+- architecture principles
+
+Do not write globally:
+
+- temporary task state
+- project-specific bugs
+- project-specific TODOs
+- implementation details unique to this repository
+- dependency versions specific to this repository
+- local environment details
+- raw chat logs
+- secrets or credentials
+- speculative conclusions
+- obvious facts
+- weak one-off preferences
+
+If unsure, write to global candidates/inbox or report a candidate instead of updating canonical global notes.
+
+---
+
+## Work process
+
+Before non-trivial work:
+
+1. Read this `AGENTS.md`.
+2. Read relevant local memory files.
+3. Search Basic Memory for relevant global patterns, preferences, mistakes, and workflows.
+
+After non-trivial work:
+
+1. Update `memory/current.md` if task state changed.
+2. Update `memory/decisions.md` if a durable project decision was made.
+3. Update `memory/patterns.md` if a project-specific pattern was found.
+4. Update `memory/project.md` if stable project facts changed.
+5. Update Basic Memory only for clearly reusable cross-project knowledge.
+
+Priority order:
+
+1. Current user instruction
+2. This `AGENTS.md`
+3. Local project memory and docs
+4. Global Basic Memory
+5. General knowledge
+
+If local memory conflicts with global memory, prefer local memory for this project.
+
+---
+
+## Ambiguity handling
+
+Ask before editing only when ambiguity affects:
+
+- architecture
+- data loss
+- security
+- public API
+- database schema
+- irreversible changes
+- dependency choices
+- large refactors
+- authentication/authorization behavior
+- production behavior
+
+Otherwise, make a reasonable assumption, state it briefly, and proceed.
+
+---
+
+## End-of-task report
+
+Report memory changes separately:
+
+Memory report:
+
+- Local memory: ...
+- Global memory: ...
+- Global candidates: ...
+
+If no memory update was needed, say so explicitly.
 
 # This is NOT the Next.js you know
 
@@ -11,6 +136,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 ## Agent behaviour
 
 - При обнаружении нового соглашения, breaking change или паттерна, которого ещё нет в этом файле — **сразу добавить его в `AGENTS.md`**.
+- Не запускать локальный dev-сервер самостоятельно; запускать его только по прямой просьбе пользователя.
 - После завершения любой задачи обязательно запускать `npm run format && npm run lint && npm run typecheck` — оба вместе, без исключений.
 - Это касается любых неожиданных поведений фреймворка, найденных ошибок типизации, исправлений конфигурации и договорённостей по коду.
 
@@ -48,7 +174,7 @@ src/
 │   ├── (auth)/          # login, register — без dashboard layout
 │   ├── (dashboard)/     # защищённые роуты с sidebar
 │   ├── order/[token]/   # публичная страница заказа (без авторизации)
-│   └── api/             # только NextAuth и PDF download
+│   └── api/             # NextAuth, PDF download, profile image proxy
 ├── assets/
 │   ├── fonts/
 │   ├── images/
@@ -78,6 +204,10 @@ src/
 
 - **Middleware переименован в Proxy**: файл `middleware.ts` → `proxy.ts`, именованный экспорт `export function middleware` → `export function proxy`. Default export работает без переименования.
 - **`turbopack.root`** в `next.config.ts` — обязателен при наличии нескольких lockfile-ов в родительских директориях, иначе Next.js выбирает неверный workspace root.
+- В Proxy можно иметь только один `proxy.ts`, но логику и конфиги можно выносить в отдельные модули и импортировать в него.
+- `config.matcher` в `proxy.ts` должен быть inline-константой, статически анализируемой Next.js; не выносить matcher в импортированные переменные.
+- Списки маршрутов для Proxy хранить в lightweight-конфиге `src/constants/routes.ts` и импортировать напрямую, не через `@/constants`, чтобы не тянуть Prisma/icons в proxy bundle.
+- Для сравнения route prefix в Proxy использовать сегментный матч (`pathname === route || pathname.startsWith(route + '/')`), а не сырой `startsWith(route)`, чтобы `/order` не совпадал с `/orders`.
 
 ### Next.js 15+ breaking changes
 
@@ -94,6 +224,8 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
   const { id } = await params;
 }
 ```
+
+- Server Actions по умолчанию принимают тело запроса до 1 МБ; для загрузки файлов нужно явно поднять `experimental.serverActions.bodySizeLimit` в `next.config.ts`
 
 ### Naming
 
@@ -159,6 +291,9 @@ onClick={() => toggleTheme()}
 - Данные загружаются в Server Components, передаются в клиентские как пропсы
 - Мутации — исключительно через Server Actions в `src/actions/`
 - Валидация через Zod-схему и на клиенте (react-hook-form), и на сервере (Server Action)
+- Все авторизованные Server Actions, которые меняют данные приложения, кроме профиля, auth-flow и публичных клиентских действий, должны получать сессию через `getVerifiedSession()` из `src/lib/verified-email.ts`. Не дублировать `auth() + emailVerified` вручную в action-файлах.
+- Профиль пользователь может менять без подтверждённого email: `updateProfile`, `uploadProfileImage` и отправка письма подтверждения используют обычный `auth()`, а на фронте профильные формы/кнопки не оборачивать в `useRequireVerifiedEmail()`.
+- Для клиентских кнопок первичного создания сущностей, требующих подтверждённый email (например `Новый клиент`, `Новый заказ`), использовать `useRequireVerifiedEmail()` до открытия модалки и показывать toast сразу. Внутри самих форм, `onOpenChange` диалогов и update/action по уже существующим сущностям эту проверку не дублировать; серверная проверка через `getVerifiedSession()` всё равно обязательна.
 
 ### Database
 
@@ -173,7 +308,7 @@ onClick={() => toggleTheme()}
 - Денежные суммы вводятся и валидируются только в целых рублях, без копеек и дробной части.
 - Форматирование дат — только через `formatDate(date: Date, fmt?)` из `src/lib/utils.ts` (по умолчанию `'d MMM yyyy'`, локаль `ru` встроена)
 - Никогда не использовать `toLocaleString('ru-RU', ...)`, `format(date, ..., { locale: ru })` напрямую в компонентах и константах
-- Метки статусов оплаты — из `PAYMENT_STATUS_LABELS` в `src/constants/index.ts`
+- Метки статусов оплаты — из `PAYMENT_STATUS_LABELS` в `src/constants/payments.ts`
 
 ```ts
 // ✓ правильно
@@ -234,16 +369,18 @@ format(date, 'd MMM yyyy', { locale: ru });
 ### Schemas and Types
 
 - `src/schemas/` — Zod-схемы и выведенные из них типы через `z.infer<>` (например `LoginSchema`, `RegisterInput`)
-- `src/types/index.ts` — чистые TypeScript-интерфейсы без зависимости от Zod (`AnimatedIconHandle`, `NavItem` и т.д.)
+- `src/types/` — чистые TypeScript-интерфейсы без зависимости от Zod, разложенные по именованным доменным файлам (`icons.ts`, `navigation.ts`, `orders.ts` и т.д.)
 - Никогда не объявлять схемы локально внутри компонентов или action-файлов — только в `src/schemas/`
 - Типы пропсов компонента (`*Props`) оставлять в файле самого компонента
-- Общие и переиспользуемые типы, не привязанные к одному компоненту, выносить в `src/types/index.ts`
+- Общие и переиспользуемые типы, не привязанные к одному компоненту, выносить в именованный доменный файл внутри `src/types/`
+- Не создавать barrel `src/types/index.ts` и не импортировать из `@/types`; импортировать напрямую из доменного файла (`@/types/orders`, `@/types/icons`).
 - В Zod v4 `z.ZodIssueCode` устарел — в `ctx.addIssue()` использовать строковые literal-коды (`'custom'`, `'invalid_type'` и т.д.)
 
 ### Constants
 
-- `src/constants/index.ts` — глобальные константы приложения: ключи localStorage, опции select, метки статусов, магические числа/строки. Импортировать через `@/constants`
-- Компонентно-специфические данные (колонки таблиц, `defaultValues` форм) выносить в `constants.tsx` рядом с компонентом — не в глобальный `src/constants/index.ts`
+- Глобальные константы хранить в именованных файлах внутри `src/constants/`: `auth.ts`, `profile.ts`, `orders.ts`, `payments.ts`, `navigation.ts`, `pagination.ts`, `storage.ts` и т.д.
+- Не создавать barrel `src/constants/index.ts` и не импортировать из `@/constants`; импортировать напрямую из доменного файла (`@/constants/payments`, `@/constants/orders`).
+- Компонентно-специфические данные (колонки таблиц, `defaultValues` форм) выносить в `constants.tsx` рядом с компонентом — не в глобальные constants-файлы.
 - Никогда не объявлять ни те ни другие локально внутри компонентов
 
 ### Components
@@ -292,6 +429,7 @@ useState(() => localStorage.getItem(key));
 - `getSnapshot` (клиент) читает из внешнего хранилища
 - Все хуки, зависящие от браузерных API, реализовывать через `useSyncExternalStore`
 - Скрытие элементов до гидрации: `useIsClient()` из `src/hooks/use-is-client.ts`
+- Не вызывать `setState` синхронно внутри `useEffect` для значений, которые уже известны из props/state на render. Такие значения считать напрямую в render (`const tokenError = token ? null : ...`).
 
 **Куки vs localStorage:**
 
@@ -427,6 +565,15 @@ const { control, handleSubmit } = form
 
 - Все env-переменные — через `src/lib/env.ts` (валидация через @t3-oss/env-nextjs)
 - Никогда не обращаться к `process.env` напрямую вне `env.ts`
+- Файлы профиля загружать только через S3-хелперы из `src/lib/s3.ts`; `User.image` хранит ключ вида `profiles/<userId>/<file>`, а не публичный URL.
+- S3-ключи разделяются по окружениям через `APP_ENV=local | dev | prod`; helper `src/lib/s3.ts` добавляет окружение при обращении к S3, но в базе окружение не хранится.
+- Фото профиля отдавать через локальный route handler `/api/profile-images/[...key]`, а клиентский URL строить через `getProfileImageUrl()` из `src/lib/profile-image.ts`.
+- При замене или удалении фото профиля удалять старый S3-объект через helpers из `src/lib/s3.ts`.
+
+### Email
+
+- Шаблоны писем хранить в `src/emails/` и импортировать напрямую из именованных файлов; barrel `src/emails/index.ts` не создавать.
+- Отправка через Resend должна идти через `sendEmail()` из `src/lib/email.ts`; не создавать `new Resend()` и не держать inline HTML в Server Actions.
 
 ### ClickUp
 

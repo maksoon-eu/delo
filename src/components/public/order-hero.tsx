@@ -3,9 +3,9 @@ import { Badge } from '@/components/ui/data/badge';
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
 import { ContentCard } from '@/components/ui/data/content-card';
 import { DetailItem } from '@/components/ui/data/detail-item';
-import { ORDER_STATUS_LABELS, ORDER_STATUS_VARIANTS } from '@/constants';
+import { ORDER_STATUS_LABELS, ORDER_STATUS_VARIANTS } from '@/constants/orders';
 import { formatDate } from '@/lib/utils';
-import type { PublicOrderData } from '@/types';
+import type { PublicOrderData } from '@/types/public-orders';
 
 type OrderHeroProps = {
   order: PublicOrderData;

@@ -1,7 +1,10 @@
 'use client';
 
+import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
+import type { Route } from 'next';
 import { useIsClient } from '@/hooks/use-is-client';
 import { useAsyncAction } from '@/hooks/use-async-action';
 import { Button } from '@/components/ui/actions/button';
@@ -9,19 +12,22 @@ import { SunIcon } from '@/components/icons/sun';
 import { MoonIcon } from '@/components/icons/moon';
 import { LogoutIcon } from '@/components/icons/logout';
 import { logoutUser } from '@/actions/auth';
+import { getProfileImageUrl } from '@/lib/profile-image';
 import { getInitials } from '@/lib/utils';
 
 type TopBarProps = {
   userName: string;
+  userImage: string | null;
 };
 
 export function TopBar(props: TopBarProps) {
-  const { userName } = props;
+  const { userName, userImage } = props;
   const router = useRouter();
   const { resolvedTheme, setTheme } = useTheme();
   const isClient = useIsClient();
   const isDark = resolvedTheme === 'dark';
   const initials = getInitials(userName);
+  const userImageUrl = getProfileImageUrl(userImage);
 
   const toggleTheme = () => {
     setTheme(isDark ? 'light' : 'dark');
@@ -46,12 +52,26 @@ export function TopBar(props: TopBarProps) {
           onClick={toggleTheme}
         />
       )}
-      <div className="flex items-center gap-2 px-1">
-        <div className="bg-primary text-primary-foreground flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-semibold">
-          {initials}
+      <Link
+        href={'/profile' as Route}
+        className="hover:bg-muted flex items-center gap-2 rounded-lg px-2 py-1 transition-colors"
+      >
+        <div className="bg-primary text-primary-foreground flex size-7 shrink-0 items-center justify-center overflow-hidden rounded-full text-xs font-semibold">
+          {userImageUrl ? (
+            <Image
+              src={userImageUrl}
+              alt={userName}
+              width={28}
+              height={28}
+              unoptimized
+              className="size-full object-cover"
+            />
+          ) : (
+            initials
+          )}
         </div>
         <span className="text-foreground text-sm font-medium">{userName}</span>
-      </div>
+      </Link>
       <Button
         Icon={LogoutIcon}
         mode="icon"

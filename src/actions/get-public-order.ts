@@ -2,14 +2,14 @@
 
 import { notFound } from 'next/navigation';
 import { db } from '@/lib/db';
-import type { PublicOrderData } from '@/types';
+import type { PublicOrderData } from '@/types/public-orders';
 
 export async function getPublicOrder(token: string): Promise<PublicOrderData> {
   const order = await db.order.findUnique({
     where: { publicToken: token },
     include: {
-      client: { select: { name: true, email: true, phone: true, company: true } },
-      user: { select: { name: true } },
+      client: { select: { name: true, contact: true, company: true } },
+      user: { select: { name: true, workTerms: true } },
       items: true,
       payments: { orderBy: { paidAt: 'asc' } },
       activities: { orderBy: { createdAt: 'asc' } },
@@ -41,6 +41,7 @@ export async function getPublicOrder(token: string): Promise<PublicOrderData> {
     createdAt: order.createdAt,
     client: order.client,
     executorName: order.user.name,
+    executorWorkTerms: order.user.workTerms,
     items: order.items.map((item) => ({
       id: item.id,
       name: item.name,

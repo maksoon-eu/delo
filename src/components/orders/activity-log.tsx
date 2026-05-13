@@ -1,9 +1,9 @@
 'use client';
 
 import { EmptyList } from '@/components/ui/feedback/empty-list';
-import { ACTIVITY_TYPE_ICONS } from '@/constants';
+import { ACTIVITY_TYPE_ICONS } from '@/constants/activity';
 import { formatDate } from '@/lib/utils';
-import type { ActivityEntry } from '@/types';
+import type { ActivityEntry } from '@/types/payments';
 
 type ActivityLogProps = {
   activities: ActivityEntry[];

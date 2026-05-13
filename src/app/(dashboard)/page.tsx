@@ -1,4 +1,4 @@
-import { NAV_ITEMS } from '@/constants';
+import { NAV_ITEMS } from '@/constants/navigation';
 import { PageHeader } from '@/components/layout/page-header';
 
 const item = NAV_ITEMS.main;
