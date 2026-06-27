@@ -1,4 +1,4 @@
-import { db } from '@/lib/db';
+import { db } from '@/config/db';
 import {
   EMAIL_VERIFICATION_COOLDOWN_MS,
   LOGIN_ATTEMPTS_PER_TIER,
@@ -24,7 +24,7 @@ function getLockoutSeconds(count: number): number {
 export async function checkLoginRateLimit(email: string) {
   const count = await db.loginAttempt.count({ where: { email } });
 
-  if (count < LOGIN_ATTEMPTS_PER_TIER) {
+  if (count % LOGIN_ATTEMPTS_PER_TIER !== 0) {
     return { blocked: false, retryAfter: 0 };
   }
 

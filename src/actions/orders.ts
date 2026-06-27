@@ -1,10 +1,11 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { auth } from '@/lib/auth';
-import { db } from '@/lib/db';
-import { getDocumentFileName } from '@/lib/document-file';
-import { getVerifiedSession } from '@/lib/verified-email';
+import { auth } from '@/config/auth';
+import { db } from '@/config/db';
+import { getDocumentFileName } from '@/utils/document-file';
+import { getVerifiedSession } from '@/utils/verification';
+import { getValidationErrorMessage } from '@/utils/validation';
 import { OrderSchema, type OrderInput } from '@/schemas/orders';
 import {
   ORDER_LINK_COPIED_ACTIVITY_MESSAGE,
@@ -157,7 +158,7 @@ export async function createOrder(data: OrderInput): Promise<{ error: string } |
   const { session } = verifiedSession;
 
   const { data: parsed, success, error } = OrderSchema.safeParse(data);
-  if (!success) return { error: error.issues[0].message };
+  if (!success) return { error: getValidationErrorMessage(error) };
 
   const order = await db.order.create({
     data: {
@@ -192,7 +193,7 @@ export async function updateOrder(id: string, data: OrderInput): Promise<{ error
   const { session } = verifiedSession;
 
   const { data: parsed, success, error } = OrderSchema.safeParse(data);
-  if (!success) return { error: error.issues[0].message };
+  if (!success) return { error: getValidationErrorMessage(error) };
 
   const existing = await db.order.findUnique({ where: { id, userId: session.user.id } });
   if (!existing) return { error: 'Заказ не найден' };

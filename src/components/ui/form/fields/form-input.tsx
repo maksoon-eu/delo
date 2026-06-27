@@ -14,7 +14,8 @@ import { Button } from '@/components/ui/actions/button';
 import { Input } from '@/components/ui/form/primitives/input';
 import { EyeIcon } from '@/components/icons/eye';
 import type { AnimatedIconComponent, AnimatedIconHandle } from '@/types/icons';
-import { cn, startAnimatedIcon, stopAnimatedIcon } from '@/lib/utils';
+import { startAnimatedIcon, stopAnimatedIcon } from '@/utils/animation';
+import { cn } from '@/utils/cn';
 
 type FormInputProps<T extends FieldValues> = {
   control: Control<T>;

@@ -22,7 +22,7 @@ import { CalendarDays } from 'lucide-react';
 import { ArrowLeftIcon } from '@/components/icons/arrow-left';
 import { ArrowRightIcon } from '@/components/icons/arrow-right';
 import { Button } from '@/components/ui/actions/button';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/cn';
 
 type DatePickerProps = Omit<ComponentProps<'button'>, 'onBlur' | 'onChange' | 'value'> & {
   value?: string;

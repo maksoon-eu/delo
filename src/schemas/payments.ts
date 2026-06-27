@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { requiredAmount } from '@/lib/utils';
+import { requiredAmount } from '@/utils/validation';
 
 export const PaymentSchema = z.object({
   amount: requiredAmount(

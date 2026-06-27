@@ -1,7 +1,7 @@
 'use server';
 
 import { notFound } from 'next/navigation';
-import { db } from '@/lib/db';
+import { db } from '@/config/db';
 import type { PublicOrderData } from '@/types/public-orders';
 
 export async function getPublicOrder(token: string): Promise<PublicOrderData> {

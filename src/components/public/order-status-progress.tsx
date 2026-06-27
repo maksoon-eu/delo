@@ -1,7 +1,9 @@
 'use client';
 
 import { useRef } from 'react';
-import { cn, formatDate, startAnimatedIcon, stopAnimatedIcon } from '@/lib/utils';
+import { startAnimatedIcon, stopAnimatedIcon } from '@/utils/animation';
+import { cn } from '@/utils/cn';
+import { formatDate } from '@/utils/format';
 import { ORDER_STATUS_ICONS, ORDER_STATUS_LABELS } from '@/constants/orders';
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
 import type { AnimatedIconHandle } from '@/types/icons';

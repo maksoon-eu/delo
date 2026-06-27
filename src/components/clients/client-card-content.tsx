@@ -5,7 +5,9 @@ import { ClientForm } from '@/components/clients/client-form';
 import { ArrowRightIcon } from '@/components/icons/arrow-right';
 import { Button } from '@/components/ui/actions/button';
 import { ORDER_STATUS_LABELS } from '@/constants/orders';
-import { cn, formatDate, formatPrice, getInitials } from '@/lib/utils';
+import { cn } from '@/utils/cn';
+import { formatDate, formatPrice } from '@/utils/format';
+import { getInitials } from '@/utils/profile';
 import type { ClientInput } from '@/schemas/clients';
 import type { ClientDetails } from '@/types/clients';
 

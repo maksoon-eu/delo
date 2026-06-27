@@ -2,7 +2,7 @@
 
 import { EmptyList } from '@/components/ui/feedback/empty-list';
 import { ACTIVITY_TYPE_ICONS } from '@/constants/activity';
-import { formatDate } from '@/lib/utils';
+import { formatDate } from '@/utils/format';
 import type { ActivityEntry } from '@/types/payments';
 
 type ActivityLogProps = {

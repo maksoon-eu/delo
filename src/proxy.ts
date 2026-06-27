@@ -1,4 +1,5 @@
-import { auth } from '@/lib/auth';
+import NextAuth from 'next-auth';
+import { authConfig } from '@/config/auth-options';
 import {
   AUTH_ROUTES,
   LOGIN_ROUTE,
@@ -6,8 +7,13 @@ import {
   PUBLIC_ROUTES,
   ROOT_ROUTE,
 } from '@/constants/routes';
-import { matchesRoutes } from '@/lib/utils';
 import { NextResponse } from 'next/server';
+
+const { auth } = NextAuth(authConfig);
+
+function matchesRoutes(pathname: string, routes: readonly string[]) {
+  return routes.some((route) => pathname === route || pathname.startsWith(`${route}/`));
+}
 
 export default auth((req) => {
   const isLoggedIn = !!req.auth;

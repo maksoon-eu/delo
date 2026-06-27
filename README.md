@@ -22,7 +22,7 @@
 | БД          | PostgreSQL + Prisma      |
 | Auth        | Auth.js v5 (NextAuth)    |
 | Валидация   | Zod + react-hook-form    |
-| Email       | Resend                   |
+| Email       | Mailpit local + Resend   |
 | PDF         | @react-pdf/renderer      |
 | Таблицы     | @tanstack/react-table    |
 | Уведомления | Sonner                   |
@@ -38,26 +38,38 @@ npm install
 
 ### 2. Настроить переменные окружения
 
-Скопируй `.env.local.example` и заполни значения:
+Скопируй `.env.example` и заполни значения:
 
 ```bash
-cp .env.local.example .env.local
+cp .env.example .env.local
 ```
 
 ```env
 DATABASE_URL="postgresql://user:password@localhost:5432/delo"
 AUTH_SECRET="your-secret"
-RESEND_API_KEY="your-resend-key"
+EMAIL_FROM="Delo <noreply@delo.local>"
+SMTP_HOST="localhost"
+SMTP_PORT="1025"
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
 ```
 
-### 3. Применить миграции БД
+### 3. Запустить локальную почту
+
+В локальном окружении `APP_ENV=local` письма отправляются в Mailpit:
+
+```bash
+npm run mailpit:up
+```
+
+SMTP доступен на `localhost:1025`, интерфейс писем — [http://localhost:8025](http://localhost:8025).
+
+### 4. Применить миграции БД
 
 ```bash
 npx prisma migrate dev
 ```
 
-### 4. Запустить dev-сервер
+### 5. Запустить dev-сервер
 
 ```bash
 npm run dev
@@ -70,6 +82,7 @@ npm run dev
 ```bash
 npm run dev            # dev-сервер
 npm run build          # production сборка
+npm run mailpit:up     # локальная почта Mailpit
 npm run lint           # ESLint
 npm run format         # Prettier (запись)
 npm run format:check   # Prettier (проверка)
@@ -101,7 +114,8 @@ src/
 │   ├── clients/
 │   ├── orders/
 │   └── public/
-├── lib/                  # auth, db, pdf, utils, env
+├── config/               # auth, db, env
+├── utils/                # reusable helpers
 └── types/
 prisma/
 └── schema.prisma

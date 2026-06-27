@@ -1,6 +1,5 @@
 import Image from 'next/image';
-import { getProfileImageUrl } from '@/lib/profile-image';
-import { getInitials } from '@/lib/utils';
+import { getInitials, getProfileImageUrl } from '@/utils/profile';
 
 type ProfileAvatarPreviewProps = {
   name: string;

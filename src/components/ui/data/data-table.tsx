@@ -8,7 +8,7 @@ import {
   type Table as TanstackTable,
 } from '@tanstack/react-table';
 import { TableVirtuoso, type ItemProps, type TableComponents } from 'react-virtuoso';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/cn';
 import { Button } from '@/components/ui/actions/button';
 import { TableCell, TableHead, TableRow } from './table';
 

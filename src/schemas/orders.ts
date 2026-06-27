@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { PaymentMethod } from '@prisma/client';
-import { requiredAmount } from '@/lib/utils';
+import { requiredAmount } from '@/utils/validation';
 
 export const OrderItemSchema = z.object({
   id: z.string().optional(),

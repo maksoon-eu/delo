@@ -1,9 +1,11 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { db } from '@/lib/db';
-import { getVerifiedSession } from '@/lib/verified-email';
-import { calcPaymentStatus, formatPrice } from '@/lib/utils';
+import { db } from '@/config/db';
+import { calcPaymentStatus } from '@/utils/payment';
+import { formatPrice } from '@/utils/format';
+import { getVerifiedSession } from '@/utils/verification';
+import { getValidationErrorMessage } from '@/utils/validation';
 import { PaymentSchema, type PaymentInput } from '@/schemas/payments';
 
 export async function addPayment(orderId: string, data: PaymentInput): Promise<{ error?: string }> {
@@ -12,7 +14,7 @@ export async function addPayment(orderId: string, data: PaymentInput): Promise<{
   const { session } = verifiedSession;
 
   const { data: parsed, success, error } = PaymentSchema.safeParse(data);
-  if (!success) return { error: error.issues[0].message };
+  if (!success) return { error: getValidationErrorMessage(error) };
 
   const order = await db.order.findUnique({
     where: { id: orderId, userId: session.user.id },

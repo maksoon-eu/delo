@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 import { FileText, CalendarDays, Tag, UserRound, Banknote } from 'lucide-react';
-import { formatDate, formatPrice } from '@/lib/utils';
+import { formatDate, formatPrice } from '@/utils/format';
 import { type ColumnDef } from '@tanstack/react-table';
 import { OrderStatusBadge } from '@/components/orders/order-status-badge';
 import { ORDER_STATUS_LABELS } from '@/constants/orders';
