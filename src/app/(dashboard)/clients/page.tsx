@@ -11,7 +11,7 @@ export default async function ClientsPage() {
   const listKey = items[0]?.id ?? 'empty';
 
   return (
-    <div className="flex flex-1 flex-col">
+    <div className="page-stack flex-1">
       <PageHeader Icon={item.Icon} title={item.label} description={item.description} />
       <ClientsTable key={listKey} initialItems={items} initialHasMore={hasMore} />
     </div>

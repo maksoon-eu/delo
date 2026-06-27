@@ -30,7 +30,10 @@ export function ClientCardContent(props: ClientCardContentProps) {
 
   return (
     <div
-      className={cn('space-y-6', constrainedHeight && 'max-h-[calc(100dvh-200px)] overflow-y-auto')}
+      className={cn(
+        'flex flex-col gap-10',
+        constrainedHeight && 'max-h-[calc(100dvh-200px)] overflow-y-auto'
+      )}
     >
       <div className="flex items-center gap-3">
         <div className="bg-primary/10 text-primary flex size-12 items-center justify-center rounded-full text-sm font-semibold">

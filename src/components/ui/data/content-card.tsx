@@ -9,7 +9,7 @@ export function ContentCard(props: ContentCardProps) {
   const { children, className, ...rest } = props;
 
   return (
-    <div className={cn('glass border-glass rounded-xl p-6 shadow-sm', className)} {...rest}>
+    <div className={cn('glass border-glass rounded-xl p-6 ', className)} {...rest}>
       {children}
     </div>
   );

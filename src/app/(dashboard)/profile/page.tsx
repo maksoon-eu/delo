@@ -19,7 +19,7 @@ export default async function ProfilePage(props: ProfilePageProps) {
   const verificationStatus = verification === 'success' ? 'success' : undefined;
 
   return (
-    <div className="flex flex-1 flex-col">
+    <div className="page-stack flex-1">
       <PageHeader
         Icon={UserIcon}
         title="Профиль"

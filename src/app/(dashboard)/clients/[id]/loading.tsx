@@ -5,7 +5,7 @@ import { Skeleton } from '@/components/ui/feedback/skeleton';
 export default function ClientLoading() {
   return (
     <AnimateIn className="space-y-6">
-      <div className="glass border-accent/50 mb-8 rounded-xl border px-4 py-3 shadow-sm">
+      <div className="glass border-accent/50 mb-8 rounded-xl border px-4 py-3 ">
         <div className="mb-1 flex items-center gap-2">
           <Skeleton className="size-5" />
           <Skeleton className="h-7 w-48" />

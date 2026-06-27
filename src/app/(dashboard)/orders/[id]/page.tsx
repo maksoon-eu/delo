@@ -6,17 +6,16 @@ import { env } from '@/config/env';
 import { formatDate, formatPrice } from '@/utils/format';
 import { PageHeader } from '@/components/layout/page-header';
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
-import { BackLink } from '@/components/ui/navigation/back-link';
 import { Button } from '@/components/ui/actions/button';
 import { OrderStatusPanel } from '@/components/orders/order-status-panel';
 import { OrderDocumentsSection } from '@/components/orders/order-documents-section';
 import { ActivityLog } from '@/components/orders/activity-log';
 import { PaymentsSection } from '@/components/orders/payments-section';
-import { ArrowRightIcon } from '@/components/icons/arrow-right';
 import { ArrowUpRightIcon } from '@/components/icons/arrow-up-right';
 import { DetailItem } from '@/components/ui/data/detail-item';
 import { ContentCard } from '@/components/ui/data/content-card';
 import { getOrder } from '@/actions/orders';
+import type { Route } from 'next';
 
 const item = NAV_ITEMS.orders;
 
@@ -36,31 +35,22 @@ export default async function OrderPage(props: OrderPageProps) {
   const canEditOrder = !ORDER_FINAL_STATUSES.some((status) => status === order.status);
 
   return (
-    <div className="flex flex-1 flex-col">
+    <div className="page-stack flex-1">
       <PageHeader
         Icon={item.Icon}
         title={order.title}
         description={`Заказ · ${order.clientName}`}
+        backLink={{ href: '/orders', label: 'заказам' }}
       />
-      <AnimateIn className="space-y-5">
-        <ContentCard>
-          <div className="flex items-center justify-between">
-            <BackLink href="/orders" label="заказам" />
-            {canEditOrder && (
-              <Link href={`/orders/${id}/edit`}>
-                <Button variant="outline" Icon={ArrowRightIcon}>
-                  Редактировать
-                </Button>
-              </Link>
-            )}
-          </div>
-        </ContentCard>
 
+      <AnimateIn className="space-y-5">
         <ContentCard>
           <OrderStatusPanel
             orderId={order.id}
             currentStatus={order.status}
             publicOrderUrl={publicOrderUrl}
+            canEditOrder={canEditOrder}
+            editHref={`/orders/${id}/edit` as Route<string>}
           />
         </ContentCard>
 
