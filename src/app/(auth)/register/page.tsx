@@ -87,6 +87,13 @@ export default function RegisterPage() {
             autoComplete="new-password"
             Icon={LockKeyholeIcon}
           />
+          <FormInput
+            control={control}
+            name="confirmPassword"
+            label="Повторите пароль"
+            type="password"
+            Icon={LockKeyholeIcon}
+          />
           <div className="pt-1">
             <Button type="submit" className="w-full" isLoading={isLoading} Icon={UserRoundPlusIcon}>
               Зарегистрироваться

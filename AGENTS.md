@@ -2,130 +2,42 @@
 
 # Agent Instructions
 
-## Memory model
+## Работа с глобальной памятью
 
-This project uses two memory layers:
+В этом проекте используется глобальная межпроектная память через Basic Memory.
 
-1. Local project memory in `memory/`
-2. Global cross-project memory through Basic Memory
+Подробные правила работы с глобальной памятью находятся в Basic Memory:
 
-Local memory is for repository-specific facts.
-Global memory is for reusable knowledge across projects.
+- `00_System/memory-rules.md`
 
----
-
-## Local memory
-
-Use:
-
-- `memory/project.md` — stable project facts, stack, architecture, constraints
-- `memory/current.md` — current task state, active work, open problems, next steps
-- `memory/decisions.md` — project-specific technical/product decisions
-- `memory/patterns.md` — patterns specific to this repository
-
-Write locally:
-
-- project-specific facts
-- current task state
-- local architecture decisions
-- API quirks
-- repository structure
-- project-specific bugs
-- implementation details unique to this project
-- technical debt specific to this codebase
+Не дублируй эти правила в локальном `AGENTS.md`.
 
 ---
 
-## Global memory
+## Что делать перед нетривиальной задачей
 
-Use Basic Memory for reusable cross-project knowledge.
+Перед нетривиальной задачей:
 
-Write globally only when information is clearly reusable beyond this repository:
-
-- stable coding preferences
-- reusable frontend patterns
-- reusable backend/.NET patterns
-- API design principles
-- recurring mistakes
-- workflow improvements
-- architecture principles
-
-Do not write globally:
-
-- temporary task state
-- project-specific bugs
-- project-specific TODOs
-- implementation details unique to this repository
-- dependency versions specific to this repository
-- local environment details
-- raw chat logs
-- secrets or credentials
-- speculative conclusions
-- obvious facts
-- weak one-off preferences
-
-If unsure, write to global candidates/inbox or report a candidate instead of updating canonical global notes.
+1. Прочитай этот `AGENTS.md`.
+2. Найди и прочитай глобальные правила памяти в Basic Memory: `00_System/memory-rules.md`.
+3. Найди в Basic Memory релевантные заметки по текущей задаче.
+4. Применяй найденные правила только если они не конфликтуют с текущей инструкцией пользователя и правилами проекта.
 
 ---
 
-## Work process
+## Приоритет источников
 
-Before non-trivial work:
+Используй такой порядок приоритетов:
 
-1. Read this `AGENTS.md`.
-2. Read relevant local memory files.
-3. Search Basic Memory for relevant global patterns, preferences, mistakes, and workflows.
+1. Текущая инструкция пользователя
+2. Этот `AGENTS.md`
+3. Документация и правила текущего проекта
+4. Глобальная память Basic Memory
+5. Общие знания модели
 
-After non-trivial work:
+Если глобальная память конфликтует с текущей инструкцией пользователя, выполняй текущую инструкцию пользователя.
 
-1. Update `memory/current.md` if task state changed.
-2. Update `memory/decisions.md` if a durable project decision was made.
-3. Update `memory/patterns.md` if a project-specific pattern was found.
-4. Update `memory/project.md` if stable project facts changed.
-5. Update Basic Memory only for clearly reusable cross-project knowledge.
-
-Priority order:
-
-1. Current user instruction
-2. This `AGENTS.md`
-3. Local project memory and docs
-4. Global Basic Memory
-5. General knowledge
-
-If local memory conflicts with global memory, prefer local memory for this project.
-
----
-
-## Ambiguity handling
-
-Ask before editing only when ambiguity affects:
-
-- architecture
-- data loss
-- security
-- public API
-- database schema
-- irreversible changes
-- dependency choices
-- large refactors
-- authentication/authorization behavior
-- production behavior
-
-Otherwise, make a reasonable assumption, state it briefly, and proceed.
-
----
-
-## End-of-task report
-
-Report memory changes separately:
-
-Memory report:
-
-- Local memory: ...
-- Global memory: ...
-- Global candidates: ...
-
-If no memory update was needed, say so explicitly.
+Если глобальная память конфликтует с правилами текущего проекта, приоритет имеют правила текущего проекта.
 
 # This is NOT the Next.js you know
 
@@ -188,7 +100,8 @@ src/
 │   ├── clients/
 │   ├── orders/
 │   └── public/
-├── lib/                 # auth.ts, db.ts, pdf.ts, utils.ts, env.ts
+├── config/              # auth.ts, auth-options.ts, db.ts, env.ts
+├── utils/               # именованные helpers: cn.ts, format.ts, s3.ts, email.ts и т.д.
 ├── hooks/               # кастомные React-хуки (useLocalStorage и т.д.)
 ├── constants/           # все константы приложения (index.ts)
 ├── types/               # чистые TypeScript-интерфейсы без Zod (index.ts)
@@ -208,6 +121,7 @@ src/
 - `config.matcher` в `proxy.ts` должен быть inline-константой, статически анализируемой Next.js; не выносить matcher в импортированные переменные.
 - Списки маршрутов для Proxy хранить в lightweight-конфиге `src/constants/routes.ts` и импортировать напрямую, не через `@/constants`, чтобы не тянуть Prisma/icons в proxy bundle.
 - Для сравнения route prefix в Proxy использовать сегментный матч (`pathname === route || pathname.startsWith(route + '/')`), а не сырой `startsWith(route)`, чтобы `/order` не совпадал с `/orders`.
+- `proxy.ts` не должен импортировать серверный `src/config/auth.ts`, `db` или `env`: для Auth.js использовать edge-safe `src/config/auth-options.ts` и локальный `NextAuth(authConfig)`, чтобы proxy не тянул PrismaAdapter и полную env-валидацию.
 
 ### Next.js 15+ breaking changes
 
@@ -279,7 +193,7 @@ onClick={() => toggleTheme()}
 ```
 
 - Если обработчик требует аргументов или содержит несколько операций — выносить в именованную функцию внутри компонента, не инлайнить.
-- Для повторяющихся start/stop-обработчиков анимации иконок по ref использовать `startAnimatedIcon()` и `stopAnimatedIcon()` из `src/lib/utils.ts`, а не дублировать логику доступа к `ref.current` в компонентах.
+- Для повторяющихся start/stop-обработчиков анимации иконок по ref использовать `startAnimatedIcon()` и `stopAnimatedIcon()` из `src/utils/animation.ts`, а не дублировать логику доступа к `ref.current` в компонентах.
 
 - `'use client'` только там, где реально нужно (формы, хуки, события)
 - Server Components по умолчанию — не добавлять `'use client'` без причины
@@ -291,28 +205,28 @@ onClick={() => toggleTheme()}
 - Данные загружаются в Server Components, передаются в клиентские как пропсы
 - Мутации — исключительно через Server Actions в `src/actions/`
 - Валидация через Zod-схему и на клиенте (react-hook-form), и на сервере (Server Action)
-- Все авторизованные Server Actions, которые меняют данные приложения, кроме профиля, auth-flow и публичных клиентских действий, должны получать сессию через `getVerifiedSession()` из `src/lib/verified-email.ts`. Не дублировать `auth() + emailVerified` вручную в action-файлах.
+- Все авторизованные Server Actions, которые меняют данные приложения, кроме профиля, auth-flow и публичных клиентских действий, должны получать сессию через `getVerifiedSession()` из `src/utils/verification.ts`. Не дублировать `auth() + emailVerified` вручную в action-файлах.
 - Профиль пользователь может менять без подтверждённого email: `updateProfile`, `uploadProfileImage` и отправка письма подтверждения используют обычный `auth()`, а на фронте профильные формы/кнопки не оборачивать в `useRequireVerifiedEmail()`.
 - Для клиентских кнопок первичного создания сущностей, требующих подтверждённый email (например `Новый клиент`, `Новый заказ`), использовать `useRequireVerifiedEmail()` до открытия модалки и показывать toast сразу. Внутри самих форм, `onOpenChange` диалогов и update/action по уже существующим сущностям эту проверку не дублировать; серверная проверка через `getVerifiedSession()` всё равно обязательна.
 
 ### Database
 
-- Prisma client — только через singleton из `src/lib/db.ts`
+- Prisma client — только через singleton из `src/config/db.ts`
 - Никогда не импортировать `PrismaClient` напрямую
 - Для Auth.js `User.emailVerified` оставлять `DateTime?`: `null` означает, что email не подтверждён, `Date` хранит момент подтверждения. Не менять на boolean — `@auth/prisma-adapter` ожидает `Date | null`.
 - Миграции Prisma не писать руками. После изменения `prisma/schema.prisma` генерировать SQL через Prisma CLI на основе схемы: `npx prisma migrate dev --name <migration-name> --create-only`, затем проверять сгенерированный файл.
 
 ### Formatting helpers
 
-- Форматирование цен — только через `formatPrice(value: number)` из `src/lib/utils.ts`
+- Форматирование цен — только через `formatPrice(value: number)` из `src/utils/format.ts`
 - Денежные суммы вводятся и валидируются только в целых рублях, без копеек и дробной части.
-- Форматирование дат — только через `formatDate(date: Date, fmt?)` из `src/lib/utils.ts` (по умолчанию `'d MMM yyyy'`, локаль `ru` встроена)
+- Форматирование дат — только через `formatDate(date: Date, fmt?)` из `src/utils/format.ts` (по умолчанию `'d MMM yyyy'`, локаль `ru` встроена)
 - Никогда не использовать `toLocaleString('ru-RU', ...)`, `format(date, ..., { locale: ru })` напрямую в компонентах и константах
 - Метки статусов оплаты — из `PAYMENT_STATUS_LABELS` в `src/constants/payments.ts`
 
 ```ts
 // ✓ правильно
-import { formatPrice, formatDate } from '@/lib/utils';
+import { formatPrice, formatDate } from '@/utils/format';
 formatPrice(order.price); // → '1 500 ₽'
 formatDate(order.createdAt); // → '5 апр 2026'
 formatDate(order.deadline, 'd MMMM yyyy'); // → '5 апреля 2026'
@@ -332,7 +246,7 @@ format(date, 'd MMM yyyy', { locale: ru });
 ### Styles
 
 - Глобальные стили — `src/styles/globals.css`
-- Утилита `cn()` из `src/lib/utils.ts` для conditional classnames
+- Утилита `cn()` из `src/utils/cn.ts` для conditional classnames
 - Не писать inline styles — только Tailwind классы
 - SVG/image backgrounds подключать отдельным CSS-классом на layout/контейнер, а не через inline styles и не через цветовые токены темы
 
@@ -563,18 +477,18 @@ const { control, handleSubmit } = form
 
 ### Environment
 
-- Все env-переменные — через `src/lib/env.ts` (валидация через @t3-oss/env-nextjs)
+- Все env-переменные — через `src/config/env.ts` (валидация через @t3-oss/env-nextjs)
 - Никогда не обращаться к `process.env` напрямую вне `env.ts`
 - Клиенты внешних сервисов, которые требуют обязательные env при создании (например `Resend`), инициализировать лениво внутри helper-функции, а не на уровне модуля, чтобы `next build` мог импортировать Server Actions при сборе page data без runtime-секретов.
-- Файлы профиля загружать только через S3-хелперы из `src/lib/s3.ts`; `User.image` хранит ключ вида `profiles/<userId>/<file>`, а не публичный URL.
-- S3-ключи разделяются по окружениям через `APP_ENV=local | dev | prod`; helper `src/lib/s3.ts` добавляет окружение при обращении к S3, но в базе окружение не хранится.
-- Фото профиля отдавать через локальный route handler `/api/profile-images/[...key]`, а клиентский URL строить через `getProfileImageUrl()` из `src/lib/profile-image.ts`.
-- При замене или удалении фото профиля удалять старый S3-объект через helpers из `src/lib/s3.ts`.
+- Файлы профиля загружать только через S3-хелперы из `src/utils/s3.ts`; `User.image` хранит ключ вида `profiles/<userId>/<file>`, а не публичный URL.
+- S3-ключи разделяются по окружениям через `APP_ENV=local | dev | prod`; helper `src/utils/s3.ts` добавляет окружение при обращении к S3, но в базе окружение не хранится.
+- Фото профиля отдавать через локальный route handler `/api/profile-images/[...key]`, а клиентский URL строить через `getProfileImageUrl()` из `src/utils/profile.ts`.
+- При замене или удалении фото профиля удалять старый S3-объект через helpers из `src/utils/s3.ts`.
 
 ### Email
 
 - Шаблоны писем хранить в `src/emails/` и импортировать напрямую из именованных файлов; barrel `src/emails/index.ts` не создавать.
-- Отправка через Resend должна идти через `sendEmail()` из `src/lib/email.ts`; не создавать `new Resend()` и не держать inline HTML в Server Actions.
+- Отправка через Resend должна идти через `sendEmail()` из `src/utils/email.ts`; не создавать `new Resend()` и не держать inline HTML в Server Actions.
 
 ### ClickUp
 

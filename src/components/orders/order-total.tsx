@@ -1,7 +1,7 @@
 'use client';
 
 import { useWatch, type Control } from 'react-hook-form';
-import { formatPrice } from '@/lib/utils';
+import { formatPrice } from '@/utils/format';
 import type { OrderInput } from '@/schemas/orders';
 
 type OrderTotalProps = { control: Control<OrderInput> };

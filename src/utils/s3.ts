@@ -4,7 +4,7 @@ import {
   PutObjectCommand,
   S3Client,
 } from '@aws-sdk/client-s3';
-import { env } from '@/lib/env';
+import { env } from '@/config/env';
 
 type UploadToS3Input = {
   key: string;

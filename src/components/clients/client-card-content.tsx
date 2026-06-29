@@ -5,7 +5,9 @@ import { ClientForm } from '@/components/clients/client-form';
 import { ArrowRightIcon } from '@/components/icons/arrow-right';
 import { Button } from '@/components/ui/actions/button';
 import { ORDER_STATUS_LABELS } from '@/constants/orders';
-import { cn, formatDate, formatPrice, getInitials } from '@/lib/utils';
+import { cn } from '@/utils/cn';
+import { formatDate, formatPrice } from '@/utils/format';
+import { getInitials } from '@/utils/profile';
 import type { ClientInput } from '@/schemas/clients';
 import type { ClientDetails } from '@/types/clients';
 
@@ -28,7 +30,10 @@ export function ClientCardContent(props: ClientCardContentProps) {
 
   return (
     <div
-      className={cn('space-y-6', constrainedHeight && 'max-h-[calc(100dvh-200px)] overflow-y-auto')}
+      className={cn(
+        'flex flex-col gap-10',
+        constrainedHeight && 'max-h-[calc(100dvh-200px)] overflow-y-auto'
+      )}
     >
       <div className="flex items-center gap-3">
         <div className="bg-primary/10 text-primary flex size-12 items-center justify-center rounded-full text-sm font-semibold">

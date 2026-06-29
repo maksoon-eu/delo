@@ -12,8 +12,7 @@ import { SunIcon } from '@/components/icons/sun';
 import { MoonIcon } from '@/components/icons/moon';
 import { LogoutIcon } from '@/components/icons/logout';
 import { logoutUser } from '@/actions/auth';
-import { getProfileImageUrl } from '@/lib/profile-image';
-import { getInitials } from '@/lib/utils';
+import { getInitials, getProfileImageUrl } from '@/utils/profile';
 
 type TopBarProps = {
   userName: string;

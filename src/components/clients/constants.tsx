@@ -1,4 +1,5 @@
-import { formatDate, formatPrice, getInitials } from '@/lib/utils';
+import { formatDate, formatPrice } from '@/utils/format';
+import { getInitials } from '@/utils/profile';
 import { type ClientListItem } from '@/types/clients';
 import { type ColumnDef } from '@tanstack/react-table';
 import { Building2, CalendarDays, MessageCircle, User, Wallet } from 'lucide-react';

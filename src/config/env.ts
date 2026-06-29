@@ -1,23 +1,21 @@
 import { createEnv } from '@t3-oss/env-nextjs';
 import { z } from 'zod';
 
-const optionalUrl = z.preprocess((value) => {
-  if (value === '') return undefined;
-  return value;
-}, z.url().optional());
-
 export const env = createEnv({
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,
   server: {
     DATABASE_URL: z.url(),
     AUTH_SECRET: z.string().min(1),
-    RESEND_API_KEY: z.string().min(1),
-    RESEND_DOMAIN: z.string().min(1),
+    RESEND_API_KEY: z.string().min(1).optional(),
+    RESEND_DOMAIN: z.string().min(1).optional(),
+    EMAIL_FROM: z.string().min(1),
+    SMTP_HOST: z.string().min(1).default('localhost'),
+    SMTP_PORT: z.coerce.number().int().positive(),
     S3_REGION: z.string().min(1),
     S3_BUCKET: z.string().min(1),
     S3_ACCESS_KEY_ID: z.string().min(1),
     S3_SECRET_ACCESS_KEY: z.string().min(1),
-    S3_ENDPOINT: optionalUrl,
+    S3_ENDPOINT: z.url().optional(),
     S3_FORCE_PATH_STYLE: z
       .preprocess(
         (value) => {
@@ -38,6 +36,9 @@ export const env = createEnv({
     AUTH_SECRET: process.env.AUTH_SECRET,
     RESEND_API_KEY: process.env.RESEND_API_KEY,
     RESEND_DOMAIN: process.env.RESEND_DOMAIN,
+    EMAIL_FROM: process.env.EMAIL_FROM,
+    SMTP_HOST: process.env.SMTP_HOST,
+    SMTP_PORT: process.env.SMTP_PORT,
     S3_REGION: process.env.S3_REGION,
     S3_BUCKET: process.env.S3_BUCKET,
     S3_ACCESS_KEY_ID: process.env.S3_ACCESS_KEY_ID,

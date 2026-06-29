@@ -20,7 +20,7 @@ import { useCountdown } from '@/hooks/use-countdown';
 import { resendEmailVerification, updateProfile } from '@/actions/profile';
 import { ProfileSchema, type ProfileInput } from '@/schemas/profile';
 import { EMAIL_VERIFICATION_COOLDOWN_MS } from '@/constants/auth';
-import { formatDate } from '@/lib/utils';
+import { formatDate } from '@/utils/format';
 import type { UserProfile } from '@/types/profile';
 
 type ProfileFormProps = {

@@ -12,19 +12,31 @@ export const LoginSchema = z.object({
   password: z.string().min(1, 'Введите пароль'),
 });
 
-export const RegisterSchema = z.object({
-  name: z.string().min(1, 'Имя обязательно'),
-  email: z.email('Некорректный email'),
-  password: passwordSchema,
-});
+export const RegisterSchema = z
+  .object({
+    name: z.string().min(1, 'Имя обязательно'),
+    email: z.email('Некорректный email'),
+    password: passwordSchema,
+    confirmPassword: z.string().min(1, 'Подтвердите пароль'),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Пароли не совпадают',
+    path: ['confirmPassword'],
+  });
 
 export const ForgotPasswordSchema = z.object({
   email: z.email('Некорректный email'),
 });
 
-export const ResetPasswordSchema = z.object({
-  password: passwordSchema,
-});
+export const ResetPasswordSchema = z
+  .object({
+    password: passwordSchema,
+    confirmPassword: z.string().min(1, 'Подтвердите пароль'),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Пароли не совпадают',
+    path: ['confirmPassword'],
+  });
 
 export type LoginInput = z.infer<typeof LoginSchema>;
 export type RegisterInput = z.infer<typeof RegisterSchema>;

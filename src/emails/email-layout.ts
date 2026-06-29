@@ -51,7 +51,7 @@ export function createEmailLayout(input: EmailLayoutInput) {
               </td>
             </tr>
             <tr>
-              <td style="padding:0 32px 28px;">
+              <td style="padding:0 32px 28px;text-align:center;">
                 <div style="border-top:1px solid #352457;padding-top:20px;color:#a99dbc;font-size:13px;line-height:1.6;">
                   <p style="margin:0 0 12px;">${note}</p>
                   <p style="margin:0;">Если кнопка не открылась, вставьте ссылку в браузер:<br /><a href="${ctaUrl}" style="color:#c4b5fd;text-decoration:underline;">${ctaUrl}</a></p>

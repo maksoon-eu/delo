@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
+import { toast } from 'sonner';
 import { Form } from '@/components/ui/form/form';
 import { FormInput } from '@/components/ui/form/fields/form-input';
 import { Button } from '@/components/ui/actions/button';
@@ -39,6 +40,7 @@ function ResetPasswordForm() {
     }
 
     await signIn('credentials', { email, password, redirect: false });
+    toast.success('Пароль успешно обновлён');
     router.push('/');
     router.refresh();
   }
@@ -75,6 +77,13 @@ function ResetPasswordForm() {
             label="Новый пароль"
             type="password"
             autoComplete="new-password"
+            Icon={LockKeyholeIcon}
+          />
+          <FormInput
+            control={control}
+            name="confirmPassword"
+            label="Повторите пароль"
+            type="password"
             Icon={LockKeyholeIcon}
           />
           <div className="pt-1">

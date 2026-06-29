@@ -1,12 +1,12 @@
 'use server';
 
-import { signOut } from '@/lib/auth';
-import { db } from '@/lib/db';
+import { signOut } from '@/config/auth';
+import { db } from '@/config/db';
 import { createPasswordResetEmail } from '@/emails/password-reset';
-import { sendEmailVerificationMessage } from '@/lib/email-verification';
+import { sendEmailVerificationMessage } from '@/utils/verification';
 import bcrypt from 'bcryptjs';
-import { sendEmail } from '@/lib/email';
-import { env } from '@/lib/env';
+import { env } from '@/config/env';
+import { sendEmail } from '@/utils/email';
 import {
   LoginSchema,
   RegisterSchema,
@@ -22,7 +22,8 @@ import {
   recordFailedLogin,
   clearLoginAttempts,
   checkPasswordResetCooldown,
-} from '@/lib/rate-limit';
+} from '@/utils/rate-limit';
+import { getValidationErrorMessage } from '@/utils/validation';
 
 export async function logoutUser() {
   await signOut({ redirect: false });
@@ -32,7 +33,7 @@ export async function loginUser(
   data: LoginInput
 ): Promise<{ error?: string; retryAfter?: number }> {
   const { data: parsed, success, error } = LoginSchema.safeParse(data);
-  if (!success) return { error: error.issues[0].message };
+  if (!success) return { error: getValidationErrorMessage(error) };
 
   const rateLimit = await checkLoginRateLimit(parsed.email);
   if (rateLimit.blocked) {
@@ -44,6 +45,15 @@ export async function loginUser(
 
   if (!valid) {
     await recordFailedLogin(parsed.email);
+
+    const rateLimit = await checkLoginRateLimit(parsed.email);
+
+    if (rateLimit.blocked) {
+      return {
+        error: 'Слишком много попыток. Попробуйте позже.',
+        retryAfter: rateLimit.retryAfter,
+      };
+    }
     return { error: 'Неверный email или пароль' };
   }
 
@@ -54,7 +64,7 @@ export async function loginUser(
 export async function registerUser(data: RegisterInput): Promise<{ error?: string }> {
   const { data: parsedData, success, error } = RegisterSchema.safeParse(data);
   if (!success) {
-    return { error: error.issues[0].message };
+    return { error: getValidationErrorMessage(error) };
   }
 
   const existing = await db.user.findUnique({
@@ -86,7 +96,7 @@ export async function sendPasswordResetEmail(
   data: ForgotPasswordInput
 ): Promise<{ error?: string; retryAfter?: number }> {
   const { data: parsed, success, error } = ForgotPasswordSchema.safeParse(data);
-  if (!success) return { error: error.issues[0].message };
+  if (!success) return { error: getValidationErrorMessage(error) };
 
   const cooldown = await checkPasswordResetCooldown(parsed.email);
   if (cooldown.blocked) {
@@ -117,7 +127,7 @@ export async function resetPassword(
   data: ResetPasswordInput
 ): Promise<{ error?: string; email?: string; password?: string }> {
   const { data: parsed, success, error } = ResetPasswordSchema.safeParse(data);
-  if (!success) return { error: error.issues[0].message };
+  if (!success) return { error: getValidationErrorMessage(error) };
 
   const resetToken = await db.passwordResetToken.findUnique({ where: { token } });
 

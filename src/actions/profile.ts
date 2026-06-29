@@ -2,11 +2,12 @@
 
 import { randomUUID } from 'crypto';
 import { revalidatePath } from 'next/cache';
-import { auth } from '@/lib/auth';
-import { db } from '@/lib/db';
-import { sendEmailVerificationMessage } from '@/lib/email-verification';
-import { checkEmailVerificationCooldown } from '@/lib/rate-limit';
-import { deleteS3ObjectByKey, uploadToS3 } from '@/lib/s3';
+import { auth } from '@/config/auth';
+import { db } from '@/config/db';
+import { checkEmailVerificationCooldown } from '@/utils/rate-limit';
+import { deleteS3ObjectByKey, uploadToS3 } from '@/utils/s3';
+import { sendEmailVerificationMessage } from '@/utils/verification';
+import { getValidationErrorMessage } from '@/utils/validation';
 import { ProfileSchema, type ProfileInput } from '@/schemas/profile';
 import {
   PROFILE_IMAGE_ALLOWED_TYPES,
@@ -38,7 +39,7 @@ export async function updateProfile(data: ProfileInput): Promise<{ error?: strin
   if (!session) return { error: 'Не авторизован' };
 
   const { data: parsed, success, error } = ProfileSchema.safeParse(data);
-  if (!success) return { error: error.issues[0].message };
+  if (!success) return { error: getValidationErrorMessage(error) };
 
   await db.user.update({
     where: { id: session.user.id },

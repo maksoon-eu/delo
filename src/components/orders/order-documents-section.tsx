@@ -9,7 +9,7 @@ import { UploadIcon } from '@/components/icons/upload';
 import { Button } from '@/components/ui/actions/button';
 import { ORDER_DOCUMENT_ACCEPT, ORDER_DOCUMENT_MAX_BYTES } from '@/constants/documents';
 import { useAsyncAction } from '@/hooks/use-async-action';
-import { formatDate } from '@/lib/utils';
+import { formatDate } from '@/utils/format';
 import type { OrderDocumentEntry } from '@/types/orders';
 
 type OrderDocumentsSectionProps = {

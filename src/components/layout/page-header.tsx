@@ -1,21 +1,29 @@
+import { BackLink } from '@/components/ui/navigation/back-link';
 import type { AnimatedIconComponent } from '@/types/icons';
 
 type PageHeaderProps = {
   Icon: AnimatedIconComponent;
   title: string;
   description: string;
+  backLink?: {
+    href: string;
+    label: string;
+  };
 };
 
 export function PageHeader(props: PageHeaderProps) {
-  const { Icon, title, description } = props;
+  const { Icon, title, description, backLink } = props;
 
   return (
-    <div className="glass border-glass mb-8 rounded-xl px-4 py-3 shadow-sm">
-      <div className="mb-1 flex items-center gap-2">
-        <Icon size={20} />
-        <h1 className="text-xl font-bold">{title}</h1>
+    <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-3">
+      {backLink && <BackLink href={backLink.href} label={backLink.label} size="full" />}
+      <div className="glass border-glass min-w-0 rounded-xl px-4 py-3 only:col-span-2">
+        <div className="mb-1 flex items-center gap-2">
+          <Icon size={20} />
+          <h1 className="text-xl font-bold">{title}</h1>
+        </div>
+        <p className="text-muted-foreground text-sm">{description}</p>
       </div>
-      <p className="text-muted-foreground text-sm">{description}</p>
     </div>
   );
 }

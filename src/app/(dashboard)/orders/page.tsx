@@ -25,7 +25,7 @@ export default async function OrdersPage(props: OrdersPageProps) {
   const listKey = `${status ?? ''}-${clientId ?? ''}-${items[0]?.id ?? 'empty'}`;
 
   return (
-    <div className="flex flex-1 flex-col">
+    <div className="page-stack flex-1">
       <PageHeader Icon={item.Icon} title={item.label} description={item.description} />
       <OrdersTable key={listKey} initialItems={items} initialHasMore={hasMore} />
     </div>

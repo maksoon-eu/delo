@@ -2,12 +2,10 @@ import { notFound } from 'next/navigation';
 import { NAV_ITEMS } from '@/constants/navigation';
 import { PageHeader } from '@/components/layout/page-header';
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
-import { BackLink } from '@/components/ui/navigation/back-link';
 import { ContentCard } from '@/components/ui/data/content-card';
 import { EditOrderPageContent } from '@/components/orders/edit-order-page-content';
 import { orderToFormValues } from '@/components/orders/constants';
 import { getOrder } from '@/actions/orders';
-import type { Route } from 'next';
 
 const item = NAV_ITEMS.orders;
 
@@ -25,21 +23,19 @@ export default async function EditOrderPage(props: EditOrderPageProps) {
   const defaultValues = orderToFormValues(order);
 
   return (
-    <AnimateIn className="flex flex-1 flex-col">
+    <AnimateIn className="page-stack flex-1">
       <PageHeader
         Icon={item.Icon}
         title={`Редактировать: ${order.title}`}
         description={`Клиент: ${order.clientName}`}
+        backLink={{ href: `/orders/${id}`, label: 'заказу' }}
       />
       <ContentCard>
-        <BackLink href={`/orders/${id}` as Route<string>} label="заказу" />
-        <div className="mt-6">
-          <EditOrderPageContent
-            orderId={id}
-            defaultClient={{ id: order.clientId, name: order.clientName }}
-            defaultValues={defaultValues}
-          />
-        </div>
+        <EditOrderPageContent
+          orderId={id}
+          defaultClient={{ id: order.clientId, name: order.clientName }}
+          defaultValues={defaultValues}
+        />
       </ContentCard>
     </AnimateIn>
   );

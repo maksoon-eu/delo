@@ -4,7 +4,7 @@ import {
   ORDER_STATUS_STATIC_ICONS,
   ORDER_STATUS_VARIANTS,
 } from '@/constants/orders';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/cn';
 import type { OrderStatus } from '@prisma/client';
 import { ORDER_STATUS_BADGE_CLASS_NAMES } from './status-styles';
 

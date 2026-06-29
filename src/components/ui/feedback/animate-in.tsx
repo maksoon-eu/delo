@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/cn';
 
 const variants = {
   fade: 'animate-in fade-in-0 duration-300',

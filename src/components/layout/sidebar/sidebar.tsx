@@ -10,7 +10,7 @@ import { useCookieStorage } from '@/hooks/use-cookie-storage';
 import { NAV_ITEMS } from '@/constants/navigation';
 import { SIDEBAR_COOKIE_KEY } from '@/constants/storage';
 import { SidebarNavItem } from './sidebar-item';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/cn';
 
 type AppSidebarProps = {
   defaultCollapsed: boolean;

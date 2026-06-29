@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
-import { auth } from '@/lib/auth';
-import { db } from '@/lib/db';
+import { auth } from '@/config/auth';
+import { db } from '@/config/db';
 import { EmailVerificationProvider } from '@/components/auth/email-verification-provider';
 import { AppSidebarServer } from '@/components/layout/sidebar/sidebar-server';
 import { TopBar } from '@/components/layout/top-bar';

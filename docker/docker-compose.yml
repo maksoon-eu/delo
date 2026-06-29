@@ -1,6 +1,12 @@
 name: delo
 
 services:
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - '1025:1025'
+      - '8025:8025'
+
   minio:
     image: minio/minio:latest
     command: server /data --console-address ":9001"

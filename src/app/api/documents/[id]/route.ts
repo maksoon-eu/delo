@@ -1,7 +1,7 @@
-import { auth } from '@/lib/auth';
-import { db } from '@/lib/db';
-import { getDocumentFileName } from '@/lib/document-file';
-import { getS3Object } from '@/lib/s3';
+import { auth } from '@/config/auth';
+import { db } from '@/config/db';
+import { getDocumentFileName } from '@/utils/document-file';
+import { getS3Object } from '@/utils/s3';
 
 type DocumentRouteContext = {
   params: Promise<{ id: string }>;

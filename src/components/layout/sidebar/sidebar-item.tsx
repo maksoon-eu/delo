@@ -3,7 +3,8 @@
 import Link from 'next/link';
 import { useRef } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { cn, startAnimatedIcon, stopAnimatedIcon } from '@/lib/utils';
+import { startAnimatedIcon, stopAnimatedIcon } from '@/utils/animation';
+import { cn } from '@/utils/cn';
 import type { AnimatedIconHandle } from '@/types/icons';
 import type { NavItem } from '@/types/navigation';
 

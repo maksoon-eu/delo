@@ -1,9 +1,10 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { auth } from '@/lib/auth';
-import { db } from '@/lib/db';
-import { getVerifiedSession } from '@/lib/verified-email';
+import { auth } from '@/config/auth';
+import { db } from '@/config/db';
+import { getVerifiedSession } from '@/utils/verification';
+import { getValidationErrorMessage } from '@/utils/validation';
 import { ClientSchema, type ClientInput } from '@/schemas/clients';
 import type { ClientDetails, ClientListItem } from '@/types/clients';
 
@@ -82,7 +83,7 @@ export async function createClient(
   const { session } = verifiedSession;
 
   const { data: parsed, success, error } = ClientSchema.safeParse(data);
-  if (!success) return { error: error.issues[0].message };
+  if (!success) return { error: getValidationErrorMessage(error) };
 
   const client = await db.client.create({
     data: {
@@ -105,7 +106,7 @@ export async function updateClient(id: string, data: ClientInput): Promise<{ err
   const { session } = verifiedSession;
 
   const { data: parsed, success, error } = ClientSchema.safeParse(data);
-  if (!success) return { error: error.issues[0].message };
+  if (!success) return { error: getValidationErrorMessage(error) };
 
   const existing = await db.client.findUnique({ where: { id, userId: session.user.id } });
   if (!existing) return { error: 'Клиент не найден' };

@@ -22,7 +22,7 @@ import { CalendarDays } from 'lucide-react';
 import { ArrowLeftIcon } from '@/components/icons/arrow-left';
 import { ArrowRightIcon } from '@/components/icons/arrow-right';
 import { Button } from '@/components/ui/actions/button';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/cn';
 
 type DatePickerProps = Omit<ComponentProps<'button'>, 'onBlur' | 'onChange' | 'value'> & {
   value?: string;
@@ -193,7 +193,7 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(
                       onClick={createSelectDateHandler(day)}
                       className={cn(
                         'flex aspect-square cursor-pointer items-center justify-center rounded-xl text-sm transition-colors',
-                        isSelected && 'bg-primary text-primary-foreground shadow-sm',
+                        isSelected && 'bg-primary text-primary-foreground ',
                         !isSelected &&
                           isCurrentMonth &&
                           'text-foreground hover:bg-accent/50 hover:text-accent-foreground',

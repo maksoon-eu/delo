@@ -5,7 +5,7 @@ const item = NAV_ITEMS.main;
 
 export default function DashboardPage() {
   return (
-    <div>
+    <div className="page-stack">
       <PageHeader Icon={item.Icon} title={item.label} description={item.description} />
     </div>
   );

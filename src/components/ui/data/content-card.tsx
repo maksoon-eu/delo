@@ -1,5 +1,5 @@
 import type { ComponentProps, ReactNode } from 'react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/cn';
 
 type ContentCardProps = ComponentProps<'div'> & {
   children: ReactNode;
@@ -9,7 +9,7 @@ export function ContentCard(props: ContentCardProps) {
   const { children, className, ...rest } = props;
 
   return (
-    <div className={cn('glass border-glass rounded-xl p-6 shadow-sm', className)} {...rest}>
+    <div className={cn('glass border-glass rounded-xl p-6 ', className)} {...rest}>
       {children}
     </div>
   );
