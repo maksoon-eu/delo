@@ -24,6 +24,7 @@ import {
   checkPasswordResetCooldown,
 } from '@/utils/rate-limit';
 import { getValidationErrorMessage } from '@/utils/validation';
+import { LEGAL_CONSENT_VERSION } from '@/constants/auth';
 
 export async function logoutUser() {
   await signOut({ redirect: false });
@@ -77,11 +78,16 @@ export async function registerUser(data: RegisterInput): Promise<{ error?: strin
 
   const hashedPassword = await bcrypt.hash(parsedData.password, 10);
 
+  const now = new Date();
+
   await db.user.create({
     data: {
       name: parsedData.name,
       email: parsedData.email,
       password: hashedPassword,
+      termsAcceptedAt: now,
+      privacyAcceptedAt: now,
+      legalConsentVersion: LEGAL_CONSENT_VERSION,
     },
   });
 

@@ -2,20 +2,18 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import type { Route } from 'next';
-import { AuthCard } from '@/components/auth/auth-card';
 import { Button } from '@/components/ui/actions/button';
 import { AtSignIcon } from '@/components/icons/at-sign';
 import { ArrowRightIcon } from '@/components/icons/arrow-right';
+import { useRouterNavigate } from '@/hooks/use-router-navigate';
 
-type VerifyEmailCardProps = {
+type VerifyEmailContentProps = {
   token: string | null;
 };
 
-export function VerifyEmailCard(props: VerifyEmailCardProps) {
+export function VerifyEmailContent(props: VerifyEmailContentProps) {
   const { token } = props;
-  const router = useRouter();
+  const { navigateTo } = useRouterNavigate();
   const startedRef = useRef(false);
   const [error, setError] = useState<string | null>(null);
   const tokenError = token ? null : 'Ссылка подтверждения недействительна';
@@ -36,39 +34,40 @@ export function VerifyEmailCard(props: VerifyEmailCardProps) {
         return;
       }
 
-      router.push('/profile?verification=success' as Route);
-      router.refresh();
+      navigateTo('/profile?verification=success');
     }
 
     verifyEmail();
-  }, [router, token]);
+  }, [navigateTo, token]);
 
   function handleOpenLogin() {
-    router.push('/login' as Route);
+    navigateTo('/login');
   }
 
   return (
-    <AuthCard
-      title="Подтверждаем email"
-      description="Проверяем ссылку и открываем аккаунт"
-      formTitle={displayError ? 'Не удалось подтвердить email' : 'Подождите несколько секунд'}
-      footerText="Войти вручную"
-      footerLinkHref="/login"
-    >
-      <div className="space-y-4">
-        <div className="bg-primary/10 text-primary flex h-20 items-center justify-center rounded-lg">
-          <AtSignIcon size={32} />
-        </div>
-        <p className="text-muted-foreground text-sm">
+    <div className="flex flex-col gap-6">
+      <div className="bg-primary/10 text-primary flex h-20 items-center justify-center rounded-xl">
+        <AtSignIcon size={32} />
+      </div>
+      <div className="flex flex-col gap-2">
+        <p className="text-foreground text-sm font-semibold">
+          {displayError ? 'Не удалось подтвердить email' : 'Подождите несколько секунд'}
+        </p>
+        <p className="text-muted-foreground text-sm leading-6">
           {displayError ??
             'Если ссылка действительна, мы подтвердим email и автоматически войдём в аккаунт.'}
         </p>
-        {displayError && (
-          <Button type="button" className="w-full" Icon={ArrowRightIcon} onClick={handleOpenLogin}>
-            Перейти ко входу
-          </Button>
-        )}
       </div>
-    </AuthCard>
+      {displayError && (
+        <Button
+          type="button"
+          className="h-13 w-full rounded-lg text-base font-semibold"
+          Icon={ArrowRightIcon}
+          onClick={handleOpenLogin}
+        >
+          Перейти ко входу
+        </Button>
+      )}
+    </div>
   );
 }

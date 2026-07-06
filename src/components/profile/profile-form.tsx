@@ -83,22 +83,20 @@ export function ProfileForm(props: ProfileFormProps) {
       <ContentCard className="h-full space-y-5">
         <ProfileImageUpload initialImage={profile.image} name={profile.name} />
 
-        <Form {...form}>
-          <form onSubmit={handleSubmit(executeUpdate)} className="space-y-4">
-            <FormInput
-              control={control}
-              name="name"
-              label="Имя"
-              autoComplete="name"
-              Icon={UserIcon}
-            />
-            <FormTextarea control={control} name="workTerms" label="Условия работы" rows={6} />
-            <div className="flex justify-end">
-              <Button type="submit" Icon={UserIcon} isLoading={isUpdating}>
-                Сохранить
-              </Button>
-            </div>
-          </form>
+        <Form {...form} onSubmit={handleSubmit(executeUpdate)} className="space-y-4">
+          <FormInput
+            control={control}
+            name="name"
+            label="Имя"
+            autoComplete="name"
+            Icon={UserIcon}
+          />
+          <FormTextarea control={control} name="workTerms" label="Условия работы" rows={6} />
+          <div className="flex justify-end">
+            <Button type="submit" Icon={UserIcon} isLoading={isUpdating}>
+              Сохранить
+            </Button>
+          </div>
         </Form>
       </ContentCard>
 

@@ -10,12 +10,37 @@ import {
   type ControllerProps,
   type FieldPath,
   type FieldValues,
+  type FormProviderProps,
 } from 'react-hook-form';
 
 import { cn } from '@/utils/cn';
 import { Label } from '@/components/ui/form/primitives/label';
 
-const Form = FormProvider;
+type FormProps<
+  TFieldValues extends FieldValues = FieldValues,
+  TContext = unknown,
+  TTransformedValues = TFieldValues,
+> = FormProviderProps<TFieldValues, TContext, TTransformedValues> & {
+  onSubmit: ComponentProps<'form'>['onSubmit'];
+  className?: string;
+  formProps?: Omit<ComponentProps<'form'>, 'children' | 'className' | 'onSubmit'>;
+};
+
+function Form<
+  TFieldValues extends FieldValues = FieldValues,
+  TContext = unknown,
+  TTransformedValues = TFieldValues,
+>(props: FormProps<TFieldValues, TContext, TTransformedValues>) {
+  const { children, onSubmit, className, formProps, ...form } = props;
+
+  return (
+    <FormProvider {...form}>
+      <form onSubmit={onSubmit} className={className} {...formProps}>
+        {children}
+      </form>
+    </FormProvider>
+  );
+}
 
 type FormFieldContextValue<
   TFieldValues extends FieldValues = FieldValues,

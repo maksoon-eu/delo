@@ -54,34 +54,32 @@ export function ClientForm(props: ClientFormProps) {
   const [execute, isLoading] = useAsyncAction(onSubmit);
 
   return (
-    <Form {...form}>
-      <form onSubmit={handleSubmit(execute)} className="space-y-4">
-        <div className="grid gap-4 sm:grid-cols-2">
-          <FormInput control={control} name="name" label="Имя / Название" Icon={UserIcon} />
-          <FormInput
-            control={control}
-            name="contact"
-            label="Контакт"
-            autoComplete="off"
-            Icon={MessageCircleIcon}
-          />
-          <FormInput control={control} name="company" label="Компания" Icon={MapPinIcon} />
-          <FormInput control={control} name="inn" label="ИНН" Icon={IdCardIcon} />
-        </div>
-
-        <FormTextarea
+    <Form {...form} onSubmit={handleSubmit(execute)} className="space-y-4">
+      <div className="grid gap-4 sm:grid-cols-2">
+        <FormInput control={control} name="name" label="Имя / Название" Icon={UserIcon} />
+        <FormInput
           control={control}
-          name="notes"
-          label="Заметки"
-          placeholder="Любые дополнительные сведения..."
+          name="contact"
+          label="Контакт"
+          autoComplete="off"
+          Icon={MessageCircleIcon}
         />
+        <FormInput control={control} name="company" label="Компания" Icon={MapPinIcon} />
+        <FormInput control={control} name="inn" label="ИНН" Icon={IdCardIcon} />
+      </div>
 
-        <div className="flex justify-end">
-          <Button type="submit" isLoading={isLoading} Icon={ArrowRightIcon}>
-            {props.mode === 'create' ? 'Создать клиента' : 'Сохранить изменения'}
-          </Button>
-        </div>
-      </form>
+      <FormTextarea
+        control={control}
+        name="notes"
+        label="Заметки"
+        placeholder="Любые дополнительные сведения..."
+      />
+
+      <div className="flex justify-end">
+        <Button type="submit" isLoading={isLoading} Icon={ArrowRightIcon}>
+          {props.mode === 'create' ? 'Создать клиента' : 'Сохранить изменения'}
+        </Button>
+      </div>
     </Form>
   );
 }
