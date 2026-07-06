@@ -72,123 +72,117 @@ export function OrderForm(props: OrderFormProps) {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={handleSubmit(execute)} className="space-y-4">
-        <div className="grid gap-4 sm:grid-cols-2">
-          <FormSection title="Заказ" Icon={FileText}>
-            <div className="space-y-4">
-              <FormInput control={control} name="title" label="Название заказа" />
-              <FormTextarea
-                control={control}
-                name="description"
-                label="Описание"
-                placeholder="Опишите суть заказа..."
-              />
-            </div>
-          </FormSection>
-
-          <FormSection title="Клиент" Icon={User}>
-            <FormClientCombobox control={control} defaultClient={defaultClient} />
-          </FormSection>
-        </div>
-
-        <div className="grid gap-4 sm:grid-cols-2">
-          <FormSection title="Время" Icon={CalendarDays}>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <FormDateInput control={control} name="startDate" label="Дата начала" />
-              <FormDateInput control={control} name="deadline" label="Дедлайн" />
-            </div>
-          </FormSection>
-
-          <FormSection title="Оплата" Icon={CreditCard}>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <FormInput
-                control={control}
-                name="price"
-                label="Стоимость"
-                type="number"
-                Icon={CircleDollarSignIcon}
-              />
-              <FormSelect
-                control={control}
-                name="paymentMethod"
-                label="Способ оплаты"
-                options={PAYMENT_METHOD_OPTIONS}
-                defaultOption={defaultPaymentMethod}
-              />
-            </div>
-          </FormSection>
-        </div>
-
-        <FormSection title="Состав работ" Icon={List}>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="text-muted-foreground text-xs">Позиции</span>
-              <OrderTotal control={control} />
-            </div>
-            <div className="h-37.5 space-y-2 overflow-y-auto px-1">
-              {fields.length > 0 && (
-                <>
-                  {fields.map((field, index) => {
-                    function handleRemove() {
-                      remove(index);
-                    }
-
-                    return (
-                      <div
-                        key={field.id}
-                        className="grid grid-cols-[1fr_1fr_1fr_auto] items-start gap-2 pt-1.5"
-                      >
-                        <FormInput
-                          control={control}
-                          name={`items.${index}.name`}
-                          label="Название"
-                        />
-                        <FormInput
-                          control={control}
-                          name={`items.${index}.description`}
-                          label="Описание"
-                        />
-                        <FormInput
-                          control={control}
-                          name={`items.${index}.price`}
-                          type="number"
-                          label="Стоимость"
-                        />
-                        <Button
-                          type="button"
-                          mode="icon"
-                          variant="ghost"
-                          tooltip="Удалить позицию"
-                          Icon={XIcon}
-                          onClick={handleRemove}
-                          className="mt-0.5"
-                        />
-                      </div>
-                    );
-                  })}
-                </>
-              )}
-            </div>
-
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              Icon={PlusIcon}
-              onClick={handleAppendItem}
-            >
-              Добавить позицию
-            </Button>
+    <Form {...form} onSubmit={handleSubmit(execute)} className="space-y-4">
+      <div className="grid gap-4 sm:grid-cols-2">
+        <FormSection title="Заказ" Icon={FileText}>
+          <div className="space-y-4">
+            <FormInput control={control} name="title" label="Название заказа" />
+            <FormTextarea
+              control={control}
+              name="description"
+              label="Описание"
+              placeholder="Опишите суть заказа..."
+            />
           </div>
         </FormSection>
 
-        <div className="flex justify-end pt-1">
-          <Button type="submit" isLoading={isLoading} Icon={ArrowRightIcon}>
-            {mode === 'create' ? 'Создать заказ' : 'Сохранить изменения'}
+        <FormSection title="Клиент" Icon={User}>
+          <FormClientCombobox control={control} defaultClient={defaultClient} />
+        </FormSection>
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <FormSection title="Время" Icon={CalendarDays}>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <FormDateInput control={control} name="startDate" label="Дата начала" />
+            <FormDateInput control={control} name="deadline" label="Дедлайн" />
+          </div>
+        </FormSection>
+
+        <FormSection title="Оплата" Icon={CreditCard}>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <FormInput
+              control={control}
+              name="price"
+              label="Стоимость"
+              type="number"
+              Icon={CircleDollarSignIcon}
+            />
+            <FormSelect
+              control={control}
+              name="paymentMethod"
+              label="Способ оплаты"
+              options={PAYMENT_METHOD_OPTIONS}
+              defaultOption={defaultPaymentMethod}
+            />
+          </div>
+        </FormSection>
+      </div>
+
+      <FormSection title="Состав работ" Icon={List}>
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <span className="text-muted-foreground text-xs">Позиции</span>
+            <OrderTotal control={control} />
+          </div>
+          <div className="h-37.5 space-y-2 overflow-y-auto px-1">
+            {fields.length > 0 && (
+              <>
+                {fields.map((field, index) => {
+                  function handleRemove() {
+                    remove(index);
+                  }
+
+                  return (
+                    <div
+                      key={field.id}
+                      className="grid grid-cols-[1fr_1fr_1fr_auto] items-start gap-2 pt-1.5"
+                    >
+                      <FormInput control={control} name={`items.${index}.name`} label="Название" />
+                      <FormInput
+                        control={control}
+                        name={`items.${index}.description`}
+                        label="Описание"
+                      />
+                      <FormInput
+                        control={control}
+                        name={`items.${index}.price`}
+                        type="number"
+                        label="Стоимость"
+                      />
+                      <Button
+                        type="button"
+                        mode="icon"
+                        variant="ghost"
+                        tooltip="Удалить позицию"
+                        Icon={XIcon}
+                        onClick={handleRemove}
+                        className="mt-0.5"
+                      />
+                    </div>
+                  );
+                })}
+              </>
+            )}
+          </div>
+
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            Icon={PlusIcon}
+            onClick={handleAppendItem}
+          >
+            Добавить позицию
           </Button>
         </div>
-      </form>
+      </FormSection>
+
+      <div className="flex justify-end pt-1">
+        <Button type="submit" isLoading={isLoading} Icon={ArrowRightIcon}>
+          {mode === 'create' ? 'Создать заказ' : 'Сохранить изменения'}
+        </Button>
+      </div>
     </Form>
   );
 }

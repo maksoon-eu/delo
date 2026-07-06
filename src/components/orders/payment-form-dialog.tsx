@@ -71,17 +71,15 @@ export function PaymentFormDialog(props: PaymentFormDialogProps) {
         title="Добавить оплату"
         Icon={CircleDollarSignIcon}
       >
-        <Form {...form}>
-          <form onSubmit={handleSubmit(execute)} className="space-y-4">
-            <FormInput control={control} name="amount" label="Сумма (₽)" type="number" />
-            <FormDateInput control={control} name="paidAt" label="Дата оплаты" />
-            <FormTextarea control={control} name="note" label="Заметка (необязательно)" rows={2} />
-            <div className="flex justify-end">
-              <Button type="submit" isLoading={isLoading} Icon={CircleDollarSignIcon}>
-                Сохранить
-              </Button>
-            </div>
-          </form>
+        <Form {...form} onSubmit={handleSubmit(execute)} className="space-y-4">
+          <FormInput control={control} name="amount" label="Сумма (₽)" type="number" />
+          <FormDateInput control={control} name="paidAt" label="Дата оплаты" />
+          <FormTextarea control={control} name="note" label="Заметка (необязательно)" rows={2} />
+          <div className="flex justify-end">
+            <Button type="submit" isLoading={isLoading} Icon={CircleDollarSignIcon}>
+              Сохранить
+            </Button>
+          </div>
         </Form>
       </AppDialog>
     </>

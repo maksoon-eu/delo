@@ -1,7 +1,6 @@
 import type { Route } from 'next';
 import Link from 'next/link';
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
-import { ShieldCheck, LockKeyholeOpen } from 'lucide-react';
 import type { ReactNode } from 'react';
 
 type AuthCardProps = {
@@ -28,7 +27,7 @@ export function AuthCard(props: AuthCardProps) {
   return (
     <AnimateIn className="w-full max-w-sm">
       <div className="glass border-glass rounded-xl ">
-        <div className="space-y-1 p-6 pb-4">
+        <div className="flex flex-col gap-1 p-6 pb-4">
           <h1 className="text-primary text-2xl font-bold leading-tight">{title}</h1>
           <p className="text-muted-foreground text-sm">{description}</p>
         </div>
@@ -42,20 +41,6 @@ export function AuthCard(props: AuthCardProps) {
         </div>
 
         <div className="px-6 pb-6">{children}</div>
-
-        <div className="border-border border-t px-6 py-4">
-          <div className="text-muted-foreground flex items-center justify-center gap-4 text-xs">
-            <span className="flex items-center gap-1">
-              <ShieldCheck size={13} />
-              Data Protected
-            </span>
-            <span className="bg-border h-3 w-px" />
-            <span className="flex items-center gap-1">
-              <LockKeyholeOpen size={13} />
-              SSL Secured
-            </span>
-          </div>
-        </div>
 
         <div className="border-border border-t px-6 py-4 text-center">
           <div className="text-muted-foreground flex items-center justify-center gap-2 text-sm">

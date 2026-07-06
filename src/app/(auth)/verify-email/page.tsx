@@ -1,4 +1,4 @@
-import { VerifyEmailCard } from '@/components/auth/verify-email-card';
+import { VerifyEmailContent } from '@/components/auth/verify-email-content';
 
 type VerifyEmailPageProps = {
   searchParams: Promise<{ token?: string }>;
@@ -8,5 +8,5 @@ export default async function VerifyEmailPage(props: VerifyEmailPageProps) {
   const { searchParams } = props;
   const { token } = await searchParams;
 
-  return <VerifyEmailCard token={token ?? null} />;
+  return <VerifyEmailContent token={token ?? null} />;
 }

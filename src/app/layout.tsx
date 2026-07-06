@@ -33,15 +33,21 @@ export default function RootLayout(props: Readonly<{ children: ReactNode }>) {
       className={`${manrope.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="dashboard-background flex min-h-full flex-col">
+      <body className="bg-background text-foreground flex min-h-full flex-col">
         <NuqsAdapter>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            {children}
-            <Toaster />
-            <Footer />
+            <div className="dashboard-background flex min-h-dvh flex-1 flex-col">
+              {children}
+              <Toaster />
+              <Footer />
 
-            {env.NODE_ENV === 'production' && <Analytics />}
-            {env.NODE_ENV === 'production' && <SpeedInsights />}
+              {env.NODE_ENV === 'production' && (
+                <>
+                  <Analytics />
+                  <SpeedInsights />
+                </>
+              )}
+            </div>
           </ThemeProvider>
         </NuqsAdapter>
       </body>
