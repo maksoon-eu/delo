@@ -1,12 +1,13 @@
 'use client';
 
-import { Info, Mail } from 'lucide-react';
+import { Info } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 import { Form } from '@/components/ui/form/form';
 import { Button } from '@/components/ui/actions/button';
-import { AuthFormInput } from '@/components/auth/auth-form-input';
+import { FormInput } from '@/components/ui/form/fields/form-input';
+import { AtSignIcon } from '@/components/icons/at-sign';
 import { ArrowRightIcon } from '@/components/icons/arrow-right';
 import { useCountdown } from '@/hooks/use-countdown';
 import { useAsyncAction } from '@/hooks/use-async-action';
@@ -45,14 +46,13 @@ export function ForgotPasswordForm() {
   return (
     <Form {...form} onSubmit={handleSubmit(execute)} className="flex flex-col gap-7">
       <div className="flex flex-col gap-2">
-        <AuthFormInput
+        <FormInput
           control={control}
           name="email"
           label="Email"
           type="email"
-          placeholder="example@delo.ru"
           autoComplete="email"
-          Icon={Mail}
+          Icon={AtSignIcon}
         />
 
         <div className="border-primary/25 bg-primary/10 text-foreground flex gap-3 rounded-xl border p-4 text-sm leading-6">

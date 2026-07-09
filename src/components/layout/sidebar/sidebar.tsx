@@ -59,9 +59,11 @@ export function AppSidebar(props: AppSidebarProps) {
       </div>
 
       <nav className="flex flex-1 flex-col gap-1 p-2">
-        {Object.values(NAV_ITEMS).map((item) => (
-          <SidebarNavItem key={item.href} {...item} collapsed={collapsed} pathname={pathname} />
-        ))}
+        {Object.values(NAV_ITEMS)
+          .filter((item) => !item.isDisabled)
+          .map((item) => (
+            <SidebarNavItem key={item.href} {...item} collapsed={collapsed} pathname={pathname} />
+          ))}
       </nav>
 
       <div className="border-sidebar-border border-t">

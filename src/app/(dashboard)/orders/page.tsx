@@ -1,11 +1,8 @@
-import { NAV_ITEMS } from '@/constants/navigation';
 import { ORDERS_PAGE_SIZE } from '@/constants/pagination';
 import { PageHeader } from '@/components/layout/page-header';
 import { OrdersTable } from '@/components/orders/orders-table';
 import { getOrders } from '@/actions/orders';
 import { OrderStatus } from '@prisma/client';
-
-const item = NAV_ITEMS.orders;
 
 type OrdersPageProps = {
   searchParams: Promise<{ status?: OrderStatus; clientId?: string }>;
@@ -26,7 +23,7 @@ export default async function OrdersPage(props: OrdersPageProps) {
 
   return (
     <div className="page-stack flex-1">
-      <PageHeader Icon={item.Icon} title={item.label} description={item.description} />
+      <PageHeader />
       <OrdersTable key={listKey} initialItems={items} initialHasMore={hasMore} />
     </div>
   );

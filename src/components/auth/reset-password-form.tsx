@@ -3,13 +3,14 @@
 import { signIn } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import { toast } from 'sonner';
-import { AlertCircle, LockKeyhole } from 'lucide-react';
+import { AlertCircle } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from '@/components/ui/form/form';
 import { Button } from '@/components/ui/actions/button';
-import { AuthFormInput } from '@/components/auth/auth-form-input';
+import { FormInput } from '@/components/ui/form/fields/form-input';
 import { ArrowRightIcon } from '@/components/icons/arrow-right';
+import { LockKeyholeIcon } from '@/components/icons/lock-keyhole';
 import { useAsyncAction } from '@/hooks/use-async-action';
 import { useRouterNavigate } from '@/hooks/use-router-navigate';
 import { resetPassword } from '@/actions/auth';
@@ -72,23 +73,21 @@ export function ResetPasswordForm() {
   return (
     <Form {...form} onSubmit={handleSubmit(execute)} className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">
-        <AuthFormInput
+        <FormInput
           control={control}
           name="password"
           label="Новый пароль"
           type="password"
-          placeholder="Введите новый пароль"
           autoComplete="new-password"
-          Icon={LockKeyhole}
+          Icon={LockKeyholeIcon}
         />
-        <AuthFormInput
+        <FormInput
           control={control}
           name="confirmPassword"
           label="Повторите пароль"
           type="password"
-          placeholder="Повторите новый пароль"
           autoComplete="new-password"
-          Icon={LockKeyhole}
+          Icon={LockKeyholeIcon}
         />
       </div>
 
