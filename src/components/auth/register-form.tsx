@@ -1,6 +1,5 @@
 'use client';
 
-import { Mail, LockKeyhole, User } from 'lucide-react';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -8,8 +7,11 @@ import { signIn } from 'next-auth/react';
 import { toast } from 'sonner';
 import { Form } from '@/components/ui/form/form';
 import { Button } from '@/components/ui/actions/button';
-import { AuthFormInput } from '@/components/auth/auth-form-input';
+import { FormInput } from '@/components/ui/form/fields/form-input';
+import { AtSignIcon } from '@/components/icons/at-sign';
 import { ArrowRightIcon } from '@/components/icons/arrow-right';
+import { LockKeyholeIcon } from '@/components/icons/lock-keyhole';
+import { UserIcon } from '@/components/icons/user';
 import { FormCheckbox } from '@/components/ui/form/fields/form-checkbox';
 import { useAsyncAction } from '@/hooks/use-async-action';
 import { useRouterNavigate } from '@/hooks/use-router-navigate';
@@ -55,40 +57,30 @@ export function RegisterForm() {
   return (
     <Form {...form} onSubmit={handleSubmit(execute)} className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">
-        <AuthFormInput
-          control={control}
-          name="name"
-          label="Имя"
-          placeholder="Иван Иванов"
-          autoComplete="name"
-          Icon={User}
-        />
-        <AuthFormInput
+        <FormInput control={control} name="name" label="Имя" autoComplete="name" Icon={UserIcon} />
+        <FormInput
           control={control}
           name="email"
           label="Email"
           type="email"
-          placeholder="example@delo.ru"
           autoComplete="email"
-          Icon={Mail}
+          Icon={AtSignIcon}
         />
-        <AuthFormInput
+        <FormInput
           control={control}
           name="password"
           label="Пароль"
           type="password"
-          placeholder="Введите пароль"
           autoComplete="new-password"
-          Icon={LockKeyhole}
+          Icon={LockKeyholeIcon}
         />
-        <AuthFormInput
+        <FormInput
           control={control}
           name="confirmPassword"
           label="Подтвердить пароль"
           type="password"
-          placeholder="Повторите пароль"
           autoComplete="new-password"
-          Icon={LockKeyhole}
+          Icon={LockKeyholeIcon}
         />
       </div>
 

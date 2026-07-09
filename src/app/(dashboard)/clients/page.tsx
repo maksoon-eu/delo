@@ -1,10 +1,7 @@
-import { NAV_ITEMS } from '@/constants/navigation';
 import { CLIENTS_PAGE_SIZE } from '@/constants/pagination';
 import { PageHeader } from '@/components/layout/page-header';
 import { ClientsTable } from '@/components/clients/clients-table';
 import { getClients } from '@/actions/clients';
-
-const item = NAV_ITEMS.clients;
 
 export default async function ClientsPage() {
   const { items, hasMore } = await getClients({ offset: 0, take: CLIENTS_PAGE_SIZE });
@@ -12,7 +9,7 @@ export default async function ClientsPage() {
 
   return (
     <div className="page-stack flex-1">
-      <PageHeader Icon={item.Icon} title={item.label} description={item.description} />
+      <PageHeader />
       <ClientsTable key={listKey} initialItems={items} initialHasMore={hasMore} />
     </div>
   );

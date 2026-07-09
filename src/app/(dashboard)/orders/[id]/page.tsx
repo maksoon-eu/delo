@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { NAV_ITEMS } from '@/constants/navigation';
 import { ORDER_FINAL_STATUSES } from '@/constants/orders';
 import { env } from '@/config/env';
 import { formatDate, formatPrice } from '@/utils/format';
@@ -16,8 +15,6 @@ import { DetailItem } from '@/components/ui/data/detail-item';
 import { ContentCard } from '@/components/ui/data/content-card';
 import { getOrder } from '@/actions/orders';
 import type { Route } from 'next';
-
-const item = NAV_ITEMS.orders;
 
 type OrderPageProps = {
   params: Promise<{ id: string }>;
@@ -37,7 +34,6 @@ export default async function OrderPage(props: OrderPageProps) {
   return (
     <div className="page-stack flex-1">
       <PageHeader
-        Icon={item.Icon}
         title={order.title}
         description={`Заказ · ${order.clientName}`}
         backLink={{ href: '/orders', label: 'заказам' }}

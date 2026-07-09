@@ -1,14 +1,15 @@
 'use client';
 
 import Link from 'next/link';
-import { Mail, LockKeyhole } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
 import { Form } from '@/components/ui/form/form';
 import { Button } from '@/components/ui/actions/button';
-import { AuthFormInput } from '@/components/auth/auth-form-input';
+import { FormInput } from '@/components/ui/form/fields/form-input';
+import { AtSignIcon } from '@/components/icons/at-sign';
 import { ArrowRightIcon } from '@/components/icons/arrow-right';
+import { LockKeyholeIcon } from '@/components/icons/lock-keyhole';
 import { useCountdown } from '@/hooks/use-countdown';
 import { useAsyncAction } from '@/hooks/use-async-action';
 import { useRouterNavigate } from '@/hooks/use-router-navigate';
@@ -52,23 +53,21 @@ export function LoginForm() {
 
   return (
     <Form {...form} onSubmit={handleSubmit(execute)} className="flex flex-col gap-2">
-      <AuthFormInput
+      <FormInput
         control={control}
         name="email"
         label="Электронная почта"
         type="email"
-        placeholder="name@company.com"
         autoComplete="username"
-        Icon={Mail}
+        Icon={AtSignIcon}
       />
-      <AuthFormInput
+      <FormInput
         control={control}
         name="password"
         label="Пароль"
         type="password"
-        placeholder="Введите пароль"
         autoComplete="current-password"
-        Icon={LockKeyhole}
+        Icon={LockKeyholeIcon}
       />
 
       <div className="flex justify-end text-xs sm:text-sm">
