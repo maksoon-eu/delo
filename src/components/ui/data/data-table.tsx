@@ -10,12 +10,14 @@ import {
 import { TableVirtuoso, type ItemProps, type TableComponents } from 'react-virtuoso';
 import { cn } from '@/utils/cn';
 import { Button } from '@/components/ui/actions/button';
+import { Skeleton } from '@/components/ui/feedback/skeleton';
 import { TableCell, TableHead, TableRow } from './table';
 
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface ColumnMeta<TData extends RowData, TValue> {
     copyable?: boolean;
+    align?: 'left' | 'center' | 'right';
   }
 }
 
@@ -31,19 +33,29 @@ const VirtuosoTable = forwardRef<HTMLTableElement, ComponentProps<'table'>>(
       data-slot="table"
       ref={ref}
       style={style}
-      className={cn('w-full caption-bottom text-sm', className)}
+      className={cn(
+        'w-full min-w-max caption-bottom border-separate border-spacing-0 text-sm',
+        className
+      )}
       {...props}
     />
   )
 );
 VirtuosoTable.displayName = 'VirtuosoTable';
 
+const VirtuosoScroller = forwardRef<HTMLDivElement, ComponentProps<'div'>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cn('min-w-0 overflow-x-auto', className)} {...props} />
+  )
+);
+VirtuosoScroller.displayName = 'VirtuosoScroller';
+
 const VirtuosoTableHead = forwardRef<HTMLTableSectionElement, ComponentProps<'thead'>>(
   ({ className, ...props }, ref) => (
     <thead
       data-slot="table-header"
       ref={ref}
-      className={cn('bg-card [&_tr]:border-b [&_tr]:hover:bg-transparent', className)}
+      className={cn('[&_tr]:border-0 [&_tr]:hover:bg-transparent', className)}
       {...props}
     />
   )
@@ -56,6 +68,13 @@ const VirtuosoTableBody = forwardRef<HTMLTableSectionElement, ComponentProps<'tb
   )
 );
 VirtuosoTableBody.displayName = 'VirtuosoTableBody';
+
+const VirtuosoTableFoot = forwardRef<HTMLTableSectionElement, ComponentProps<'tfoot'>>(
+  ({ className, ...props }, ref) => (
+    <tfoot data-slot="table-footer" ref={ref} className={className} {...props} />
+  )
+);
+VirtuosoTableFoot.displayName = 'VirtuosoTableFoot';
 
 function VirtuosoTableRow({
   context,
@@ -87,9 +106,11 @@ function VirtuosoEmptyPlaceholder({ context }: { context?: TableContext }) {
 }
 
 const VIRTUOSO_COMPONENTS: TableComponents<Row<unknown>, TableContext> = {
+  Scroller: VirtuosoScroller as TableComponents<Row<unknown>, TableContext>['Scroller'],
   Table: VirtuosoTable as TableComponents<Row<unknown>, TableContext>['Table'],
   TableHead: VirtuosoTableHead as TableComponents<Row<unknown>, TableContext>['TableHead'],
   TableBody: VirtuosoTableBody as TableComponents<Row<unknown>, TableContext>['TableBody'],
+  TableFoot: VirtuosoTableFoot as TableComponents<Row<unknown>, TableContext>['TableFoot'],
   TableRow: VirtuosoTableRow,
   EmptyPlaceholder: VirtuosoEmptyPlaceholder,
 };
@@ -101,6 +122,7 @@ type DataTableProps<T> = {
   className?: string;
   onEndReached?: () => void;
   height?: number | string;
+  isLoadingMore?: boolean;
 };
 
 export function DataTable<T>(props: DataTableProps<T>) {
@@ -111,6 +133,7 @@ export function DataTable<T>(props: DataTableProps<T>) {
     className,
     onEndReached,
     height = 600,
+    isLoadingMore = false,
   } = props;
 
   const context: TableContext = {
@@ -122,7 +145,12 @@ export function DataTable<T>(props: DataTableProps<T>) {
   const data = table.getRowModel().rows;
 
   return (
-    <div className={cn('glass flex flex-1 flex-col overflow-hidden rounded-xl border', className)}>
+    <div
+      className={cn(
+        'border-sidebar-border flex flex-1 flex-col overflow-hidden rounded-2xl border bg-transparent shadow-sm shadow-black/5 backdrop-blur-xl',
+        className
+      )}
+    >
       <TableVirtuoso
         data={data as Row<unknown>[]}
         context={context}
@@ -135,12 +163,33 @@ export function DataTable<T>(props: DataTableProps<T>) {
           table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <TableHead key={header.id} style={{ width: header.column.getSize() }}>
+                <TableHead
+                  key={header.id}
+                  style={{ width: header.column.getSize() }}
+                  className={cn(
+                    'bg-primary/10 border-sidebar-border border-y first:rounded-l-[16px] first:border-l last:rounded-r-[16px] last:border-r',
+                    header.column.columnDef.meta?.align === 'center' && 'text-center',
+                    header.column.columnDef.meta?.align === 'right' && 'text-right'
+                  )}
+                >
                   {flexRender(header.column.columnDef.header, header.getContext())}
                 </TableHead>
               ))}
             </TableRow>
           ))
+        }
+        fixedFooterContent={() =>
+          isLoadingMore ? (
+            <TableRow>
+              <TableCell colSpan={context.columnCount} className="py-4">
+                <div className="flex items-center justify-center gap-2">
+                  <Skeleton className="size-2 rounded-full" />
+                  <Skeleton className="size-2 rounded-full delay-75" />
+                  <Skeleton className="size-2 rounded-full delay-150" />
+                </div>
+              </TableCell>
+            </TableRow>
+          ) : null
         }
         itemContent={(_, row) => (
           <>
@@ -150,8 +199,20 @@ export function DataTable<T>(props: DataTableProps<T>) {
                 cell.column.columnDef.meta?.copyable && rawValue != null && rawValue !== '';
 
               return (
-                <TableCell key={cell.id}>
-                  <div className="flex items-center">
+                <TableCell
+                  key={cell.id}
+                  className={cn(
+                    cell.column.columnDef.meta?.align === 'center' && 'text-center',
+                    cell.column.columnDef.meta?.align === 'right' && 'text-right'
+                  )}
+                >
+                  <div
+                    className={cn(
+                      'flex items-center',
+                      cell.column.columnDef.meta?.align === 'center' && 'justify-center',
+                      cell.column.columnDef.meta?.align === 'right' && 'justify-end'
+                    )}
+                  >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     {isCopyable && (
                       <Button

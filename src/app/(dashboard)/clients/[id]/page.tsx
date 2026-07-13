@@ -21,6 +21,7 @@ export default async function ClientPage(props: ClientPageProps) {
       <PageHeader
         title={client.name}
         description="Карточка клиента"
+        showIcon={false}
         backLink={{ href: '/clients', label: 'клиентам' }}
       />
 

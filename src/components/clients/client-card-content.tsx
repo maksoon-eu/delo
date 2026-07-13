@@ -1,9 +1,6 @@
 'use client';
 
-import Link from 'next/link';
 import { ClientForm } from '@/components/clients/client-form';
-import { ArrowRightIcon } from '@/components/icons/arrow-right';
-import { Button } from '@/components/ui/actions/button';
 import { ORDER_STATUS_LABELS } from '@/constants/orders';
 import { cn } from '@/utils/cn';
 import { formatDate, formatPrice } from '@/utils/format';
@@ -76,12 +73,6 @@ export function ClientCardContent(props: ClientCardContentProps) {
                 </div>
               </div>
             ))}
-
-            <Link href={`/orders?clientId=${client.id}`}>
-              <Button variant="ghost" size="sm" Icon={ArrowRightIcon}>
-                Все заказы
-              </Button>
-            </Link>
           </div>
         ) : (
           <p className="text-muted-foreground text-sm">Заказов пока нет</p>

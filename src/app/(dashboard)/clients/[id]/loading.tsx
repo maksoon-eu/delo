@@ -5,14 +5,6 @@ import { Skeleton } from '@/components/ui/feedback/skeleton';
 export default function ClientLoading() {
   return (
     <AnimateIn className="space-y-6">
-      <div className="glass border-accent/50 mb-8 rounded-xl border px-4 py-3 ">
-        <div className="mb-1 flex items-center gap-2">
-          <Skeleton className="size-5" />
-          <Skeleton className="h-7 w-48" />
-        </div>
-        <Skeleton className="h-4 w-32" />
-      </div>
-
       <ContentCard className="flex flex-col gap-6">
         <Skeleton className="h-4 w-24" />
 

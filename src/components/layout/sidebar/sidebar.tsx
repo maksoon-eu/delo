@@ -27,27 +27,25 @@ export function AppSidebar(props: AppSidebarProps) {
 
   return (
     <motion.aside
-      animate={{ width: collapsed ? 60 : 240 }}
-      className="glass border-sidebar-border relative flex shrink-0 flex-col border-r transition-colors"
+      animate={{ width: collapsed ? 72 : 220 }}
+      className="relative flex shrink-0 flex-col gap-4 transition-colors"
       initial={false}
       transition={{ duration: 0.25, ease: 'easeInOut' }}
     >
       <div
         className={cn(
-          'border-sidebar-border relative flex h-14 shrink-0 items-center gap-2.5 border-b px-3',
+          'bg-sidebar border-sidebar-border relative flex min-h-[82px] shrink-0 items-center gap-3 rounded-2xl border px-4 py-3 sm:px-5',
           collapsed && 'justify-center'
         )}
       >
-        <span className="bg-primary absolute -right-1 top-1/2 z-10 h-10 w-1 -translate-y-1/2 rounded-r-full" />
-
-        <div className="bg-sidebar-primary text-sidebar-primary-foreground flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-xs font-bold">
+        <div className="bg-sidebar-primary text-sidebar-primary-foreground flex size-8 shrink-0 items-center justify-center rounded-lg text-base font-extrabold">
           Д
         </div>
         <AnimatePresence initial={false}>
           {!collapsed && (
             <motion.span
               animate={{ opacity: 1, width: 'auto' }}
-              className="text-sidebar-foreground overflow-hidden whitespace-nowrap text-sm font-semibold"
+              className="text-sidebar-foreground overflow-hidden whitespace-nowrap text-xl font-bold"
               exit={{ opacity: 0, width: 0 }}
               initial={{ opacity: 0, width: 0 }}
               transition={{ duration: 0.2 }}
@@ -58,7 +56,7 @@ export function AppSidebar(props: AppSidebarProps) {
         </AnimatePresence>
       </div>
 
-      <nav className="flex flex-1 flex-col gap-1 p-2">
+      <nav className="bg-sidebar border-sidebar-border flex flex-1 flex-col gap-1 rounded-2xl border py-3">
         {Object.values(NAV_ITEMS)
           .filter((item) => !item.isDisabled)
           .map((item) => (
@@ -66,10 +64,10 @@ export function AppSidebar(props: AppSidebarProps) {
           ))}
       </nav>
 
-      <div className="border-sidebar-border border-t">
+      <div className="bg-sidebar border-sidebar-border rounded-2xl border p-2">
         <Button
           Icon={collapsed ? PanelLeftOpenIcon : PanelLeftCloseIcon}
-          className="h-14 w-full rounded-none border-none"
+          className="text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-11 w-full rounded-xl border-none bg-transparent"
           onClick={toggle}
           mode="icon"
           tooltip={collapsed ? 'Развернуть' : 'Свернуть'}

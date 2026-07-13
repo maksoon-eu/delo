@@ -10,7 +10,10 @@ function Table(props: ComponentProps<'table'>) {
     <div data-slot="table-container" className="relative w-full overflow-x-auto">
       <table
         data-slot="table"
-        className={cn('w-full caption-bottom text-sm', className)}
+        className={cn(
+          'w-full min-w-max caption-bottom border-separate border-spacing-0 text-sm',
+          className
+        )}
         {...rest}
       />
     </div>
@@ -60,7 +63,7 @@ function TableRow(props: ComponentProps<'tr'>) {
     <tr
       data-slot="table-row"
       className={cn(
-        'hover:bg-accent/20 data-[state=selected]:bg-muted border-b transition-colors',
+        'hover:bg-sidebar-accent/45 data-[state=selected]:bg-sidebar-accent transition-colors',
         className
       )}
       {...rest}
@@ -75,7 +78,7 @@ function TableHead(props: ComponentProps<'th'>) {
     <th
       data-slot="table-head"
       className={cn(
-        'text-muted-foreground h-12 whitespace-nowrap px-2 text-left align-middle text-xs font-semibold uppercase tracking-widest [&:has([role=checkbox])]:pr-0',
+        'text-muted-foreground h-12 whitespace-nowrap px-7 text-left align-middle text-sm font-semibold [&:has([role=checkbox])]:pr-0',
         className
       )}
       {...rest}
@@ -90,7 +93,7 @@ function TableCell(props: ComponentProps<'td'>) {
     <td
       data-slot="table-cell"
       className={cn(
-        'h-15 whitespace-nowrap p-3 align-middle [&:has([role=checkbox])]:pr-0',
+        'border-sidebar-border h-17 whitespace-nowrap border-b px-7 py-3 align-middle text-sm [&:has([role=checkbox])]:pr-0',
         className
       )}
       {...rest}

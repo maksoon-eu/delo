@@ -40,7 +40,7 @@ export function SelectInput(props: SelectInputProps) {
       <div className="relative">
         <SelectTrigger
           className={cn(
-            'border-accent min-w-36 cursor-pointer data-[size=default]:h-10',
+            'border-accent min-w-36 cursor-pointer data-[size=default]:h-11',
             className
           )}
         >

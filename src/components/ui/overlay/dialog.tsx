@@ -4,7 +4,6 @@ import { Dialog } from '@base-ui/react/dialog';
 import type { ReactNode } from 'react';
 import { XIcon } from '@/components/icons/x';
 import { cn } from '@/utils/cn';
-import type { AnimatedIconComponent } from '@/types/icons';
 
 type AppDialogProps = {
   open: boolean;
@@ -12,22 +11,12 @@ type AppDialogProps = {
   title: string;
   description?: string;
   children: ReactNode;
-  Icon: AnimatedIconComponent;
   size?: 'md' | 'lg';
   layer?: 'base' | 'nested';
 };
 
 export function AppDialog(props: AppDialogProps) {
-  const {
-    open,
-    onOpenChange,
-    title,
-    description,
-    children,
-    Icon,
-    size = 'md',
-    layer = 'base',
-  } = props;
+  const { open, onOpenChange, title, description, children, size = 'md', layer = 'base' } = props;
   const layerClass = layer === 'nested' ? 'z-[60]' : 'z-[40]';
 
   return (
@@ -51,10 +40,7 @@ export function AppDialog(props: AppDialogProps) {
           >
             <div className="flex shrink-0 items-start justify-between border-b p-5 pb-4">
               <div>
-                <div className="mb-1 flex items-center gap-2">
-                  <Icon size={20} />
-                  <Dialog.Title className="text-base font-semibold">{title}</Dialog.Title>
-                </div>
+                <Dialog.Title className="mb-1 text-base font-semibold">{title}</Dialog.Title>
                 {description && (
                   <Dialog.Description className="text-muted-foreground mt-0.5 text-sm">
                     {description}
