@@ -5,14 +5,6 @@ import { Skeleton } from '@/components/ui/feedback/skeleton';
 export default function OrderLoading() {
   return (
     <AnimateIn className="flex flex-1 flex-col">
-      <div className="glass border-accent/50 mb-8 rounded-xl border px-4 py-3 ">
-        <div className="mb-1 flex items-center gap-2">
-          <Skeleton className="size-5" />
-          <Skeleton className="h-7 w-64" />
-        </div>
-        <Skeleton className="h-4 w-32" />
-      </div>
-
       <div className="space-y-5">
         <ContentCard>
           <div className="mb-4 flex items-center justify-between">

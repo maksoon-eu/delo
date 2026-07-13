@@ -24,6 +24,7 @@ export default async function EditOrderPage(props: EditOrderPageProps) {
       <PageHeader
         title={`Редактировать: ${order.title}`}
         description={`Клиент: ${order.clientName}`}
+        showIcon={false}
         backLink={{ href: `/orders/${id}`, label: 'заказу' }}
       />
       <ContentCard>

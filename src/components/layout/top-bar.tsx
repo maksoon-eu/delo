@@ -8,6 +8,7 @@ import type { Route } from 'next';
 import { useIsClient } from '@/hooks/use-is-client';
 import { useAsyncAction } from '@/hooks/use-async-action';
 import { Button } from '@/components/ui/actions/button';
+import { PageHeader } from '@/components/layout/page-header';
 import { SunIcon } from '@/components/icons/sun';
 import { MoonIcon } from '@/components/icons/moon';
 import { LogoutIcon } from '@/components/icons/logout';
@@ -41,44 +42,49 @@ export function TopBar(props: TopBarProps) {
   const [executeLogout, isLoggingOut] = useAsyncAction(handleLogout);
 
   return (
-    <header className="glass border-border relative flex h-14 shrink-0 items-center justify-end gap-2 border-b px-4">
-      {isClient && (
+    <header className="bg-sidebar border-sidebar-border relative flex min-h-16 shrink-0 items-center justify-between gap-4 rounded-2xl border px-4 py-3 sm:px-5">
+      <PageHeader />
+      <div className="flex shrink-0 items-center justify-end gap-3">
+        {isClient && (
+          <Button
+            Icon={isDark ? SunIcon : MoonIcon}
+            mode="icon"
+            variant="outline"
+            tooltip={isDark ? 'Светлая тема' : 'Тёмная тема'}
+            onClick={toggleTheme}
+          />
+        )}
+        <Link
+          href={'/profile' as Route}
+          className="hover:bg-muted flex items-center gap-3 rounded-lg px-2 py-1.5 transition-colors"
+        >
+          <div className="hidden flex-col items-end leading-none sm:flex">
+            <span className="text-foreground text-sm font-semibold">{userName}</span>
+          </div>
+          <div className="bg-primary text-primary-foreground flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-full text-sm font-semibold">
+            {userImageUrl ? (
+              <Image
+                src={userImageUrl}
+                alt={userName}
+                width={40}
+                height={40}
+                unoptimized
+                className="size-full object-cover"
+              />
+            ) : (
+              initials
+            )}
+          </div>
+        </Link>
         <Button
-          Icon={isDark ? SunIcon : MoonIcon}
+          Icon={LogoutIcon}
           mode="icon"
           variant="outline"
-          tooltip={isDark ? 'Светлая тема' : 'Тёмная тема'}
-          onClick={toggleTheme}
+          tooltip="Выйти"
+          isLoading={isLoggingOut}
+          onClick={executeLogout}
         />
-      )}
-      <Link
-        href={'/profile' as Route}
-        className="hover:bg-muted flex items-center gap-2 rounded-lg px-2 py-1 transition-colors"
-      >
-        <div className="bg-primary text-primary-foreground flex size-7 shrink-0 items-center justify-center overflow-hidden rounded-full text-xs font-semibold">
-          {userImageUrl ? (
-            <Image
-              src={userImageUrl}
-              alt={userName}
-              width={28}
-              height={28}
-              unoptimized
-              className="size-full object-cover"
-            />
-          ) : (
-            initials
-          )}
-        </div>
-        <span className="text-foreground text-sm font-medium">{userName}</span>
-      </Link>
-      <Button
-        Icon={LogoutIcon}
-        mode="icon"
-        variant="outline"
-        tooltip="Выйти"
-        isLoading={isLoggingOut}
-        onClick={executeLogout}
-      />
+      </div>
     </header>
   );
 }

@@ -12,7 +12,8 @@ type SidebarNavItemProps = NavItem & { collapsed: boolean; pathname: string };
 
 export function SidebarNavItem(props: SidebarNavItemProps) {
   const { href, label, Icon, collapsed, pathname } = props;
-  const isActive = href === '/' ? pathname === '/' : pathname.startsWith(href);
+  const isActive =
+    href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
   const iconRef = useRef<AnimatedIconHandle>(null);
 
   function handleMouseEnter() {
@@ -26,20 +27,17 @@ export function SidebarNavItem(props: SidebarNavItemProps) {
   return (
     <Link
       className={cn(
-        'relative flex h-10 items-center gap-3 overflow-hidden rounded-md px-3 text-sm font-medium transition-colors',
-        collapsed && 'justify-center',
+        'relative mx-2 flex h-11 items-center gap-3 overflow-hidden rounded-xl border-l-[3px] px-4 text-sm font-medium transition-colors',
+        collapsed && 'justify-center px-0',
         isActive
-          ? 'bg-sidebar-primary/15 text-sidebar-primary font-semibold'
-          : 'text-sidebar-foreground/70 hover:bg-sidebar-primary/15 hover:text-sidebar-accent-foreground'
+          ? 'border-sidebar-primary bg-sidebar-primary/20 text-sidebar-foreground font-semibold'
+          : 'text-sidebar-foreground/60 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground border-transparent'
       )}
       href={href}
       title={collapsed ? label : undefined}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {isActive && (
-        <span className="bg-sidebar-primary absolute inset-y-2 left-0 w-0.5 rounded-r-full" />
-      )}
       <span className="shrink-0">
         <Icon ref={iconRef} size={18} />
       </span>

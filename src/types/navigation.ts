@@ -13,6 +13,7 @@ export enum NavItemKey {
 export type NavItem = {
   href: Route;
   label: string;
+  pageTitle?: string;
   description: string;
   Icon: AnimatedIconComponent;
   isDisabled?: boolean;

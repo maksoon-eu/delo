@@ -7,15 +7,18 @@ import { getVerifiedSession } from '@/utils/verification';
 import { getValidationErrorMessage } from '@/utils/validation';
 import { ClientSchema, type ClientInput } from '@/schemas/clients';
 import type { ClientDetails, ClientListItem } from '@/types/clients';
+import { Prisma } from '@prisma/client';
 
 export async function getClients(params: {
   offset: number;
   take: number;
+  search?: string;
 }): Promise<{ items: ClientListItem[]; hasMore: boolean }> {
   const session = await auth();
   if (!session) return { items: [], hasMore: false };
 
-  const { offset, take } = params;
+  const { offset, take, search } = params;
+  const searchValue = search?.trim();
 
   const items = await db.$queryRaw<ClientListItem[]>`
     SELECT
@@ -29,6 +32,7 @@ export async function getClients(params: {
     LEFT JOIN "Order" o ON o."clientId" = c.id
     LEFT JOIN "Payment" p ON p."orderId" = o.id
     WHERE c."userId" = ${session.user.id}
+    ${searchValue ? Prisma.sql`AND c.name ILIKE ${`%${searchValue}%`}` : Prisma.empty}
     GROUP BY c.id
     ORDER BY c."createdAt" DESC
     LIMIT ${take}

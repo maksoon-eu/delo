@@ -36,6 +36,7 @@ export default async function OrderPage(props: OrderPageProps) {
       <PageHeader
         title={order.title}
         description={`Заказ · ${order.clientName}`}
+        showIcon={false}
         backLink={{ href: '/orders', label: 'заказам' }}
       />
 

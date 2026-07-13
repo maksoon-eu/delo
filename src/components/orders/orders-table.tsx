@@ -2,15 +2,14 @@
 
 import { useState, type ChangeEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import { parseAsStringLiteral, useQueryState } from 'nuqs';
-import { useReactTable, getCoreRowModel, getFilteredRowModel } from '@tanstack/react-table';
+import { parseAsString, parseAsStringLiteral, useQueryState } from 'nuqs';
+import { useReactTable, getCoreRowModel } from '@tanstack/react-table';
 import { DataTable } from '@/components/ui/data/data-table';
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
 import { AppDialog } from '@/components/ui/overlay/dialog';
 import { SelectInput } from '@/components/ui/form/fields/select-input';
 import { OrderForm } from '@/components/orders/order-form';
 import { getOrders } from '@/actions/orders';
-import { NAV_ITEMS } from '@/constants/navigation';
 import { ORDERS_PAGE_SIZE } from '@/constants/pagination';
 import { useInfiniteList } from '@/hooks/use-infinite-list';
 import { useRequireVerifiedEmail } from '@/hooks/use-require-verified-email';
@@ -18,8 +17,6 @@ import type { OrderListItem } from '@/types/orders';
 import { OrderStatus } from '@prisma/client';
 import { ORDERS_TABLE_COLUMNS, ORDER_STATUS_FILTER_OPTIONS } from './constants';
 import { FilterCard } from '../ui/data/filter-card';
-
-const item = NAV_ITEMS.orders;
 
 type OrdersTableProps = {
   initialItems: OrderListItem[];
@@ -33,8 +30,7 @@ export function OrdersTable(props: OrdersTableProps) {
     'status',
     parseAsStringLiteral(Object.values(OrderStatus))
   );
-  const [clientIdFilter] = useQueryState('clientId', { defaultValue: '' });
-  const [globalFilter, setGlobalFilter] = useState('');
+  const [searchFilter, setSearchFilter] = useQueryState('search', parseAsString.withDefault(''));
   const [createOpen, setCreateOpen] = useState(false);
   const requireVerifiedEmail = useRequireVerifiedEmail();
 
@@ -46,18 +42,16 @@ export function OrdersTable(props: OrdersTableProps) {
         offset,
         take,
         status: statusFilter || undefined,
-        clientId: clientIdFilter || undefined,
+        search: searchFilter || undefined,
       }),
     pageSize: ORDERS_PAGE_SIZE,
+    deps: [statusFilter, searchFilter],
   });
 
   const table = useReactTable({
     data: items,
     columns: ORDERS_TABLE_COLUMNS,
-    state: { globalFilter },
-    onGlobalFilterChange: setGlobalFilter,
     getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
   });
 
   function handleRowClick(order: OrderListItem) {
@@ -71,7 +65,7 @@ export function OrdersTable(props: OrdersTableProps) {
   }
 
   function handleSearchChange(e: ChangeEvent<HTMLInputElement>) {
-    setGlobalFilter(e.target.value);
+    setSearchFilter(e.target.value);
   }
 
   function handleStatusChange(option: string | null) {
@@ -90,11 +84,11 @@ export function OrdersTable(props: OrdersTableProps) {
   return (
     <AnimateIn className="flex flex-1 flex-col gap-4">
       <FilterCard
-        filterValue={globalFilter}
+        filterValue={searchFilter}
         onFilterChange={handleSearchChange}
         onBtnAction={handleNewOrder}
         btnLabel="Новый заказ"
-        inputLabel="Поиск по заказам"
+        inputLabel="Поиск по заказам..."
       >
         <SelectInput
           value={statusOption}
@@ -107,9 +101,10 @@ export function OrdersTable(props: OrdersTableProps) {
 
       <DataTable
         table={table}
-        emptyMessage={globalFilter || statusFilter ? 'Ничего не найдено' : 'Заказов пока нет'}
+        emptyMessage={searchFilter || statusFilter ? 'Ничего не найдено' : 'Заказов пока нет'}
         onRowClick={handleRowClick}
         onEndReached={hasMore && !isLoadingMore ? loadMore : undefined}
+        isLoadingMore={isLoadingMore}
       />
 
       <AppDialog
@@ -118,7 +113,6 @@ export function OrdersTable(props: OrdersTableProps) {
         title="Новый заказ"
         description="Создайте новый заказ"
         size="lg"
-        Icon={item.Icon}
       >
         <OrderForm mode="create" onSuccess={handleCreateSuccess} />
       </AppDialog>

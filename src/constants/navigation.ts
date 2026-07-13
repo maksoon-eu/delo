@@ -16,7 +16,8 @@ export const NAV_ITEMS: Record<NavItemKey, NavItem> = {
   clients: {
     href: '/clients',
     label: 'Клиенты',
-    description: 'Управляйте базой клиентов и историей работы с ними',
+    pageTitle: 'Клиенты',
+    description: 'Управляйте своей базой контактов и компаний',
     Icon: UsersIcon,
   },
   orders: {

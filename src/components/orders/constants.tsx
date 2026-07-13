@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
-import { FileText, CalendarDays, Tag, UserRound, Banknote } from 'lucide-react';
 import { formatDate, formatPrice } from '@/utils/format';
 import { type ColumnDef } from '@tanstack/react-table';
+import { Banknote, CalendarDays, FileText, Tag, UserRound } from 'lucide-react';
 import { OrderStatusBadge } from '@/components/orders/order-status-badge';
 import { ORDER_STATUS_LABELS } from '@/constants/orders';
 import type { SelectOption } from '@/types/forms';
@@ -15,70 +15,86 @@ export const ORDER_STATUS_FILTER_OPTIONS: SelectOption[] = [
 
 export const ORDERS_TABLE_COLUMNS: ColumnDef<OrderListItem>[] = [
   {
-    id: 'status',
+    id: 'order',
+    accessorFn: (row) => row.title,
     header: () => (
-      <span className="flex items-center gap-1.5">
-        <Tag className="size-3.5" />
-        Статус
-      </span>
-    ),
-    cell: ({ row }) => <OrderStatusBadge size="sm" status={row.original.status} />,
-  },
-  {
-    accessorKey: 'title',
-    header: () => (
-      <span className="flex items-center gap-1.5">
+      <span className="inline-flex items-center gap-1.5">
         <FileText className="size-3.5" />
         Заказ
       </span>
     ),
+    size: 360,
+    cell: ({ row }) => {
+      const { title, createdAt } = row.original;
+
+      return (
+        <div className="min-w-0">
+          <div className="text-foreground truncate font-medium">{title}</div>
+          <div className="text-muted-foreground truncate text-xs">
+            Создан {formatDate(createdAt)}
+          </div>
+        </div>
+      );
+    },
     enableGlobalFilter: true,
   },
   {
     accessorKey: 'clientName',
     header: () => (
-      <span className="flex items-center gap-1.5">
+      <span className="inline-flex items-center gap-1.5">
         <UserRound className="size-3.5" />
         Клиент
       </span>
     ),
+    size: 240,
+    cell: ({ getValue }) => <span className="text-muted-foreground">{getValue<string>()}</span>,
     enableGlobalFilter: true,
-  },
-  {
-    accessorKey: 'price',
-    header: () => (
-      <span className="flex items-center gap-1.5">
-        <Banknote className="size-3.5" />
-        Стоимость
-      </span>
-    ),
-    cell: ({ row }) => {
-      const { price } = row.original;
-      return formatPrice(price);
-    },
   },
   {
     accessorKey: 'deadline',
     header: () => (
-      <span className="flex items-center gap-1.5">
+      <span className="inline-flex items-center gap-1.5">
         <CalendarDays className="size-3.5" />
         Дедлайн
       </span>
     ),
+    size: 160,
     cell: ({ getValue }) => {
       const val = getValue<Date | null>();
-      return val ? formatDate(val) : '—';
+      return (
+        <span className="text-muted-foreground tabular-nums">{val ? formatDate(val) : '—'}</span>
+      );
     },
+    meta: { align: 'right' },
   },
   {
-    accessorKey: 'createdAt',
+    accessorKey: 'price',
     header: () => (
-      <span className="flex items-center gap-1.5">
-        <CalendarDays className="size-3.5" />
-        Создан
+      <span className="inline-flex items-center gap-1.5">
+        <Banknote className="size-3.5" />
+        Стоимость
       </span>
     ),
-    cell: ({ getValue }) => formatDate(getValue<Date>()),
+    size: 160,
+    cell: ({ row }) => {
+      const { price } = row.original;
+
+      return <span className="font-medium tabular-nums">{formatPrice(price)}</span>;
+    },
+    meta: { align: 'right' },
+  },
+  {
+    id: 'status',
+    accessorKey: 'status',
+    header: () => (
+      <span className="inline-flex items-center gap-1.5">
+        <Tag className="size-3.5" />
+        Статус
+      </span>
+    ),
+    size: 180,
+    cell: ({ row }) => <OrderStatusBadge size="sm" status={row.original.status} />,
+    meta: { align: 'right' },
   },
 ];
 

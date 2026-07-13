@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Manrope, Geist_Mono } from 'next/font/google';
+import { Geist_Mono, Inter } from 'next/font/google';
 import '@/styles/globals.css';
 import { ThemeProvider } from '@/components/layout/theme-provider';
 import { Toaster } from '@/components/ui/feedback/sonner';
@@ -10,7 +10,7 @@ import type { ReactNode } from 'react';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { Footer } from '@/components/layout/footer';
 
-const manrope = Manrope({
+const inter = Inter({
   variable: '--font-sans',
   subsets: ['latin', 'cyrillic'],
 });
@@ -30,7 +30,7 @@ export default function RootLayout(props: Readonly<{ children: ReactNode }>) {
   return (
     <html
       lang="ru"
-      className={`${manrope.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${inter.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <body className="bg-background text-foreground flex min-h-full flex-col">

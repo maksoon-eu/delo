@@ -14,9 +14,6 @@ import {
 } from '@/components/ui/form/fields/form-combobox';
 import { useRequireVerifiedEmail } from '@/hooks/use-require-verified-email';
 import type { SelectOption } from '@/types/forms';
-import { NAV_ITEMS } from '@/constants/navigation';
-
-const item = NAV_ITEMS.clients;
 
 type ClientOption = { id: string; name: string };
 
@@ -83,7 +80,6 @@ export function FormClientCombobox(props: FormClientComboboxProps) {
         title="Новый клиент"
         description="Добавьте нового клиента в базу"
         layer="nested"
-        Icon={item.Icon}
       >
         <ClientForm mode="create" onSuccess={handleCreateSuccess} />
       </AppDialog>

@@ -7,7 +7,6 @@ import { DataTable } from '@/components/ui/data/data-table';
 import { AppDialog } from '@/components/ui/overlay/dialog';
 import { ClientForm } from '@/components/clients/client-form';
 import { getClients } from '@/actions/clients';
-import { NAV_ITEMS } from '@/constants/navigation';
 import { CLIENTS_PAGE_SIZE } from '@/constants/pagination';
 import { useInfiniteList } from '@/hooks/use-infinite-list';
 import { useRequireVerifiedEmail } from '@/hooks/use-require-verified-email';
@@ -15,32 +14,31 @@ import type { ClientListItem } from '@/types/clients';
 import { AnimateIn } from '../ui/feedback/animate-in';
 import { FilterCard } from '../ui/data/filter-card';
 import { columns } from './constants';
+import { parseAsString, useQueryState } from 'nuqs';
 
 type ClientsTableProps = {
   initialItems: ClientListItem[];
   initialHasMore: boolean;
 };
 
-const item = NAV_ITEMS.clients;
-
 export function ClientsTable(props: ClientsTableProps) {
   const { initialItems, initialHasMore } = props;
   const router = useRouter();
+  const [searchFilter, setSearchFilter] = useQueryState('search', parseAsString.withDefault(''));
   const { items, hasMore, isLoadingMore, loadMore } = useInfiniteList<ClientListItem>({
     initialItems,
     initialHasMore,
-    fetch: (offset, take) => getClients({ offset, take }),
+    fetch: (offset, take) => getClients({ offset, take, search: searchFilter || undefined }),
     pageSize: CLIENTS_PAGE_SIZE,
+    deps: [searchFilter],
   });
-  const [globalFilter, setGlobalFilter] = useState('');
+
   const [createOpen, setCreateOpen] = useState(false);
   const requireVerifiedEmail = useRequireVerifiedEmail();
 
   const table = useReactTable({
     data: items,
     columns,
-    state: { globalFilter },
-    onGlobalFilterChange: setGlobalFilter,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
   });
@@ -56,7 +54,7 @@ export function ClientsTable(props: ClientsTableProps) {
   }
 
   function handleSearchChange(e: ChangeEvent<HTMLInputElement>) {
-    setGlobalFilter(e.target.value);
+    setSearchFilter(e.target.value);
   }
 
   function handleCreateSuccess() {
@@ -66,19 +64,22 @@ export function ClientsTable(props: ClientsTableProps) {
 
   return (
     <AnimateIn className="flex flex-1 flex-col space-y-4">
-      <FilterCard
-        filterValue={globalFilter}
-        onFilterChange={handleSearchChange}
-        onBtnAction={handleNewClient}
-        btnLabel="Новый клиент"
-        inputLabel="Поиск по клиентам"
-      />
+      <div className="flex justify-end">
+        <FilterCard
+          filterValue={searchFilter}
+          onFilterChange={handleSearchChange}
+          onBtnAction={handleNewClient}
+          btnLabel="Новый клиент"
+          inputLabel="Поиск по клиентам..."
+        />
+      </div>
 
       <DataTable
         table={table}
-        emptyMessage={globalFilter ? 'Ничего не найдено' : 'Клиентов пока нет'}
+        emptyMessage={searchFilter ? 'Ничего не найдено' : 'Клиентов пока нет'}
         onRowClick={handleRowClick}
         onEndReached={hasMore && !isLoadingMore ? loadMore : undefined}
+        isLoadingMore={isLoadingMore}
       />
 
       <AppDialog
@@ -86,7 +87,6 @@ export function ClientsTable(props: ClientsTableProps) {
         onOpenChange={setCreateOpen}
         title="Новый клиент"
         description="Добавьте нового клиента в базу"
-        Icon={item.Icon}
       >
         <ClientForm mode="create" onSuccess={handleCreateSuccess} />
       </AppDialog>

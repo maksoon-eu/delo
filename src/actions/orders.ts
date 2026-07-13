@@ -13,23 +13,24 @@ import {
   ORDER_STATUS_TRANSITIONS,
 } from '@/constants/orders';
 import type { OrderDetails, OrderListItem } from '@/types/orders';
-import type { OrderStatus } from '@prisma/client';
+import type { OrderStatus, Prisma } from '@prisma/client';
 import { notFound } from 'next/navigation';
 
 export async function getOrders(params: {
   offset: number;
   take: number;
   status?: OrderStatus;
-  clientId?: string;
+  search?: string;
 }): Promise<{ items: OrderListItem[]; hasMore: boolean }> {
   const session = await auth();
   if (!session) return { items: [], hasMore: false };
 
-  const { offset, take, status, clientId } = params;
+  const { offset, take, status, search } = params;
+  const searchValue = search?.trim();
 
-  const filter = {
+  const filter: Prisma.OrderWhereInput = {
     ...(status ? { status } : {}),
-    ...(clientId ? { clientId } : {}),
+    ...(searchValue ? { title: { contains: searchValue, mode: 'insensitive' } } : {}),
   };
 
   const rows = await db.order.findMany({
