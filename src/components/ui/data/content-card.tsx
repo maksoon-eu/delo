@@ -3,13 +3,23 @@ import { cn } from '@/utils/cn';
 
 type ContentCardProps = ComponentProps<'div'> & {
   children: ReactNode;
+  variant?: 'default' | 'figma';
 };
 
 export function ContentCard(props: ContentCardProps) {
-  const { children, className, ...rest } = props;
+  const { children, className, variant = 'default', ...rest } = props;
 
   return (
-    <div className={cn('glass border-glass rounded-xl p-6 ', className)} {...rest}>
+    <div
+      className={cn(
+        'p-6',
+        variant === 'figma'
+          ? 'border-border bg-card/60 rounded-2xl border backdrop-blur-md'
+          : 'glass border-glass rounded-xl',
+        className
+      )}
+      {...rest}
+    >
       {children}
     </div>
   );

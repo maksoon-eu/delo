@@ -62,3 +62,26 @@ export async function attachOrderReceipt(formData: FormData): Promise<{ error?: 
   revalidatePath(`/orders/${order.id}`);
   return {};
 }
+
+export async function deleteOrderDocument(id: string): Promise<{ error?: string }> {
+  const verifiedSession = await getVerifiedSession();
+  if (!verifiedSession.ok) return { error: verifiedSession.error };
+  const { session } = verifiedSession;
+
+  const document = await db.document.findFirst({
+    where: { id, order: { userId: session.user.id } },
+    select: { id: true, orderId: true, url: true },
+  });
+
+  if (!document) return { error: 'Документ не найден' };
+
+  try {
+    await db.document.delete({ where: { id: document.id } });
+    await deleteS3ObjectByKey(document.url);
+  } catch {
+    return { error: 'Не удалось удалить документ' };
+  }
+
+  revalidatePath(`/orders/${document.orderId}`);
+  return {};
+}

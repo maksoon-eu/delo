@@ -4,9 +4,9 @@ import type { ComponentProps } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/actions/button';
+import { useConfirmation } from '@/components/providers/confirmation/confirmation.hook';
 import { updateOrderStatus } from '@/actions/orders';
-import { ORDER_STATUS_ACTION_LABELS } from '@/constants/orders';
-import { useAsyncAction } from '@/hooks/use-async-action';
+import { ORDER_STATUS_ACTION_LABELS, ORDER_STATUS_LABELS } from '@/constants/orders';
 import type { AnimatedIconComponent } from '@/types/icons';
 import { OrderStatus } from '@prisma/client';
 
@@ -21,26 +21,38 @@ type TransitionButtonProps = {
 export function TransitionButton(props: TransitionButtonProps) {
   const { orderId, targetStatus, Icon, size, className } = props;
   const router = useRouter();
+  const confirm = useConfirmation();
+  const isDestructive = targetStatus === OrderStatus.CANCELLED;
+  const actionLabel = ORDER_STATUS_ACTION_LABELS[targetStatus];
+  const statusLabel = ORDER_STATUS_LABELS[targetStatus];
 
   async function handleTransition() {
     const { error } = await updateOrderStatus(orderId, targetStatus);
     if (error) throw new Error(error);
-    toast.success(`Статус: ${ORDER_STATUS_ACTION_LABELS[targetStatus]}`);
+    toast.success(`Статус: ${actionLabel}`);
     router.refresh();
   }
 
-  const [execute, isLoading] = useAsyncAction(handleTransition);
+  function handleOpenConfirmation() {
+    confirm({
+      title: 'Вы уверены?',
+      description: `Статус заказа будет переведён в «${statusLabel}».`,
+      confirmLabel: actionLabel,
+      Icon,
+      destructive: isDestructive,
+      action: handleTransition,
+    });
+  }
 
   return (
     <Button
-      variant="outline"
+      variant={isDestructive ? 'destructive' : 'outline'}
       size={size}
       className={className}
-      isLoading={isLoading}
       Icon={Icon}
-      onClick={execute}
+      onClick={handleOpenConfirmation}
     >
-      {ORDER_STATUS_ACTION_LABELS[targetStatus]}
+      {actionLabel}
     </Button>
   );
 }

@@ -61,9 +61,14 @@ export function PaymentFormDialog(props: PaymentFormDialogProps) {
 
   return (
     <>
-      <Button Icon={PlusIcon} onClick={handleOpenPayment} variant="outline" size="sm">
-        Добавить оплату
-      </Button>
+      <Button
+        type="button"
+        mode="icon"
+        variant="outline"
+        Icon={PlusIcon}
+        tooltip="Добавить оплату"
+        onClick={handleOpenPayment}
+      />
 
       <AppDialog open={open} onOpenChange={handleOpenChange} title="Добавить оплату">
         <Form {...form} onSubmit={handleSubmit(execute)} className="space-y-4">

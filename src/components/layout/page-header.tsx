@@ -28,8 +28,8 @@ export function PageHeader(props: PageHeaderProps) {
       {backLink && <BackLink href={backLink.href} label={backLink.label} size="full" />}
       <div className="flex min-w-0 items-start gap-3 only:col-span-2">
         {showIcon && (
-          <span className="bg-primary/10 text-primary flex size-9 shrink-0 items-center justify-center rounded-lg">
-            <Icon size={20} />
+          <span className="bg-primary/10 text-primary flex size-14 shrink-0 items-center justify-center rounded-xl">
+            <Icon size={28} />
           </span>
         )}
         <div className="min-w-0">
