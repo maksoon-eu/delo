@@ -13,10 +13,20 @@ type AppDialogProps = {
   children: ReactNode;
   size?: 'md' | 'lg';
   layer?: 'base' | 'nested';
+  variant?: 'default' | 'solid';
 };
 
 export function AppDialog(props: AppDialogProps) {
-  const { open, onOpenChange, title, description, children, size = 'md', layer = 'base' } = props;
+  const {
+    open,
+    onOpenChange,
+    title,
+    description,
+    children,
+    size = 'md',
+    layer = 'base',
+    variant = 'default',
+  } = props;
   const layerClass = layer === 'nested' ? 'z-[60]' : 'z-[40]';
 
   return (
@@ -34,7 +44,8 @@ export function AppDialog(props: AppDialogProps) {
         >
           <Dialog.Popup
             className={cn(
-              'glass data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 flex max-h-[calc(100svh-2rem)] w-full flex-col overflow-hidden rounded-xl border shadow-lg duration-200',
+              'data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 flex max-h-[calc(100svh-2rem)] w-full flex-col overflow-hidden rounded-xl border shadow-lg duration-200',
+              variant === 'solid' ? 'border-border bg-card rounded-2xl' : 'glass',
               size === 'lg' ? 'max-w-4xl' : 'max-w-lg'
             )}
           >

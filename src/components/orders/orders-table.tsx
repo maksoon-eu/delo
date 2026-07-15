@@ -113,6 +113,7 @@ export function OrdersTable(props: OrdersTableProps) {
         title="Новый заказ"
         description="Создайте новый заказ"
         size="lg"
+        variant="solid"
       >
         <OrderForm mode="create" onSuccess={handleCreateSuccess} />
       </AppDialog>

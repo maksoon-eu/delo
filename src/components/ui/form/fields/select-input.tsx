@@ -39,15 +39,12 @@ export function SelectInput(props: SelectInputProps) {
     <Select value={selectedOption?.value ?? null} onValueChange={handleValueChange}>
       <div className="relative">
         <SelectTrigger
-          className={cn(
-            'border-accent min-w-36 cursor-pointer data-[size=default]:h-11',
-            className
-          )}
+          className={cn('min-w-36 cursor-pointer data-[size=default]:h-12', className)}
         >
           <SelectValue placeholder={placeholder}>{renderValue}</SelectValue>
         </SelectTrigger>
         <SelectContent
-          className="glass border-border/70 bg-popover/95 shadow-xl"
+          className="border-border bg-popover border shadow-xl ring-0"
           alignItemWithTrigger={false}
           sideOffset={10}
         >

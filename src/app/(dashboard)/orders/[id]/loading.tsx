@@ -28,7 +28,7 @@ export default function OrderLoading() {
         </section>
 
         <div className="grid items-stretch gap-6 lg:grid-cols-2">
-          <ContentCard variant="figma" className="h-88 overflow-hidden">
+          <ContentCard variant="solid" className="h-88 overflow-hidden">
             <Skeleton className="mb-5 h-5 w-28" />
             <div className="space-y-4">
               {Array.from({ length: 5 }).map((_, i) => (
@@ -40,7 +40,7 @@ export default function OrderLoading() {
             </div>
           </ContentCard>
 
-          <ContentCard variant="figma" className="h-88 overflow-hidden">
+          <ContentCard variant="solid" className="h-88 overflow-hidden">
             <div className="mb-5 flex items-center justify-between">
               <Skeleton className="h-5 w-20" />
               <Skeleton className="size-8 rounded-lg" />
@@ -61,7 +61,7 @@ export default function OrderLoading() {
             </div>
           </ContentCard>
 
-          <ContentCard variant="figma" className="h-80 overflow-hidden">
+          <ContentCard variant="solid" className="h-80 overflow-hidden">
             <Skeleton className="mb-4 h-5 w-28" />
             <div className="space-y-3">
               {Array.from({ length: 3 }).map((_, i) => (
@@ -76,7 +76,7 @@ export default function OrderLoading() {
             </div>
           </ContentCard>
 
-          <ContentCard variant="figma" className="h-80 overflow-hidden">
+          <ContentCard variant="solid" className="h-80 overflow-hidden">
             <Skeleton className="mb-5 h-5 w-20" />
             <div className="space-y-5">
               {Array.from({ length: 4 }).map((_, i) => (

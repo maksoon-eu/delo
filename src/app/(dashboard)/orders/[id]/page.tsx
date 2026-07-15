@@ -52,7 +52,7 @@ export default async function OrderPage(props: OrderPageProps) {
         <OrderDocumentsSection orderId={order.id} documents={order.documents} />
 
         <div className="grid items-stretch gap-6 lg:grid-cols-2">
-          <ContentCard variant="figma" className="h-88 flex min-h-0 flex-col overflow-hidden">
+          <ContentCard variant="solid" className="h-88 flex min-h-0 flex-col overflow-hidden">
             <h2 className="mb-5 shrink-0 font-semibold">Детали заказа</h2>
             <dl className="flex min-h-0 flex-1 flex-col gap-4">
               <DetailItem
@@ -104,7 +104,7 @@ export default async function OrderPage(props: OrderPageProps) {
             </dl>
           </ContentCard>
 
-          <ContentCard variant="figma" className="h-88 min-h-0 overflow-hidden">
+          <ContentCard variant="solid" className="h-88 min-h-0 overflow-hidden">
             <PaymentsSection
               orderId={order.id}
               payments={order.payments}
@@ -113,7 +113,7 @@ export default async function OrderPage(props: OrderPageProps) {
             />
           </ContentCard>
 
-          <ContentCard variant="figma" className="flex h-80 min-h-0 flex-col overflow-hidden">
+          <ContentCard variant="solid" className="flex h-80 min-h-0 flex-col overflow-hidden">
             <h2 className="mb-4 shrink-0 font-semibold">Состав работ</h2>
             <div className="shrink-0 pr-2">
               <table className="w-full table-fixed">
@@ -172,7 +172,7 @@ export default async function OrderPage(props: OrderPageProps) {
             </div>
           </ContentCard>
 
-          <ContentCard variant="figma" className="flex h-80 min-h-0 flex-col overflow-hidden">
+          <ContentCard variant="solid" className="flex h-80 min-h-0 flex-col overflow-hidden">
             <h2 className="mb-5 shrink-0 font-semibold">История</h2>
             <div className="min-h-0 flex-1 overflow-y-auto pr-2">
               <ActivityLog activities={order.activities} />

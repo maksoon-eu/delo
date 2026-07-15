@@ -109,13 +109,26 @@ export function OrderForm(props: OrderFormProps) {
         </FormSection>
       </div>
 
-      <FormSection title="Состав работ" Icon={List}>
+      <FormSection
+        title="Состав работ"
+        Icon={List}
+        action={
+          <Button
+            type="button"
+            mode="icon"
+            variant="outline"
+            tooltip="Добавить позицию"
+            Icon={PlusIcon}
+            onClick={handleAppendItem}
+          />
+        }
+      >
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-muted-foreground text-xs">Позиции</span>
             <OrderTotal control={control} />
           </div>
-          <div className="h-37.5 space-y-2 overflow-y-auto px-1">
+          <div className="sm:h-37.5 h-52 space-y-2 overflow-y-auto px-1">
             {fields.map((field, index) => (
               <OrderItemFields
                 key={field.id}
@@ -126,16 +139,6 @@ export function OrderForm(props: OrderFormProps) {
               />
             ))}
           </div>
-
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            Icon={PlusIcon}
-            onClick={handleAppendItem}
-          >
-            Добавить позицию
-          </Button>
         </div>
       </FormSection>
 
