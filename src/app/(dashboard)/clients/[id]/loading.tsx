@@ -4,10 +4,10 @@ import { PageHeaderSkeleton } from '@/components/layout/page-header-skeleton';
 
 export default function ClientLoading() {
   return (
-    <div className="page-stack">
+    <div className="page-stack min-h-0 flex-1">
       <PageHeaderSkeleton />
 
-      <AnimateIn className="space-y-4">
+      <AnimateIn className="flex min-h-0 flex-1 flex-col gap-4">
         <div className="grid gap-4 sm:grid-cols-2">
           {Array.from({ length: 2 }).map((_, sectionIndex) => (
             <div key={sectionIndex} className="border-border bg-card rounded-2xl border p-4">
@@ -35,7 +35,7 @@ export default function ClientLoading() {
           <Skeleton className="h-9 w-44 rounded-lg" />
         </div>
 
-        <div className="border-border bg-card rounded-2xl border p-4">
+        <div className="border-border bg-card min-h-48 flex-1 rounded-2xl border p-4">
           <div className="mb-4 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
               <Skeleton className="size-7 rounded-lg" />

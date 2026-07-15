@@ -16,7 +16,7 @@ export default async function ClientPage(props: ClientPageProps) {
   if (!client) notFound();
 
   return (
-    <div className="page-stack">
+    <div className="page-stack min-h-0 flex-1">
       <PageHeader
         title={client.name}
         description="Карточка клиента"
@@ -24,7 +24,7 @@ export default async function ClientPage(props: ClientPageProps) {
         backLink={{ href: '/clients', label: 'клиентам' }}
       />
 
-      <AnimateIn>
+      <AnimateIn className="flex min-h-0 flex-1 flex-col">
         <ClientCardContent client={client} />
       </AnimateIn>
     </div>
