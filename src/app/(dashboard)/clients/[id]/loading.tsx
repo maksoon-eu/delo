@@ -1,42 +1,55 @@
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
-import { ContentCard } from '@/components/ui/data/content-card';
 import { Skeleton } from '@/components/ui/feedback/skeleton';
+import { PageHeaderSkeleton } from '@/components/layout/page-header-skeleton';
 
 export default function ClientLoading() {
   return (
-    <AnimateIn className="space-y-6">
-      <ContentCard className="flex flex-col gap-6">
-        <Skeleton className="h-4 w-24" />
+    <div className="page-stack min-h-0 flex-1">
+      <PageHeaderSkeleton />
 
-        <div className="flex items-center gap-3">
-          <Skeleton className="size-12 shrink-0 rounded-full" />
-          <div className="space-y-1.5">
-            <Skeleton className="h-5 w-36" />
-            <Skeleton className="h-4 w-48" />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="space-y-1.5">
-              <Skeleton className="h-4 w-20" />
-              <Skeleton className="h-9 w-full" />
+      <AnimateIn className="flex min-h-0 flex-1 flex-col gap-4">
+        <div className="grid gap-4 sm:grid-cols-2">
+          {Array.from({ length: 2 }).map((_, sectionIndex) => (
+            <div key={sectionIndex} className="border-border bg-card rounded-2xl border p-4">
+              <div className="mb-4 flex items-center gap-2.5">
+                <Skeleton className="size-7 rounded-lg" />
+                <Skeleton className="h-4 w-24" />
+              </div>
+              <div className="space-y-4">
+                <Skeleton className="h-12 w-full rounded-lg" />
+                <Skeleton className="h-12 w-full rounded-lg" />
+              </div>
             </div>
           ))}
         </div>
 
-        <div className="border-t pt-4">
-          <div className="mb-3 flex items-center justify-between">
-            <Skeleton className="h-5 w-16" />
+        <div className="border-border bg-card rounded-2xl border p-4">
+          <div className="mb-4 flex items-center gap-2.5">
+            <Skeleton className="size-7 rounded-lg" />
+            <Skeleton className="h-4 w-20" />
+          </div>
+          <Skeleton className="h-24 w-full rounded-lg" />
+        </div>
+
+        <div className="flex justify-end">
+          <Skeleton className="h-9 w-44 rounded-lg" />
+        </div>
+
+        <div className="border-border bg-card min-h-48 flex-1 rounded-2xl border p-4">
+          <div className="mb-4 flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <Skeleton className="size-7 rounded-lg" />
+              <Skeleton className="h-4 w-16" />
+            </div>
             <Skeleton className="h-4 w-6" />
           </div>
           <div className="space-y-2">
-            {Array.from({ length: 3 }).map((_, i) => (
-              <Skeleton key={i} className="h-14 w-full rounded-lg" />
+            {Array.from({ length: 3 }).map((_, index) => (
+              <Skeleton key={index} className="h-14 w-full rounded-lg" />
             ))}
           </div>
         </div>
-      </ContentCard>
-    </AnimateIn>
+      </AnimateIn>
+    </div>
   );
 }

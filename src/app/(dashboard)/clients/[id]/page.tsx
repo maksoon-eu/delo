@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation';
 import { PageHeader } from '@/components/layout/page-header';
 import { ClientCardContent } from '@/components/clients/client-card-content';
-import { ContentCard } from '@/components/ui/data/content-card';
 import { getClient } from '@/actions/clients';
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
 
@@ -17,7 +16,7 @@ export default async function ClientPage(props: ClientPageProps) {
   if (!client) notFound();
 
   return (
-    <div className="page-stack">
+    <div className="page-stack min-h-0 flex-1">
       <PageHeader
         title={client.name}
         description="Карточка клиента"
@@ -25,10 +24,8 @@ export default async function ClientPage(props: ClientPageProps) {
         backLink={{ href: '/clients', label: 'клиентам' }}
       />
 
-      <AnimateIn>
-        <ContentCard>
-          <ClientCardContent client={client} />
-        </ContentCard>
+      <AnimateIn className="flex min-h-0 flex-1 flex-col">
+        <ClientCardContent client={client} />
       </AnimateIn>
     </div>
   );

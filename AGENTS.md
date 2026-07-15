@@ -97,6 +97,7 @@ src/
 ├── components/
 │   ├── ui/              # shadcn/ui компоненты
 │   ├── layout/
+│   ├── providers/       # глобальные React providers и связанные hooks
 │   ├── clients/
 │   ├── orders/
 │   └── public/
@@ -302,6 +303,7 @@ format(date, 'd MMM yyyy', { locale: ru });
 
 - Один файл — один компонент. Никогда не объявлять два и более компонентов в одном файле
 - Вспомогательный компонент, нужный только одному — выносить в отдельный файл рядом
+- Глобальные provider-домены хранить в `src/components/providers/<name>/`. Если provider имеет собственные context и hook, разделять их на `<name>.context.ts`, `<name>.provider.tsx`, `<name>.hook.ts`; типы хранить в файле сущности-владельца, отдельный `<name>.types.ts` не создавать. Для тонких wrapper-провайдеров не создавать пустые слои.
 - Для nested-модалок на `@base-ui/react/dialog` `Dialog.Backdrop` по умолчанию не рендерится. Для вложенного диалога нужно ставить `forceRender`, а слои разводить отдельно: базовые модалки ниже dropdown (`z-[40]`), вложенные выше (`z-[60]`). Использовать валидные Tailwind-классы вида `z-[60]`, не `z-60`
 
 ### Comments
@@ -447,6 +449,7 @@ async function onSubmit() {
   npx shadcn add "@lucide-animated/icon-name" --path src/components/icons
   ```
 - Все иконки живут в `src/components/icons/`
+- Иконка корзины в registry называется `delete` и устанавливается как `@lucide-animated/delete` (`DeleteIcon`); `trash` и `trash-2` в registry отсутствуют.
 - Кнопки с иконками и лоадером — через компонент `IconButton` из `src/components/ui/icon-button.tsx`:
   ```tsx
   <IconButton type="submit" isLoading={isLoading} Icon={ArrowRightIcon}>

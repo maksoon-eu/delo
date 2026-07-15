@@ -4,15 +4,13 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
+import { IdCard, MessageCircle, User } from 'lucide-react';
 import { Form } from '@/components/ui/form/form';
+import { FormSection } from '@/components/ui/form/form-section';
 import { FormInput } from '@/components/ui/form/fields/form-input';
 import { FormTextarea } from '@/components/ui/form/fields/form-textarea';
 import { Button } from '@/components/ui/actions/button';
-import { UserIcon } from '@/components/icons/user';
 import { ArrowRightIcon } from '@/components/icons/arrow-right';
-import { MessageCircleIcon } from '@/components/icons/message-circle';
-import { MapPinIcon } from '@/components/icons/map-pin';
-import { IdCardIcon } from '@/components/icons/id-card';
 import { ClientSchema, type ClientInput } from '@/schemas/clients';
 import { createClient, updateClient } from '@/actions/clients';
 import { useAsyncAction } from '@/hooks/use-async-action';
@@ -56,24 +54,30 @@ export function ClientForm(props: ClientFormProps) {
   return (
     <Form {...form} onSubmit={handleSubmit(execute)} className="space-y-4">
       <div className="grid gap-4 sm:grid-cols-2">
-        <FormInput control={control} name="name" label="Имя / Название" Icon={UserIcon} />
-        <FormInput
-          control={control}
-          name="contact"
-          label="Контакт"
-          autoComplete="off"
-          Icon={MessageCircleIcon}
-        />
-        <FormInput control={control} name="company" label="Компания" Icon={MapPinIcon} />
-        <FormInput control={control} name="inn" label="ИНН" Icon={IdCardIcon} />
+        <FormSection title="Клиент" Icon={User}>
+          <div className="space-y-4">
+            <FormInput control={control} name="name" label="Имя / Название" />
+            <FormInput control={control} name="contact" label="Контакт" autoComplete="off" />
+          </div>
+        </FormSection>
+
+        <FormSection title="Реквизиты" Icon={IdCard}>
+          <div className="space-y-4">
+            <FormInput control={control} name="company" label="Компания" />
+            <FormInput control={control} name="inn" label="ИНН" />
+          </div>
+        </FormSection>
       </div>
 
-      <FormTextarea
-        control={control}
-        name="notes"
-        label="Заметки"
-        placeholder="Любые дополнительные сведения..."
-      />
+      <FormSection title="Заметки" Icon={MessageCircle}>
+        <FormTextarea
+          control={control}
+          name="notes"
+          label="Заметки"
+          placeholder="Любые дополнительные сведения..."
+          rows={4}
+        />
+      </FormSection>
 
       <div className="flex justify-end">
         <Button type="submit" isLoading={isLoading} Icon={ArrowRightIcon}>

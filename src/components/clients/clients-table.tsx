@@ -87,6 +87,8 @@ export function ClientsTable(props: ClientsTableProps) {
         onOpenChange={setCreateOpen}
         title="Новый клиент"
         description="Добавьте нового клиента в базу"
+        size="lg"
+        variant="solid"
       >
         <ClientForm mode="create" onSuccess={handleCreateSuccess} />
       </AppDialog>

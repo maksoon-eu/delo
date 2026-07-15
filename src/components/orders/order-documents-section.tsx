@@ -4,12 +4,11 @@ import { useRef, type ChangeEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { attachOrderReceipt } from '@/actions/documents';
-import { FileTextIcon } from '@/components/icons/file-text';
 import { UploadIcon } from '@/components/icons/upload';
+import { OrderDocumentItem } from '@/components/orders/order-document-item';
 import { Button } from '@/components/ui/actions/button';
 import { ORDER_DOCUMENT_ACCEPT, ORDER_DOCUMENT_MAX_BYTES } from '@/constants/documents';
 import { useAsyncAction } from '@/hooks/use-async-action';
-import { formatDate } from '@/utils/format';
 import type { OrderDocumentEntry } from '@/types/orders';
 
 type OrderDocumentsSectionProps = {
@@ -34,7 +33,7 @@ export function OrderDocumentsSection(props: OrderDocumentsSectionProps) {
     const { error } = await attachOrderReceipt(formData);
     if (error) throw new Error(error);
 
-    toast.success('Чек прикреплён');
+    toast.success('Документ прикреплён');
     router.refresh();
   }
 
@@ -53,54 +52,38 @@ export function OrderDocumentsSection(props: OrderDocumentsSectionProps) {
   }
 
   return (
-    <div>
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h2 className="font-semibold">Чеки по оплатам</h2>
-          <p className="text-muted-foreground mt-1 text-xs">PDF до 5 МБ</p>
-        </div>
-        <input
-          ref={inputRef}
-          className="hidden"
-          type="file"
-          accept={ORDER_DOCUMENT_ACCEPT}
-          onChange={handleFileChange}
-        />
+    <section>
+      <div>
+        <h2 className="font-semibold">Файлы и документы</h2>
+        <p className="text-muted-foreground mt-1 text-xs">PDF до 5 МБ</p>
+      </div>
+
+      <input
+        ref={inputRef}
+        className="hidden"
+        type="file"
+        accept={ORDER_DOCUMENT_ACCEPT}
+        onChange={handleFileChange}
+      />
+
+      <div className="mt-3 flex items-stretch gap-4 overflow-x-auto pb-2">
         <Button
           type="button"
           variant="outline"
           Icon={UploadIcon}
           isLoading={isUploading}
           onClick={handleSelectDocument}
+          className="border-primary text-primary bg-card/60 h-18.75 w-50 shrink-0 flex-col gap-1 border-dashed backdrop-blur-md"
         >
-          Прикрепить чеки
+          Загрузить файл
         </Button>
-      </div>
 
-      {documents.length > 0 ? (
-        <ul className="mt-4 grid gap-2 md:grid-cols-2 xl:grid-cols-3">
+        <ul className="contents">
           {documents.map((document) => (
-            <li key={document.id}>
-              <a
-                className="border-border bg-accent/30 hover:bg-accent/50 flex min-h-16 items-center gap-3 rounded-lg border px-3 py-3 transition-colors"
-                href={`/api/documents/${document.id}`}
-              >
-                <FileTextIcon size={18} />
-                <span className="min-w-0">
-                  <span className="block truncate text-sm font-medium">{document.name}</span>
-                  <span className="text-muted-foreground block text-xs">
-                    {formatDate(document.createdAt)}
-                  </span>
-                </span>
-              </a>
-            </li>
+            <OrderDocumentItem key={document.id} document={document} />
           ))}
         </ul>
-      ) : (
-        <div className="border-border bg-muted/20 mt-4 rounded-lg border border-dashed px-4 py-5">
-          <p className="text-muted-foreground text-sm">Прикреплённых чеков пока нет</p>
-        </div>
-      )}
-    </div>
+      </div>
+    </section>
   );
 }

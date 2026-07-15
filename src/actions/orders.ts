@@ -7,11 +7,7 @@ import { getDocumentFileName } from '@/utils/document-file';
 import { getVerifiedSession } from '@/utils/verification';
 import { getValidationErrorMessage } from '@/utils/validation';
 import { OrderSchema, type OrderInput } from '@/schemas/orders';
-import {
-  ORDER_LINK_COPIED_ACTIVITY_MESSAGE,
-  ORDER_STATUS_ACTIVITY_MESSAGES,
-  ORDER_STATUS_TRANSITIONS,
-} from '@/constants/orders';
+import { ORDER_STATUS_ACTIVITY_MESSAGES, ORDER_STATUS_TRANSITIONS } from '@/constants/orders';
 import type { OrderDetails, OrderListItem } from '@/types/orders';
 import type { OrderStatus, Prisma } from '@prisma/client';
 import { notFound } from 'next/navigation';
@@ -160,6 +156,7 @@ export async function createOrder(data: OrderInput): Promise<{ error: string } |
 
   const { data: parsed, success, error } = OrderSchema.safeParse(data);
   if (!success) return { error: getValidationErrorMessage(error) };
+  const price = parsed.items.reduce((sum, item) => sum + item.price, 0);
 
   const order = await db.order.create({
     data: {
@@ -169,7 +166,7 @@ export async function createOrder(data: OrderInput): Promise<{ error: string } |
       description: parsed.description || null,
       startDate: parsed.startDate ? new Date(parsed.startDate) : null,
       deadline: parsed.deadline ? new Date(parsed.deadline) : null,
-      price: parsed.price,
+      price,
       paymentMethod: parsed.paymentMethod ?? null,
       items: {
         create: parsed.items.map((item) => ({
@@ -198,6 +195,7 @@ export async function updateOrder(id: string, data: OrderInput): Promise<{ error
 
   const existing = await db.order.findUnique({ where: { id, userId: session.user.id } });
   if (!existing) return { error: 'Заказ не найден' };
+  const price = parsed.items.reduce((sum, item) => sum + item.price, 0);
 
   await db.$transaction([
     db.orderItem.deleteMany({ where: { orderId: id } }),
@@ -209,7 +207,7 @@ export async function updateOrder(id: string, data: OrderInput): Promise<{ error
         description: parsed.description || null,
         startDate: parsed.startDate ? new Date(parsed.startDate) : null,
         deadline: parsed.deadline ? new Date(parsed.deadline) : null,
-        price: parsed.price,
+        price,
         paymentMethod: parsed.paymentMethod ?? null,
         items: {
           create: parsed.items.map((item) => ({
@@ -246,6 +244,7 @@ export async function updateOrderStatus(
       where: { id },
       data: {
         status: newStatus,
+        ...(newStatus === 'SENT' ? { sentAt: existing.sentAt ?? new Date() } : {}),
         ...(newStatus === 'CONFIRMED' ? { confirmedAt: new Date() } : {}),
       },
     }),
@@ -274,40 +273,6 @@ export async function deleteOrder(id: string): Promise<{ error?: string }> {
   await db.order.delete({ where: { id } });
 
   revalidatePath('/orders');
-  return {};
-}
-
-export async function markOrderSentByLinkCopy(id: string): Promise<{ error?: string }> {
-  const verifiedSession = await getVerifiedSession();
-  if (!verifiedSession.ok) return { error: verifiedSession.error };
-  const { session } = verifiedSession;
-
-  const order = await db.order.findUnique({
-    where: { id, userId: session.user.id },
-    select: { id: true, status: true, sentAt: true },
-  });
-
-  if (!order) return { error: 'Заказ не найден' };
-
-  if (order.status === 'DRAFT') {
-    await db.$transaction([
-      db.order.update({
-        where: { id: order.id },
-        data: { status: 'SENT', sentAt: order.sentAt ?? new Date() },
-      }),
-      db.activity.create({
-        data: {
-          orderId: order.id,
-          type: 'SENT',
-          text: ORDER_LINK_COPIED_ACTIVITY_MESSAGE,
-        },
-      }),
-    ]);
-
-    revalidatePath('/orders');
-    revalidatePath(`/orders/${id}`);
-  }
-
   return {};
 }
 

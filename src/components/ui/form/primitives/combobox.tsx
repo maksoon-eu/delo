@@ -77,9 +77,9 @@ export function Combobox(props: ComboboxProps) {
       >
         <ComboboxPrimitive.Trigger
           className={cn(
-            'border-accent bg-accent/30 hover:border-ring hover:ring-ring/50 cursor-pointer',
+            'border-border bg-secondary/70 hover:border-ring hover:ring-ring/50 cursor-pointer',
             'focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50',
-            'h-10 w-full rounded-lg border text-sm transition-colors'
+            'h-12 w-full rounded-lg border text-sm transition-colors'
           )}
         >
           <ComboboxPrimitive.InputGroup className="flex w-full items-center px-3">
@@ -100,7 +100,7 @@ export function Combobox(props: ComboboxProps) {
           <ComboboxPrimitive.Positioner sideOffset={20} className="isolate z-50">
             <ComboboxPrimitive.Popup
               className={cn(
-                'bg-card border-border/70 text-popover-foreground shadow-xl',
+                'border-border bg-popover text-popover-foreground shadow-xl',
                 'data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95',
                 'data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95',
                 'w-(--anchor-width) origin-(--transform-origin) overflow-hidden rounded-lg border duration-100'

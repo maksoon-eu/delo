@@ -79,7 +79,9 @@ export function FormClientCombobox(props: FormClientComboboxProps) {
         onOpenChange={setCreateOpen}
         title="Новый клиент"
         description="Добавьте нового клиента в базу"
+        size="lg"
         layer="nested"
+        variant="solid"
       >
         <ClientForm mode="create" onSuccess={handleCreateSuccess} />
       </AppDialog>

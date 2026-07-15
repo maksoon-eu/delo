@@ -94,7 +94,7 @@ export function OrdersTable(props: OrdersTableProps) {
           value={statusOption}
           onValueChange={handleStatusChange}
           options={ORDER_STATUS_FILTER_OPTIONS}
-          className="min-w-44"
+          className="bg-card/30 min-w-44 backdrop-blur-xl data-[size=default]:h-11"
           label="Фильтр по статусу"
         />
       </FilterCard>
@@ -113,6 +113,7 @@ export function OrdersTable(props: OrdersTableProps) {
         title="Новый заказ"
         description="Создайте новый заказ"
         size="lg"
+        variant="solid"
       >
         <OrderForm mode="create" onSuccess={handleCreateSuccess} />
       </AppDialog>

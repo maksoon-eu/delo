@@ -106,9 +106,9 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(
             type="button"
             disabled={disabled}
             className={cn(
-              'border-accent bg-accent/30 hover:border-ring hover:ring-ring/50 cursor-pointer',
+              'border-border bg-secondary/70 hover:border-ring hover:ring-ring/50 cursor-pointer',
               'focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50',
-              'disabled:bg-input/50 flex h-10 w-full items-center rounded-lg border px-3 text-left text-sm outline-none transition-colors',
+              'disabled:bg-input/50 flex h-12 w-full items-center rounded-lg border px-3 text-left text-sm outline-none transition-colors',
               'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
               className
             )}
@@ -137,7 +137,7 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(
             <Popover.Popup
               initialFocus={false}
               className={cn(
-                'bg-card border-border/70 text-popover-foreground shadow-xl',
+                'border-border bg-popover text-popover-foreground shadow-xl',
                 'data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95',
                 'data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95',
                 'w-[min(100vw-2rem,20rem)] rounded-lg border p-3 duration-100'

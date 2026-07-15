@@ -10,12 +10,11 @@ import { FormTextarea } from '@/components/ui/form/fields/form-textarea';
 import { FormDateInput } from '@/components/ui/form/fields/form-date-input';
 import { FormSelect } from '@/components/ui/form/fields/form-select';
 import { FormClientCombobox } from '@/components/orders/form-client-combobox';
-import { FormSection } from '@/components/orders/form-section';
+import { FormSection } from '@/components/ui/form/form-section';
+import { OrderItemFields } from '@/components/orders/order-item-fields';
 import { Button } from '@/components/ui/actions/button';
 import { ArrowRightIcon } from '@/components/icons/arrow-right';
 import { PlusIcon } from '@/components/icons/plus';
-import { XIcon } from '@/components/icons/x';
-import { CircleDollarSignIcon } from '@/components/icons/circle-dollar-sign';
 import { OrderSchema, type OrderInput } from '@/schemas/orders';
 import { createOrder, updateOrder } from '@/actions/orders';
 import { useAsyncAction } from '@/hooks/use-async-action';
@@ -100,81 +99,46 @@ export function OrderForm(props: OrderFormProps) {
         </FormSection>
 
         <FormSection title="Оплата" Icon={CreditCard}>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <FormInput
-              control={control}
-              name="price"
-              label="Стоимость"
-              type="number"
-              Icon={CircleDollarSignIcon}
-            />
-            <FormSelect
-              control={control}
-              name="paymentMethod"
-              label="Способ оплаты"
-              options={PAYMENT_METHOD_OPTIONS}
-              defaultOption={defaultPaymentMethod}
-            />
-          </div>
+          <FormSelect
+            control={control}
+            name="paymentMethod"
+            label="Способ оплаты"
+            options={PAYMENT_METHOD_OPTIONS}
+            defaultOption={defaultPaymentMethod}
+          />
         </FormSection>
       </div>
 
-      <FormSection title="Состав работ" Icon={List}>
+      <FormSection
+        title="Состав работ"
+        Icon={List}
+        action={
+          <Button
+            type="button"
+            mode="icon"
+            variant="outline"
+            tooltip="Добавить позицию"
+            Icon={PlusIcon}
+            onClick={handleAppendItem}
+          />
+        }
+      >
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-muted-foreground text-xs">Позиции</span>
             <OrderTotal control={control} />
           </div>
-          <div className="h-37.5 space-y-2 overflow-y-auto px-1">
-            {fields.length > 0 && (
-              <>
-                {fields.map((field, index) => {
-                  function handleRemove() {
-                    remove(index);
-                  }
-
-                  return (
-                    <div
-                      key={field.id}
-                      className="grid grid-cols-[1fr_1fr_1fr_auto] items-start gap-2 pt-1.5"
-                    >
-                      <FormInput control={control} name={`items.${index}.name`} label="Название" />
-                      <FormInput
-                        control={control}
-                        name={`items.${index}.description`}
-                        label="Описание"
-                      />
-                      <FormInput
-                        control={control}
-                        name={`items.${index}.price`}
-                        type="number"
-                        label="Стоимость"
-                      />
-                      <Button
-                        type="button"
-                        mode="icon"
-                        variant="ghost"
-                        tooltip="Удалить позицию"
-                        Icon={XIcon}
-                        onClick={handleRemove}
-                        className="mt-0.5"
-                      />
-                    </div>
-                  );
-                })}
-              </>
-            )}
+          <div className="sm:h-37.5 h-52 space-y-2 overflow-y-auto px-1">
+            {fields.map((field, index) => (
+              <OrderItemFields
+                key={field.id}
+                control={control}
+                index={index}
+                canRemove={fields.length > 1}
+                onRemove={remove}
+              />
+            ))}
           </div>
-
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            Icon={PlusIcon}
-            onClick={handleAppendItem}
-          >
-            Добавить позицию
-          </Button>
         </div>
       </FormSection>
 

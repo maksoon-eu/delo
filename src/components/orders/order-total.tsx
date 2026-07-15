@@ -15,7 +15,5 @@ export function OrderTotal(props: OrderTotalProps) {
     return Number.isFinite(price) ? sum + price : sum;
   }, 0);
 
-  if (total === 0) return null;
-
   return <span className="text-muted-foreground text-sm">Итого: {formatPrice(total)}</span>;
 }

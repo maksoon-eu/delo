@@ -20,13 +20,8 @@ export const OrderSchema = z
     description: z.string(),
     startDate: z.string(),
     deadline: z.string(),
-    price: requiredAmount(
-      'Стоимость обязательна',
-      'Стоимость должна быть больше 0',
-      'Стоимость должна быть в рублях без копеек'
-    ),
     paymentMethod: z.enum(PaymentMethod).nullable().optional(),
-    items: z.array(OrderItemSchema),
+    items: z.array(OrderItemSchema).min(1, 'Добавьте хотя бы одну позицию'),
   })
   .superRefine((data, ctx) => {
     if (data.startDate && data.deadline && data.startDate >= data.deadline) {
@@ -34,16 +29,6 @@ export const OrderSchema = z
         code: 'custom',
         message: 'Дедлайн должен быть позже даты начала',
         path: ['deadline'],
-      });
-    }
-
-    const itemsTotal = data.items.reduce((sum, item) => sum + item.price, 0);
-
-    if (data.price !== itemsTotal) {
-      ctx.addIssue({
-        code: 'custom',
-        message: 'Стоимость должна совпадать с суммой состава работ',
-        path: ['price'],
       });
     }
   });

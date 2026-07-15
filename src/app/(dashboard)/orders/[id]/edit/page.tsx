@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation';
 import { PageHeader } from '@/components/layout/page-header';
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
-import { ContentCard } from '@/components/ui/data/content-card';
 import { EditOrderPageContent } from '@/components/orders/edit-order-page-content';
 import { orderToFormValues } from '@/components/orders/constants';
 import { getOrder } from '@/actions/orders';
@@ -27,13 +26,11 @@ export default async function EditOrderPage(props: EditOrderPageProps) {
         showIcon={false}
         backLink={{ href: `/orders/${id}`, label: 'заказу' }}
       />
-      <ContentCard>
-        <EditOrderPageContent
-          orderId={id}
-          defaultClient={{ id: order.clientId, name: order.clientName }}
-          defaultValues={defaultValues}
-        />
-      </ContentCard>
+      <EditOrderPageContent
+        orderId={id}
+        defaultClient={{ id: order.clientId, name: order.clientName }}
+        defaultValues={defaultValues}
+      />
     </AnimateIn>
   );
 }
