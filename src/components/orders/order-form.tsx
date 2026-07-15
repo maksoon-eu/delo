@@ -10,7 +10,7 @@ import { FormTextarea } from '@/components/ui/form/fields/form-textarea';
 import { FormDateInput } from '@/components/ui/form/fields/form-date-input';
 import { FormSelect } from '@/components/ui/form/fields/form-select';
 import { FormClientCombobox } from '@/components/orders/form-client-combobox';
-import { FormSection } from '@/components/orders/form-section';
+import { FormSection } from '@/components/ui/form/form-section';
 import { OrderItemFields } from '@/components/orders/order-item-fields';
 import { Button } from '@/components/ui/actions/button';
 import { ArrowRightIcon } from '@/components/icons/arrow-right';

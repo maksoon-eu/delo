@@ -1,11 +1,14 @@
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
 import { ContentCard } from '@/components/ui/data/content-card';
 import { Skeleton } from '@/components/ui/feedback/skeleton';
+import { PageHeaderSkeleton } from '@/components/layout/page-header-skeleton';
 
 export default function OrderLoading() {
   return (
-    <AnimateIn className="flex flex-1 flex-col">
-      <div className="space-y-6">
+    <div className="page-stack flex-1">
+      <PageHeaderSkeleton />
+
+      <AnimateIn className="space-y-6">
         <div className="border-border flex flex-wrap items-center justify-between gap-4 border-b pb-6">
           <div className="flex gap-2">
             <Skeleton className="h-6 w-20 rounded-md" />
@@ -91,7 +94,7 @@ export default function OrderLoading() {
             </div>
           </ContentCard>
         </div>
-      </div>
-    </AnimateIn>
+      </AnimateIn>
+    </div>
   );
 }

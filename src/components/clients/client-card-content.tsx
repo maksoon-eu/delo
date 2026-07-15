@@ -1,21 +1,20 @@
 'use client';
 
+import { List } from 'lucide-react';
 import { ClientForm } from '@/components/clients/client-form';
+import { EmptyList } from '@/components/ui/feedback/empty-list';
+import { FormSection } from '@/components/ui/form/form-section';
 import { ORDER_STATUS_LABELS } from '@/constants/orders';
-import { cn } from '@/utils/cn';
 import { formatDate, formatPrice } from '@/utils/format';
-import { getInitials } from '@/utils/profile';
 import type { ClientInput } from '@/schemas/clients';
 import type { ClientDetails } from '@/types/clients';
 
 type ClientCardContentProps = {
   client: ClientDetails;
-  onSuccess?: () => void;
-  constrainedHeight?: boolean;
 };
 
 export function ClientCardContent(props: ClientCardContentProps) {
-  const { client, onSuccess, constrainedHeight = false } = props;
+  const { client } = props;
 
   const defaultValues: ClientInput = {
     name: client.name,
@@ -26,36 +25,15 @@ export function ClientCardContent(props: ClientCardContentProps) {
   };
 
   return (
-    <div
-      className={cn(
-        'flex flex-col gap-10',
-        constrainedHeight && 'max-h-[calc(100dvh-200px)] overflow-y-auto'
-      )}
-    >
-      <div className="flex items-center gap-3">
-        <div className="bg-primary/10 text-primary flex size-12 items-center justify-center rounded-full text-sm font-semibold">
-          {getInitials(client.name)}
-        </div>
-        <div>
-          <p className="font-semibold">{client.name}</p>
-          {client.contact && <p className="text-muted-foreground text-sm">{client.contact}</p>}
-        </div>
-      </div>
+    <div className="space-y-4">
+      <ClientForm mode="edit" clientId={client.id} defaultValues={defaultValues} />
 
-      <ClientForm
-        mode="edit"
-        clientId={client.id}
-        defaultValues={defaultValues}
-        onSuccess={onSuccess}
-      />
-
-      <div className="border-t pt-4">
-        <div className="mb-3 flex items-center justify-between">
-          <h3 className="font-semibold">Заказы</h3>
-          <span className="text-muted-foreground text-sm">{client.ordersTotal}</span>
-        </div>
-
-        {client.orders.length > 0 ? (
+      <FormSection
+        title="Заказы"
+        Icon={List}
+        action={<span className="text-muted-foreground text-sm">{client.ordersTotal}</span>}
+      >
+        <EmptyList items={client.orders} message="Заказов пока нет">
           <div className="space-y-2">
             {client.orders.map((order) => (
               <div key={order.id} className="bg-muted/40 rounded-lg px-3 py-2">
@@ -74,10 +52,8 @@ export function ClientCardContent(props: ClientCardContentProps) {
               </div>
             ))}
           </div>
-        ) : (
-          <p className="text-muted-foreground text-sm">Заказов пока нет</p>
-        )}
-      </div>
+        </EmptyList>
+      </FormSection>
     </div>
   );
 }

@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation';
 import { PageHeader } from '@/components/layout/page-header';
 import { ClientCardContent } from '@/components/clients/client-card-content';
-import { ContentCard } from '@/components/ui/data/content-card';
 import { getClient } from '@/actions/clients';
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
 
@@ -26,9 +25,7 @@ export default async function ClientPage(props: ClientPageProps) {
       />
 
       <AnimateIn>
-        <ContentCard>
-          <ClientCardContent client={client} />
-        </ContentCard>
+        <ClientCardContent client={client} />
       </AnimateIn>
     </div>
   );
