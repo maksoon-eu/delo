@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 import { IdCard, MessageCircle, User } from 'lucide-react';
 import { Form } from '@/components/ui/form/form';
-import { FormSection } from '@/components/ui/form/form-section';
+import { SectionCard } from '@/components/ui/data/section-card';
 import { FormInput } from '@/components/ui/form/fields/form-input';
 import { FormTextarea } from '@/components/ui/form/fields/form-textarea';
 import { Button } from '@/components/ui/actions/button';
@@ -54,22 +54,22 @@ export function ClientForm(props: ClientFormProps) {
   return (
     <Form {...form} onSubmit={handleSubmit(execute)} className="space-y-4">
       <div className="grid gap-4 sm:grid-cols-2">
-        <FormSection title="Клиент" Icon={User}>
+        <SectionCard title="Клиент" Icon={User}>
           <div className="space-y-4">
             <FormInput control={control} name="name" label="Имя / Название" />
             <FormInput control={control} name="contact" label="Контакт" autoComplete="off" />
           </div>
-        </FormSection>
+        </SectionCard>
 
-        <FormSection title="Реквизиты" Icon={IdCard}>
+        <SectionCard title="Реквизиты" Icon={IdCard}>
           <div className="space-y-4">
             <FormInput control={control} name="company" label="Компания" />
             <FormInput control={control} name="inn" label="ИНН" />
           </div>
-        </FormSection>
+        </SectionCard>
       </div>
 
-      <FormSection title="Заметки" Icon={MessageCircle}>
+      <SectionCard title="Заметки" Icon={MessageCircle}>
         <FormTextarea
           control={control}
           name="notes"
@@ -77,7 +77,7 @@ export function ClientForm(props: ClientFormProps) {
           placeholder="Любые дополнительные сведения..."
           rows={4}
         />
-      </FormSection>
+      </SectionCard>
 
       <div className="flex justify-end">
         <Button type="submit" isLoading={isLoading} Icon={ArrowRightIcon}>

@@ -37,12 +37,11 @@ export function AuthLoadingSkeleton(props: AuthLoadingSkeletonProps) {
 
   return (
     <div className="flex flex-col gap-7">
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-2">
         {Array.from({ length: fields }).map((_, index) => (
           <div key={index} className="relative">
-            <Skeleton className="border-accent h-10 w-full rounded-lg border" />
+            <Skeleton className="border-border bg-secondary/70 h-12 w-full rounded-lg border" />
             <Skeleton className="bg-card absolute left-3 top-0 h-3 w-24 -translate-y-1/2" />
-            <Skeleton className="absolute left-3 top-1/2 size-4 -translate-y-1/2 rounded-full" />
           </div>
         ))}
 

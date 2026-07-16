@@ -27,7 +27,7 @@ export async function addPayment(orderId: string, data: PaymentInput): Promise<{
   const orderPrice = +order.price;
   const newPaymentStatus = calcPaymentStatus(newTotal, orderPrice);
 
-  const activityText = `Получена оплата ${formatPrice(parsed.amount)}${parsed.note ? ` — ${parsed.note}` : ''}`;
+  const activityText = `Получена оплата ${formatPrice(parsed.amount)}`;
 
   await db.$transaction([
     db.payment.create({

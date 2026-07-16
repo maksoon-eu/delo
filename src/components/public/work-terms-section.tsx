@@ -1,6 +1,5 @@
 import { Handshake } from 'lucide-react';
-import { ContentCard } from '@/components/ui/data/content-card';
-import { AnimateIn } from '@/components/ui/feedback/animate-in';
+import { SectionCard } from '@/components/ui/data/section-card';
 import type { PublicOrderData } from '@/types/public-orders';
 
 type WorkTermsSectionProps = {
@@ -14,21 +13,12 @@ export function WorkTermsSection(props: WorkTermsSectionProps) {
   if (!workTerms) return null;
 
   return (
-    <AnimateIn variant="slide-up">
-      <ContentCard className="bg-card">
-        <div className="mb-4 flex items-start justify-between gap-4">
-          <h2 className="text-foreground mt-1 flex items-center gap-2 text-base font-semibold">
-            <Handshake className="size-4" />
-            Условия работы исполнителя
-          </h2>
-        </div>
-
-        <div className="border-border border-t py-3">
-          <p className="text-foreground whitespace-pre-line break-words text-sm leading-relaxed">
-            {workTerms}
-          </p>
-        </div>
-      </ContentCard>
-    </AnimateIn>
+    <SectionCard title="Условия работы исполнителя" Icon={Handshake} className="p-5 sm:p-6">
+      <div className="border-border border-t pt-4">
+        <p className="text-foreground whitespace-pre-line wrap-break-word text-sm leading-6">
+          {workTerms}
+        </p>
+      </div>
+    </SectionCard>
   );
 }

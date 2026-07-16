@@ -18,7 +18,7 @@ export default async function ProfilePage(props: ProfilePageProps) {
 
   return (
     <div className="page-stack flex-1">
-      <AnimateIn>
+      <AnimateIn className="flex flex-1">
         <ProfileForm profile={profile} verificationStatus={verificationStatus} />
       </AnimateIn>
     </div>

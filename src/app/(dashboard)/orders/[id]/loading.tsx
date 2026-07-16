@@ -1,5 +1,5 @@
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
-import { ContentCard } from '@/components/ui/data/content-card';
+import { LoadingCard } from '@/components/ui/feedback/loading-card';
 import { Skeleton } from '@/components/ui/feedback/skeleton';
 import { PageHeaderSkeleton } from '@/components/layout/page-header-skeleton';
 
@@ -10,10 +10,9 @@ export default function OrderLoading() {
 
       <AnimateIn className="space-y-6">
         <div className="border-border flex flex-wrap items-center justify-between gap-4 border-b pb-6">
-          <div className="flex gap-2">
-            <Skeleton className="h-6 w-20 rounded-md" />
-            <Skeleton className="h-7 w-24 rounded-lg" />
-            <Skeleton className="h-7 w-24 rounded-lg" />
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Skeleton className="h-28 w-full rounded-xl sm:w-56" />
+            <Skeleton className="h-28 w-full rounded-xl sm:w-80" />
           </div>
           <div className="flex gap-2">
             <Skeleton className="h-7 w-36 rounded-lg" />
@@ -31,7 +30,7 @@ export default function OrderLoading() {
         </section>
 
         <div className="grid items-stretch gap-6 lg:grid-cols-2">
-          <ContentCard variant="solid" className="h-88 overflow-hidden">
+          <LoadingCard className="h-88 overflow-hidden">
             <Skeleton className="mb-5 h-5 w-28" />
             <div className="space-y-4">
               {Array.from({ length: 5 }).map((_, i) => (
@@ -41,9 +40,9 @@ export default function OrderLoading() {
                 </div>
               ))}
             </div>
-          </ContentCard>
+          </LoadingCard>
 
-          <ContentCard variant="solid" className="h-88 overflow-hidden">
+          <LoadingCard className="h-88 overflow-hidden">
             <div className="mb-5 flex items-center justify-between">
               <Skeleton className="h-5 w-20" />
               <Skeleton className="size-8 rounded-lg" />
@@ -60,11 +59,23 @@ export default function OrderLoading() {
                 </div>
               </div>
               <Skeleton className="h-2 w-full rounded-full" />
-              <Skeleton className="h-14 w-full" />
+              <div className="border-border border-t">
+                <div className="border-border flex justify-between gap-4 border-b py-4">
+                  <Skeleton className="h-3 w-20" />
+                  <div className="flex gap-8">
+                    <Skeleton className="h-3 w-12" />
+                    <Skeleton className="h-3 w-10" />
+                  </div>
+                </div>
+                <div className="space-y-3 pt-3">
+                  <Skeleton className="h-10 w-full" />
+                  <Skeleton className="h-10 w-full" />
+                </div>
+              </div>
             </div>
-          </ContentCard>
+          </LoadingCard>
 
-          <ContentCard variant="solid" className="h-80 overflow-hidden">
+          <LoadingCard className="h-80 overflow-hidden">
             <Skeleton className="mb-4 h-5 w-28" />
             <div className="space-y-3">
               {Array.from({ length: 3 }).map((_, i) => (
@@ -77,22 +88,26 @@ export default function OrderLoading() {
                 </div>
               ))}
             </div>
-          </ContentCard>
+          </LoadingCard>
 
-          <ContentCard variant="solid" className="h-80 overflow-hidden">
+          <LoadingCard className="h-80 overflow-hidden">
             <Skeleton className="mb-5 h-5 w-20" />
-            <div className="space-y-5">
-              {Array.from({ length: 4 }).map((_, i) => (
-                <div key={i} className="flex gap-3">
-                  <Skeleton className="mt-0.5 size-4 shrink-0 rounded-full" />
-                  <div className="space-y-1.5">
+            <div className="border-border mb-2 flex justify-between border-b pb-2">
+              <Skeleton className="h-3 w-16" />
+              <Skeleton className="h-3 w-10" />
+            </div>
+            <div className="space-y-3">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="flex items-center justify-between gap-6">
+                  <div className="flex items-center gap-3">
+                    <Skeleton className="size-4 shrink-0 rounded-full" />
                     <Skeleton className="h-4 w-40" />
-                    <Skeleton className="h-3 w-24" />
                   </div>
+                  <Skeleton className="h-3 w-28" />
                 </div>
               ))}
             </div>
-          </ContentCard>
+          </LoadingCard>
         </div>
       </AnimateIn>
     </div>

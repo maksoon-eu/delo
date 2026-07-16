@@ -1,11 +1,12 @@
 'use client';
 
 import { useRef } from 'react';
+import { Activity } from 'lucide-react';
 import { startAnimatedIcon, stopAnimatedIcon } from '@/utils/animation';
 import { cn } from '@/utils/cn';
 import { formatDate } from '@/utils/format';
 import { ORDER_STATUS_ICONS, ORDER_STATUS_LABELS } from '@/constants/orders';
-import { AnimateIn } from '@/components/ui/feedback/animate-in';
+import { SectionCard } from '@/components/ui/data/section-card';
 import type { AnimatedIconHandle } from '@/types/icons';
 import type { OrderStatus } from '@prisma/client';
 
@@ -32,9 +33,10 @@ export function OrderStatusProgress(props: OrderStatusProgressProps) {
   const currentIndex = PROGRESS_STATUSES.indexOf(status);
 
   return (
-    <AnimateIn variant="slide-up">
-      <div className="flex items-start gap-0">
-        {PROGRESS_STATUSES.map((s, i) => {
+    <SectionCard title="Статус заказа" Icon={Activity} className="p-5 sm:p-6">
+      <div className="-mx-1 overflow-x-auto px-1 pb-1">
+        <div className="flex min-w-160 items-start gap-0 sm:min-w-0">
+          {PROGRESS_STATUSES.map((s, i) => {
           const isPast = i < currentIndex;
           const isCurrent = i === currentIndex;
           const isFuture = i > currentIndex;
@@ -42,8 +44,8 @@ export function OrderStatusProgress(props: OrderStatusProgressProps) {
           const ref = refs[i];
           const isLast = i === PROGRESS_STATUSES.length - 1;
 
-          return (
-            <div key={s} className="flex flex-1 flex-col items-center">
+            return (
+              <div key={s} className="flex flex-1 flex-col items-center">
               <div className="flex w-full items-center">
                 <div
                   className={cn(
@@ -96,10 +98,11 @@ export function OrderStatusProgress(props: OrderStatusProgressProps) {
                   </span>
                 )}
               </div>
-            </div>
-          );
-        })}
+              </div>
+            );
+          })}
+        </div>
       </div>
-    </AnimateIn>
+    </SectionCard>
   );
 }

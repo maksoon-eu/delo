@@ -251,6 +251,7 @@ format(date, 'd MMM yyyy', { locale: ru });
 - Утилита `cn()` из `src/utils/cn.ts` для conditional classnames
 - Не писать inline styles — только Tailwind классы
 - SVG/image backgrounds подключать отдельным CSS-классом на layout/контейнер, а не через inline styles и не через цветовые токены темы
+- Для небольших теней основных surfaces в light theme использовать `surface-shadow`; не дублировать локальные `shadow-*`. Utility автоматически отключает тень в dark theme.
 
 ### Colors
 
@@ -303,6 +304,9 @@ format(date, 'd MMM yyyy', { locale: ru });
 
 - Один файл — один компонент. Никогда не объявлять два и более компонентов в одном файле
 - Вспомогательный компонент, нужный только одному — выносить в отдельный файл рядом
+- Для solid-секций с icon/title/action header использовать shared `SectionCard` из `src/components/ui/data/section-card.tsx`; не создавать domain-specific form/card wrappers с той же структурой.
+- `ContentCard` удалён: domain-секции оформлять через `SectionCard`, а surfaces без section header — обычным semantic контейнером с `surface-shadow`.
+- Для карточек в loading states использовать `LoadingCard` из `src/components/ui/feedback/loading-card.tsx`, не дублировать surface-классы в skeleton-файлах.
 - Глобальные provider-домены хранить в `src/components/providers/<name>/`. Если provider имеет собственные context и hook, разделять их на `<name>.context.ts`, `<name>.provider.tsx`, `<name>.hook.ts`; типы хранить в файле сущности-владельца, отдельный `<name>.types.ts` не создавать. Для тонких wrapper-провайдеров не создавать пустые слои.
 - Для nested-модалок на `@base-ui/react/dialog` `Dialog.Backdrop` по умолчанию не рендерится. Для вложенного диалога нужно ставить `forceRender`, а слои разводить отдельно: базовые модалки ниже dropdown (`z-[40]`), вложенные выше (`z-[60]`). Использовать валидные Tailwind-классы вида `z-[60]`, не `z-60`
 
@@ -397,6 +401,7 @@ useState(() => localStorage.getItem(key));
 - Принимает пропы: `Icon`, `isLoading`, `tooltip`, `mode`, `variant`, `size` и все стандартные HTML-атрибуты кнопки
 - `mode="icon"` — иконочная кнопка без текста, автоматически применяет `size="icon"`
 - **Правило**: если кнопка рендерит только иконку (без текста рядом) — обязательно передавать `tooltip` с описанием действия
+- Если `Button` рендерит ссылку через `render={<Link ... />}`, обязательно передавать `nativeButton={false}`, иначе Base UI ожидает нативный `<button>` и пишет accessibility error в консоль.
 
 ### Async actions: loading state и обработка ошибок
 

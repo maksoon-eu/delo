@@ -14,23 +14,51 @@ export function ActivityLog(props: ActivityLogProps) {
 
   return (
     <EmptyList items={activities} message="Нет записей">
-      <div className="space-y-5">
-        {activities.map((activity) => {
-          const Icon = ACTIVITY_TYPE_ICONS[activity.type];
-          return (
-            <div key={activity.id} className="flex gap-3">
-              <div className="text-muted-foreground mt-0.5 shrink-0">
-                <Icon size={16} />
-              </div>
-              <div>
-                <p className="">{activity.text}</p>
-                <p className="text-muted-foreground text-xs font-bold">
-                  {formatDate(activity.createdAt, 'd MMM yyyy, HH:mm')}
-                </p>
-              </div>
-            </div>
-          );
-        })}
+      <div className="flex min-h-0 flex-1 flex-col">
+        <div className="shrink-0 pr-2">
+          <table className="w-full table-fixed">
+            <colgroup>
+              <col />
+              <col className="w-40" />
+            </colgroup>
+            <thead>
+              <tr className="text-muted-foreground border-border border-b text-xs">
+                <th className="pb-2 text-left font-bold">Событие</th>
+                <th className="pb-2 text-right font-bold">Дата</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+
+        <div className="min-h-0 flex-1 overflow-y-auto pr-2">
+          <table className="w-full table-fixed">
+            <colgroup>
+              <col />
+              <col className="w-40" />
+            </colgroup>
+            <tbody className="divide-border divide-y">
+              {activities.map((activity) => {
+                const Icon = ACTIVITY_TYPE_ICONS[activity.type];
+                const text =
+                  activity.type === 'PAYMENT' ? activity.text.split(' — ')[0] : activity.text;
+
+                return (
+                  <tr key={activity.id}>
+                    <td className="py-3 text-sm font-normal">
+                      <div className="flex items-center gap-3">
+                        <Icon className="text-muted-foreground shrink-0" size={16} />
+                        <span>{text}</span>
+                      </div>
+                    </td>
+                    <td className="text-muted-foreground py-3 text-right text-xs font-bold">
+                      {formatDate(activity.createdAt, 'd MMM yyyy, HH:mm')}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
     </EmptyList>
   );

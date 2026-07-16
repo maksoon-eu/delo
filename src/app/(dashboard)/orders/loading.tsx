@@ -13,7 +13,7 @@ export default function OrdersLoading() {
           <Skeleton className="h-11 w-full rounded-lg lg:w-32" />
         </div>
 
-        <div className="border-sidebar-border overflow-hidden rounded-2xl border bg-transparent shadow-sm shadow-black/5 backdrop-blur-xl">
+        <div className="surface-shadow border-sidebar-border overflow-hidden rounded-2xl border bg-transparent backdrop-blur-xl">
           <div className="bg-primary/10 border-sidebar-border rounded-2xl border px-7 py-4">
             <div className="grid grid-cols-[minmax(260px,1.4fr)_minmax(180px,1fr)_140px_140px_150px] items-center gap-5">
               <Skeleton className="h-3 w-20" />

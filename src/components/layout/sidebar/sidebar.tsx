@@ -34,7 +34,7 @@ export function AppSidebar(props: AppSidebarProps) {
     >
       <div
         className={cn(
-          'bg-sidebar border-sidebar-border relative flex min-h-[82px] shrink-0 items-center gap-3 rounded-2xl border px-4 py-3 sm:px-5',
+          'surface-shadow bg-sidebar border-sidebar-border min-h-20.5 relative flex shrink-0 items-center gap-3 rounded-2xl border px-4 py-3 sm:px-5',
           collapsed && 'justify-center'
         )}
       >
@@ -56,7 +56,7 @@ export function AppSidebar(props: AppSidebarProps) {
         </AnimatePresence>
       </div>
 
-      <nav className="bg-sidebar border-sidebar-border flex flex-1 flex-col gap-1 rounded-2xl border py-3">
+      <nav className="surface-shadow bg-sidebar border-sidebar-border flex flex-1 flex-col gap-1 rounded-2xl border py-3">
         {Object.values(NAV_ITEMS)
           .filter((item) => !item.isDisabled)
           .map((item) => (
@@ -64,7 +64,7 @@ export function AppSidebar(props: AppSidebarProps) {
           ))}
       </nav>
 
-      <div className="bg-sidebar border-sidebar-border rounded-2xl border p-2">
+      <div className="surface-shadow bg-sidebar border-sidebar-border rounded-2xl border p-2">
         <Button
           Icon={collapsed ? PanelLeftOpenIcon : PanelLeftCloseIcon}
           className="text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-11 w-full rounded-xl border-none bg-transparent"

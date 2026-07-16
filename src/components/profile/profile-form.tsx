@@ -6,15 +6,17 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
+import { CircleAlert, CircleCheck, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/actions/button';
-import { ContentCard } from '@/components/ui/data/content-card';
+import { Badge } from '@/components/ui/data/badge';
 import { DetailItem } from '@/components/ui/data/detail-item';
+import { SectionCard } from '@/components/ui/data/section-card';
 import { Form } from '@/components/ui/form/form';
 import { FormInput } from '@/components/ui/form/fields/form-input';
 import { FormTextarea } from '@/components/ui/form/fields/form-textarea';
 import { ProfileImageUpload } from '@/components/profile/profile-image-upload';
+import { ArrowRightIcon } from '@/components/icons/arrow-right';
 import { SendIcon } from '@/components/icons/send';
-import { UserIcon } from '@/components/icons/user';
 import { useAsyncAction } from '@/hooks/use-async-action';
 import { useCountdown } from '@/hooks/use-countdown';
 import { resendEmailVerification, updateProfile } from '@/actions/profile';
@@ -79,58 +81,64 @@ export function ProfileForm(props: ProfileFormProps) {
   }, [router, verificationStatus]);
 
   return (
-    <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(280px,360px)]">
-      <ContentCard className="h-full space-y-5">
+    <div className="grid flex-1 items-start gap-6 lg:grid-cols-[minmax(0,1.75fr)_minmax(320px,0.95fr)]">
+      <div className="surface-shadow border-border from-primary/10 via-card/60 to-card/60 bg-linear-to-br rounded-2xl border p-7">
         <ProfileImageUpload initialImage={profile.image} name={profile.name} />
 
-        <Form {...form} onSubmit={handleSubmit(executeUpdate)} className="space-y-4">
-          <FormInput control={control} name="name" label="Имя" autoComplete="name" />
-          <FormTextarea control={control} name="workTerms" label="Условия работы" rows={6} />
-          <div className="flex justify-end">
-            <Button type="submit" Icon={UserIcon} isLoading={isUpdating}>
-              Сохранить
-            </Button>
-          </div>
-        </Form>
-      </ContentCard>
-
-      <div className="flex h-full flex-col gap-5">
-        <ContentCard className="flex-1">
-          <h2 className="mb-4 font-semibold">Email</h2>
-          <dl className="space-y-4">
-            <DetailItem label="Адрес">{profile.email}</DetailItem>
-            <DetailItem label="Статус">
-              <span className={emailVerified ? 'text-primary' : 'text-destructive'}>
-                {emailVerified ? 'Подтверждён' : 'Не подтверждён'}
-              </span>
-            </DetailItem>
-            {profile.emailVerified && (
-              <DetailItem label="Дата подтверждения">
-                {formatDate(profile.emailVerified, 'd MMMM yyyy')}
-              </DetailItem>
-            )}
-          </dl>
-          {!emailVerified && (
-            <Button
-              className="mt-5 w-full"
-              variant="outline"
-              Icon={SendIcon}
-              isLoading={isSending}
-              disabled={isCoolingDown}
-              onClick={executeResend}
-            >
-              {isCoolingDown ? `Повторите через ${cooldownSeconds}` : 'Отправить ссылку'}
-            </Button>
-          )}
-        </ContentCard>
-
-        <ContentCard className="flex-1">
-          <h2 className="mb-4 font-semibold">Аккаунт</h2>
-          <dl className="space-y-4">
-            <DetailItem label="Создан">{formatDate(profile.createdAt, 'd MMMM yyyy')}</DetailItem>
-          </dl>
-        </ContentCard>
+        <div className="border-border mt-7 border-t pt-7">
+          <Form {...form} onSubmit={handleSubmit(executeUpdate)} className="space-y-5">
+            <FormInput control={control} name="name" label="Имя" autoComplete="name" />
+            <FormTextarea control={control} name="workTerms" label="Условия работы" rows={7} />
+            <div className="flex justify-end">
+              <Button type="submit" Icon={ArrowRightIcon} isLoading={isUpdating}>
+                Сохранить изменения
+              </Button>
+            </div>
+          </Form>
+        </div>
       </div>
+
+      <SectionCard
+        title="Безопасность и аккаунт"
+        Icon={ShieldCheck}
+        titleClassName="text-lg"
+        className="self-start p-7"
+      >
+        <dl className="grid gap-x-4 gap-y-6 lg:grid-cols-2 [&_dd]:mt-1 [&_dt]:uppercase">
+          <DetailItem label="Email">{profile.email}</DetailItem>
+          <DetailItem label="Статус аккаунта">
+            <Badge
+              variant={emailVerified ? 'accent' : 'destructive'}
+              size="sm"
+              Icon={emailVerified ? CircleCheck : CircleAlert}
+              className={emailVerified ? 'text-primary' : undefined}
+            >
+              {emailVerified ? 'Подтверждён' : 'Не подтверждён'}
+            </Badge>
+          </DetailItem>
+          {profile.emailVerified && (
+            <DetailItem label="Дата подтверждения">
+              {formatDate(profile.emailVerified, 'd MMMM yyyy')}
+            </DetailItem>
+          )}
+          <DetailItem label="Аккаунт создан">
+            {formatDate(profile.createdAt, 'd MMMM yyyy')}
+          </DetailItem>
+        </dl>
+
+        {!emailVerified && (
+          <Button
+            className="mt-6 w-full"
+            variant="outline"
+            Icon={SendIcon}
+            isLoading={isSending}
+            disabled={isCoolingDown}
+            onClick={executeResend}
+          >
+            {isCoolingDown ? `Повторите через ${cooldownSeconds}` : 'Отправить ссылку'}
+          </Button>
+        )}
+      </SectionCard>
     </div>
   );
 }

@@ -23,7 +23,7 @@ export function FilterCard(props: FilterCardProps) {
           placeholder={inputLabel}
           value={filterValue}
           onChange={onFilterChange}
-          className="bg-card/30 border-border h-11 rounded-lg pl-11 text-sm shadow-none backdrop-blur-xl"
+          className="surface-shadow bg-secondary/70 border-border focus-visible:ring-ring/30 h-11 rounded-lg pl-11 text-sm backdrop-blur-xl focus-visible:ring-2"
         />
       </div>
       {children}
