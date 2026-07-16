@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useReactTable, getCoreRowModel, getFilteredRowModel } from '@tanstack/react-table';
 import { DataTable } from '@/components/ui/data/data-table';
 import { AppDialog } from '@/components/ui/overlay/dialog';
+import { UserRoundPlusIcon } from '@/components/icons/user-round-plus';
 import { ClientForm } from '@/components/clients/client-form';
 import { getClients } from '@/actions/clients';
 import { CLIENTS_PAGE_SIZE } from '@/constants/pagination';
@@ -87,6 +88,7 @@ export function ClientsTable(props: ClientsTableProps) {
         onOpenChange={setCreateOpen}
         title="Новый клиент"
         description="Добавьте нового клиента в базу"
+        Icon={UserRoundPlusIcon}
         size="lg"
         variant="solid"
       >

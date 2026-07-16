@@ -4,12 +4,14 @@ import { Dialog } from '@base-ui/react/dialog';
 import type { ReactNode } from 'react';
 import { XIcon } from '@/components/icons/x';
 import { cn } from '@/utils/cn';
+import type { AnimatedIconComponent } from '@/types/icons';
 
 type AppDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   title: string;
   description?: string;
+  Icon: AnimatedIconComponent;
   children: ReactNode;
   size?: 'md' | 'lg';
   layer?: 'base' | 'nested';
@@ -22,6 +24,7 @@ export function AppDialog(props: AppDialogProps) {
     onOpenChange,
     title,
     description,
+    Icon,
     children,
     size = 'md',
     layer = 'base',
@@ -49,16 +52,21 @@ export function AppDialog(props: AppDialogProps) {
               size === 'lg' ? 'max-w-4xl' : 'max-w-lg'
             )}
           >
-            <div className="flex shrink-0 items-start justify-between border-b p-5 pb-4">
-              <div>
-                <Dialog.Title className="mb-1 text-base font-semibold">{title}</Dialog.Title>
-                {description && (
-                  <Dialog.Description className="text-muted-foreground mt-0.5 text-sm">
-                    {description}
-                  </Dialog.Description>
-                )}
+            <div className="border-border border-l-primary flex shrink-0 items-center justify-between gap-4 border-b border-l-4 p-5">
+              <div className="flex min-w-0 items-center gap-4">
+                <div className="border-primary/20 bg-primary/10 text-primary flex size-12 shrink-0 items-center justify-center rounded-xl border">
+                  <Icon size={22} />
+                </div>
+                <div className="min-w-0">
+                  <Dialog.Title className="text-xl font-bold">{title}</Dialog.Title>
+                  {description && (
+                    <Dialog.Description className="text-muted-foreground mt-1 text-sm">
+                      {description}
+                    </Dialog.Description>
+                  )}
+                </div>
               </div>
-              <Dialog.Close className="text-muted-foreground hover:text-foreground -mr-1 -mt-0.5 cursor-pointer rounded p-1 transition-colors">
+              <Dialog.Close className="text-muted-foreground hover:text-foreground shrink-0 cursor-pointer rounded p-1 transition-colors">
                 <XIcon size={24} />
               </Dialog.Close>
             </div>

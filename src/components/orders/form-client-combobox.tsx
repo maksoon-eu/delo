@@ -79,6 +79,7 @@ export function FormClientCombobox(props: FormClientComboboxProps) {
         onOpenChange={setCreateOpen}
         title="Новый клиент"
         description="Добавьте нового клиента в базу"
+        Icon={UserRoundPlusIcon}
         size="lg"
         layer="nested"
         variant="solid"
