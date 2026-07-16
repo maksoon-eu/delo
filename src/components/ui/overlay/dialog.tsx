@@ -1,17 +1,16 @@
 'use client';
 
 import { Dialog } from '@base-ui/react/dialog';
-import type { ReactNode } from 'react';
+import type { ComponentType, ReactNode } from 'react';
 import { XIcon } from '@/components/icons/x';
 import { cn } from '@/utils/cn';
-import type { AnimatedIconComponent } from '@/types/icons';
 
 type AppDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   title: string;
   description?: string;
-  Icon: AnimatedIconComponent;
+  Icon: ComponentType<{ size?: number; className?: string }>;
   children: ReactNode;
   size?: 'md' | 'lg';
   layer?: 'base' | 'nested';

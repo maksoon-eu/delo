@@ -77,7 +77,7 @@ export function Combobox(props: ComboboxProps) {
       >
         <ComboboxPrimitive.Trigger
           className={cn(
-            'border-border bg-secondary/70 hover:border-ring hover:ring-ring/50 cursor-pointer',
+            'border-border bg-secondary/70 hover:border-ring hover:ring-ring/50 group cursor-pointer',
             'focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50',
             'h-12 w-full rounded-lg border text-sm transition-colors'
           )}
@@ -90,7 +90,7 @@ export function Combobox(props: ComboboxProps) {
               onFocus={handleFocus}
               onBlur={handleBlur}
             />
-            <div className="text-muted-foreground ml-1 cursor-pointer">
+            <div className="text-muted-foreground group-hover:text-primary group-focus-within:text-primary group-data-popup-open:text-primary ml-1 cursor-pointer transition-colors">
               <ChevronDown className="size-4" />
             </div>
           </ComboboxPrimitive.InputGroup>

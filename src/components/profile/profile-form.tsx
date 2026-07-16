@@ -84,13 +84,7 @@ export function ProfileForm(props: ProfileFormProps) {
         <ProfileImageUpload initialImage={profile.image} name={profile.name} />
 
         <Form {...form} onSubmit={handleSubmit(executeUpdate)} className="space-y-4">
-          <FormInput
-            control={control}
-            name="name"
-            label="Имя"
-            autoComplete="name"
-            Icon={UserIcon}
-          />
+          <FormInput control={control} name="name" label="Имя" autoComplete="name" />
           <FormTextarea control={control} name="workTerms" label="Условия работы" rows={6} />
           <div className="flex justify-end">
             <Button type="submit" Icon={UserIcon} isLoading={isUpdating}>

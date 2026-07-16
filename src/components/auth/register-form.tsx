@@ -8,10 +8,7 @@ import { toast } from 'sonner';
 import { Form } from '@/components/ui/form/form';
 import { Button } from '@/components/ui/actions/button';
 import { FormInput } from '@/components/ui/form/fields/form-input';
-import { AtSignIcon } from '@/components/icons/at-sign';
 import { ArrowRightIcon } from '@/components/icons/arrow-right';
-import { LockKeyholeIcon } from '@/components/icons/lock-keyhole';
-import { UserIcon } from '@/components/icons/user';
 import { FormCheckbox } from '@/components/ui/form/fields/form-checkbox';
 import { useAsyncAction } from '@/hooks/use-async-action';
 import { useRouterNavigate } from '@/hooks/use-router-navigate';
@@ -57,22 +54,14 @@ export function RegisterForm() {
   return (
     <Form {...form} onSubmit={handleSubmit(execute)} className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">
-        <FormInput control={control} name="name" label="Имя" autoComplete="name" Icon={UserIcon} />
-        <FormInput
-          control={control}
-          name="email"
-          label="Email"
-          type="email"
-          autoComplete="email"
-          Icon={AtSignIcon}
-        />
+        <FormInput control={control} name="name" label="Имя" autoComplete="name" />
+        <FormInput control={control} name="email" label="Email" type="email" autoComplete="email" />
         <FormInput
           control={control}
           name="password"
           label="Пароль"
           type="password"
           autoComplete="new-password"
-          Icon={LockKeyholeIcon}
         />
         <FormInput
           control={control}
@@ -80,7 +69,6 @@ export function RegisterForm() {
           label="Подтвердить пароль"
           type="password"
           autoComplete="new-password"
-          Icon={LockKeyholeIcon}
         />
       </div>
 

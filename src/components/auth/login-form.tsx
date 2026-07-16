@@ -7,9 +7,7 @@ import { signIn } from 'next-auth/react';
 import { Form } from '@/components/ui/form/form';
 import { Button } from '@/components/ui/actions/button';
 import { FormInput } from '@/components/ui/form/fields/form-input';
-import { AtSignIcon } from '@/components/icons/at-sign';
 import { ArrowRightIcon } from '@/components/icons/arrow-right';
-import { LockKeyholeIcon } from '@/components/icons/lock-keyhole';
 import { useCountdown } from '@/hooks/use-countdown';
 import { useAsyncAction } from '@/hooks/use-async-action';
 import { useRouterNavigate } from '@/hooks/use-router-navigate';
@@ -59,7 +57,6 @@ export function LoginForm() {
         label="Электронная почта"
         type="email"
         autoComplete="username"
-        Icon={AtSignIcon}
       />
       <FormInput
         control={control}
@@ -67,7 +64,6 @@ export function LoginForm() {
         label="Пароль"
         type="password"
         autoComplete="current-password"
-        Icon={LockKeyholeIcon}
       />
 
       <div className="flex justify-end text-xs sm:text-sm">

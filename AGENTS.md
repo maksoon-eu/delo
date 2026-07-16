@@ -444,11 +444,15 @@ async function onSubmit() {
 
 ### Icons
 
-- Иконки — библиотека [lucide-animated](https://lucide-animated.com), устанавливаются через shadcn CLI:
+- Для кнопок и других интерактивных actions использовать animated icons из [lucide-animated](https://lucide-animated.com), устанавливаемые через shadcn CLI:
   ```bash
   npx shadcn add "@lucide-animated/icon-name" --path src/components/icons
   ```
-- Все иконки живут в `src/components/icons/`
+- Все animated icons живут в `src/components/icons/`.
+- Статичные неинтерактивные иконки и functional indicators (`Calendar`, select/combobox chevron, search, section/modal header) импортировать напрямую из `lucide-react`.
+- Обычные `FormInput` не имеют decorative leading icons и не должны принимать `Icon` prop. Внутри form controls оставлять только функциональные иконки: calendar, dropdown/combobox chevron, search и password visibility action.
+- Статичные functional icons по умолчанию используют `text-muted-foreground` и подсвечиваются через `text-primary` на hover/focus/open.
+- Иконки section/modal headers остаются статичными. Animated icons использовать только внутри кнопок и других интерактивных actions.
 - Иконка корзины в registry называется `delete` и устанавливается как `@lucide-animated/delete` (`DeleteIcon`); `trash` и `trash-2` в registry отсутствуют.
 - Кнопки с иконками и лоадером — через компонент `IconButton` из `src/components/ui/icon-button.tsx`:
   ```tsx

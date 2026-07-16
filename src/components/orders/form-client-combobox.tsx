@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import type { Control } from 'react-hook-form';
+import { UserRoundPlus } from 'lucide-react';
 import { Button } from '@/components/ui/actions/button';
 import { UserRoundPlusIcon } from '@/components/icons/user-round-plus';
 import { AppDialog } from '@/components/ui/overlay/dialog';
@@ -79,7 +80,7 @@ export function FormClientCombobox(props: FormClientComboboxProps) {
         onOpenChange={setCreateOpen}
         title="Новый клиент"
         description="Добавьте нового клиента в базу"
-        Icon={UserRoundPlusIcon}
+        Icon={UserRoundPlus}
         size="lg"
         layer="nested"
         variant="solid"
