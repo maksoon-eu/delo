@@ -124,10 +124,7 @@ export function OrderForm(props: OrderFormProps) {
         }
       >
         <div className="space-y-3">
-          <div className="flex items-center justify-between">
-            <span className="text-muted-foreground text-xs">Позиции</span>
-            <OrderTotal control={control} />
-          </div>
+          <span className="text-muted-foreground text-xs">Позиции</span>
           <div className="sm:h-37.5 h-52 space-y-2 overflow-y-auto px-1">
             {fields.map((field, index) => (
               <OrderItemFields
@@ -138,6 +135,9 @@ export function OrderForm(props: OrderFormProps) {
                 onRemove={remove}
               />
             ))}
+          </div>
+          <div className="border-border flex justify-end border-t pt-3">
+            <OrderTotal control={control} />
           </div>
         </div>
       </FormSection>

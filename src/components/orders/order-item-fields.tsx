@@ -34,7 +34,7 @@ export function OrderItemFields(props: OrderItemFieldsProps) {
         Icon={DeleteIcon}
         disabled={!canRemove}
         onClick={handleRemove}
-        className="justify-self-end lg:mt-0.5"
+        className="justify-self-end lg:mt-1.5"
       />
     </div>
   );

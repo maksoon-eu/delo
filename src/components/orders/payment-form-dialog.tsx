@@ -70,7 +70,13 @@ export function PaymentFormDialog(props: PaymentFormDialogProps) {
         onClick={handleOpenPayment}
       />
 
-      <AppDialog open={open} onOpenChange={handleOpenChange} title="Добавить оплату">
+      <AppDialog
+        open={open}
+        onOpenChange={handleOpenChange}
+        title="Добавить оплату"
+        description="Зафиксируйте поступивший платёж"
+        Icon={CircleDollarSignIcon}
+      >
         <Form {...form} onSubmit={handleSubmit(execute)} className="space-y-4">
           <FormInput control={control} name="amount" label="Сумма (₽)" type="number" />
           <FormDateInput control={control} name="paidAt" label="Дата оплаты" />
