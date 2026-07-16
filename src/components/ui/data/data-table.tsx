@@ -147,7 +147,7 @@ export function DataTable<T>(props: DataTableProps<T>) {
   return (
     <div
       className={cn(
-        'border-sidebar-border flex flex-1 flex-col overflow-hidden rounded-2xl border bg-transparent shadow-sm shadow-black/5 backdrop-blur-xl',
+        'surface-shadow border-sidebar-border flex flex-1 flex-col overflow-hidden rounded-2xl border bg-transparent backdrop-blur-xl',
         className
       )}
     >

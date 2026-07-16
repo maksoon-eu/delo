@@ -8,6 +8,7 @@ import { useConfirmation } from '@/components/providers/confirmation/confirmatio
 import { updateOrderStatus } from '@/actions/orders';
 import { ORDER_STATUS_ACTION_LABELS, ORDER_STATUS_LABELS } from '@/constants/orders';
 import type { AnimatedIconComponent } from '@/types/icons';
+import { cn } from '@/utils/cn';
 import { OrderStatus } from '@prisma/client';
 
 type TransitionButtonProps = {
@@ -48,7 +49,7 @@ export function TransitionButton(props: TransitionButtonProps) {
     <Button
       variant={isDestructive ? 'destructive' : 'outline'}
       size={size}
-      className={className}
+      className={cn(!size && '[&_svg]:size-4! rounded-sm px-4 text-sm font-semibold', className)}
       Icon={Icon}
       onClick={handleOpenConfirmation}
     >

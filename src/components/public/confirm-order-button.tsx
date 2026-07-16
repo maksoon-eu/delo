@@ -25,7 +25,7 @@ export function ConfirmOrderButton(props: ConfirmOrderButtonProps) {
   const [execute, isLoading] = useAsyncAction(handleConfirm);
 
   return (
-    <Button Icon={CircleCheckIcon} isLoading={isLoading} onClick={execute}>
+    <Button className="w-full" Icon={CircleCheckIcon} isLoading={isLoading} onClick={execute}>
       Подтвердить условия
     </Button>
   );

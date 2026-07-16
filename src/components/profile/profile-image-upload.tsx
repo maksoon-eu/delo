@@ -4,9 +4,10 @@ import { useRef, useState, type ChangeEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { ProfileAvatarPreview } from '@/components/profile/profile-avatar-preview';
+import { useConfirmation } from '@/components/providers/confirmation/confirmation.hook';
 import { Button } from '@/components/ui/actions/button';
+import { DeleteIcon } from '@/components/icons/delete';
 import { UploadIcon } from '@/components/icons/upload';
-import { XIcon } from '@/components/icons/x';
 import { deleteProfileImage, uploadProfileImage } from '@/actions/profile';
 import { PROFILE_IMAGE_ACCEPT, PROFILE_IMAGE_MAX_BYTES } from '@/constants/profile';
 import { useAsyncAction } from '@/hooks/use-async-action';
@@ -19,6 +20,7 @@ type ProfileImageUploadProps = {
 export function ProfileImageUpload(props: ProfileImageUploadProps) {
   const { initialImage, name } = props;
   const router = useRouter();
+  const confirm = useConfirmation();
   const inputRef = useRef<HTMLInputElement>(null);
   const [image, setImage] = useState(initialImage);
 
@@ -49,7 +51,6 @@ export function ProfileImageUpload(props: ProfileImageUploadProps) {
   }
 
   const [executeUpload, isUploading] = useAsyncAction(uploadImage);
-  const [executeDelete, isDeleting] = useAsyncAction(deleteImage);
 
   function handleSelectImage() {
     inputRef.current?.click();
@@ -63,10 +64,21 @@ export function ProfileImageUpload(props: ProfileImageUploadProps) {
     event.target.value = '';
   }
 
+  function handleDeleteClick() {
+    confirm({
+      title: 'Удалить фото профиля?',
+      description: 'Текущее фото профиля будет удалено. Это действие нельзя отменить.',
+      confirmLabel: 'Удалить',
+      Icon: DeleteIcon,
+      destructive: true,
+      action: deleteImage,
+    });
+  }
+
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex flex-col items-start gap-5 sm:flex-row sm:items-center">
       <ProfileAvatarPreview image={image} name={name} />
-      <div className="space-y-2">
+      <div className="space-y-3">
         <input
           ref={inputRef}
           className="hidden"
@@ -77,7 +89,6 @@ export function ProfileImageUpload(props: ProfileImageUploadProps) {
         <div className="flex flex-wrap gap-2">
           <Button
             type="button"
-            variant="outline"
             Icon={UploadIcon}
             isLoading={isUploading}
             onClick={handleSelectImage}
@@ -87,12 +98,11 @@ export function ProfileImageUpload(props: ProfileImageUploadProps) {
           <Button
             type="button"
             variant="outline"
-            Icon={XIcon}
-            isLoading={isDeleting}
+            Icon={DeleteIcon}
             disabled={!image || isUploading}
-            onClick={executeDelete}
+            onClick={handleDeleteClick}
           >
-            Удалить фото
+            Удалить
           </Button>
         </div>
         <p className="text-muted-foreground text-sm">JPG, PNG или WebP до 5 МБ</p>

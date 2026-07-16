@@ -41,7 +41,7 @@ export function OrderDocumentItem(props: OrderDocumentItemProps) {
   return (
     <li className="relative w-60 shrink-0">
       <a
-        className="border-border bg-card/60 hover:bg-card h-18.75 flex items-center gap-3 rounded-xl border p-4 pr-12 backdrop-blur-md transition-colors"
+        className="surface-shadow border-border bg-card/60 hover:bg-card h-18.75 flex items-center gap-3 rounded-xl border p-4 pr-12 backdrop-blur-md transition-colors"
         href={`/api/documents/${document.id}`}
       >
         <FileTextIcon className="text-primary shrink-0" size={20} />

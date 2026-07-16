@@ -10,7 +10,7 @@ import { FormTextarea } from '@/components/ui/form/fields/form-textarea';
 import { FormDateInput } from '@/components/ui/form/fields/form-date-input';
 import { FormSelect } from '@/components/ui/form/fields/form-select';
 import { FormClientCombobox } from '@/components/orders/form-client-combobox';
-import { FormSection } from '@/components/ui/form/form-section';
+import { SectionCard } from '@/components/ui/data/section-card';
 import { OrderItemFields } from '@/components/orders/order-item-fields';
 import { Button } from '@/components/ui/actions/button';
 import { ArrowRightIcon } from '@/components/icons/arrow-right';
@@ -73,7 +73,7 @@ export function OrderForm(props: OrderFormProps) {
   return (
     <Form {...form} onSubmit={handleSubmit(execute)} className="space-y-4">
       <div className="grid gap-4 sm:grid-cols-2">
-        <FormSection title="Заказ" Icon={FileText}>
+        <SectionCard title="Заказ" Icon={FileText}>
           <div className="space-y-4">
             <FormInput control={control} name="title" label="Название заказа" />
             <FormTextarea
@@ -83,22 +83,22 @@ export function OrderForm(props: OrderFormProps) {
               placeholder="Опишите суть заказа..."
             />
           </div>
-        </FormSection>
+        </SectionCard>
 
-        <FormSection title="Клиент" Icon={User}>
+        <SectionCard title="Клиент" Icon={User}>
           <FormClientCombobox control={control} defaultClient={defaultClient} />
-        </FormSection>
+        </SectionCard>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <FormSection title="Время" Icon={CalendarDays}>
+        <SectionCard title="Время" Icon={CalendarDays}>
           <div className="grid gap-4 sm:grid-cols-2">
             <FormDateInput control={control} name="startDate" label="Дата начала" />
             <FormDateInput control={control} name="deadline" label="Дедлайн" />
           </div>
-        </FormSection>
+        </SectionCard>
 
-        <FormSection title="Оплата" Icon={CreditCard}>
+        <SectionCard title="Оплата" Icon={CreditCard}>
           <FormSelect
             control={control}
             name="paymentMethod"
@@ -106,10 +106,10 @@ export function OrderForm(props: OrderFormProps) {
             options={PAYMENT_METHOD_OPTIONS}
             defaultOption={defaultPaymentMethod}
           />
-        </FormSection>
+        </SectionCard>
       </div>
 
-      <FormSection
+      <SectionCard
         title="Состав работ"
         Icon={List}
         action={
@@ -140,7 +140,7 @@ export function OrderForm(props: OrderFormProps) {
             <OrderTotal control={control} />
           </div>
         </div>
-      </FormSection>
+      </SectionCard>
 
       <div className="flex justify-end pt-1">
         <Button type="submit" isLoading={isLoading} Icon={ArrowRightIcon}>

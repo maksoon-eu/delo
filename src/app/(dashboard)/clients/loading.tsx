@@ -10,7 +10,7 @@ export default function ClientsLoading() {
           <Skeleton className="h-11 w-full rounded-lg sm:w-40" />
         </div>
 
-        <div className="border-sidebar-border overflow-hidden rounded-2xl border bg-transparent shadow-sm shadow-black/5 backdrop-blur-xl">
+        <div className="surface-shadow border-sidebar-border overflow-hidden rounded-2xl border bg-transparent backdrop-blur-xl">
           <div className="bg-primary/10 border-sidebar-border rounded-2xl border px-7 py-4">
             <div className="grid grid-cols-[minmax(200px,1.1fr)_minmax(180px,1fr)_minmax(180px,1fr)_140px_140px] items-center gap-5">
               <Skeleton className="h-3 w-20" />

@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import { CircleDollarSign, FileText, History, List } from 'lucide-react';
 import { ORDER_FINAL_STATUSES } from '@/constants/orders';
 import { env } from '@/config/env';
 import { formatDate, formatPrice } from '@/utils/format';
@@ -10,9 +11,10 @@ import { OrderStatusPanel } from '@/components/orders/order-status-panel';
 import { OrderDocumentsSection } from '@/components/orders/order-documents-section';
 import { ActivityLog } from '@/components/orders/activity-log';
 import { PaymentsSection } from '@/components/orders/payments-section';
+import { PaymentFormDialog } from '@/components/orders/payment-form-dialog';
 import { ArrowUpRightIcon } from '@/components/icons/arrow-up-right';
 import { DetailItem } from '@/components/ui/data/detail-item';
-import { ContentCard } from '@/components/ui/data/content-card';
+import { SectionCard } from '@/components/ui/data/section-card';
 import { getOrder } from '@/actions/orders';
 import type { Route } from 'next';
 
@@ -52,8 +54,11 @@ export default async function OrderPage(props: OrderPageProps) {
         <OrderDocumentsSection orderId={order.id} documents={order.documents} />
 
         <div className="grid items-stretch gap-6 lg:grid-cols-2">
-          <ContentCard variant="solid" className="h-88 flex min-h-0 flex-col overflow-hidden">
-            <h2 className="mb-5 shrink-0 font-semibold">Детали заказа</h2>
+          <SectionCard
+            title="Детали заказа"
+            Icon={FileText}
+            className="h-88 flex min-h-0 flex-col overflow-hidden p-6"
+          >
             <dl className="flex min-h-0 flex-1 flex-col gap-4">
               <DetailItem
                 label="Клиент"
@@ -102,19 +107,26 @@ export default async function OrderPage(props: OrderPageProps) {
                 </DetailItem>
               )}
             </dl>
-          </ContentCard>
+          </SectionCard>
 
-          <ContentCard variant="solid" className="h-88 min-h-0 overflow-hidden">
+          <SectionCard
+            title="Оплата"
+            Icon={CircleDollarSign}
+            action={<PaymentFormDialog orderId={order.id} />}
+            className="h-88 flex min-h-0 flex-col overflow-hidden p-6"
+          >
             <PaymentsSection
-              orderId={order.id}
               payments={order.payments}
               paymentStatus={order.paymentStatus}
               orderPrice={order.price}
             />
-          </ContentCard>
+          </SectionCard>
 
-          <ContentCard variant="solid" className="flex h-80 min-h-0 flex-col overflow-hidden">
-            <h2 className="mb-4 shrink-0 font-semibold">Состав работ</h2>
+          <SectionCard
+            title="Состав работ"
+            Icon={List}
+            className="flex h-80 min-h-0 flex-col overflow-hidden p-6"
+          >
             <div className="shrink-0 pr-2">
               <table className="w-full table-fixed">
                 <colgroup>
@@ -140,14 +152,12 @@ export default async function OrderPage(props: OrderPageProps) {
                   {order.items.map((orderItem) => (
                     <tr key={orderItem.id}>
                       <td className="py-2">
-                        <p className="font-medium">{orderItem.name}</p>
+                        <p className="text-sm">{orderItem.name}</p>
                         {orderItem.description && (
                           <p className="text-muted-foreground text-xs">{orderItem.description}</p>
                         )}
                       </td>
-                      <td className="py-2 text-right font-medium">
-                        {formatPrice(orderItem.price)}
-                      </td>
+                      <td className="py-2 text-right text-sm">{formatPrice(orderItem.price)}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -162,7 +172,7 @@ export default async function OrderPage(props: OrderPageProps) {
                 </colgroup>
                 <tfoot>
                   <tr className="border-border border-t">
-                    <td colSpan={2} className="pt-3 text-right font-semibold">
+                    <td colSpan={2} className="pt-3 text-right">
                       <span className="text-muted-foreground mr-2 text-xs font-bold">Итого:</span>
                       {formatPrice(totalItems)}
                     </td>
@@ -170,14 +180,15 @@ export default async function OrderPage(props: OrderPageProps) {
                 </tfoot>
               </table>
             </div>
-          </ContentCard>
+          </SectionCard>
 
-          <ContentCard variant="solid" className="flex h-80 min-h-0 flex-col overflow-hidden">
-            <h2 className="mb-5 shrink-0 font-semibold">История</h2>
-            <div className="min-h-0 flex-1 overflow-y-auto pr-2">
-              <ActivityLog activities={order.activities} />
-            </div>
-          </ContentCard>
+          <SectionCard
+            title="История"
+            Icon={History}
+            className="flex h-80 min-h-0 flex-col overflow-hidden p-6"
+          >
+            <ActivityLog activities={order.activities} />
+          </SectionCard>
         </div>
       </AnimateIn>
     </div>

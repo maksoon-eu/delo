@@ -42,7 +42,7 @@ export function TopBar(props: TopBarProps) {
   const [executeLogout, isLoggingOut] = useAsyncAction(handleLogout);
 
   return (
-    <header className="bg-sidebar border-sidebar-border relative flex min-h-16 shrink-0 items-center justify-between gap-4 rounded-2xl border px-4 py-3 sm:px-5">
+    <header className="surface-shadow bg-sidebar border-sidebar-border relative flex min-h-16 shrink-0 items-center justify-between gap-4 rounded-2xl border px-4 py-3 sm:px-5">
       <PageHeader />
       <div className="flex shrink-0 items-center justify-end gap-3">
         {isClient && (

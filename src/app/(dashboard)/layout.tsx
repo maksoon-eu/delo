@@ -23,9 +23,7 @@ export default async function DashboardLayout(props: { children: ReactNode }) {
         <AppSidebarServer />
         <div className="flex min-w-0 flex-1 flex-col gap-4 pl-4">
           <TopBar userName={user?.name ?? session.user.name} userImage={user?.image ?? null} />
-          <main className="flex flex-1 flex-col overflow-y-auto px-2 py-2 sm:px-4 sm:py-4">
-            {children}
-          </main>
+          <main className="flex flex-1 flex-col overflow-y-auto">{children}</main>
         </div>
       </div>
     </EmailVerificationProvider>
