@@ -17,8 +17,8 @@ export function FilterCard(props: FilterCardProps) {
 
   return (
     <div className="flex w-full flex-col gap-3 sm:flex-row">
-      <div className="relative min-w-0 flex-1">
-        <Search className="text-muted-foreground pointer-events-none absolute left-4 top-1/2 z-10 size-4 -translate-y-1/2" />
+      <div className="group relative min-w-0 flex-1">
+        <Search className="text-muted-foreground group-hover:text-primary group-focus-within:text-primary pointer-events-none absolute left-4 top-1/2 z-10 size-4 -translate-y-1/2 transition-colors" />
         <Input
           placeholder={inputLabel}
           value={filterValue}

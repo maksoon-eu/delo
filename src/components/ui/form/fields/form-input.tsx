@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import type { ComponentProps } from 'react';
 import type { Control, FieldPath, FieldValues } from 'react-hook-form';
 import {
@@ -13,8 +13,6 @@ import {
 import { Button } from '@/components/ui/actions/button';
 import { Input } from '@/components/ui/form/primitives/input';
 import { EyeIcon } from '@/components/icons/eye';
-import type { AnimatedIconComponent, AnimatedIconHandle } from '@/types/icons';
-import { startAnimatedIcon, stopAnimatedIcon } from '@/utils/animation';
 import { cn } from '@/utils/cn';
 
 type FormInputProps<T extends FieldValues> = {
@@ -24,15 +22,11 @@ type FormInputProps<T extends FieldValues> = {
   placeholder?: string;
   type?: string;
   autoComplete?: ComponentProps<'input'>['autoComplete'];
-  Icon?: AnimatedIconComponent;
 };
 
 export function FormInput<T extends FieldValues>(props: FormInputProps<T>) {
-  const { control, name, label, placeholder, type = 'text', autoComplete, Icon } = props;
-  const iconRef = useRef<AnimatedIconHandle>(null);
+  const { control, name, label, placeholder, type = 'text', autoComplete } = props;
   const [showPassword, setShowPassword] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
 
   const isPassword = type === 'password';
   const inputType = isPassword ? (showPassword ? 'text' : 'password') : type;
@@ -42,20 +36,6 @@ export function FormInput<T extends FieldValues>(props: FormInputProps<T>) {
     setShowPassword((v) => !v);
   };
 
-  function handleInputFocus() {
-    setIsFocused(true);
-  }
-
-  function handleMouseEnter() {
-    if (!isFocused) startAnimatedIcon(iconRef);
-    setIsHovered(true);
-  }
-
-  function handleMouseLeave() {
-    if (!isFocused) stopAnimatedIcon(iconRef);
-    setIsHovered(false);
-  }
-
   return (
     <FormField
       control={control}
@@ -63,19 +43,10 @@ export function FormInput<T extends FieldValues>(props: FormInputProps<T>) {
       render={({ field }) => {
         const passwordToggleTooltip = showPassword ? 'Скрыть пароль' : 'Показать пароль';
 
-        function handleInputBlur() {
-          field.onBlur();
-          setIsFocused(false);
-        }
-
         return (
           <FormItem>
             {label ? (
-              <div
-                className="relative"
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-              >
+              <div className="relative">
                 <FormControl>
                   <Input
                     {...field}
@@ -86,23 +57,11 @@ export function FormInput<T extends FieldValues>(props: FormInputProps<T>) {
                     placeholder=" "
                     className={cn(
                       'border-border bg-secondary/70 text-foreground placeholder:text-muted-foreground hover:border-ring focus-visible:border-ring peer h-12 rounded-lg text-sm shadow-none',
-                      Icon && 'pl-11',
                       isPassword && 'pr-11'
                     )}
-                    onFocus={handleInputFocus}
-                    onBlur={handleInputBlur}
+                    onBlur={field.onBlur}
                   />
                 </FormControl>
-                {Icon && (
-                  <div
-                    className={cn(
-                      'peer-focus:text-primary pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 transition-colors',
-                      isHovered ? 'text-primary' : 'text-muted-foreground'
-                    )}
-                  >
-                    <Icon size={16} ref={iconRef} />
-                  </div>
-                )}
                 {isPassword && field.value?.length > 0 && (
                   <Button
                     type="button"
@@ -117,7 +76,7 @@ export function FormInput<T extends FieldValues>(props: FormInputProps<T>) {
                 <FormLabel
                   className={cn(
                     'text-muted-foreground pointer-events-none absolute top-1/2 -translate-y-1/2 text-sm font-normal transition-[top,left,transform,padding,background-color,color] duration-200',
-                    Icon ? 'left-11' : 'left-3',
+                    'left-3',
                     'peer-focus:bg-card peer-focus:text-primary peer-focus:left-3 peer-focus:top-0 peer-focus:scale-[0.82] peer-focus:px-1',
                     'peer-[:not(:placeholder-shown)]:bg-card peer-[:not(:placeholder-shown)]:text-muted-foreground peer-[:not(:placeholder-shown)]:left-3 peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:scale-[0.82] peer-[:not(:placeholder-shown)]:px-1',
                     'peer-[:focus:not(:placeholder-shown)]:text-primary'
@@ -135,10 +94,7 @@ export function FormInput<T extends FieldValues>(props: FormInputProps<T>) {
                   step={inputStep}
                   autoComplete={autoComplete}
                   placeholder={placeholder}
-                  className={cn(
-                    'border-border bg-secondary/70 text-foreground placeholder:text-muted-foreground hover:border-ring focus-visible:border-ring h-12 rounded-lg text-sm shadow-none',
-                    Icon && 'pl-11'
-                  )}
+                  className="border-border bg-secondary/70 text-foreground placeholder:text-muted-foreground hover:border-ring focus-visible:border-ring h-12 rounded-lg text-sm shadow-none"
                   onBlur={field.onBlur}
                 />
               </FormControl>

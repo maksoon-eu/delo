@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { CircleDollarSign } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
@@ -75,7 +76,7 @@ export function PaymentFormDialog(props: PaymentFormDialogProps) {
         onOpenChange={handleOpenChange}
         title="Добавить оплату"
         description="Зафиксируйте поступивший платёж"
-        Icon={CircleDollarSignIcon}
+        Icon={CircleDollarSign}
       >
         <Form {...form} onSubmit={handleSubmit(execute)} className="space-y-4">
           <FormInput control={control} name="amount" label="Сумма (₽)" type="number" />

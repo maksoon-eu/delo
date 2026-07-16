@@ -10,7 +10,6 @@ import { Form } from '@/components/ui/form/form';
 import { Button } from '@/components/ui/actions/button';
 import { FormInput } from '@/components/ui/form/fields/form-input';
 import { ArrowRightIcon } from '@/components/icons/arrow-right';
-import { LockKeyholeIcon } from '@/components/icons/lock-keyhole';
 import { useAsyncAction } from '@/hooks/use-async-action';
 import { useRouterNavigate } from '@/hooks/use-router-navigate';
 import { resetPassword } from '@/actions/auth';
@@ -79,7 +78,6 @@ export function ResetPasswordForm() {
           label="Новый пароль"
           type="password"
           autoComplete="new-password"
-          Icon={LockKeyholeIcon}
         />
         <FormInput
           control={control}
@@ -87,7 +85,6 @@ export function ResetPasswordForm() {
           label="Повторите пароль"
           type="password"
           autoComplete="new-password"
-          Icon={LockKeyholeIcon}
         />
       </div>
 

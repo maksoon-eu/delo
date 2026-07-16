@@ -2,12 +2,12 @@
 
 import { useState, type ChangeEvent } from 'react';
 import { useRouter } from 'next/navigation';
+import { FileText } from 'lucide-react';
 import { parseAsString, parseAsStringLiteral, useQueryState } from 'nuqs';
 import { useReactTable, getCoreRowModel } from '@tanstack/react-table';
 import { DataTable } from '@/components/ui/data/data-table';
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
 import { AppDialog } from '@/components/ui/overlay/dialog';
-import { FileTextIcon } from '@/components/icons/file-text';
 import { SelectInput } from '@/components/ui/form/fields/select-input';
 import { OrderForm } from '@/components/orders/order-form';
 import { getOrders } from '@/actions/orders';
@@ -113,7 +113,7 @@ export function OrdersTable(props: OrdersTableProps) {
         onOpenChange={setCreateOpen}
         title="Новый заказ"
         description="Создайте новый заказ"
-        Icon={FileTextIcon}
+        Icon={FileText}
         size="lg"
         variant="solid"
       >

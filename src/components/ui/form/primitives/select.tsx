@@ -50,14 +50,16 @@ function SelectTrigger(props: SelectTriggerProps) {
       data-slot="select-trigger"
       data-size={size}
       className={cn(
-        "border-border bg-secondary/70 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 data-placeholder:text-muted-foreground hover:border-ring hover:ring-ring/50 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 flex w-fit select-none items-center justify-between gap-1.5 whitespace-nowrap rounded-lg border py-2 pl-2.5 pr-2 text-sm outline-none transition-colors disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-8 data-[size=sm]:h-7 data-[size=sm]:rounded-[min(var(--radius-md),10px)] *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-1.5 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+        "border-border bg-secondary/70 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 data-placeholder:text-muted-foreground hover:border-ring hover:ring-ring/50 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 group flex w-fit select-none items-center justify-between gap-1.5 whitespace-nowrap rounded-lg border py-2 pl-2.5 pr-2 text-sm outline-none transition-colors disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-8 data-[size=sm]:h-7 data-[size=sm]:rounded-[min(var(--radius-md),10px)] *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-1.5 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
         className
       )}
       {...rest}
     >
       {children}
       <SelectPrimitive.Icon
-        render={<ChevronDownIcon className="text-muted-foreground pointer-events-none size-4" />}
+        render={
+          <ChevronDownIcon className="text-muted-foreground group-hover:text-primary group-focus-visible:text-primary group-data-popup-open:text-primary pointer-events-none size-4 transition-colors" />
+        }
       />
     </SelectPrimitive.Trigger>
   );

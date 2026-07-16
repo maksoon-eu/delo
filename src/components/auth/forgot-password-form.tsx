@@ -7,7 +7,6 @@ import { toast } from 'sonner';
 import { Form } from '@/components/ui/form/form';
 import { Button } from '@/components/ui/actions/button';
 import { FormInput } from '@/components/ui/form/fields/form-input';
-import { AtSignIcon } from '@/components/icons/at-sign';
 import { ArrowRightIcon } from '@/components/icons/arrow-right';
 import { useCountdown } from '@/hooks/use-countdown';
 import { useAsyncAction } from '@/hooks/use-async-action';
@@ -46,14 +45,7 @@ export function ForgotPasswordForm() {
   return (
     <Form {...form} onSubmit={handleSubmit(execute)} className="flex flex-col gap-7">
       <div className="flex flex-col gap-2">
-        <FormInput
-          control={control}
-          name="email"
-          label="Email"
-          type="email"
-          autoComplete="email"
-          Icon={AtSignIcon}
-        />
+        <FormInput control={control} name="email" label="Email" type="email" autoComplete="email" />
 
         <div className="border-primary/25 bg-primary/10 text-foreground flex gap-3 rounded-xl border p-4 text-sm leading-6">
           <Info size={20} className="text-primary mt-0.5 shrink-0" aria-hidden />

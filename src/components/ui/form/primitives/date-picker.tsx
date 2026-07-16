@@ -106,7 +106,7 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(
             type="button"
             disabled={disabled}
             className={cn(
-              'border-border bg-secondary/70 hover:border-ring hover:ring-ring/50 cursor-pointer',
+              'border-border bg-secondary/70 hover:border-ring hover:ring-ring/50 group cursor-pointer',
               'focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50',
               'disabled:bg-input/50 flex h-12 w-full items-center rounded-lg border px-3 text-left text-sm outline-none transition-colors',
               'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
@@ -114,7 +114,14 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(
             )}
             {...rest}
           >
-            <CalendarDays className="text-muted-foreground size-4 shrink-0" />
+            <CalendarDays
+              className={cn(
+                'size-4 shrink-0 transition-colors',
+                isOpen
+                  ? 'text-primary'
+                  : 'text-muted-foreground group-hover:text-primary group-focus-visible:text-primary'
+              )}
+            />
             <span className="min-w-0 flex-1 truncate pl-2 pr-6">
               {formattedValue || <span className="opacity-0">{label}</span>}
             </span>
