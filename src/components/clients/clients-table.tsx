@@ -10,7 +10,7 @@ import { ClientForm } from '@/components/clients/client-form';
 import { getClients } from '@/actions/clients';
 import { CLIENTS_PAGE_SIZE } from '@/constants/pagination';
 import { useInfiniteList } from '@/hooks/use-infinite-list';
-import { useRequireVerifiedEmail } from '@/hooks/use-require-verified-email';
+import { useRequireVerifiedEmail } from '@/components/providers/email-verification/email-verification.hook';
 import type { ClientListItem } from '@/types/clients';
 import { AnimateIn } from '../ui/feedback/animate-in';
 import { FilterCard } from '../ui/data/filter-card';

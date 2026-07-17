@@ -17,14 +17,19 @@ import { DetailItem } from '@/components/ui/data/detail-item';
 import { SectionCard } from '@/components/ui/data/section-card';
 import { getOrder } from '@/actions/orders';
 import type { Route } from 'next';
+import { RETURN_TO } from '@/constants/navigation';
+import { getBackLink } from '@/utils/navigation';
 
 type OrderPageProps = {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ [RETURN_TO]?: string | string[] }>;
 };
 
 export default async function OrderPage(props: OrderPageProps) {
-  const { params } = props;
+  const { params, searchParams } = props;
   const { id } = await params;
+  const query = await searchParams;
+  const backLink = getBackLink(query[RETURN_TO], '/orders');
 
   const order = await getOrder(id);
   if (!order) notFound();
@@ -39,7 +44,7 @@ export default async function OrderPage(props: OrderPageProps) {
         title={order.title}
         description={`Заказ · ${order.clientName}`}
         showIcon={false}
-        backLink={{ href: '/orders', label: 'заказам' }}
+        backLink={{ href: backLink, label: 'заказам' }}
       />
 
       <AnimateIn className="space-y-6">
@@ -66,7 +71,10 @@ export default async function OrderPage(props: OrderPageProps) {
               >
                 <span className="flex items-center justify-end">
                   {order.clientName}
-                  <Link href={`/clients/${order.clientId}`}>
+                  <Link
+                    href={`/clients/${order.clientId}?${RETURN_TO}=/orders/${order.id}`}
+                    className="ml-2 shrink-0"
+                  >
                     <Button
                       mode="icon"
                       variant="ghost"

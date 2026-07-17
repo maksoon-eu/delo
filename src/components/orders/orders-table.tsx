@@ -13,7 +13,7 @@ import { OrderForm } from '@/components/orders/order-form';
 import { getOrders } from '@/actions/orders';
 import { ORDERS_PAGE_SIZE } from '@/constants/pagination';
 import { useInfiniteList } from '@/hooks/use-infinite-list';
-import { useRequireVerifiedEmail } from '@/hooks/use-require-verified-email';
+import { useRequireVerifiedEmail } from '@/components/providers/email-verification/email-verification.hook';
 import type { OrderListItem } from '@/types/orders';
 import { OrderStatus } from '@prisma/client';
 import { ORDERS_TABLE_COLUMNS, ORDER_STATUS_FILTER_OPTIONS } from './constants';

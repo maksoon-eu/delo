@@ -13,7 +13,7 @@ import {
   FormCombobox,
   type FormComboboxLoadOptionsParams,
 } from '@/components/ui/form/fields/form-combobox';
-import { useRequireVerifiedEmail } from '@/hooks/use-require-verified-email';
+import { useRequireVerifiedEmail } from '@/components/providers/email-verification/email-verification.hook';
 import type { SelectOption } from '@/types/forms';
 
 type ClientOption = { id: string; name: string };
