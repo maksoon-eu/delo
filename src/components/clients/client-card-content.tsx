@@ -37,7 +37,7 @@ export function ClientCardContent(props: ClientCardContentProps) {
           <EmptyList items={client.orders} message="Заказов пока нет">
             <div className="space-y-2">
               {client.orders.map((order) => (
-                <ClientOrderItem key={order.id} order={order} />
+                <ClientOrderItem key={order.id} order={order} clientId={client.id} />
               ))}
             </div>
           </EmptyList>

@@ -1,5 +1,6 @@
 export const ROOT_ROUTE = '/';
 export const LOGIN_ROUTE = '/login';
+export const INVALID_SESSION_ROUTE = '/api/auth/invalid-session';
 
 export const AUTH_ROUTES = ['/login', '/register', '/forgot-password', '/reset-password'] as const;
 

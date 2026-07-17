@@ -2,8 +2,8 @@
 
 import { useContext } from 'react';
 import { toast } from 'sonner';
-import { EmailVerificationContext } from '@/components/auth/email-verification-provider';
 import { EMAIL_VERIFICATION_REQUIRED_MESSAGE } from '@/constants/auth';
+import { EmailVerificationContext } from './email-verification.context';
 
 export function useRequireVerifiedEmail() {
   const emailVerified = useContext(EmailVerificationContext);

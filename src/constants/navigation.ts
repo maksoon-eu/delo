@@ -6,6 +6,8 @@ import { UserIcon } from '@/components/icons/user';
 import { UsersIcon } from '@/components/icons/users';
 import { XIcon } from '@/components/icons/x';
 
+export const RETURN_TO = 'returnTo' as const;
+
 export const NAV_ITEMS: Record<NavItemKey, NavItem> = {
   main: {
     href: '/',

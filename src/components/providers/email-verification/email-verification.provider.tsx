@@ -1,8 +1,7 @@
 'use client';
 
-import { createContext, type ReactNode } from 'react';
-
-export const EmailVerificationContext = createContext(false);
+import type { ReactNode } from 'react';
+import { EmailVerificationContext } from './email-verification.context';
 
 type EmailVerificationProviderProps = {
   children: ReactNode;

@@ -2,17 +2,19 @@ import Link from 'next/link';
 import { ORDER_STATUS_LABELS } from '@/constants/orders';
 import { formatDate, formatPrice } from '@/utils/format';
 import type { ClientOrderSummary } from '@/types/clients';
+import { RETURN_TO } from '@/constants/navigation';
 
 type ClientOrderItemProps = {
   order: ClientOrderSummary;
+  clientId: string;
 };
 
 export function ClientOrderItem(props: ClientOrderItemProps) {
-  const { order } = props;
+  const { order, clientId } = props;
 
   return (
     <Link
-      href={`/orders/${order.id}`}
+      href={`/orders/${order.id}?${RETURN_TO}=/clients/${clientId}`}
       className="bg-muted/40 hover:bg-muted focus-visible:ring-ring block rounded-lg px-3 py-2 outline-none transition-colors focus-visible:ring-2"
     >
       <div className="flex items-center justify-between gap-2">
