@@ -1,131 +1,73 @@
 # Delo
 
-Веб-сервис для самозанятых и фрилансеров. Помогает вести клиента, заказ, согласование, оплату и документы в одном месте — убирает хаос из чатов и снижает риск споров.
+<p align="center">
+  <img src="./assets/readme/hero.svg" width="100%" alt="Delo собирает условия заказа, согласование с клиентом, оплату и документы в одном рабочем процессе">
+</p>
 
-## Что умеет
+**Delo** — веб-сервис для самозанятых и фрилансеров. Он связывает клиента, условия заказа, согласование, оплаты и документы, чтобы договорённости не терялись в чатах.
 
-- Создавать клиентов и заказы
-- Фиксировать состав работ, цену и сроки
-- Отправлять клиенту публичную страницу заказа по ссылке
-- Получать подтверждение условий от клиента
-- Отмечать оплаты вручную
-- Генерировать договор и акт выполненных работ в PDF
-- Вести историю действий по каждому заказу
+## Как проходит заказ
 
-## Стек
+| Этап              | Результат                                                    |
+| ----------------- | ------------------------------------------------------------ |
+| **Клиент**        | Контакты, реквизиты и заметки сохранены в одной карточке.    |
+| **Условия**       | Зафиксированы работы, стоимость, дата начала и дедлайн.      |
+| **Согласование**  | Клиент открывает персональную ссылку и подтверждает условия. |
+| **Исполнение**    | Заказ проходит статусы от черновика до завершения.           |
+| **Оплата и файл** | Исполнитель отмечает платежи и прикрепляет PDF к заказу.     |
 
-| Слой        | Технология               |
-| ----------- | ------------------------ |
-| Framework   | Next.js 16 (App Router)  |
-| Язык        | TypeScript               |
-| Стили       | Tailwind CSS + shadcn/ui |
-| БД          | PostgreSQL + Prisma      |
-| Auth        | Auth.js v5 (NextAuth)    |
-| Валидация   | Zod + react-hook-form    |
-| Email       | Mailpit local + Resend   |
-| PDF         | @react-pdf/renderer      |
-| Таблицы     | @tanstack/react-table    |
-| Уведомления | Sonner                   |
-| Деплой      | Vercel + Neon            |
+## Что умеет Delo
+
+- искать и фильтровать клиентов и заказы с постепенной подгрузкой списка;
+- показывать клиенту публичную страницу без регистрации;
+- фиксировать частичные и полные оплаты;
+- загружать, скачивать и удалять PDF-документы;
+- вести ленту создания заказа, смены статусов и оплат;
+- отправлять письма подтверждения и восстановления доступа.
 
 ## Быстрый старт
 
-### 1. Установить зависимости
+Для запуска понадобятся Node.js с npm и доступный PostgreSQL. Docker используется для локальной почты и S3-совместимого хранилища.
 
 ```bash
 npm install
-```
-
-### 2. Настроить переменные окружения
-
-Скопируй `.env.example` и заполни значения:
-
-```bash
 cp .env.example .env.local
+openssl rand -base64 32
 ```
 
-```env
-DATABASE_URL="postgresql://user:password@localhost:5432/delo"
-AUTH_SECRET="your-secret"
-EMAIL_FROM="Delo <noreply@delo.local>"
-SMTP_HOST="localhost"
-SMTP_PORT="1025"
-NEXT_PUBLIC_APP_URL="http://localhost:3000"
-```
-
-### 3. Запустить локальную почту
-
-В локальном окружении `APP_ENV=local` письма отправляются в Mailpit:
+Укажите подключение к базе в `DATABASE_URL`, а результат `openssl` сохраните в `AUTH_SECRET`. Затем запустите локальные сервисы, примените миграции и откройте приложение:
 
 ```bash
-npm run mailpit:up
-```
-
-SMTP доступен на `localhost:1025`, интерфейс писем — [http://localhost:8025](http://localhost:8025).
-
-### 4. Применить миграции БД
-
-```bash
+npm run docker:up
 npx prisma migrate dev
-```
-
-### 5. Запустить dev-сервер
-
-```bash
 npm run dev
 ```
 
-Открыть [http://localhost:3000](http://localhost:3000)
+- приложение — [http://localhost:3000](http://localhost:3000);
+- письма Mailpit — [http://localhost:8025](http://localhost:8025);
+- консоль MinIO — [http://localhost:9001](http://localhost:9001).
 
 ## Команды
 
-```bash
-npm run dev            # dev-сервер
-npm run build          # production сборка
-npm run mailpit:up     # локальная почта Mailpit
-npm run lint           # ESLint
-npm run format         # Prettier (запись)
-npm run format:check   # Prettier (проверка)
-npx prisma studio      # GUI для базы данных
-npx prisma migrate dev --name <name>  # новая миграция
-```
+| Команда                                   | Назначение                            |
+| ----------------------------------------- | ------------------------------------- |
+| `npm run dev`                             | Локальный сервер разработки           |
+| `npm run build`                           | Production-сборка                     |
+| `npm run migrate`                         | Применить готовые миграции            |
+| `npm run migrate:create -- --name <name>` | Создать SQL-миграцию без применения   |
+| `npm run docker:up`                       | Запустить Mailpit и MinIO             |
+| `npm run docker:down`                     | Остановить локальные сервисы          |
+| `npm run lint`                            | Проверить ESLint                      |
+| `npm run typecheck`                       | Проверить TypeScript                  |
+| `npm run format`                          | Отформатировать проект через Prettier |
+| `npm run format:check`                    | Проверить форматирование              |
 
-## Структура проекта
+## Архитектура и стек
 
-```
-src/
-├── app/
-│   ├── (auth)/           # /login, /register
-│   ├── (dashboard)/      # защищённый кабинет
-│   │   ├── page.tsx      # дашборд
-│   │   ├── clients/      # клиенты
-│   │   └── orders/       # заказы
-│   ├── order/[token]/    # публичная страница заказа для клиента
-│   └── api/              # NextAuth, скачивание PDF
-├── assets/
-│   ├── fonts/
-│   ├── images/
-│   └── styles/
-│       └── globals.css
-├── actions/              # Server Actions
-├── components/
-│   ├── ui/               # shadcn/ui
-│   ├── layout/
-│   ├── clients/
-│   ├── orders/
-│   └── public/
-├── config/               # auth, db, env
-├── utils/                # reusable helpers
-└── types/
-prisma/
-└── schema.prisma
-```
+Интерфейс построен на Next.js 16, React 19, TypeScript, Tailwind CSS 4 и shadcn/ui. Server Components загружают данные, Server Actions выполняют мутации, а Zod проверяет входные значения.
 
-## Ветки
+PostgreSQL работает через Prisma 7, авторизация — через Auth.js v5, файлы — через S3 или MinIO, письма — через Resend либо локальный Mailpit.
 
-| Ветка  | Назначение |
-| ------ | ---------- |
-| `main` | production |
-| `dev`  | разработка |
+## Лицензия
 
-Фичи разрабатываются в отдельных ветках от `dev`, мёрджатся в `dev`, затем в `main` при релизе.
+Проект распространяется по лицензии [MIT](./LICENSE).
