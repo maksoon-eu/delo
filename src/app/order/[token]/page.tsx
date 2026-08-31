@@ -1,9 +1,9 @@
 import { getPublicOrder } from '@/actions/get-public-order';
-import { OrderHero } from '@/components/public/order-hero';
-import { OrderItemsSection } from '@/components/public/order-items-section';
-import { OrderStatusProgress } from '@/components/public/order-status-progress';
-import { PaymentInfoSection } from '@/components/public/payment-info-section';
-import { WorkTermsSection } from '@/components/public/work-terms-section';
+import { OrderHero } from '@/components/features/order/order-hero';
+import { OrderItemsSection } from '@/components/features/order/order-items-section';
+import { OrderStatusProgress } from '@/components/features/order/order-status-progress';
+import { PaymentInfoSection } from '@/components/features/order/payment-info-section';
+import { WorkTermsSection } from '@/components/features/order/work-terms-section';
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
 
 type PublicOrderPageProps = {

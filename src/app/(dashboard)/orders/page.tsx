@@ -1,5 +1,5 @@
 import { ORDERS_PAGE_SIZE } from '@/constants/pagination';
-import { OrdersTable } from '@/components/orders/orders-table';
+import { OrdersTable } from '@/components/features/orders/orders-table';
 import { getOrders } from '@/actions/orders';
 import { OrderStatus } from '@prisma/client';
 

@@ -2,10 +2,10 @@ import NextAuth from 'next-auth';
 import { authConfig } from '@/config/auth-options';
 import {
   AUTH_ROUTES,
+  DASHBOARD_ROUTE,
   LOGIN_ROUTE,
   PROTECTED_ROUTES,
   PUBLIC_ROUTES,
-  ROOT_ROUTE,
 } from '@/constants/routes';
 import { NextResponse } from 'next/server';
 
@@ -26,7 +26,7 @@ export default auth((req) => {
   if (isPublicPage) return NextResponse.next();
 
   if (isAuthPage) {
-    if (isLoggedIn) return NextResponse.redirect(new URL(ROOT_ROUTE, req.nextUrl));
+    if (isLoggedIn) return NextResponse.redirect(new URL(DASHBOARD_ROUTE, req.nextUrl));
     return NextResponse.next();
   }
 

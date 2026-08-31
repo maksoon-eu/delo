@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { FileQuestion } from 'lucide-react';
 import { HomeIcon } from '@/components/icons/home';
-import { PublicHeader } from '@/components/public/public-header';
+import { PublicHeader } from '@/components/features/order/public-header';
 import { Button } from '@/components/ui/actions/button';
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
 

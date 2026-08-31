@@ -5,12 +5,13 @@ import { TrendingUpIcon } from '@/components/icons/trending-up';
 import { UserIcon } from '@/components/icons/user';
 import { UsersIcon } from '@/components/icons/users';
 import { XIcon } from '@/components/icons/x';
+import { DASHBOARD_ROUTE, PROFILE_ROUTE } from '@/constants/routes';
 
 export const RETURN_TO = 'returnTo' as const;
 
 export const NAV_ITEMS: Record<NavItemKey, NavItem> = {
   main: {
-    href: '/',
+    href: DASHBOARD_ROUTE,
     label: 'Главная',
     description: 'Обзор ключевых показателей и последних активностей',
     Icon: HomeIcon,
@@ -35,7 +36,7 @@ export const NAV_ITEMS: Record<NavItemKey, NavItem> = {
     Icon: TrendingUpIcon,
   },
   profile: {
-    href: '/profile',
+    href: PROFILE_ROUTE,
     label: 'Профиль',
     description: 'Настройки профиля, реквизиты и подтверждение email',
     Icon: UserIcon,

@@ -1,5 +1,6 @@
 import { ClipboardList, UsersRound, WalletCards } from 'lucide-react';
 import type { AuthFeature, AuthPanelContent, AuthPanelSegment, AuthTab } from '@/types/auth';
+import { LOGIN_ROUTE } from '@/constants/routes';
 
 export const LEGAL_CONSENT_VERSION = '2026-07-06';
 
@@ -12,7 +13,7 @@ export const EMAIL_VERIFICATION_REQUIRED_MESSAGE =
   'Подтвердите email в профиле, чтобы выполнять это действие';
 
 export const AUTH_TABS: AuthTab[] = [
-  { id: 'login', label: 'Войти', href: '/login' },
+  { id: 'login', label: 'Войти', href: LOGIN_ROUTE },
   { id: 'register', label: 'Регистрация', href: '/register' },
 ];
 

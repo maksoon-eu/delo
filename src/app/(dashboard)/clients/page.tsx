@@ -1,5 +1,5 @@
 import { CLIENTS_PAGE_SIZE } from '@/constants/pagination';
-import { ClientsTable } from '@/components/clients/clients-table';
+import { ClientsTable } from '@/components/features/clients/clients-table';
 import { getClients } from '@/actions/clients';
 
 type ClientsPageProps = {
