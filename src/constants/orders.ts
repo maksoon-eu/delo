@@ -59,14 +59,6 @@ export const ORDER_STATUS_TRANSITIONS: Record<OrderStatus, OrderStatus[]> = {
 
 export const ORDER_FINAL_STATUSES = [OrderStatus.COMPLETED, OrderStatus.CANCELLED] as const;
 
-export const ORDER_STATUS_ACTIVITY_MESSAGES: Record<string, string> = {
-  SENT: 'Заказ переведён на проверку',
-  CONFIRMED: 'Клиент подтвердил условия',
-  IN_PROGRESS: 'Заказ взят в работу',
-  COMPLETED: 'Заказ завершён',
-  CANCELLED: 'Заказ отменён',
-};
-
 export const ORDER_STATUS_STATIC_ICONS: Record<OrderStatus, LucideIcon> = {
   DRAFT: FileText,
   SENT: Eye,

@@ -215,7 +215,6 @@ model Activity {
   id        String       @id @default(cuid())
   orderId   String
   type      ActivityType
-  text      String
   createdAt DateTime     @default(now())
 
   order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)

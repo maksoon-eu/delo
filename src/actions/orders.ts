@@ -7,7 +7,7 @@ import { getDocumentFileName } from '@/utils/document-file';
 import { getVerifiedSession } from '@/utils/verification';
 import { getValidationErrorMessage } from '@/utils/validation';
 import { OrderSchema, type OrderInput } from '@/schemas/orders';
-import { ORDER_STATUS_ACTIVITY_MESSAGES, ORDER_STATUS_TRANSITIONS } from '@/constants/orders';
+import { ORDER_STATUS_TRANSITIONS } from '@/constants/orders';
 import type { OrderDetails, OrderListItem } from '@/types/orders';
 import type { OrderStatus, Prisma } from '@prisma/client';
 import { notFound } from 'next/navigation';
@@ -122,7 +122,6 @@ export async function getOrder(id: string): Promise<OrderDetails | null> {
     activities: order.activities.map((a) => ({
       id: a.id,
       type: a.type,
-      text: a.text,
       createdAt: a.createdAt,
     })),
   };
@@ -176,7 +175,7 @@ export async function createOrder(data: OrderInput): Promise<{ error: string } |
         })),
       },
       activities: {
-        create: { type: 'DRAFT', text: 'Заказ создан' },
+        create: { type: 'DRAFT' },
       },
     },
   });
@@ -252,7 +251,6 @@ export async function updateOrderStatus(
       data: {
         orderId: id,
         type: newStatus,
-        text: ORDER_STATUS_ACTIVITY_MESSAGES[newStatus] ?? `Статус изменён на ${newStatus}`,
       },
     }),
   ]);
@@ -292,7 +290,6 @@ export async function confirmOrderByClient(token: string): Promise<{ error?: str
       data: {
         orderId: order.id,
         type: 'CONFIRMED',
-        text: 'Клиент подтвердил условия',
       },
     }),
   ]);

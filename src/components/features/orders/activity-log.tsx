@@ -1,7 +1,7 @@
 'use client';
 
 import { EmptyList } from '@/components/ui/feedback/empty-list';
-import { ACTIVITY_TYPE_ICONS } from '@/constants/activity';
+import { ACTIVITY_TYPE_ICONS, ACTIVITY_TYPE_LABELS } from '@/constants/activity';
 import { formatDate } from '@/utils/format';
 import type { ActivityEntry } from '@/types/payments';
 
@@ -39,15 +39,13 @@ export function ActivityLog(props: ActivityLogProps) {
             <tbody className="divide-border divide-y">
               {activities.map((activity) => {
                 const Icon = ACTIVITY_TYPE_ICONS[activity.type];
-                const text =
-                  activity.type === 'PAYMENT' ? activity.text.split(' — ')[0] : activity.text;
 
                 return (
                   <tr key={activity.id}>
                     <td className="py-3 text-sm font-normal">
                       <div className="flex items-center gap-3">
                         <Icon className="text-muted-foreground shrink-0" size={16} />
-                        <span>{text}</span>
+                        <span>{ACTIVITY_TYPE_LABELS[activity.type]}</span>
                       </div>
                     </td>
                     <td className="text-muted-foreground py-3 text-right text-xs font-bold">
