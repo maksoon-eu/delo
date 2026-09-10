@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { PublicHeader } from '@/components/public/public-header';
+import { PublicHeader } from '@/components/features/order/public-header';
 
 export default function PublicOrderLayout(props: { children: ReactNode }) {
   const { children } = props;

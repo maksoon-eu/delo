@@ -3,9 +3,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useTheme } from 'next-themes';
-import type { Route } from 'next';
 import { useIsClient } from '@/hooks/use-is-client';
+import { useThemeToggle } from '@/hooks/use-theme-toggle';
 import { useAsyncAction } from '@/hooks/use-async-action';
 import { Button } from '@/components/ui/actions/button';
 import { PageHeader } from '@/components/layout/page-header';
@@ -14,6 +13,7 @@ import { MoonIcon } from '@/components/icons/moon';
 import { LogoutIcon } from '@/components/icons/logout';
 import { logoutUser } from '@/actions/auth';
 import { getInitials, getProfileImageUrl } from '@/utils/profile';
+import { LOGIN_ROUTE, PROFILE_ROUTE } from '@/constants/routes';
 
 type TopBarProps = {
   userName: string;
@@ -23,19 +23,14 @@ type TopBarProps = {
 export function TopBar(props: TopBarProps) {
   const { userName, userImage } = props;
   const router = useRouter();
-  const { resolvedTheme, setTheme } = useTheme();
+  const { isDark, toggleTheme } = useThemeToggle();
   const isClient = useIsClient();
-  const isDark = resolvedTheme === 'dark';
   const initials = getInitials(userName);
   const userImageUrl = getProfileImageUrl(userImage);
 
-  const toggleTheme = () => {
-    setTheme(isDark ? 'light' : 'dark');
-  };
-
   async function handleLogout() {
     await logoutUser();
-    router.push('/login');
+    router.push(LOGIN_ROUTE);
     router.refresh();
   }
 
@@ -55,7 +50,7 @@ export function TopBar(props: TopBarProps) {
           />
         )}
         <Link
-          href={'/profile' as Route}
+          href={PROFILE_ROUTE}
           className="hover:bg-muted flex items-center gap-3 rounded-lg px-2 py-1.5 transition-colors"
         >
           <div className="hidden flex-col items-end leading-none sm:flex">

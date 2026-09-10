@@ -1,10 +1,11 @@
 import type { NextAuthConfig } from 'next-auth';
+import { LOGIN_ROUTE } from '@/constants/routes';
 
 export const authConfig = {
   providers: [],
   session: { strategy: 'jwt' },
   pages: {
-    signIn: '/login',
+    signIn: LOGIN_ROUTE,
   },
   callbacks: {
     jwt({ token, user }) {

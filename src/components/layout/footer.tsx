@@ -1,18 +1,56 @@
 import Link from 'next/link';
-import { LEGAL_PRIVACY_PATH, LEGAL_TERMS_PATH } from '@/constants/legal';
+import { LEGAL_CONTACT_EMAIL, LEGAL_PRIVACY_PATH, LEGAL_TERMS_PATH } from '@/constants/legal';
 
 export function Footer() {
   return (
-    <footer className="border-border mt-auto border-t py-6">
-      <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 sm:flex-row">
-        <p className="text-muted-foreground text-sm">© {new Date().getFullYear()} Дело</p>
-        <div className="text-muted-foreground flex flex-wrap justify-center gap-4 text-sm sm:gap-6">
-          <Link href={LEGAL_PRIVACY_PATH} className="hover:text-foreground transition-colors">
-            Политика конфиденциальности
-          </Link>
-          <Link href={LEGAL_TERMS_PATH} className="hover:text-foreground transition-colors">
-            Условия использования
-          </Link>
+    <footer className="border-border bg-background mt-auto border-t pb-10 pt-16">
+      <div className="mx-auto w-full max-w-7xl px-6">
+        <div className="flex flex-col justify-between gap-12 md:flex-row">
+          <div className="max-w-80">
+            <div className="flex items-center gap-3">
+              <span className="bg-primary text-primary-foreground grid size-8 place-items-center rounded-lg text-[17px] font-extrabold">
+                D
+              </span>
+              <span className="font-display text-[19px] font-extrabold">Delo</span>
+            </div>
+            <p className="text-muted-foreground mt-4 text-sm leading-[1.55]">
+              Контроль сделок, фиксация договорённостей и документы для фрилансеров.
+            </p>
+          </div>
+
+          <nav aria-label="Документы и контакты">
+            <div>
+              <p className="text-muted-foreground font-mono text-[11px] uppercase tracking-[0.18em]">
+                Документы
+              </p>
+              <ul className="text-muted-foreground mt-4 space-y-2.5 text-sm">
+                <li>
+                  <Link
+                    href={LEGAL_PRIVACY_PATH}
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Политика конфиденциальности
+                  </Link>
+                </li>
+                <li>
+                  <Link href={LEGAL_TERMS_PATH} className="hover:text-foreground transition-colors">
+                    Условия использования
+                  </Link>
+                </li>
+              </ul>
+              <a
+                href={`mailto:${LEGAL_CONTACT_EMAIL}`}
+                className="text-muted-foreground hover:text-foreground mt-5 block text-sm transition-colors"
+              >
+                {LEGAL_CONTACT_EMAIL}
+              </a>
+            </div>
+          </nav>
+        </div>
+
+        <div className="border-border text-muted-foreground mt-14 flex flex-col justify-between gap-3 border-t pt-6 text-[13px] sm:flex-row">
+          <span>© {new Date().getFullYear()} Delo. Все права защищены.</span>
+          <span>Сделано для фрилансеров с любовью 💜</span>
         </div>
       </div>
     </footer>

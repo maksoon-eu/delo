@@ -14,6 +14,7 @@ import {
   PROFILE_IMAGE_EXTENSION_BY_TYPE,
   PROFILE_IMAGE_MAX_BYTES,
 } from '@/constants/profile';
+import { DASHBOARD_ROUTE, PROFILE_ROUTE } from '@/constants/routes';
 import type { UploadProfileImageResult, UserProfile } from '@/types/profile';
 
 export async function getProfile(): Promise<UserProfile | null> {
@@ -49,8 +50,8 @@ export async function updateProfile(data: ProfileInput): Promise<{ error?: strin
     },
   });
 
-  revalidatePath('/profile');
-  revalidatePath('/');
+  revalidatePath(PROFILE_ROUTE);
+  revalidatePath(DASHBOARD_ROUTE);
   return {};
 }
 
@@ -95,8 +96,8 @@ export async function uploadProfileImage(formData: FormData): Promise<UploadProf
     return { error: 'Не удалось обновить фото профиля' };
   }
 
-  revalidatePath('/profile');
-  revalidatePath('/');
+  revalidatePath(PROFILE_ROUTE);
+  revalidatePath(DASHBOARD_ROUTE);
 
   return { image: key };
 }
@@ -124,8 +125,8 @@ export async function deleteProfileImage(): Promise<{ error?: string }> {
     return { error: 'Не удалось удалить фото профиля' };
   }
 
-  revalidatePath('/profile');
-  revalidatePath('/');
+  revalidatePath(PROFILE_ROUTE);
+  revalidatePath(DASHBOARD_ROUTE);
 
   return {};
 }

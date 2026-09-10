@@ -117,6 +117,7 @@ src/
 ### Next.js 16 breaking changes
 
 - **Middleware переименован в Proxy**: файл `middleware.ts` → `proxy.ts`, именованный экспорт `export function middleware` → `export function proxy`. Default export работает без переименования.
+- Перед `tsc --noEmit` всегда запускать `next typegen`: `next-env.d.ts` не хранится в Git, а на чистом CI без него TypeScript не распознаёт статические импорты изображений и другие типы Next.js. Проектный `npm run typecheck` уже включает оба шага.
 - **`turbopack.root`** в `next.config.ts` — обязателен при наличии нескольких lockfile-ов в родительских директориях, иначе Next.js выбирает неверный workspace root.
 - В Proxy можно иметь только один `proxy.ts`, но логику и конфиги можно выносить в отдельные модули и импортировать в него.
 - `config.matcher` в `proxy.ts` должен быть inline-константой, статически анализируемой Next.js; не выносить matcher в импортированные переменные.

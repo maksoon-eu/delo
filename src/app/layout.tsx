@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Geist_Mono, Inter } from 'next/font/google';
+import { Geist_Mono, Inter, Outfit } from 'next/font/google';
 import '@/styles/globals.css';
 import { ThemeProvider } from '@/components/providers/theme/theme.provider';
 import { Toaster } from '@/components/ui/feedback/sonner';
@@ -21,6 +21,11 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
+const outfit = Outfit({
+  variable: '--font-outfit',
+  subsets: ['latin'],
+});
+
 export const metadata: Metadata = {
   title: 'Delo',
   description: 'Управляй клиентами, заказами и документами в одном месте',
@@ -31,7 +36,7 @@ export default function RootLayout(props: Readonly<{ children: ReactNode }>) {
   return (
     <html
       lang="ru"
-      className={`${inter.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${inter.variable} ${geistMono.variable} ${outfit.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <body className="bg-background text-foreground flex min-h-full flex-col">

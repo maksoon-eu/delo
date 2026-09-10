@@ -1,4 +1,4 @@
-import { VerifyEmailContent } from '@/components/auth/verify-email-content';
+import { VerifyEmailContent } from '@/components/features/auth/verify-email-content';
 
 type VerifyEmailPageProps = {
   searchParams: Promise<{ token?: string }>;

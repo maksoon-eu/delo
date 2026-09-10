@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation';
 import { PageHeader } from '@/components/layout/page-header';
 import { AnimateIn } from '@/components/ui/feedback/animate-in';
-import { EditOrderPageContent } from '@/components/orders/edit-order-page-content';
-import { orderToFormValues } from '@/components/orders/constants';
+import { EditOrderPageContent } from '@/components/features/orders/edit-order-page-content';
+import { orderToFormValues } from '@/components/features/orders/constants';
 import { getOrder } from '@/actions/orders';
 import { RETURN_TO } from '@/constants/navigation';
 import { getBackLink } from '@/utils/navigation';

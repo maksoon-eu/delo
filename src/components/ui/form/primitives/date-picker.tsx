@@ -160,7 +160,7 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(
                   onClick={handlePreviousMonth}
                 />
 
-                <div className="space-y-1 text-center">
+                <div className="text-center">
                   <p className="text-xl font-semibold tracking-tight">
                     {format(displayMonth, 'yyyy', { locale: ru })}
                   </p>
@@ -179,7 +179,7 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(
                 />
               </div>
 
-              <div className="mt-6 grid grid-cols-7 gap-2 text-center text-xs font-medium">
+              <div className="mt-3 grid grid-cols-7 gap-2 text-center text-xs font-medium">
                 {WEEKDAY_LABELS.map((weekday, index) => (
                   <span key={`${weekday}-${index}`} className="text-muted-foreground py-1">
                     {weekday}
@@ -187,7 +187,7 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(
                 ))}
               </div>
 
-              <div className="mt-2 grid grid-cols-7 gap-2">
+              <div className="grid grid-cols-7 gap-1.5">
                 {calendarDays.map((day) => {
                   const isCurrentMonth = isSameMonth(day, displayMonth);
                   const isSelected = selectedDate ? isSameDay(day, selectedDate) : false;
