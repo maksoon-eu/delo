@@ -9,7 +9,7 @@
     "migrate:create": "prisma migrate dev --create-only",
     "docker:up": "docker compose -f docker/docker-compose.yml up -d",
     "docker:down": "docker compose -f docker/docker-compose.yml down",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "next typegen && tsc --noEmit",
     "lint": "eslint",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
