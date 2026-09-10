@@ -6,7 +6,7 @@ import { SunIcon } from '@/components/icons/sun';
 import { MoonIcon } from '@/components/icons/moon';
 import { useIsClient } from '@/hooks/use-is-client';
 import { useThemeToggle } from '@/hooks/use-theme-toggle';
-import { LOGIN_ROUTE, ROOT_ROUTE } from '@/constants/routes';
+import { ROOT_ROUTE } from '@/constants/routes';
 import { LANDING_NAV_ITEMS } from '@/constants/landing';
 
 export function LandingHeader() {
@@ -38,14 +38,6 @@ export function LandingHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Button
-            render={<Link href={LOGIN_ROUTE} />}
-            nativeButton={false}
-            variant="ghost"
-            className="hidden rounded-full px-4 sm:inline-flex"
-          >
-            Войти
-          </Button>
           {isClient && (
             <Button
               Icon={isDark ? SunIcon : MoonIcon}
