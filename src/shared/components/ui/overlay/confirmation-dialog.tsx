@@ -39,7 +39,7 @@ export function ConfirmationDialog(props: ConfirmationDialogProps) {
       <Dialog.Portal>
         <Dialog.Backdrop className="data-closed:animate-out data-closed:fade-out-0 data-open:animate-in data-open:fade-in-0 z-60 fixed inset-0 bg-black/40 backdrop-blur-sm duration-200" />
         <Dialog.Viewport className="z-60 fixed inset-0 flex items-center justify-center p-4">
-          <Dialog.Popup className="border-border bg-card data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 max-w-110 flex w-full flex-col items-center gap-6 rounded-2xl border p-8 shadow-xl outline-none duration-200">
+          <Dialog.Popup className="border-border bg-surface data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 max-w-110 flex w-full flex-col items-center gap-6 rounded-2xl border p-8 shadow-xl outline-none duration-200">
             {Icon && (
               <div
                 className={cn(

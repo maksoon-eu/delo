@@ -41,8 +41,8 @@ export function FormTextarea<T extends FieldValues>(props: FormTextareaProps<T>)
             <FormLabel
               className={cn(
                 'text-muted-foreground pointer-events-none absolute left-3 top-2.5 text-sm font-normal transition-[top,left,transform,padding,background-color,color,font-size] duration-200',
-                'peer-focus:bg-card peer-focus:text-primary peer-focus:left-2.5 peer-focus:top-0 peer-focus:translate-y-[-50%] peer-focus:px-1 peer-focus:text-xs',
-                'peer-[:not(:placeholder-shown)]:bg-card peer-[:not(:placeholder-shown)]:text-muted-foreground peer-[:not(:placeholder-shown)]:left-2.5 peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:translate-y-[-50%] peer-[:not(:placeholder-shown)]:px-1 peer-[:not(:placeholder-shown)]:text-xs',
+                'peer-focus:bg-surface peer-focus:text-primary peer-focus:left-2.5 peer-focus:top-0 peer-focus:translate-y-[-50%] peer-focus:px-1 peer-focus:text-xs',
+                'peer-[:not(:placeholder-shown)]:bg-surface peer-[:not(:placeholder-shown)]:text-muted-foreground peer-[:not(:placeholder-shown)]:left-2.5 peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:translate-y-[-50%] peer-[:not(:placeholder-shown)]:px-1 peer-[:not(:placeholder-shown)]:text-xs',
                 'peer-[:focus:not(:placeholder-shown)]:text-primary'
               )}
             >

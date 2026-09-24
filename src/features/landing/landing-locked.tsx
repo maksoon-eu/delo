@@ -31,7 +31,7 @@ export function LandingLocked() {
         </div>
 
         <div className="landing-shot-glow relative mx-auto mt-14 max-w-[880px]">
-          <div className="landing-shot border-border bg-card relative overflow-hidden rounded-2xl border shadow-[0_50px_100px_-40px_color-mix(in_oklab,var(--foreground)_55%,transparent)]">
+          <div className="landing-shot border-border bg-surface relative overflow-hidden rounded-2xl border shadow-[0_50px_100px_-40px_color-mix(in_oklab,var(--foreground)_55%,transparent)]">
             <Image
               src={orderDetailsImage}
               alt="Завершённый заказ с подтверждёнными условиями, полной оплатой и подписанным актом"

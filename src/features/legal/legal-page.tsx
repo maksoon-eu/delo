@@ -36,7 +36,7 @@ export function LegalPage(props: LegalPageProps) {
             </div>
           </header>
 
-          <div className="surface-shadow border-border bg-card/80 rounded-2xl border p-6 md:p-8">
+          <div className="surface-shadow border-border bg-surface/80 rounded-2xl border p-6 md:p-8">
             <div className="space-y-8">
               {sections.map((section) => (
                 <section key={section.title} className="space-y-3">

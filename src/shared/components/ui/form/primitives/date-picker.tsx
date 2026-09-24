@@ -131,7 +131,7 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(
             className={cn(
               'pointer-events-none absolute top-1/2 text-sm font-normal transition-[top,left,transform,padding,background-color,color] duration-200',
               isFloating
-                ? 'bg-card text-primary left-2.5 top-0 -translate-y-1/2 scale-[0.82] px-1'
+                ? 'bg-surface text-primary left-2.5 top-0 -translate-y-1/2 scale-[0.82] px-1'
                 : 'text-muted-foreground left-9 -translate-y-1/2'
             )}
           >

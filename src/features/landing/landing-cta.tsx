@@ -19,7 +19,7 @@ export function LandingCta(props: LandingCtaProps) {
     'h-12 rounded-full px-7 text-[15px] font-bold motion-reduce:hover:scale-100 motion-reduce:active:translate-y-0 motion-reduce:active:scale-100 motion-reduce:transition-none',
     variant === 'solid'
       ? 'shadow-lg shadow-primary/20'
-      : 'border-border bg-card/30 text-foreground hover:bg-card/70',
+      : 'border-border bg-surface/30 text-foreground hover:bg-surface/70',
     className
   );
 
