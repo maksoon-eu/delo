@@ -1,0 +1,19 @@
+'use client';
+
+import { useWatch, type Control } from 'react-hook-form';
+import { formatPrice } from '@/shared/utils/format';
+import type { OrderInput } from '@/shared/schemas/orders';
+
+type OrderTotalProps = { control: Control<OrderInput> };
+
+export function OrderTotal(props: OrderTotalProps) {
+  const { control } = props;
+  const items = useWatch({ control, name: 'items' });
+
+  const total = items.reduce((sum, item) => {
+    const price = item.price == null ? NaN : +item.price;
+    return Number.isFinite(price) ? sum + price : sum;
+  }, 0);
+
+  return <span className="text-muted-foreground text-sm">Итого: {formatPrice(total)}</span>;
+}

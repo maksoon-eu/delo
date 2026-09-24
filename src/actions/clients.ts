@@ -3,9 +3,9 @@
 import { revalidatePath } from 'next/cache';
 import { auth } from '@/config/auth';
 import { db } from '@/config/db';
-import { getVerifiedSession } from '@/utils/verification';
-import { getValidationErrorMessage } from '@/utils/validation';
-import { ClientSchema, type ClientInput } from '@/schemas/clients';
+import { getVerifiedSession } from '@/shared/utils/verification';
+import { getValidationErrorMessage } from '@/shared/utils/validation';
+import { ClientSchema, type ClientInput } from '@/shared/schemas/clients';
 import type { ClientDetails, ClientListItem } from '@/types/clients';
 import { Prisma } from '@prisma/client';
 

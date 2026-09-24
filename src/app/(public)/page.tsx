@@ -1,16 +1,16 @@
 import type { Metadata } from 'next';
-import { LandingHeader } from '@/components/features/landing/landing-header';
-import { LandingHero } from '@/components/features/landing/landing-hero';
-import { PainTicker } from '@/components/features/landing/pain-ticker';
-import { LandingFeatures } from '@/components/features/landing/landing-features';
-import { LandingSteps } from '@/components/features/landing/landing-steps';
-import { LandingLocked } from '@/components/features/landing/landing-locked';
-import { LandingMetrics } from '@/components/features/landing/landing-metrics';
-import { LandingAudience } from '@/components/features/landing/landing-audience';
-import { LandingCompare } from '@/components/features/landing/landing-compare';
-import { LandingFaq } from '@/components/features/landing/landing-faq';
-import { LandingFinalCta } from '@/components/features/landing/landing-final-cta';
-import { AnimateIn } from '@/components/ui/feedback/animate-in';
+import { LandingHeader } from '@/features/landing/landing-header';
+import { LandingHero } from '@/features/landing/landing-hero';
+import { PainTicker } from '@/features/landing/pain-ticker';
+import { LandingFeatures } from '@/features/landing/landing-features';
+import { LandingSteps } from '@/features/landing/landing-steps';
+import { LandingLocked } from '@/features/landing/landing-locked';
+import { LandingMetrics } from '@/features/landing/landing-metrics';
+import { LandingAudience } from '@/features/landing/landing-audience';
+import { LandingCompare } from '@/features/landing/landing-compare';
+import { LandingFaq } from '@/features/landing/landing-faq';
+import { LandingFinalCta } from '@/features/landing/landing-final-cta';
+import { AnimateIn } from '@/shared/components/ui/feedback/animate-in';
 
 export const metadata: Metadata = {
   title: 'Delo — заказы, оплаты и документы для фрилансеров',

@@ -1,11 +1,11 @@
 import { notFound } from 'next/navigation';
-import { PageHeader } from '@/components/layout/page-header';
-import { AnimateIn } from '@/components/ui/feedback/animate-in';
-import { EditOrderPageContent } from '@/components/features/orders/edit-order-page-content';
-import { orderToFormValues } from '@/components/features/orders/constants';
+import { PageHeader } from '@/shared/components/layout/page-header';
+import { AnimateIn } from '@/shared/components/ui/feedback/animate-in';
+import { EditOrderPageContent } from '@/features/orders/edit-order-page-content';
+import { orderToFormValues } from '@/features/orders/constants';
 import { getOrder } from '@/actions/orders';
 import { RETURN_TO } from '@/constants/navigation';
-import { getBackLink } from '@/utils/navigation';
+import { getBackLink } from '@/shared/utils/navigation';
 
 type EditOrderPageProps = {
   params: Promise<{ id: string }>;

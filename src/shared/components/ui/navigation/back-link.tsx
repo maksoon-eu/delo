@@ -1,0 +1,26 @@
+import Link from 'next/link';
+import type { Route } from 'next';
+import { Button } from '../actions/button';
+import { ArrowLeftIcon } from '@/shared/components/icons/arrow-left';
+import { cn } from '@/shared/utils/cn';
+
+type BackLinkProps = {
+  size?: 'init' | 'full';
+  href: string;
+  label: string;
+};
+
+export function BackLink(props: BackLinkProps) {
+  const { href, label, size = 'init' } = props;
+
+  return (
+    <Link href={href as Route<string>} className="text-primary text-sm hover:underline">
+      <Button
+        variant="outline"
+        className={cn(size === 'full' && 'h-full w-full')}
+        tooltip={`Вернуться к ${label}`}
+        Icon={ArrowLeftIcon}
+      />
+    </Link>
+  );
+}

@@ -2,10 +2,10 @@
 
 import { revalidatePath } from 'next/cache';
 import { db } from '@/config/db';
-import { calcPaymentStatus } from '@/utils/payment';
-import { getVerifiedSession } from '@/utils/verification';
-import { getValidationErrorMessage } from '@/utils/validation';
-import { PaymentSchema, type PaymentInput } from '@/schemas/payments';
+import { calcPaymentStatus } from '@/shared/utils/payment';
+import { getVerifiedSession } from '@/shared/utils/verification';
+import { getValidationErrorMessage } from '@/shared/utils/validation';
+import { PaymentSchema, type PaymentInput } from '@/shared/schemas/payments';
 
 export async function addPayment(orderId: string, data: PaymentInput): Promise<{ error?: string }> {
   const verifiedSession = await getVerifiedSession();

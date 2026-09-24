@@ -3,10 +3,10 @@
 import { signOut } from '@/config/auth';
 import { db } from '@/config/db';
 import { createPasswordResetEmail } from '@/emails/password-reset';
-import { sendEmailVerificationMessage } from '@/utils/verification';
+import { sendEmailVerificationMessage } from '@/shared/utils/verification';
 import bcrypt from 'bcryptjs';
 import { env } from '@/config/env';
-import { sendEmail } from '@/utils/email';
+import { sendEmail } from '@/shared/utils/email';
 import {
   LoginSchema,
   RegisterSchema,
@@ -16,14 +16,14 @@ import {
   type RegisterInput,
   type ForgotPasswordInput,
   type ResetPasswordInput,
-} from '@/schemas/auth';
+} from '@/shared/schemas/auth';
 import {
   checkLoginRateLimit,
   recordFailedLogin,
   clearLoginAttempts,
   checkPasswordResetCooldown,
-} from '@/utils/rate-limit';
-import { getValidationErrorMessage } from '@/utils/validation';
+} from '@/shared/utils/rate-limit';
+import { getValidationErrorMessage } from '@/shared/utils/validation';
 import { LEGAL_CONSENT_VERSION } from '@/constants/auth';
 
 export async function logoutUser() {

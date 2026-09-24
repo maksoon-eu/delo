@@ -1,7 +1,7 @@
-import { AnimateIn } from '@/components/ui/feedback/animate-in';
-import { LoadingCard } from '@/components/ui/feedback/loading-card';
-import { Skeleton } from '@/components/ui/feedback/skeleton';
-import { PageHeaderSkeleton } from '@/components/layout/page-header-skeleton';
+import { AnimateIn } from '@/shared/components/ui/feedback/animate-in';
+import { LoadingCard } from '@/shared/components/ui/feedback/loading-card';
+import { Skeleton } from '@/shared/components/ui/feedback/skeleton';
+import { PageHeaderSkeleton } from '@/shared/components/layout/page-header-skeleton';
 
 export default function OrderLoading() {
   return (

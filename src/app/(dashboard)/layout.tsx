@@ -1,9 +1,9 @@
 import { redirect } from 'next/navigation';
 import { auth } from '@/config/auth';
 import { db } from '@/config/db';
-import { EmailVerificationProvider } from '@/components/providers/email-verification/email-verification.provider';
-import { AppSidebarServer } from '@/components/layout/sidebar/sidebar-server';
-import { TopBar } from '@/components/layout/top-bar';
+import { EmailVerificationProvider } from '@/shared/components/providers/email-verification/email-verification.provider';
+import { AppSidebarServer } from '@/shared/components/layout/sidebar/sidebar-server';
+import { TopBar } from '@/shared/components/layout/top-bar';
 import { INVALID_SESSION_ROUTE, LOGIN_ROUTE } from '@/constants/routes';
 import type { ReactNode } from 'react';
 

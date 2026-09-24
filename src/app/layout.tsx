@@ -1,15 +1,15 @@
 import type { Metadata } from 'next';
 import { Geist_Mono, Inter, Outfit } from 'next/font/google';
 import '@/styles/globals.css';
-import { ThemeProvider } from '@/components/providers/theme/theme.provider';
-import { Toaster } from '@/components/ui/feedback/sonner';
+import { ThemeProvider } from '@/shared/components/providers/theme/theme.provider';
+import { Toaster } from '@/shared/components/ui/feedback/sonner';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { env } from '@/config/env';
 import type { ReactNode } from 'react';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
-import { Footer } from '@/components/layout/footer';
-import { ConfirmationProvider } from '@/components/providers/confirmation/confirmation.provider';
+import { Footer } from '@/shared/components/layout/footer';
+import { ConfirmationProvider } from '@/shared/components/providers/confirmation/confirmation.provider';
 
 const inter = Inter({
   variable: '--font-sans',

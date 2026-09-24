@@ -3,10 +3,10 @@
 import { revalidatePath } from 'next/cache';
 import { auth } from '@/config/auth';
 import { db } from '@/config/db';
-import { getDocumentFileName } from '@/utils/document-file';
-import { getVerifiedSession } from '@/utils/verification';
-import { getValidationErrorMessage } from '@/utils/validation';
-import { OrderSchema, type OrderInput } from '@/schemas/orders';
+import { getDocumentFileName } from '@/shared/utils/document-file';
+import { getVerifiedSession } from '@/shared/utils/verification';
+import { getValidationErrorMessage } from '@/shared/utils/validation';
+import { OrderSchema, type OrderInput } from '@/shared/schemas/orders';
 import { ORDER_STATUS_TRANSITIONS } from '@/constants/orders';
 import type { OrderDetails, OrderListItem } from '@/types/orders';
 import type { OrderStatus, Prisma } from '@prisma/client';

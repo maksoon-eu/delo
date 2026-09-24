@@ -4,11 +4,11 @@ import { randomUUID } from 'crypto';
 import { revalidatePath } from 'next/cache';
 import { auth } from '@/config/auth';
 import { db } from '@/config/db';
-import { checkEmailVerificationCooldown } from '@/utils/rate-limit';
-import { deleteS3ObjectByKey, uploadToS3 } from '@/utils/s3';
-import { sendEmailVerificationMessage } from '@/utils/verification';
-import { getValidationErrorMessage } from '@/utils/validation';
-import { ProfileSchema, type ProfileInput } from '@/schemas/profile';
+import { checkEmailVerificationCooldown } from '@/shared/utils/rate-limit';
+import { deleteS3ObjectByKey, uploadToS3 } from '@/shared/utils/s3';
+import { sendEmailVerificationMessage } from '@/shared/utils/verification';
+import { getValidationErrorMessage } from '@/shared/utils/validation';
+import { ProfileSchema, type ProfileInput } from '@/shared/schemas/profile';
 import {
   PROFILE_IMAGE_ALLOWED_TYPES,
   PROFILE_IMAGE_EXTENSION_BY_TYPE,

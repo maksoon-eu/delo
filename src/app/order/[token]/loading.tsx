@@ -1,6 +1,6 @@
-import { AnimateIn } from '@/components/ui/feedback/animate-in';
-import { LoadingCard } from '@/components/ui/feedback/loading-card';
-import { Skeleton } from '@/components/ui/feedback/skeleton';
+import { AnimateIn } from '@/shared/components/ui/feedback/animate-in';
+import { LoadingCard } from '@/shared/components/ui/feedback/loading-card';
+import { Skeleton } from '@/shared/components/ui/feedback/skeleton';
 
 export default function PublicOrderLoading() {
   return (
