@@ -73,7 +73,7 @@ export function OrderDocumentsSection(props: OrderDocumentsSectionProps) {
           Icon={UploadIcon}
           isLoading={isUploading}
           onClick={handleSelectDocument}
-          className="border-primary text-primary bg-card/60 h-18.75 w-50 shrink-0 flex-col gap-1 border-dashed backdrop-blur-md"
+          className="border-primary text-primary bg-surface/60 h-18.75 w-50 shrink-0 flex-col gap-1 border-dashed backdrop-blur-md"
         >
           Загрузить файл
         </Button>

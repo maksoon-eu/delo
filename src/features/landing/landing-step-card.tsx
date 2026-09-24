@@ -20,7 +20,7 @@ export function LandingStepCard(props: LandingStepCardProps) {
       onMouseEnter={handleMouseEnter}
       className={cn(
         'relative flex min-h-64 flex-col items-start gap-6 p-8 text-left transition-colors duration-500 motion-reduce:transition-none',
-        active ? 'bg-primary/10' : 'bg-background hover:bg-card'
+        active ? 'bg-primary/10' : 'bg-background hover:bg-surface'
       )}
     >
       <span
@@ -35,7 +35,7 @@ export function LandingStepCard(props: LandingStepCardProps) {
           'font-display grid size-11 place-items-center rounded-full text-[15px] font-extrabold transition-[color,background-color,box-shadow] duration-500 motion-reduce:transition-none',
           active
             ? 'bg-primary text-primary-foreground shadow-[0_0_0_6px_color-mix(in_oklab,var(--primary)_16%,transparent)]'
-            : 'bg-card text-muted-foreground'
+            : 'bg-surface text-muted-foreground'
         )}
       >
         0{index + 1}

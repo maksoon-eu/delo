@@ -16,7 +16,7 @@ export default function NotFound() {
       <PublicHeader />
       <main className="mx-auto flex w-full max-w-5xl flex-1 items-center px-4 py-12 sm:px-6 sm:py-20">
         <AnimateIn variant="zoom" className="w-full">
-          <section className="surface-shadow border-border bg-secondary/30 dark:bg-card relative isolate overflow-hidden rounded-3xl border p-7 sm:p-10 lg:p-14">
+          <section className="surface-shadow border-border bg-secondary/30 dark:bg-surface relative isolate overflow-hidden rounded-3xl border p-7 sm:p-10 lg:p-14">
             <span className="text-primary/5 pointer-events-none absolute -bottom-16 -right-4 -z-10 text-[12rem] font-black leading-none sm:text-[18rem]">
               404
             </span>

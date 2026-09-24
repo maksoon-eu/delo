@@ -10,7 +10,7 @@ export default function ClientLoading() {
       <AnimateIn className="flex min-h-0 flex-1 flex-col gap-4">
         <div className="grid gap-4 sm:grid-cols-2">
           {Array.from({ length: 2 }).map((_, sectionIndex) => (
-            <div key={sectionIndex} className="border-border bg-card rounded-2xl border p-4">
+            <div key={sectionIndex} className="border-border bg-surface rounded-2xl border p-4">
               <div className="mb-4 flex items-center gap-2.5">
                 <Skeleton className="size-7 rounded-lg" />
                 <Skeleton className="h-4 w-24" />
@@ -23,7 +23,7 @@ export default function ClientLoading() {
           ))}
         </div>
 
-        <div className="border-border bg-card rounded-2xl border p-4">
+        <div className="border-border bg-surface rounded-2xl border p-4">
           <div className="mb-4 flex items-center gap-2.5">
             <Skeleton className="size-7 rounded-lg" />
             <Skeleton className="h-4 w-20" />
@@ -35,7 +35,7 @@ export default function ClientLoading() {
           <Skeleton className="h-9 w-44 rounded-lg" />
         </div>
 
-        <div className="border-border bg-card min-h-48 flex-1 rounded-2xl border p-4">
+        <div className="border-border bg-surface min-h-48 flex-1 rounded-2xl border p-4">
           <div className="mb-4 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
               <Skeleton className="size-7 rounded-lg" />

@@ -263,23 +263,24 @@ format(date, 'd MMM yyyy', { locale: ru });
 - Никогда не использовать `violet-*`, `purple-*`, `gray-*` и другие палитровые классы напрямую
 - Всегда использовать семантические токены:
 
-| Токен                                        | Использование                            |
-| -------------------------------------------- | ---------------------------------------- |
-| `bg-background` / `text-foreground`          | Основной фон и текст страницы            |
-| `bg-card` / `text-card-foreground`           | Поверхности: карточки, панели            |
-| `bg-primary` / `text-primary-foreground`     | CTA-кнопки, акцентные элементы           |
-| `text-primary`                               | Акцентный текст, ссылки                  |
-| `bg-secondary` / `text-secondary-foreground` | Вторичные кнопки, теги, бейджи           |
-| `bg-muted` / `text-muted-foreground`         | Приглушённый фон и вспомогательный текст |
-| `bg-accent` / `text-accent-foreground`       | Hover-состояния, подсветка               |
-| `bg-destructive` / `text-destructive`        | Ошибки, удаление                         |
-| `border-border`                              | Разделители, обводки                     |
-| `ring-ring`                                  | Фокус-кольца                             |
-| `bg-sidebar` / `text-sidebar-foreground`     | Sidebar и его элементы                   |
-| `bg-sidebar-primary`                         | Активный элемент sidebar                 |
-| `bg-sidebar-accent`                          | Hover в sidebar                          |
+| Токен                                        | Использование                                                 |
+| -------------------------------------------- | ------------------------------------------------------------- |
+| `bg-background` / `text-foreground`          | Основной фон и текст страницы                                 |
+| `bg-surface` / `text-foreground`             | Общие поверхности: карточки, панели, таблицы, sidebar, topbar |
+| `bg-primary` / `text-primary-foreground`     | CTA-кнопки, акцентные элементы                                |
+| `text-primary`                               | Акцентный текст, ссылки                                       |
+| `bg-secondary` / `text-secondary-foreground` | Вторичные кнопки, теги, бейджи                                |
+| `bg-muted` / `text-muted-foreground`         | Приглушённый фон и вспомогательный текст                      |
+| `bg-accent` / `text-accent-foreground`       | Hover-состояния, подсветка                                    |
+| `bg-destructive` / `text-destructive`        | Ошибки, удаление                                              |
+| `border-border`                              | Разделители, обводки                                          |
+| `ring-ring`                                  | Фокус-кольца                                                  |
+| `text-sidebar-foreground`                    | Текст sidebar                                                 |
+| `bg-sidebar-primary`                         | Активный элемент sidebar                                      |
+| `bg-sidebar-accent`                          | Hover в sidebar                                               |
 
 - Для фонов с прозрачностью — `bg-primary/10`, `bg-muted/40` и т.д.
+- Общие фоновые поверхности оформлять через `bg-surface` (и `bg-surface/<opacity>` при необходимости), а не через `bg-card` или `bg-sidebar`; цвет задаётся переменной `--surface` для обеих тем.
 - Градиенты строить из тех же токенов: `from-secondary/70 to-background`
 - В Tailwind v4 `bg-gradient-to-*` переименован в `bg-linear-to-*`
 - `--background`, `--card`, `--sidebar` и другие семантические токены должны содержать только цветовые значения; `url(...)` и `background` shorthand в них не класть

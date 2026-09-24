@@ -32,7 +32,7 @@ export function LandingHeroPreview() {
   return (
     <div className="landing-shot-glow relative [perspective:1200px]">
       <motion.div
-        className="landing-shot border-border bg-card relative overflow-hidden rounded-2xl border will-change-transform [transform-style:preserve-3d]"
+        className="landing-shot border-border bg-surface relative overflow-hidden rounded-2xl border will-change-transform [transform-style:preserve-3d]"
         style={{ rotateX, rotateY }}
         onPointerMove={handlePointerMove}
         onPointerLeave={handlePointerLeave}

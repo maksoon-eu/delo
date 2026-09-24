@@ -11,7 +11,7 @@ export function LoadingCard(props: LoadingCardProps) {
   return (
     <div
       className={cn(
-        'surface-shadow border-border bg-secondary/30 dark:bg-card rounded-2xl border p-6',
+        'surface-shadow border-border bg-secondary/30 dark:bg-surface rounded-2xl border p-6',
         className
       )}
       {...rest}

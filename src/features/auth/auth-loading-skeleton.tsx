@@ -41,7 +41,7 @@ export function AuthLoadingSkeleton(props: AuthLoadingSkeletonProps) {
         {Array.from({ length: fields }).map((_, index) => (
           <div key={index} className="relative">
             <Skeleton className="border-border bg-secondary/70 h-12 w-full rounded-lg border" />
-            <Skeleton className="bg-card absolute left-3 top-0 h-3 w-24 -translate-y-1/2" />
+            <Skeleton className="bg-surface absolute left-3 top-0 h-3 w-24 -translate-y-1/2" />
           </div>
         ))}
 

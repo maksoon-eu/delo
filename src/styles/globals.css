@@ -7,6 +7,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sans);
@@ -52,6 +53,7 @@
 :root {
   --background: #ffffff;
   --foreground: #020203;
+  --surface: #ffffff;
   --card: #ffffff;
   --card-foreground: #020203;
   --popover: #ffffff;
@@ -74,7 +76,7 @@
   --chart-4: #c5b4ff;
   --chart-5: #2a168e;
   --radius: 0.5rem;
-  --sidebar: #ffffff;
+  --sidebar: var(--surface);
   --sidebar-foreground: #020203;
   --sidebar-primary: #7c3aed;
   --sidebar-primary-foreground: #fafafa;
@@ -88,6 +90,7 @@
 .dark {
   --background: #0d1117;
   --foreground: #fafafa;
+  --surface: #11111f;
   --card: #111827;
   --card-foreground: #fafafa;
   --popover: #111827;
@@ -109,7 +112,7 @@
   --chart-3: #7c3aed;
   --chart-4: #e5dbff;
   --chart-5: #4b2bf3;
-  --sidebar: #11111f;
+  --sidebar: var(--surface);
   --sidebar-foreground: #fafafa;
   --sidebar-primary: #7c3aed;
   --sidebar-primary-foreground: #fafafa;
@@ -172,7 +175,7 @@
     overflow: hidden;
     border: 1px solid var(--border);
     border-radius: 20px;
-    background: var(--card);
+    background: var(--surface);
     transition:
       transform 500ms,
       border-color 500ms,
@@ -277,25 +280,56 @@
   .dashboard-background {
     background-color: var(--background);
     background-image:
-      radial-gradient(circle 28rem at 6rem 5rem, #7c3aed1f, transparent 72%),
-      radial-gradient(circle 36rem at 0 0, #bbabff1a, transparent 74%);
-    background-position: center top;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
+      radial-gradient(
+        ellipse 42rem 36rem at 86% 9%,
+        color-mix(in oklab, var(--primary) 11%, transparent),
+        transparent 76%
+      ),
+      radial-gradient(
+        ellipse 34rem 30rem at 20% 57%,
+        color-mix(in oklab, var(--chart-2) 13%, transparent),
+        transparent 77%
+      ),
+      radial-gradient(
+        ellipse 38rem 34rem at 78% 92%,
+        color-mix(in oklab, var(--primary) 6%, transparent),
+        transparent 75%
+      ),
+      radial-gradient(
+        circle at 1px 1px,
+        color-mix(in oklab, var(--primary) 12%, transparent) 1px,
+        transparent 1.6px
+      );
+    background-size:
+      100% 100%,
+      100% 100%,
+      100% 100%,
+      28px 28px;
+    background-repeat: no-repeat, no-repeat, no-repeat, repeat;
   }
 
   .dark .dashboard-background {
-    background-color: var(--background);
     background-image:
-      radial-gradient(circle 24rem at 19rem 15rem, #7c3aed29, transparent 70%),
-      radial-gradient(circle 20rem at 19rem 7rem, #2e0d6814, transparent 76%);
-  }
-
-  .light .dashboard-background {
-    background-color: var(--background);
-    background-image:
-      radial-gradient(circle 28rem at 6rem 5rem, #7c3aed1f, transparent 72%),
-      radial-gradient(circle 36rem at 0 0, #bbabff1a, transparent 74%);
+      radial-gradient(
+        ellipse 50rem 33rem at 84% 10%,
+        color-mix(in oklab, var(--primary) 22%, transparent),
+        transparent 73%
+      ),
+      radial-gradient(
+        ellipse 35rem 30rem at 20% 60%,
+        color-mix(in oklab, var(--chart-5) 14%, transparent),
+        transparent 76%
+      ),
+      radial-gradient(
+        ellipse 42rem 34rem at 77% 93%,
+        color-mix(in oklab, var(--chart-1) 12%, transparent),
+        transparent 74%
+      ),
+      radial-gradient(
+        circle at 1px 1px,
+        color-mix(in oklab, var(--chart-2) 17%, transparent) 1px,
+        transparent 1.6px
+      );
   }
 }
 

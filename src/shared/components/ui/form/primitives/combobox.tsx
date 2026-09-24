@@ -152,7 +152,7 @@ export function Combobox(props: ComboboxProps) {
         <span
           className={cn(
             'text-muted-foreground pointer-events-none absolute top-1/2 -translate-y-1/2 text-sm font-normal transition-[top,left,transform,padding,background-color,color] duration-200',
-            isFloating ? 'bg-card text-primary left-2.5 top-0 scale-[0.82] px-1' : 'left-3'
+            isFloating ? 'bg-surface text-primary left-2.5 top-0 scale-[0.82] px-1' : 'left-3'
           )}
         >
           {label}

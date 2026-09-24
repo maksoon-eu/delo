@@ -51,7 +51,7 @@ export function LoginForm() {
   const [execute, isLoading] = useAsyncAction(onSubmit);
 
   return (
-    <Form {...form} onSubmit={handleSubmit(execute)} className="flex flex-col gap-2">
+    <Form {...form} onSubmit={handleSubmit(execute)} className="flex flex-col gap-5">
       <FormInput
         control={control}
         name="email"
@@ -67,24 +67,26 @@ export function LoginForm() {
         autoComplete="current-password"
       />
 
-      <div className="flex justify-end text-xs sm:text-sm">
-        <Link
-          href="/forgot-password"
-          className="text-primary font-semibold underline-offset-4 hover:underline"
-        >
-          Забыли пароль?
-        </Link>
-      </div>
+      <div className="flex flex-col gap-2">
+        <div className="flex justify-end text-sm">
+          <Link
+            href="/forgot-password"
+            className="text-primary font-semibold underline-offset-4 hover:underline"
+          >
+            Забыли пароль?
+          </Link>
+        </div>
 
-      <Button
-        type="submit"
-        className="h-13 w-full rounded-xl text-sm font-bold"
-        isLoading={isLoading}
-        disabled={isLocked}
-        Icon={isLocked ? undefined : ArrowRightIcon}
-      >
-        {isLocked ? `Повторите через ${lockoutSeconds} сек.` : 'Войти'}
-      </Button>
+        <Button
+          type="submit"
+          className="h-13 w-full rounded-xl text-sm font-bold"
+          isLoading={isLoading}
+          disabled={isLocked}
+          Icon={isLocked ? undefined : ArrowRightIcon}
+        >
+          {isLocked ? `Повторите через ${lockoutSeconds} сек.` : 'Войти'}
+        </Button>
+      </div>
     </Form>
   );
 }

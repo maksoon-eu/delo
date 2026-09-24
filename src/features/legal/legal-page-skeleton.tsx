@@ -23,7 +23,7 @@ export function LegalPageSkeleton() {
             </div>
           </header>
 
-          <div className="surface-shadow border-border bg-card/80 rounded-2xl border p-6 md:p-8">
+          <div className="surface-shadow border-border bg-surface/80 rounded-2xl border p-6 md:p-8">
             <div className="space-y-8">
               {Array.from({ length: 6 }).map((_, sectionIndex) => (
                 <section key={sectionIndex} className="space-y-3">

@@ -23,7 +23,7 @@ export function LandingCompare() {
         </h2>
 
         <div className="mt-9 flex justify-center">
-          <div className="border-border bg-card/40 relative inline-flex rounded-full border p-1">
+          <div className="border-border bg-surface/40 relative inline-flex rounded-full border p-1">
             <span
               aria-hidden
               className={cn(
