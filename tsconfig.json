@@ -21,7 +21,15 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@/components/*": ["./src/shared/components/*"],
+      "@/config/*": ["./src/shared/config/*"],
+      "@/constants/*": ["./src/shared/constants/*"],
+      "@/emails/*": ["./src/shared/emails/*"],
+      "@/hooks/*": ["./src/shared/hooks/*"],
+      "@/schemas/*": ["./src/shared/schemas/*"],
+      "@/types/*": ["./src/shared/types/*"],
+      "@/utils/*": ["./src/shared/utils/*"]
     }
   },
   "include": [

@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { FileQuestion } from 'lucide-react';
-import { HomeIcon } from '@/components/icons/home';
-import { PublicHeader } from '@/components/features/order/public-header';
-import { Button } from '@/components/ui/actions/button';
-import { AnimateIn } from '@/components/ui/feedback/animate-in';
+import { HomeIcon } from '@/shared/components/icons/home';
+import { PublicHeader } from '@/features/order/public-header';
+import { Button } from '@/shared/components/ui/actions/button';
+import { AnimateIn } from '@/shared/components/ui/feedback/animate-in';
 
 export const metadata: Metadata = {
   title: 'Страница не найдена | Delo',

@@ -4,9 +4,12 @@ import { randomUUID } from 'crypto';
 import { revalidatePath } from 'next/cache';
 import { DocumentType } from '@prisma/client';
 import { db } from '@/config/db';
-import { buildStoredDocumentFileName, sanitizeDocumentFileName } from '@/utils/document-file';
-import { deleteS3ObjectByKey, uploadToS3 } from '@/utils/s3';
-import { getVerifiedSession } from '@/utils/verification';
+import {
+  buildStoredDocumentFileName,
+  sanitizeDocumentFileName,
+} from '@/shared/utils/document-file';
+import { deleteS3ObjectByKey, uploadToS3 } from '@/shared/utils/s3';
+import { getVerifiedSession } from '@/shared/utils/verification';
 import { ORDER_DOCUMENT_ALLOWED_TYPES, ORDER_DOCUMENT_MAX_BYTES } from '@/constants/documents';
 
 export async function attachOrderReceipt(formData: FormData): Promise<{ error?: string }> {

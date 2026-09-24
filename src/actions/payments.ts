@@ -2,11 +2,10 @@
 
 import { revalidatePath } from 'next/cache';
 import { db } from '@/config/db';
-import { calcPaymentStatus } from '@/utils/payment';
-import { formatPrice } from '@/utils/format';
-import { getVerifiedSession } from '@/utils/verification';
-import { getValidationErrorMessage } from '@/utils/validation';
-import { PaymentSchema, type PaymentInput } from '@/schemas/payments';
+import { calcPaymentStatus } from '@/shared/utils/payment';
+import { getVerifiedSession } from '@/shared/utils/verification';
+import { getValidationErrorMessage } from '@/shared/utils/validation';
+import { PaymentSchema, type PaymentInput } from '@/shared/schemas/payments';
 
 export async function addPayment(orderId: string, data: PaymentInput): Promise<{ error?: string }> {
   const verifiedSession = await getVerifiedSession();
@@ -27,8 +26,6 @@ export async function addPayment(orderId: string, data: PaymentInput): Promise<{
   const orderPrice = +order.price;
   const newPaymentStatus = calcPaymentStatus(newTotal, orderPrice);
 
-  const activityText = `Получена оплата ${formatPrice(parsed.amount)}`;
-
   await db.$transaction([
     db.payment.create({
       data: {
@@ -46,7 +43,6 @@ export async function addPayment(orderId: string, data: PaymentInput): Promise<{
       data: {
         orderId,
         type: 'PAYMENT',
-        text: activityText,
       },
     }),
   ]);

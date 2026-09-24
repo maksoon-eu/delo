@@ -1,5 +1,5 @@
 import { auth } from '@/config/auth';
-import { getS3Object } from '@/utils/s3';
+import { getS3Object } from '@/shared/utils/s3';
 
 type ProfileImageRouteContext = {
   params: Promise<{ key: string[] }>;

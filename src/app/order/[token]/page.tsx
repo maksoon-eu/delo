@@ -1,10 +1,10 @@
 import { getPublicOrder } from '@/actions/get-public-order';
-import { OrderHero } from '@/components/features/order/order-hero';
-import { OrderItemsSection } from '@/components/features/order/order-items-section';
-import { OrderStatusProgress } from '@/components/features/order/order-status-progress';
-import { PaymentInfoSection } from '@/components/features/order/payment-info-section';
-import { WorkTermsSection } from '@/components/features/order/work-terms-section';
-import { AnimateIn } from '@/components/ui/feedback/animate-in';
+import { OrderHero } from '@/features/order/order-hero';
+import { OrderItemsSection } from '@/features/order/order-items-section';
+import { OrderStatusProgress } from '@/features/order/order-status-progress';
+import { PaymentInfoSection } from '@/features/order/payment-info-section';
+import { WorkTermsSection } from '@/features/order/work-terms-section';
+import { AnimateIn } from '@/shared/components/ui/feedback/animate-in';
 
 type PublicOrderPageProps = {
   params: Promise<{ token: string }>;
