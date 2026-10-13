@@ -8,7 +8,7 @@ import { PanelLeftOpenIcon } from '@/shared/components/icons/panel-left-open';
 import { Button } from '@/shared/components/ui/actions/button';
 import { useCookieStorage } from '@/shared/hooks/use-cookie-storage';
 import { NAV_ITEMS } from '@/constants/navigation';
-import { SIDEBAR_COOKIE_KEY } from '@/constants/storage';
+import { SIDEBAR_COOKIE_KEY } from '@/shared/constants/storage';
 import { SidebarNavItem } from './sidebar-item';
 import { cn } from '@/shared/utils/cn';
 import { BrandLogo } from '@/shared/components/layout/brand-logo';

@@ -4,7 +4,7 @@ import {
   LOGIN_ATTEMPTS_PER_TIER,
   LOGIN_BASE_LOCKOUT_SECONDS,
   PASSWORD_RESET_COOLDOWN_MS,
-} from '@/constants/auth';
+} from '@/shared/constants/auth';
 
 function getCooldownState(createdAt: Date | null, cooldownMs: number) {
   if (!createdAt) return { blocked: false, retryAfter: 0 };

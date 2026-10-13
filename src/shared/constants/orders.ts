@@ -6,8 +6,6 @@ import { FileTextIcon } from '@/shared/components/icons/file-text';
 import { XIcon } from '@/shared/components/icons/x';
 import { ZapIcon } from '@/shared/components/icons/zap';
 import { OrderStatus } from '@prisma/client';
-import { CheckCheck, CircleCheck, Eye, FileText, X, Zap } from 'lucide-react';
-import type { LucideIcon } from 'lucide-react';
 
 export const ORDER_STATUS_LABELS: Record<OrderStatus, string> = {
   DRAFT: 'Черновик',
@@ -16,15 +14,6 @@ export const ORDER_STATUS_LABELS: Record<OrderStatus, string> = {
   IN_PROGRESS: 'В работе',
   COMPLETED: 'Завершён',
   CANCELLED: 'Отменён',
-};
-
-export const ORDER_STATUS_ACTION_LABELS: Record<OrderStatus, string> = {
-  DRAFT: 'Черновик',
-  SENT: 'На проверку',
-  CONFIRMED: 'Подтвердить',
-  IN_PROGRESS: 'Взять в работу',
-  COMPLETED: 'Завершить',
-  CANCELLED: 'Отменить',
 };
 
 export const ORDER_STATUS_ICONS: Record<OrderStatus, AnimatedIconComponent> = {
@@ -58,12 +47,3 @@ export const ORDER_STATUS_TRANSITIONS: Record<OrderStatus, OrderStatus[]> = {
 };
 
 export const ORDER_FINAL_STATUSES = [OrderStatus.COMPLETED, OrderStatus.CANCELLED] as const;
-
-export const ORDER_STATUS_STATIC_ICONS: Record<OrderStatus, LucideIcon> = {
-  DRAFT: FileText,
-  SENT: Eye,
-  CONFIRMED: CircleCheck,
-  IN_PROGRESS: Zap,
-  COMPLETED: CheckCheck,
-  CANCELLED: X,
-};

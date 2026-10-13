@@ -2,7 +2,7 @@ import { createEmailVerificationEmail } from '@/emails/verification';
 import {
   EMAIL_VERIFICATION_REQUIRED_MESSAGE,
   EMAIL_VERIFICATION_TOKEN_TTL_MS,
-} from '@/constants/auth';
+} from '@/shared/constants/auth';
 import { auth } from '@/config/auth';
 import { db } from '@/config/db';
 import { env } from '@/config/env';

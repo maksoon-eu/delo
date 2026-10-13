@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { PageHeader } from '@/shared/components/layout/page-header';
-import { ClientCardContent } from '@/features/clients/client-card-content';
+import { ClientCardContent } from '@/features/clients/details';
 import { getClient } from '@/actions/clients';
 import { AnimateIn } from '@/shared/components/ui/feedback/animate-in';
 import { RETURN_TO } from '@/constants/navigation';

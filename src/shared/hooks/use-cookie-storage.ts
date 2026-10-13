@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { COOKIE_STORAGE_MAX_AGE } from '@/constants/storage';
+import { COOKIE_STORAGE_MAX_AGE } from '@/shared/constants/storage';
 
 export function useCookieStorage<T>(key: string, initialValue: T): [T, (value: T) => void] {
   const [value, setValue] = useState<T>(initialValue);
