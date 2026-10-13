@@ -1,117 +1,234 @@
-export const LANDING_NAV_ITEMS = [
-  { label: 'Возможности', href: '#features' },
-  { label: 'Как работает', href: '#how' },
-  { label: 'Сравнение', href: '#compare' },
-  { label: 'FAQ', href: '#faq' },
+import ordersImage from '@/assets/images/landing/orders.png';
+import orderDetailsImage from '@/assets/images/landing/order-details.png';
+import publicOrderImage from '@/assets/images/landing/public-order.png';
+import designerImage from '@/assets/images/landing/doodle-designer.jpg';
+import writerImage from '@/assets/images/landing/doodle-writer.jpg';
+import developerImage from '@/assets/images/landing/doodle-developer.jpg';
+import photographerImage from '@/assets/images/landing/doodle-photographer.jpg';
+import {
+  SEO_SITE_URL,
+  SEO_SITE_NAME,
+  SEO_DESCRIPTION,
+  SEO_SOCIAL_IMAGE,
+} from '@/shared/constants/seo';
+
+export const LANDING_TAB_POSITIONS = [
+  'translate-x-0',
+  'translate-x-full',
+  'translate-x-[200%]',
 ] as const;
 
-export const LANDING_PAINS = [
-  'Клиент отрицает утверждённое',
-  'Условия потерялись в переписке',
-  'Деньги пришли — закрывашек нет',
-  '«Вы не так поняли меня в чате»',
-  'Правки без конца и без доплат',
-  'Договор из гугла в ворде',
+export const LANDING_SCREENS = [
+  {
+    label: 'Заказ и оплаты',
+    shortLabel: 'Заказ',
+    image: orderDetailsImage,
+    alt: 'Кабинет Delo: карточка заказа, документы и учёт оплат',
+  },
+  {
+    label: 'Ссылка для клиента',
+    shortLabel: 'Клиент',
+    image: publicOrderImage,
+    alt: 'Публичная страница Delo: стоимость, состав работ и статус заказа',
+  },
+  {
+    label: 'Все заказы',
+    shortLabel: 'Список',
+    image: ordersImage,
+    alt: 'Список заказов Delo с клиентами, сроками, стоимостью и статусами',
+  },
+] as const;
+
+export const LANDING_DOODLES = {
+  designer: designerImage,
+  writer: writerImage,
+  developer: developerImage,
+  photographer: photographerImage,
+} as const;
+
+export const LANDING_STORIES = [
+  {
+    id: 'client',
+    title: 'Условия — в заказе.\nСогласие — по ссылке.',
+    body: 'Вместо поиска договорённостей в переписке откройте заказ: здесь состав работ, стоимость и срок. Клиент подтверждает эти условия по ссылке, а момент подтверждения остаётся в истории.',
+    note: 'Клиенту не нужна регистрация.',
+    image: publicOrderImage,
+    alt: 'Условия и состав работ на публичной странице заказа Delo',
+    imageClassName: 'landing-client-shot',
+    visualLabel: 'Так заказ выглядит для клиента',
+  },
+  {
+    id: 'payments',
+    title: 'Предоплата пришла?\nПросто отметьте её.',
+    body: 'Отмечайте полученные платежи и видите оплаченную сумму по каждому заказу. Договор, счёт или акт можно прикрепить в PDF — документы останутся рядом с условиями и историей работы.',
+    note: 'Платежи учитываются вручную. Перевод денег — отдельно.',
+    image: orderDetailsImage,
+    alt: 'Карточка заказа Delo со стоимостью, полученной оплатой и файлами',
+    imageClassName: 'landing-payment-shot',
+    visualLabel: 'Оплаты и документы в вашем кабинете',
+  },
+] as const;
+
+export const LANDING_CONTENT = {
+  hero: {
+    title: 'Простой способ',
+    titleLead: 'вести',
+    titleAccent: 'дела с клиентами',
+    description:
+      'Соберите состав работ, стоимость и сроки в одном заказе. Клиент подтвердит условия по ссылке, а вы будете видеть статус работы и полученные оплаты.',
+    cta: 'Создать первый заказ',
+  },
+  features: {
+    title: 'Работа ваша.\nОрганизация — проще.',
+  },
+  how: {
+    title: 'Начните\nс одного заказа.',
+    description:
+      'Например, вы делаете лендинг для клиента. Соберите условия в заказе, отправьте ссылку для подтверждения и отметьте предоплату. Условия и оплаченная сумма останутся под рукой.',
+    cta: 'Попробовать Delo',
+  },
+  faq: {
+    title: 'Остались вопросы?',
+  },
+  final: {
+    title: 'Ваш следующий заказ\nможет начаться здесь.',
+    description:
+      'Создайте аккаунт, соберите первый заказ и отправьте ссылку клиенту. Все доступные функции сейчас можно использовать бесплатно.',
+    cta: 'Создать аккаунт',
+    login: 'Уже пользуетесь Delo? Войти',
+  },
+  pricingNotice: 'Сейчас Delo полностью бесплатен',
+} as const;
+
+export const LANDING_NAV_ITEMS = [
+  { label: 'Возможности', href: '#features' },
+  { label: 'Как начать', href: '#how' },
+  { label: 'Вопросы', href: '#faq' },
 ] as const;
 
 export const LANDING_STEPS = [
-  { title: 'Создайте заказ', body: 'Этапы, цена и дедлайны — за пару минут.' },
-  { title: 'Отправьте ссылку', body: 'Клиенту не нужна регистрация.' },
-  { title: 'Получите согласие', body: 'Одно нажатие фиксирует договорённость.' },
-  { title: 'Сдайте проект', body: 'Акт, PDF и оплата — без переписки.' },
-] as const;
-
-export const LANDING_LOCKED_ITEMS = [
-  'Условия подтверждены',
-  'Оплата получена',
-  'Акт подписан',
-] as const;
-
-export const LANDING_METRICS = [
-  { value: '2 мин', label: 'на создание заказа' },
-  { value: '0 споров', label: 'с фиксацией условий' },
-  { value: '100%', label: 'прозрачность сделки' },
-  { value: '1 клик', label: 'генерация документов' },
-] as const;
-
-export const LANDING_AUDIENCES = [
   {
-    tab: 'Дизайн',
-    title: 'Дизайнеры и разработчики',
-    body: 'Утверждайте макеты и требования без бесконечных бесплатных переделок.',
-    meta: 'UX/UI · Web · Branding',
+    title: 'Соберите заказ',
+    body: 'Зарегистрируйтесь и подтвердите почту. Затем добавьте клиента, состав работ, стоимость и срок заказа.',
   },
   {
-    tab: 'Контент',
-    title: 'Копирайтеры и маркетологи',
-    body: 'Фиксируйте объём текстов и число правок до старта работы.',
-    meta: 'Тексты · Редактура · SMM',
+    title: 'Поделитесь ссылкой',
+    body: 'Клиент посмотрит заказ и подтвердит условия. Ему не нужно создавать аккаунт.',
   },
   {
-    tab: 'Съёмка',
-    title: 'Фотографы и видеографы',
-    body: 'Брони дат и референсы — согласованы и записаны.',
-    meta: 'Фото · Видео · Монтаж',
-  },
-  {
-    tab: 'Все',
-    title: 'Любой независимый специалист',
-    body: 'Прозрачные условия и автоматические документы — без бюрократии.',
-    meta: 'Фриланс · Самозанятость',
+    title: 'Ведите работу',
+    body: 'Меняйте статус, отмечайте полученные оплаты и прикрепляйте PDF к заказу.',
   },
 ] as const;
 
-export const LANDING_COMPARISON_ROWS = [
-  {
-    param: 'Согласование ТЗ',
-    without: 'В хаотичной ветке чата, без подтверждения',
-    with: 'Фиксация этапов и клик заказчика по ссылке',
+export const LANDING_SCRIBBLES = {
+  underline: {
+    viewBox: '0 0 260 24',
+    path: 'M4 13 C38 2 80 18 117 9 S197 4 254 12 M13 20 C71 9 162 22 244 16',
   },
-  {
-    param: 'Контроль бюджета',
-    without: '«Потом договоримся» и пересчёт на ходу',
-    with: 'Бюджет привязан к согласованным этапам',
+  arrow: { viewBox: '0 0 150 100', path: 'M8 12 C16 58 77 86 133 55 M112 48 L139 52 L127 77' },
+  spark: {
+    viewBox: '0 0 70 70',
+    path: 'M35 5 L33 22 M62 19 L47 28 M63 48 L47 40 M34 65 L34 48 M8 48 L22 39 M9 17 L22 27',
   },
-  {
-    param: 'Документы',
-    without: 'Ворд-файлы из сети и ручные реквизиты',
-    with: 'PDF договор и акт за 2 минуты',
-  },
-  {
-    param: 'Безопасность',
-    without: 'Риск остаться без оплаты',
-    with: 'Поэтапный расчёт и подтверждения',
-  },
-  {
-    param: 'История',
-    without: '«Вы не так поняли моё сообщение»',
-    with: 'Лог всех согласований сторон',
-  },
-] as const;
+} as const;
 
 export const LANDING_FAQ = [
   {
-    question: 'Delo действительно бесплатный?',
+    question: 'Сколько стоит Delo?',
     answer:
-      'Да. Заказы, клиенты и фиксация договорённостей — бесплатно. Платные только расширенные интеграции и юридические шаблоны.',
+      'Сейчас, на этапе MVP, все доступные функции Delo полностью бесплатны. В дальнейшем планируем сохранить бесплатную базовую версию. Её состав и условия объявим отдельно.',
   },
   {
-    question: 'Нужна ли регистрация клиенту?',
-    answer: 'Нет. Клиент открывает публичную ссылку, видит этапы и утверждает условия в один клик.',
+    question: 'Кому подойдёт Delo?',
+    answer:
+      'Самозанятым и фрилансерам, которые работают с клиентами: дизайнерам, разработчикам, авторам, маркетологам, фотографам и другим независимым специалистам. Здесь можно вести клиентов и заказы, согласовывать условия и учитывать оплаты.',
   },
   {
-    question: 'Можно ли генерировать договоры?',
+    question: 'Клиенту нужно регистрироваться?',
     answer:
-      'Да. Конструктор создаёт договор и акт по вашим реквизитам и данным клиента по ИНН за секунды.',
+      'Нет. Вы отправляете ссылку на заказ, а клиент открывает её в браузере, знакомится с составом работ, стоимостью и сроками и подтверждает условия.',
   },
   {
-    question: 'Какие данные видит клиент?',
+    question: 'Как работает учёт оплат?',
     answer:
-      'Только то, что вы указали в заказе: этапы, стоимость, дедлайны, историю согласований и документы.',
+      'Вы вносите уже полученный платёж: сумму, дату и при необходимости примечание. Delo показывает оплаченную сумму и остаток, учитывает предоплату и полную оплату. Перевод денег происходит отдельно от сервиса.',
   },
   {
-    question: 'Есть ли мобильная версия?',
+    question: 'Что происходит после подтверждения условий?',
     answer:
-      'Delo работает в любом мобильном браузере — вести заказы со смартфона так же просто, как с ноутбука.',
+      'Заказ получает статус «Подтверждён», а момент подтверждения сохраняется в истории. Вы можете взять заказ в работу и дальше отмечать его статус и полученные оплаты.',
+  },
+  {
+    question: 'Какие документы можно хранить?',
+    answer:
+      'К заказу можно прикреплять готовые PDF-файлы размером до 5 МБ каждый, например договор, счёт или акт. Они остаются в вашем кабинете рядом с деталями заказа. Генерации документов и электронной подписи сейчас нет.',
+  },
+  {
+    question: 'Можно работать с телефона?',
+    answer:
+      'Да. Delo работает в браузере и адаптируется под экран телефона. Клиент тоже может открыть ссылку и подтвердить условия со смартфона.',
   },
 ] as const;
+
+export const LANDING_STRUCTURED_DATA = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${SEO_SITE_URL}/#website`,
+      url: `${SEO_SITE_URL}/`,
+      name: SEO_SITE_NAME,
+      description: SEO_DESCRIPTION,
+      inLanguage: 'ru-RU',
+    },
+    {
+      '@type': 'WebPage',
+      '@id': `${SEO_SITE_URL}/#webpage`,
+      url: `${SEO_SITE_URL}/`,
+      name: SEO_SITE_NAME,
+      description: SEO_DESCRIPTION,
+      inLanguage: 'ru-RU',
+      isPartOf: { '@id': `${SEO_SITE_URL}/#website` },
+      mainEntity: { '@id': `${SEO_SITE_URL}/#application` },
+      primaryImageOfPage: {
+        '@type': 'ImageObject',
+        url: new URL(SEO_SOCIAL_IMAGE.url, SEO_SITE_URL).href,
+        width: SEO_SOCIAL_IMAGE.width,
+        height: SEO_SOCIAL_IMAGE.height,
+      },
+    },
+    {
+      '@type': 'WebApplication',
+      '@id': `${SEO_SITE_URL}/#application`,
+      name: SEO_SITE_NAME,
+      url: `${SEO_SITE_URL}/`,
+      description: SEO_DESCRIPTION,
+      applicationCategory: 'BusinessApplication',
+      operatingSystem: 'Web',
+      inLanguage: 'ru-RU',
+      isAccessibleForFree: true,
+      offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'RUB',
+        url: `${SEO_SITE_URL}/register`,
+      },
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': `${SEO_SITE_URL}/#faq`,
+      url: `${SEO_SITE_URL}/#faq`,
+      inLanguage: 'ru-RU',
+      isPartOf: { '@id': `${SEO_SITE_URL}/#webpage` },
+      mainEntity: LANDING_FAQ.map((item) => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: item.answer,
+        },
+      })),
+    },
+  ],
+} as const;

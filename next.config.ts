@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next';
+import { SEO_SITE_HOST_PATTERN, SEO_NO_INDEX_HEADERS } from '@/shared/constants/seo';
 
 const securityHeaders = [
   { key: 'X-Frame-Options', value: 'DENY' },
@@ -25,6 +26,19 @@ const nextConfig: NextConfig = {
       {
         source: '/:path*',
         headers: securityHeaders,
+      },
+      {
+        source: '/:path*',
+        missing: [{ type: 'host', value: SEO_SITE_HOST_PATTERN }],
+        headers: SEO_NO_INDEX_HEADERS,
+      },
+      {
+        source: '/api/:path*',
+        headers: SEO_NO_INDEX_HEADERS,
+      },
+      {
+        source: '/order/:path*',
+        headers: SEO_NO_INDEX_HEADERS,
       },
     ];
   },

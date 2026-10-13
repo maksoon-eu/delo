@@ -149,96 +149,40 @@
   }
 
   .landing-section {
-    padding-inline: 1.5rem;
+    @apply max-w-316 mx-auto w-full px-5 sm:px-8;
   }
 
-  .landing-shot-glow::before {
-    content: '';
-    position: absolute;
-    inset: -2rem;
-    border-radius: 2.5rem;
-    background: radial-gradient(
-      circle at 50% 40%,
-      color-mix(in oklab, var(--primary) 40%, transparent),
-      transparent 68%
-    );
-    filter: blur(24px);
+  .landing-heading {
+    @apply text-[clamp(1.875rem,3.8vw,3rem)] font-bold leading-[1.15] tracking-[-0.04em];
   }
 
-  .landing-shot {
-    box-shadow: 0 40px 90px -35px color-mix(in oklab, var(--foreground) 45%, transparent);
+  .landing-nav-link {
+    @apply text-muted-foreground hover:text-foreground focus-visible:outline-ring rounded-sm text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 motion-reduce:transition-none;
   }
 
-  .landing-feature-card {
-    isolation: isolate;
-    position: relative;
-    overflow: hidden;
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    background: var(--surface);
-    transition:
-      transform 500ms,
-      border-color 500ms,
-      box-shadow 500ms;
+  .landing-doodle {
+    mix-blend-mode: multiply;
   }
 
-  .landing-feature-card::before {
-    content: '';
-    position: absolute;
-    z-index: 0;
-    top: -6rem;
-    right: -4rem;
-    width: 14rem;
-    height: 14rem;
-    border-radius: 9999px;
-    background: radial-gradient(
-      circle,
-      color-mix(in oklab, var(--primary) 30%, transparent),
-      transparent 70%
-    );
-    filter: blur(24px);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 500ms;
+  .dark .landing-doodle {
+    filter: invert(1);
+    mix-blend-mode: screen;
   }
 
-  .landing-feature-card > * {
-    position: relative;
-    z-index: 1;
+  .landing-page [id] {
+    scroll-margin-top: 6.5rem;
   }
 
-  .landing-feature-card img {
-    transition: transform 700ms ease-out;
+  .landing-client-shot {
+    width: 135%;
+    max-width: none;
+    margin-left: -17.5%;
   }
 
-  .landing-feature-card:hover {
-    border-color: color-mix(in oklab, var(--primary) 45%, transparent);
-    box-shadow: 0 28px 60px -38px color-mix(in oklab, var(--primary) 55%, transparent);
-    transform: translateY(-0.25rem);
-  }
-
-  .landing-feature-card:hover::before {
-    opacity: 1;
-  }
-
-  .landing-feature-card:hover img {
-    transform: scale(1.035);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .landing-feature-card,
-    .landing-feature-card::before,
-    .landing-feature-card img {
-      transition: none;
-    }
-
-    .landing-feature-card:hover {
-      transform: none;
-    }
-
-    .landing-feature-card:hover img {
-      transform: none;
-    }
+  .landing-payment-shot {
+    width: 155%;
+    max-width: none;
+    margin-left: -35%;
   }
 
   .toaster [data-sonner-toast] {
@@ -330,39 +274,6 @@
         color-mix(in oklab, var(--chart-2) 17%, transparent) 1px,
         transparent 1.6px
       );
-  }
-}
-
-@keyframes landing-marquee {
-  from {
-    transform: translateX(0);
-  }
-
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-@keyframes landing-drift {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-
-  50% {
-    transform: translate3d(4%, -3%, 0) scale(1.08);
-  }
-}
-
-@media (min-width: 48rem) {
-  .landing-section {
-    padding-inline: 3rem;
-  }
-}
-
-@media (min-width: 80rem) {
-  .landing-section {
-    padding-inline: clamp(3rem, 7vw, 7.5rem);
   }
 }
 

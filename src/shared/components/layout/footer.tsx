@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { LEGAL_CONTACT_EMAIL, LEGAL_PRIVACY_PATH, LEGAL_TERMS_PATH } from '@/constants/legal';
+import { BrandLogo } from '@/shared/components/layout/brand-logo';
 
 export function Footer() {
   return (
@@ -7,12 +8,7 @@ export function Footer() {
       <div className="mx-auto w-full max-w-7xl px-6">
         <div className="flex flex-col justify-between gap-12 md:flex-row">
           <div className="max-w-80">
-            <div className="flex items-center gap-3">
-              <span className="bg-primary text-primary-foreground grid size-8 place-items-center rounded-lg text-[17px] font-extrabold">
-                D
-              </span>
-              <span className="font-display text-[19px] font-extrabold">Delo</span>
-            </div>
+            <BrandLogo />
             <p className="text-muted-foreground mt-4 text-sm leading-[1.55]">
               Контроль сделок, фиксация договорённостей и документы для фрилансеров.
             </p>

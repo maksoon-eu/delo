@@ -1,5 +1,9 @@
 import type { ReactNode } from 'react';
+import type { Metadata } from 'next';
+import { SEO_PRIVATE_ROBOTS } from '@/shared/constants/seo';
 import { PublicHeader } from '@/features/order/public-header';
+
+export const metadata: Metadata = { robots: SEO_PRIVATE_ROBOTS };
 
 export default function PublicOrderLayout(props: { children: ReactNode }) {
   const { children } = props;

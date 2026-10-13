@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, type MouseEvent } from 'react';
-import { Plus } from 'lucide-react';
+import { LANDING_CONTENT, LANDING_FAQ } from '@/shared/constants/landing';
 import { Button } from '@/shared/components/ui/actions/button';
-import { LANDING_FAQ } from '@/constants/landing';
+import { PlusIcon } from '@/shared/components/icons/plus';
 import { cn } from '@/shared/utils/cn';
 
 export function LandingFaq() {
@@ -11,57 +11,54 @@ export function LandingFaq() {
 
   function handleToggle(event: MouseEvent<HTMLButtonElement>) {
     const index = +event.currentTarget.dataset.index!;
-    setOpenIndex((currentIndex) => (currentIndex === index ? null : index));
+    setOpenIndex((current) => (current === index ? null : index));
   }
 
   return (
-    <section id="faq" className="bg-secondary/30 border-border border-t py-24 md:py-32">
-      <div className="landing-section mx-auto grid max-w-[1100px] gap-12 lg:grid-cols-[minmax(0,0.6fr)_minmax(0,1fr)] lg:gap-16">
-        <h2 className="font-display text-[clamp(30px,4vw,48px)] font-extrabold leading-[1.05] tracking-[-0.025em]">
-          Коротко
-          <br />о главном
-        </h2>
-
-        <div className="border-border divide-border divide-y border-y">
-          {LANDING_FAQ.map((item, index) => {
-            const isOpen = openIndex === index;
-
-            return (
-              <div key={item.question}>
+    <section id="faq" className="mx-auto max-w-[800px] px-5 py-12 sm:px-8 sm:py-16">
+      <div>
+        <h2 className="landing-heading mb-8 text-center">{LANDING_CONTENT.faq.title}</h2>
+      </div>
+      <div className="divide-border border-border divide-y border-y">
+        {LANDING_FAQ.map((item, index) => {
+          const isOpen = openIndex === index;
+          return (
+            <div key={item.question} className="py-1 first:pt-0">
+              <h3>
                 <Button
                   type="button"
                   variant="ghost"
-                  data-index={index}
+                  id={`landing-faq-question-${index}`}
                   aria-expanded={isOpen}
+                  aria-controls={`landing-faq-answer-${index}`}
+                  data-index={index}
                   onClick={handleToggle}
-                  className="hover:text-primary h-auto w-full justify-between whitespace-normal rounded-none border-0 bg-transparent px-0 py-5 text-left font-normal transition-colors duration-300 hover:scale-100 hover:bg-transparent active:translate-y-0 active:scale-100 aria-expanded:bg-transparent motion-reduce:transition-none dark:hover:bg-transparent dark:aria-expanded:bg-transparent"
+                  className="hover:text-primary h-auto min-h-16 w-full justify-between gap-4 whitespace-normal rounded-lg border-0 bg-transparent px-2 py-4 text-left text-base font-medium hover:scale-100 hover:bg-transparent active:translate-y-0 active:scale-100 aria-expanded:bg-transparent motion-reduce:transition-none dark:hover:bg-transparent dark:aria-expanded:bg-transparent"
                 >
-                  <span className="font-display text-[17px] font-bold">{item.question}</span>
+                  {item.question}
                   <span
                     aria-hidden
                     className={cn(
-                      'border-border text-muted-foreground grid size-7 shrink-0 place-items-center rounded-full border transition-[color,background-color,border-color,transform] duration-500 motion-reduce:transition-none',
-                      isOpen &&
-                        'border-primary/60 bg-primary/15 text-primary rotate-45 motion-reduce:rotate-0'
+                      'text-muted-foreground shrink-0',
+                      isOpen && 'text-primary rotate-45'
                     )}
                   >
-                    <Plus aria-hidden className="size-3.5" />
+                    <PlusIcon size={18} />
                   </span>
                 </Button>
-                <div
-                  className={cn(
-                    'grid transition-[grid-template-rows,opacity] duration-500 ease-out motion-reduce:transition-none',
-                    isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
-                  )}
-                >
-                  <p className="text-muted-foreground overflow-hidden pr-10 text-[15px] leading-[1.6]">
-                    <span className="block pb-6">{item.answer}</span>
-                  </p>
-                </div>
+              </h3>
+              <div
+                id={`landing-faq-answer-${index}`}
+                role="region"
+                aria-labelledby={`landing-faq-question-${index}`}
+                hidden={!isOpen}
+                className="text-muted-foreground px-2 pb-5 pr-10 text-sm leading-relaxed"
+              >
+                {item.answer}
               </div>
-            );
-          })}
-        </div>
+            </div>
+          );
+        })}
       </div>
     </section>
   );
