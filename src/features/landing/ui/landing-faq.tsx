@@ -57,7 +57,7 @@ export function LandingFaq() {
                   <span
                     aria-hidden
                     className={cn(
-                      'text-muted-foreground shrink-0',
+                      'text-muted-foreground shrink-0 transition-[rotate,color] duration-300 motion-reduce:transition-none',
                       isOpen && 'text-primary rotate-45'
                     )}
                   >
@@ -69,10 +69,20 @@ export function LandingFaq() {
                 id={`landing-faq-answer-${index}`}
                 role="region"
                 aria-labelledby={`landing-faq-question-${index}`}
-                hidden={!isOpen}
-                className="text-muted-foreground px-2 pb-5 pr-10 text-sm leading-relaxed"
+                aria-hidden={!isOpen}
+                inert={!isOpen}
+                className={cn(
+                  'grid transition-[grid-template-rows,opacity,visibility] duration-300 ease-in-out motion-reduce:transition-none',
+                  isOpen
+                    ? 'visible grid-rows-[1fr] opacity-100'
+                    : 'invisible grid-rows-[0fr] opacity-0'
+                )}
               >
-                {item.answer}
+                <div className="min-h-0 overflow-hidden">
+                  <p className="text-muted-foreground px-2 pb-5 pr-10 text-sm leading-relaxed">
+                    {item.answer}
+                  </p>
+                </div>
               </div>
             </div>
           );

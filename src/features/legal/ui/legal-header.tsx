@@ -2,17 +2,10 @@
 
 import Link from 'next/link';
 import { BrandLogo } from '@/shared/components/layout/brand-logo';
-import { Button } from '@/shared/components/ui/actions/button';
-import { SunIcon } from '@/shared/components/icons/sun';
-import { MoonIcon } from '@/shared/components/icons/moon';
-import { useIsClient } from '@/shared/hooks/use-is-client';
-import { useThemeToggle } from '@/shared/hooks/use-theme-toggle';
+import { ThemeToggle } from '@/shared/components/layout/theme-toggle';
 import { LOGIN_ROUTE, ROOT_ROUTE } from '@/shared/constants/routes';
 
 export function LegalHeader() {
-  const { isDark, toggleTheme } = useThemeToggle();
-  const isClient = useIsClient();
-
   return (
     <header className="bg-background/95 sticky top-0 z-30 backdrop-blur-lg">
       <div className="h-18 mx-auto flex w-full max-w-[1520px] items-center justify-between gap-3 px-5 sm:px-8 lg:h-20 lg:px-12">
@@ -30,16 +23,7 @@ export function LegalHeader() {
           <Link href={LOGIN_ROUTE} className="landing-nav-link">
             Войти
           </Link>
-          {isClient && (
-            <Button
-              Icon={isDark ? SunIcon : MoonIcon}
-              mode="icon"
-              variant="ghost"
-              className="size-10 motion-reduce:transform-none"
-              tooltip={isDark ? 'Светлая тема' : 'Тёмная тема'}
-              onClick={toggleTheme}
-            />
-          )}
+          <ThemeToggle />
         </nav>
       </div>
     </header>

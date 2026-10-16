@@ -58,17 +58,14 @@ export function LandingFeatures() {
               variants={LANDING_REVEAL_VARIANTS.visual}
               className={cn('landing-reveal min-w-0', index === 1 && 'lg:order-1')}
             >
-              <div className="border-foreground/15 bg-surface overflow-hidden rounded-lg border">
+              <div className="border-foreground/15 bg-surface overflow-hidden rounded-xl border">
                 <Image
-                  src={story.image}
+                  src={story.preview}
                   alt={story.alt}
-                  className={cn('block h-auto', story.imageClassName)}
+                  className="block h-auto w-full"
                   sizes="(min-width: 1280px) 660px, (min-width: 1024px) 55vw, 100vw"
                 />
               </div>
-              <figcaption className="text-muted-foreground mt-3 text-center text-xs">
-                {story.visualLabel}
-              </figcaption>
             </motion.figure>
           </motion.article>
         ))}

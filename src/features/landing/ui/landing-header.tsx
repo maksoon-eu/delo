@@ -3,16 +3,11 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/shared/components/ui/actions/button';
-import { SunIcon } from '@/shared/components/icons/sun';
-import { MoonIcon } from '@/shared/components/icons/moon';
-import { useIsClient } from '@/shared/hooks/use-is-client';
-import { useThemeToggle } from '@/shared/hooks/use-theme-toggle';
+import { ThemeToggle } from '@/shared/components/layout/theme-toggle';
 import { LANDING_NAV_ITEMS } from '@/features/landing/constants';
 import { BrandLogo } from '@/shared/components/layout/brand-logo';
 
 export function LandingHeader() {
-  const { isDark, toggleTheme } = useThemeToggle();
-  const isClient = useIsClient();
   const [menuOpen, setMenuOpen] = useState(false);
 
   function handleToggleMenu() {
@@ -45,17 +40,8 @@ export function LandingHeader() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2 sm:gap-3">
-          {isClient && (
-            <Button
-              Icon={isDark ? SunIcon : MoonIcon}
-              mode="icon"
-              variant="ghost"
-              className="size-10 motion-reduce:transform-none"
-              tooltip={isDark ? 'Светлая тема' : 'Тёмная тема'}
-              onClick={toggleTheme}
-            />
-          )}
+        <div className="flex items-center gap-2 sm:gap-6">
+          <ThemeToggle />
           <Link href="/login" className="landing-nav-link hidden sm:inline-flex">
             Войти
           </Link>
