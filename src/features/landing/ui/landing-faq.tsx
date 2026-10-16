@@ -1,7 +1,14 @@
 'use client';
 
 import { useState, type MouseEvent } from 'react';
-import { LANDING_CONTENT, LANDING_FAQ } from '@/features/landing/constants';
+import { motion } from 'motion/react';
+import {
+  LANDING_CONTENT,
+  LANDING_FAQ,
+  LANDING_REVEAL_GROUP,
+  LANDING_REVEAL_VARIANTS,
+  LANDING_REVEAL_VIEWPORT,
+} from '@/features/landing/constants';
 import { Button } from '@/shared/components/ui/actions/button';
 import { PlusIcon } from '@/shared/components/icons/plus';
 import { cn } from '@/shared/utils/cn';
@@ -15,11 +22,21 @@ export function LandingFaq() {
   }
 
   return (
-    <section id="faq" className="mx-auto max-w-[800px] px-5 py-12 sm:px-8 sm:py-16">
-      <div>
+    <motion.section
+      id="faq"
+      initial="hidden"
+      whileInView="visible"
+      viewport={LANDING_REVEAL_VIEWPORT}
+      variants={LANDING_REVEAL_GROUP}
+      className="mx-auto max-w-[800px] px-5 py-12 sm:px-8 sm:py-16"
+    >
+      <motion.div variants={LANDING_REVEAL_VARIANTS.default} className="landing-reveal">
         <h2 className="landing-heading mb-8 text-center">{LANDING_CONTENT.faq.title}</h2>
-      </div>
-      <div className="divide-border border-border divide-y border-y">
+      </motion.div>
+      <motion.div
+        variants={LANDING_REVEAL_VARIANTS.default}
+        className="landing-reveal divide-border border-border divide-y border-y"
+      >
         {LANDING_FAQ.map((item, index) => {
           const isOpen = openIndex === index;
 
@@ -60,7 +77,7 @@ export function LandingFaq() {
             </div>
           );
         })}
-      </div>
-    </section>
+      </motion.div>
+    </motion.section>
   );
 }

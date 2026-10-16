@@ -173,6 +173,12 @@
     scroll-margin-top: 6.5rem;
   }
 
+  .landing-page .landing-reveal:focus-within {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+  }
+
   .landing-client-shot {
     width: 135%;
     max-width: none;
@@ -280,5 +286,13 @@
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+}
+
+@media (scripting: none), (prefers-reduced-motion: reduce) {
+  .landing-page .landing-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
   }
 }
