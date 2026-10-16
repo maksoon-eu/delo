@@ -65,6 +65,10 @@ QA и служебные страницы не включаются в sitemap; 
 ## Разработка
 
 - `src/app/` — страницы, layouts и API; `src/features/` — сценарии интерфейса; `src/shared/` — общие компоненты и утилиты.
+- В корне feature/сценария из файлов находится только `index.tsx`: он владеет состоянием, формами, обработчиками и loading и передаёт данные/callbacks в UI. Отдельного model/hooks слоя и функциональных component-файлов рядом с index нет. Представление без бизнес-запросов — в `ui/`, внутренние типы — в `types/`, константы — в `constants/`, helpers — в `utils/`. Server Actions и серверные проверки остаются в `src/actions/`.
+- Папки создаются только при наличии содержимого; общие контракты независимых областей остаются в `shared`. `shared/utils/` содержит helpers, `shared/hooks/` — hooks; их настройки находятся в `shared/constants/`.
+- `orders` и `clients` разделены на `list`, `details` и `editor`; `auth` — на login/register/forgot-password/reset-password/verify-email/layout. Каждый сценарий имеет собственный `index.tsx`, без общего feature barrel. Реально общие части находятся в `common/`, технические папки — внутри сценариев или common.
+- Profile root собирает `editor` и `security`: состояние фото и form helpers принадлежат editor, подтверждение почты — security. В orders операции статуса/документов/оплаты находятся в details/index, выбор клиента — editor/index. У публичного заказа подтверждение принадлежит `order/payment-info/index.tsx`, кнопка — его `ui/`; остальное presentation находится в `order/common/`. Просмотр заказа и публичный заказ получают статические серверные секции через slots; отдельный controller не нужен. Landing и legal имеют серверные точки входа без вымышленных бизнес-hooks.
 - `src/actions/` — серверные действия; `prisma/schema.prisma` — модель данных.
 - Интерфейс: Next.js 16, React 19, TypeScript, Tailwind CSS 4 и shadcn/ui. Данные: PostgreSQL и Prisma 7; авторизация: Auth.js v5. Письма отправляются через Mailpit локально и Resend в других окружениях; файлы хранятся в S3-совместимом хранилище.
 

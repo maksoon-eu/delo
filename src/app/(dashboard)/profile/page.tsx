@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { AnimateIn } from '@/shared/components/ui/feedback/animate-in';
-import { ProfileForm } from '@/features/profile/profile-form';
+import { ProfileForm } from '@/features/profile';
 import { getProfile } from '@/actions/profile';
 
 type ProfilePageProps = {

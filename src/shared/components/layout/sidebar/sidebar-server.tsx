@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers';
-import { SIDEBAR_COOKIE_KEY } from '@/constants/storage';
+import { SIDEBAR_COOKIE_KEY } from '@/shared/constants/storage';
 import { AppSidebar } from './sidebar';
 
 export async function AppSidebarServer() {

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import { LegalPage } from '@/features/legal/legal-page';
-import { LEGAL_PRIVACY } from '@/constants/legal';
+import { LegalPage } from '@/features/legal';
+import { LEGAL_PRIVACY } from '@/features/legal/constants';
 import { getPublicPageRobots } from '@/shared/utils/seo';
 
 export const metadata: Metadata = {

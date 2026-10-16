@@ -1,5 +1,5 @@
 import { ORDERS_PAGE_SIZE } from '@/constants/pagination';
-import { OrdersTable } from '@/features/orders/orders-table';
+import { OrdersList } from '@/features/orders/list';
 import { getOrders } from '@/actions/orders';
 import { OrderStatus } from '@prisma/client';
 
@@ -22,7 +22,7 @@ export default async function OrdersPage(props: OrdersPageProps) {
 
   return (
     <div className="page-stack flex-1">
-      <OrdersTable key={listKey} initialItems={items} initialHasMore={hasMore} />
+      <OrdersList key={listKey} initialItems={items} initialHasMore={hasMore} />
     </div>
   );
 }
