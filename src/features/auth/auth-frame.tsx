@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { AuthDotMatrix } from '@/features/auth/auth-dot-matrix';
 import { AuthThemeToggle } from '@/features/auth/auth-theme-toggle';
 import { ROOT_ROUTE } from '@/shared/constants/routes';
+import { BrandLogo } from '@/shared/components/layout/brand-logo';
 
 type AuthFrameProps = {
   children: ReactNode;
@@ -24,12 +25,7 @@ export function AuthFrame(props: AuthFrameProps) {
               className="flex items-center gap-2.5"
               aria-label="Delo — главная"
             >
-              <span className="bg-primary text-primary-foreground grid size-10 place-items-center rounded-xl text-xl font-extrabold">
-                D
-              </span>
-              <span className="font-display text-foreground text-2xl font-extrabold tracking-tight">
-                Delo
-              </span>
+              <BrandLogo className="h-10" />
             </Link>
             <AuthThemeToggle />
           </div>

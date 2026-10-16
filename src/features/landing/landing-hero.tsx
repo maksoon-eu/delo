@@ -1,72 +1,147 @@
+import Image from 'next/image';
+import * as motion from 'motion/react-client';
+import { LANDING_CONTENT, LANDING_DOODLES } from '@/shared/constants/landing';
 import { LandingCta } from '@/features/landing/landing-cta';
 import { LandingHeroPreview } from '@/features/landing/landing-hero-preview';
+import { LandingScribble } from '@/features/landing/landing-scribble';
+import {
+  LANDING_PREVIEW_GROUP,
+  LANDING_REVEAL_GROUP,
+  LANDING_REVEAL_VARIANTS,
+  LANDING_REVEAL_VIEWPORT,
+} from './constants';
 
 export function LandingHero() {
   return (
-    <section id="top" className="pb-30 pt-70 md:pb-50 relative overflow-hidden">
-      <div
+    <section className="landing-hero bg-background relative isolate px-5 pb-16 pt-14 sm:px-8 sm:pt-20 lg:pt-24">
+      <motion.div
         aria-hidden
-        className="pointer-events-none absolute -left-[180px] -top-[280px] size-[820px] animate-[landing-drift_22s_ease-in-out_infinite] rounded-full bg-[radial-gradient(circle,color-mix(in_oklab,var(--primary)_34%,transparent),transparent_62%)] blur-[40px] motion-reduce:animate-none"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-[220px] -top-20 size-[720px] animate-[landing-drift_22s_ease-in-out_infinite] rounded-full bg-[radial-gradient(circle,color-mix(in_oklab,var(--primary)_20%,transparent),transparent_65%)] blur-[40px] [animation-delay:-8s] motion-reduce:animate-none"
-      />
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-[linear-gradient(var(--border)_1px,transparent_1px),linear-gradient(90deg,var(--border)_1px,transparent_1px)] bg-[size:72px_72px] opacity-40 [mask-image:radial-gradient(120%_80%_at_50%_0%,#000_25%,transparent_75%)]"
-      />
+        initial="hidden"
+        animate="visible"
+        variants={LANDING_REVEAL_GROUP}
+        className="bg-background pointer-events-none absolute inset-0 -z-10 mx-auto hidden max-w-[1440px] overflow-hidden xl:block"
+      >
+        <motion.div
+          variants={LANDING_REVEAL_VARIANTS.decoration}
+          className="landing-reveal absolute left-5 top-48 w-36 -rotate-12 2xl:left-12 2xl:w-44"
+        >
+          <Image
+            src={LANDING_DOODLES.designer}
+            alt=""
+            className="landing-doodle w-full"
+            sizes="192px"
+          />
+        </motion.div>
+        <motion.div
+          variants={LANDING_REVEAL_VARIANTS.decoration}
+          className="landing-reveal absolute right-5 top-56 w-36 rotate-12 2xl:right-12 2xl:w-44"
+        >
+          <Image
+            src={LANDING_DOODLES.writer}
+            alt=""
+            className="landing-doodle w-full"
+            sizes="176px"
+          />
+        </motion.div>
+        <motion.div
+          variants={LANDING_REVEAL_VARIANTS.decoration}
+          className="landing-reveal absolute left-2 top-[550px] w-32 rotate-6 2xl:left-10 2xl:w-40"
+        >
+          <Image
+            src={LANDING_DOODLES.developer}
+            alt=""
+            className="landing-doodle w-full"
+            sizes="160px"
+          />
+        </motion.div>
+        <motion.div
+          variants={LANDING_REVEAL_VARIANTS.decoration}
+          className="landing-reveal absolute right-2 top-[620px] w-32 -rotate-6 2xl:right-8 2xl:w-40"
+        >
+          <Image
+            src={LANDING_DOODLES.photographer}
+            alt=""
+            className="landing-doodle w-full"
+            sizes="160px"
+          />
+        </motion.div>
+        <LandingScribble
+          variant="spark"
+          reveal
+          className="absolute left-[17%] top-40 size-12 -rotate-12"
+        />
+        <LandingScribble
+          variant="arrow"
+          reveal
+          className="absolute right-[15%] top-[390px] w-28 rotate-[30deg]"
+        />
+      </motion.div>
 
-      <div className="landing-section relative mx-auto grid max-w-[1440px] items-center gap-14 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] xl:gap-16">
-        <div>
-          <h1 className="font-display text-[clamp(44px,7.2vw,86px)] font-black leading-[0.94] tracking-[-0.03em]">
-            Хватит вести
-            <br />
-            дела{' '}
-            <span className="text-primary relative isolate inline-block">
-              <span className="relative z-10">в чатах</span>
-              <span
-                aria-hidden
-                className="bg-primary absolute -bottom-1 left-0 right-0 z-0 h-1.5 -rotate-1 rounded-full"
-              />
-            </span>
-          </h1>
-
-          <p className="text-muted-foreground mt-7 max-w-[440px] text-[17px] leading-[1.55]">
-            Заказы, согласования, оплаты и документы — в одном окне.
-          </p>
-
-          <div className="mt-9 flex flex-wrap items-center gap-3">
-            <LandingCta href="/register">Начать бесплатно</LandingCta>
-            <LandingCta variant="ghost" disabledReason="Демо-заказ пока не опубликован">
-              Смотреть демо
-            </LandingCta>
-          </div>
-
-          <div className="border-border mt-10 flex flex-wrap items-center gap-x-10 gap-y-5 border-t pt-8">
-            <div>
-              <div className="font-display text-[26px] font-extrabold tracking-tight">15 000+</div>
-              <div className="text-muted-foreground font-mono text-[11px] uppercase tracking-[0.14em]">
-                фрилансеров
-              </div>
-            </div>
-            <div>
-              <div className="font-display text-[26px] font-extrabold tracking-tight">99,4%</div>
-              <div className="text-muted-foreground font-mono text-[11px] uppercase tracking-[0.14em]">
-                без споров
-              </div>
-            </div>
-            <div>
-              <div className="font-display text-[26px] font-extrabold tracking-tight">2 мин</div>
-              <div className="text-muted-foreground font-mono text-[11px] uppercase tracking-[0.14em]">
-                на заказ
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <LandingHeroPreview />
-      </div>
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={LANDING_REVEAL_GROUP}
+        className="relative mx-auto max-w-[900px] text-center"
+      >
+        <motion.h1
+          variants={LANDING_REVEAL_VARIANTS.headline}
+          className="landing-reveal text-[clamp(2.5rem,5.6vw,5rem)] font-bold leading-[1.1] tracking-[-0.045em]"
+        >
+          {LANDING_CONTENT.hero.title}
+          <br className="hidden sm:block" /> {LANDING_CONTENT.hero.titleLead}{' '}
+          <span className="relative inline-block">
+            {LANDING_CONTENT.hero.titleAccent}
+            <LandingScribble
+              variant="underline"
+              reveal
+              className="absolute -bottom-4 left-0 h-5 w-full sm:-bottom-5 sm:h-6"
+            />
+          </span>
+        </motion.h1>
+        <motion.p
+          variants={LANDING_REVEAL_VARIANTS.default}
+          className="landing-reveal mx-auto mt-9 max-w-[600px] text-base leading-relaxed sm:mt-10 sm:text-xl"
+        >
+          {LANDING_CONTENT.hero.description}
+        </motion.p>
+        <motion.div
+          variants={LANDING_REVEAL_VARIANTS.default}
+          className="landing-reveal mt-8 flex flex-col items-center gap-3 sm:mt-9"
+        >
+          <LandingCta href="/register">{LANDING_CONTENT.hero.cta}</LandingCta>
+          <p className="text-sm font-medium">{LANDING_CONTENT.pricingNotice}</p>
+        </motion.div>
+        <motion.div
+          aria-hidden
+          variants={LANDING_REVEAL_VARIANTS.decoration}
+          className="landing-reveal mx-auto mt-7 flex w-fit items-end gap-7 xl:hidden"
+        >
+          <Image
+            src={LANDING_DOODLES.designer}
+            alt=""
+            className="landing-doodle w-16 -rotate-12 sm:w-20"
+            sizes="80px"
+          />
+          <LandingScribble variant="spark" className="mb-5 size-7" />
+          <Image
+            src={LANDING_DOODLES.writer}
+            alt=""
+            className="landing-doodle w-16 rotate-12 sm:w-20"
+            sizes="80px"
+          />
+        </motion.div>
+      </motion.div>
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={LANDING_REVEAL_VIEWPORT}
+        variants={LANDING_PREVIEW_GROUP}
+        className="relative mx-auto mt-9 max-w-[1000px] lg:mt-14"
+      >
+        <motion.div variants={LANDING_REVEAL_VARIANTS.visual} className="landing-reveal">
+          <LandingHeroPreview />
+        </motion.div>
+      </motion.div>
     </section>
   );
 }

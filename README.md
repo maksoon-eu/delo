@@ -46,6 +46,22 @@ npm run dev
 
 Откройте [приложение](http://localhost:3000). Письма доступны в [Mailpit](http://localhost:8025), файлы — в [консоли MinIO](http://localhost:9001).
 
+## Индексация и публикация
+
+Production: `APP_ENV=prod`, `NEXT_PUBLIC_APP_URL=https://delo-doc.ru`.
+QA: `APP_ENV=dev`, `NEXT_PUBLIC_APP_URL=https://qa.delo-doc.ru`.
+Индексация включается только для production-конфигурации. Непроизводственные
+хосты дополнительно получают `X-Robots-Tag: noindex, nofollow`.
+Reverse proxy должен передавать исходный `Host`, чтобы production-домен
+корректно отличался от QA и preview-хостов.
+
+После публикации добавьте `https://delo-doc.ru/sitemap.xml` в Google Search Console
+и Яндекс Вебмастер и запросите обход главной страницы. Для подтверждения через
+meta-теги задайте `GOOGLE_SITE_VERIFICATION` и `YANDEX_SITE_VERIFICATION`
+(значение `content`, без HTML). Canonical всегда указывает на `delo-doc.ru`.
+QA и служебные страницы не включаются в sitemap; роботам разрешён обход,
+чтобы они могли увидеть `noindex`. SEO-превью находится в `public/og-image.png`.
+
 ## Разработка
 
 - `src/app/` — страницы, layouts и API; `src/features/` — сценарии интерфейса; `src/shared/` — общие компоненты и утилиты.

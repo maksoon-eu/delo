@@ -7,52 +7,24 @@ import { cn } from '@/shared/utils/cn';
 
 type LandingCtaProps = {
   children: ReactNode;
-  href?: Route;
-  variant?: 'solid' | 'ghost';
+  href: Route;
   className?: string;
-  disabledReason?: string;
 };
 
 export function LandingCta(props: LandingCtaProps) {
-  const { children, href, variant = 'solid', className, disabledReason } = props;
-  const sharedClassName = cn(
-    'h-12 rounded-full px-7 text-[15px] font-bold motion-reduce:hover:scale-100 motion-reduce:active:translate-y-0 motion-reduce:active:scale-100 motion-reduce:transition-none',
-    variant === 'solid'
-      ? 'shadow-lg shadow-primary/20'
-      : 'border-border bg-surface/30 text-foreground hover:bg-surface/70',
-    className
-  );
-
-  if (href) {
-    return (
-      <Button
-        render={<Link href={href} />}
-        nativeButton={false}
-        variant={variant === 'solid' ? 'default' : 'outline'}
-        className={sharedClassName}
-      >
-        {children}
-        <ArrowRightIcon
-          size={18}
-          className="transition-transform duration-300 group-hover/button:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover/button:translate-x-0"
-        />
-      </Button>
-    );
-  }
+  const { children, href, className } = props;
 
   return (
     <Button
-      type="button"
-      variant={variant === 'solid' ? 'default' : 'outline'}
-      className={sharedClassName}
-      disabled
-      tooltip={disabledReason}
+      render={<Link href={href} />}
+      nativeButton={false}
+      Icon={ArrowRightIcon}
+      className={cn(
+        'h-12 gap-3 rounded-lg px-6 text-sm font-medium motion-reduce:transform-none motion-reduce:transition-none',
+        className
+      )}
     >
       {children}
-      <ArrowRightIcon
-        size={18}
-        className="transition-transform duration-300 group-hover/button:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover/button:translate-x-0"
-      />
     </Button>
   );
 }

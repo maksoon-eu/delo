@@ -2,7 +2,7 @@
 
 import { useCallback } from 'react';
 import { usePathname } from 'next/navigation';
-import { AnimatePresence, motion } from 'motion/react';
+import { motion } from 'motion/react';
 import { PanelLeftCloseIcon } from '@/shared/components/icons/panel-left-close';
 import { PanelLeftOpenIcon } from '@/shared/components/icons/panel-left-open';
 import { Button } from '@/shared/components/ui/actions/button';
@@ -11,6 +11,7 @@ import { NAV_ITEMS } from '@/constants/navigation';
 import { SIDEBAR_COOKIE_KEY } from '@/constants/storage';
 import { SidebarNavItem } from './sidebar-item';
 import { cn } from '@/shared/utils/cn';
+import { BrandLogo } from '@/shared/components/layout/brand-logo';
 
 type AppSidebarProps = {
   defaultCollapsed: boolean;
@@ -38,22 +39,7 @@ export function AppSidebar(props: AppSidebarProps) {
           collapsed && 'justify-center'
         )}
       >
-        <div className="bg-sidebar-primary text-sidebar-primary-foreground flex size-8 shrink-0 items-center justify-center rounded-lg text-base font-extrabold">
-          Д
-        </div>
-        <AnimatePresence initial={false}>
-          {!collapsed && (
-            <motion.span
-              animate={{ opacity: 1, width: 'auto' }}
-              className="text-sidebar-foreground overflow-hidden whitespace-nowrap text-xl font-bold"
-              exit={{ opacity: 0, width: 0 }}
-              initial={{ opacity: 0, width: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              Delo
-            </motion.span>
-          )}
-        </AnimatePresence>
+        <BrandLogo compact={collapsed} />
       </div>
 
       <nav className="surface-shadow bg-surface border-sidebar-border flex flex-1 flex-col gap-1 rounded-2xl border py-3">

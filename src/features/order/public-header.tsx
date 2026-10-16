@@ -8,6 +8,7 @@ import { LockKeyholeIcon } from '@/shared/components/icons/lock-keyhole';
 import { SunIcon } from '@/shared/components/icons/sun';
 import { MoonIcon } from '@/shared/components/icons/moon';
 import { LOGIN_ROUTE } from '@/constants/routes';
+import { BrandLogo } from '@/shared/components/layout/brand-logo';
 
 export function PublicHeader() {
   const { isDark, toggleTheme } = useThemeToggle();
@@ -17,10 +18,7 @@ export function PublicHeader() {
     <header className="surface-shadow border-border bg-background shrink-0 border-b">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-6">
         <div className="flex items-center gap-2.5">
-          <span className="bg-primary text-primary-foreground flex size-8 items-center justify-center rounded-lg text-sm font-bold">
-            Д
-          </span>
-          <span className="text-foreground text-base font-semibold tracking-tight">Дело</span>
+          <BrandLogo />
         </div>
         <div className="flex items-center gap-2">
           <Button

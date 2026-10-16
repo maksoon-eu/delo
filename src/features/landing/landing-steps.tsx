@@ -1,38 +1,47 @@
-'use client';
-
-import { useState } from 'react';
-import { LandingStepCard } from '@/features/landing/landing-step-card';
-import { LANDING_STEPS } from '@/constants/landing';
+import * as motion from 'motion/react-client';
+import { LANDING_CONTENT, LANDING_STEPS } from '@/shared/constants/landing';
+import { LandingCta } from '@/features/landing/landing-cta';
+import {
+  LANDING_REVEAL_GROUP,
+  LANDING_REVEAL_VARIANTS,
+  LANDING_REVEAL_VIEWPORT,
+} from './constants';
 
 export function LandingSteps() {
-  const [activeIndex, setActiveIndex] = useState(0);
-
   return (
-    <section id="how" className="bg-secondary/30 border-border border-y py-24 md:py-32">
-      <div className="landing-section mx-auto max-w-[1440px]">
-        <div className="flex flex-wrap items-end justify-between gap-6">
-          <h2 className="font-display text-[clamp(32px,4.6vw,56px)] font-extrabold leading-[1.03] tracking-[-0.025em]">
-            Четыре шага —
-            <br />и вы защищены
-          </h2>
-          <span className="text-muted-foreground font-mono text-xs">
-            0{activeIndex + 1} / 0{LANDING_STEPS.length}
-          </span>
-        </div>
-
-        <div className="border-border bg-border mt-14 grid gap-px overflow-hidden rounded-[20px] border md:grid-cols-4">
+    <section id="how" className="bg-secondary/40 my-10 py-14 sm:my-16 sm:py-20">
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={LANDING_REVEAL_VIEWPORT}
+        variants={LANDING_REVEAL_GROUP}
+        className="landing-section grid gap-10 lg:grid-cols-[0.8fr_1fr] lg:gap-24"
+      >
+        <motion.div variants={LANDING_REVEAL_VARIANTS.default} className="landing-reveal">
+          <h2 className="landing-heading whitespace-pre-line">{LANDING_CONTENT.how.title}</h2>
+          <p className="text-muted-foreground mb-7 mt-5 max-w-sm text-base leading-relaxed">
+            {LANDING_CONTENT.how.description}
+          </p>
+          <LandingCta href="/register">{LANDING_CONTENT.how.cta}</LandingCta>
+        </motion.div>
+        <ol className="divide-border divide-y">
           {LANDING_STEPS.map((step, index) => (
-            <LandingStepCard
+            <motion.li
               key={step.title}
-              index={index}
-              title={step.title}
-              body={step.body}
-              active={index === activeIndex}
-              onSelect={setActiveIndex}
-            />
+              variants={LANDING_REVEAL_VARIANTS.default}
+              className="landing-reveal flex items-start gap-5 py-6 first:pt-0 last:pb-0 sm:gap-7"
+            >
+              <span className="text-primary pt-0.5 text-3xl font-bold tracking-tight">
+                {index + 1}.
+              </span>
+              <div>
+                <h3 className="text-xl font-semibold">{step.title}</h3>
+                <p className="text-muted-foreground mt-2 text-sm leading-relaxed">{step.body}</p>
+              </div>
+            </motion.li>
           ))}
-        </div>
-      </div>
+        </ol>
+      </motion.div>
     </section>
   );
 }

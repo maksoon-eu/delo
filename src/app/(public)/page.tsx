@@ -1,41 +1,63 @@
 import type { Metadata } from 'next';
+import { MotionConfig } from 'motion/react';
 import { LandingHeader } from '@/features/landing/landing-header';
 import { LandingHero } from '@/features/landing/landing-hero';
-import { PainTicker } from '@/features/landing/pain-ticker';
 import { LandingFeatures } from '@/features/landing/landing-features';
 import { LandingSteps } from '@/features/landing/landing-steps';
-import { LandingLocked } from '@/features/landing/landing-locked';
-import { LandingMetrics } from '@/features/landing/landing-metrics';
-import { LandingAudience } from '@/features/landing/landing-audience';
-import { LandingCompare } from '@/features/landing/landing-compare';
 import { LandingFaq } from '@/features/landing/landing-faq';
 import { LandingFinalCta } from '@/features/landing/landing-final-cta';
-import { AnimateIn } from '@/shared/components/ui/feedback/animate-in';
+import { LandingStructuredData } from '@/features/landing/landing-structured-data';
+import {
+  SEO_TITLE,
+  SEO_DESCRIPTION,
+  SEO_SITE_URL,
+  SEO_SITE_NAME,
+  SEO_SOCIAL_IMAGE,
+} from '@/shared/constants/seo';
+import { getPublicPageRobots } from '@/shared/utils/seo';
 
 export const metadata: Metadata = {
-  title: 'Delo — заказы, оплаты и документы для фрилансеров',
-  description: 'Клиенты, заказы, согласования, оплаты и документы для фрилансеров в одном сервисе.',
-  robots: { index: true, follow: true },
+  title: SEO_TITLE,
+  description: SEO_DESCRIPTION,
+  alternates: { canonical: '/' },
+  robots: getPublicPageRobots(),
+  openGraph: {
+    type: 'website',
+    locale: 'ru_RU',
+    url: SEO_SITE_URL,
+    siteName: SEO_SITE_NAME,
+    title: SEO_TITLE,
+    description: SEO_DESCRIPTION,
+    images: [SEO_SOCIAL_IMAGE],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: SEO_TITLE,
+    description: SEO_DESCRIPTION,
+    images: [SEO_SOCIAL_IMAGE],
+  },
 };
 
 export default function LandingPage() {
   return (
-    <div className="bg-background text-foreground min-h-screen">
+    <div className="landing-page bg-background text-foreground min-h-screen font-sans">
+      <LandingStructuredData />
+      <a
+        href="#landing-main"
+        className="bg-surface text-foreground border-border sr-only z-50 rounded-lg border p-3 focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+      >
+        Перейти к содержимому
+      </a>
       <LandingHeader />
-      <AnimateIn variant="fade">
-        <main>
+      <MotionConfig reducedMotion="user">
+        <main id="landing-main" tabIndex={-1}>
           <LandingHero />
-          <PainTicker />
           <LandingFeatures />
           <LandingSteps />
-          <LandingLocked />
-          <LandingMetrics />
-          <LandingAudience />
-          <LandingCompare />
           <LandingFaq />
           <LandingFinalCta />
         </main>
-      </AnimateIn>
+      </MotionConfig>
     </div>
   );
 }

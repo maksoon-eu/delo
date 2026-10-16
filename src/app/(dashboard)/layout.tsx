@@ -6,6 +6,10 @@ import { AppSidebarServer } from '@/shared/components/layout/sidebar/sidebar-ser
 import { TopBar } from '@/shared/components/layout/top-bar';
 import { INVALID_SESSION_ROUTE, LOGIN_ROUTE } from '@/constants/routes';
 import type { ReactNode } from 'react';
+import type { Metadata } from 'next';
+import { SEO_PRIVATE_ROBOTS } from '@/shared/constants/seo';
+
+export const metadata: Metadata = { robots: SEO_PRIVATE_ROBOTS };
 
 export default async function DashboardLayout(props: { children: ReactNode }) {
   const { children } = props;

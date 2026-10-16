@@ -10,6 +10,14 @@ import type { ReactNode } from 'react';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { Footer } from '@/shared/components/layout/footer';
 import { ConfirmationProvider } from '@/shared/components/providers/confirmation/confirmation.provider';
+import {
+  SEO_SITE_URL,
+  SEO_SITE_NAME,
+  SEO_DESCRIPTION,
+  SEO_PRIVATE_ROBOTS,
+} from '@/shared/constants/seo';
+import { isIndexableDeployment } from '@/shared/utils/seo';
+import { BRAND_ICONS } from '@/shared/constants/brand';
 
 const inter = Inter({
   variable: '--font-sans',
@@ -27,8 +35,19 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: 'Delo',
-  description: 'Управляй клиентами, заказами и документами в одном месте',
+  metadataBase: new URL(SEO_SITE_URL),
+  applicationName: SEO_SITE_NAME,
+  title: SEO_SITE_NAME,
+  description: SEO_DESCRIPTION,
+  robots: SEO_PRIVATE_ROBOTS,
+  icons: BRAND_ICONS,
+  manifest: '/favicons/light/manifest.webmanifest',
+  ...(isIndexableDeployment() && {
+    verification: {
+      google: env.GOOGLE_SITE_VERIFICATION,
+      yandex: env.YANDEX_SITE_VERIFICATION,
+    },
+  }),
 };
 
 export default function RootLayout(props: Readonly<{ children: ReactNode }>) {
