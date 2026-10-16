@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { MotionConfig } from 'motion/react';
 import { LandingHeader } from '@/features/landing/landing-header';
 import { LandingHero } from '@/features/landing/landing-hero';
 import { LandingFeatures } from '@/features/landing/landing-features';
@@ -48,13 +49,15 @@ export default function LandingPage() {
         Перейти к содержимому
       </a>
       <LandingHeader />
-      <main id="landing-main" tabIndex={-1}>
-        <LandingHero />
-        <LandingFeatures />
-        <LandingSteps />
-        <LandingFaq />
-        <LandingFinalCta />
-      </main>
+      <MotionConfig reducedMotion="user">
+        <main id="landing-main" tabIndex={-1}>
+          <LandingHero />
+          <LandingFeatures />
+          <LandingSteps />
+          <LandingFaq />
+          <LandingFinalCta />
+        </main>
+      </MotionConfig>
     </div>
   );
 }
