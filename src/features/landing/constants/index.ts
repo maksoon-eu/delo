@@ -2,10 +2,12 @@ import type { Variants } from 'motion/react';
 import ordersImage from '@/assets/images/landing/orders.png';
 import orderDetailsImage from '@/assets/images/landing/order-details.png';
 import publicOrderImage from '@/assets/images/landing/public-order.png';
-import designerImage from '@/assets/images/landing/doodle-designer.jpg';
-import writerImage from '@/assets/images/landing/doodle-writer.jpg';
-import developerImage from '@/assets/images/landing/doodle-developer.jpg';
-import photographerImage from '@/assets/images/landing/doodle-photographer.jpg';
+import clientPreviewImage from '@/assets/images/landing/client-preview.png';
+import paymentPreviewImage from '@/assets/images/landing/payment-preview.png';
+import designerImage from '@/assets/images/landing/doodle-designer.png';
+import writerImage from '@/assets/images/landing/doodle-writer.png';
+import developerImage from '@/assets/images/landing/doodle-developer.png';
+import photographerImage from '@/assets/images/landing/doodle-photographer.png';
 import {
   SEO_SITE_URL,
   SEO_SITE_NAME,
@@ -115,20 +117,16 @@ export const LANDING_STORIES = [
     title: 'Условия — в заказе.\nСогласие — по ссылке.',
     body: 'Вместо поиска договорённостей в переписке откройте заказ: здесь состав работ, стоимость и срок. Клиент подтверждает эти условия по ссылке, а момент подтверждения остаётся в истории.',
     note: 'Клиенту не нужна регистрация.',
-    image: publicOrderImage,
     alt: 'Условия и состав работ на публичной странице заказа Delo',
-    imageClassName: 'landing-client-shot',
-    visualLabel: 'Так заказ выглядит для клиента',
+    preview: clientPreviewImage,
   },
   {
     id: 'payments',
     title: 'Предоплата пришла?\nПросто отметьте её.',
     body: 'Отмечайте полученные платежи и видите оплаченную сумму по каждому заказу. Договор, счёт или акт можно прикрепить в PDF — документы останутся рядом с условиями и историей работы.',
     note: 'Платежи учитываются вручную. Перевод денег — отдельно.',
-    image: orderDetailsImage,
     alt: 'Карточка заказа Delo со стоимостью, полученной оплатой и файлами',
-    imageClassName: 'landing-payment-shot',
-    visualLabel: 'Оплаты и документы в вашем кабинете',
+    preview: paymentPreviewImage,
   },
 ] as const;
 

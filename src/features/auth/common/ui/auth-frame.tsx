@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { AuthDotMatrix } from '@/features/auth/common/ui/auth-dot-matrix';
-import { AuthThemeToggle } from '@/features/auth/common/ui/auth-theme-toggle';
+import { ThemeToggle } from '@/shared/components/layout/theme-toggle';
 import { ROOT_ROUTE } from '@/shared/constants/routes';
 import { BrandLogo } from '@/shared/components/layout/brand-logo';
 
@@ -27,7 +27,7 @@ export function AuthFrame(props: AuthFrameProps) {
             >
               <BrandLogo className="h-10" />
             </Link>
-            <AuthThemeToggle />
+            <ThemeToggle />
           </div>
 
           <div className="w-full pb-1 pt-10 sm:pt-12">{children}</div>

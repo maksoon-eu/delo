@@ -1,19 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { useIsClient } from '@/shared/hooks/use-is-client';
-import { useThemeToggle } from '@/shared/hooks/use-theme-toggle';
+import { ThemeToggle } from '@/shared/components/layout/theme-toggle';
 import { Button } from '@/shared/components/ui/actions/button';
 import { LockKeyholeIcon } from '@/shared/components/icons/lock-keyhole';
-import { SunIcon } from '@/shared/components/icons/sun';
-import { MoonIcon } from '@/shared/components/icons/moon';
 import { LOGIN_ROUTE } from '@/constants/routes';
 import { BrandLogo } from '@/shared/components/layout/brand-logo';
 
 export function PublicHeader() {
-  const { isDark, toggleTheme } = useThemeToggle();
-  const isClient = useIsClient();
-
   return (
     <header className="surface-shadow border-border bg-background shrink-0 border-b">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-6">
@@ -29,15 +23,7 @@ export function PublicHeader() {
             variant="outline"
             tooltip="Войти"
           />
-          {isClient && (
-            <Button
-              Icon={isDark ? SunIcon : MoonIcon}
-              mode="icon"
-              variant="outline"
-              tooltip={isDark ? 'Светлая тема' : 'Тёмная тема'}
-              onClick={toggleTheme}
-            />
-          )}
+          <ThemeToggle />
         </div>
       </div>
     </header>
