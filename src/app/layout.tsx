@@ -3,12 +3,11 @@ import { Geist_Mono, Inter, Outfit } from 'next/font/google';
 import '@/styles/globals.css';
 import { ThemeProvider } from '@/shared/components/providers/theme/theme.provider';
 import { Toaster } from '@/shared/components/ui/feedback/sonner';
-import { Analytics } from '@vercel/analytics/next';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 import { env } from '@/config/env';
 import type { ReactNode } from 'react';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { Footer } from '@/shared/components/layout/footer';
+import { CookieSettingsProvider } from '@/shared/components/providers/cookie-settings/cookie-settings.provider';
 import { ConfirmationProvider } from '@/shared/components/providers/confirmation/confirmation.provider';
 import {
   SEO_SITE_URL,
@@ -16,7 +15,7 @@ import {
   SEO_DESCRIPTION,
   SEO_PRIVATE_ROBOTS,
 } from '@/shared/constants/seo';
-import { isIndexableDeployment } from '@/shared/utils/seo';
+import { isProductionDeployment } from '@/shared/utils/deployment';
 import { BRAND_ICONS } from '@/shared/constants/brand';
 
 const inter = Inter({
@@ -42,7 +41,7 @@ export const metadata: Metadata = {
   robots: SEO_PRIVATE_ROBOTS,
   icons: BRAND_ICONS,
   manifest: '/favicons/light/manifest.webmanifest',
-  ...(isIndexableDeployment() && {
+  ...(isProductionDeployment() && {
     verification: {
       google: env.GOOGLE_SITE_VERIFICATION,
       yandex: env.YANDEX_SITE_VERIFICATION,
@@ -52,6 +51,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout(props: Readonly<{ children: ReactNode }>) {
   const { children } = props;
+
   return (
     <html
       lang="ru"
@@ -65,14 +65,9 @@ export default function RootLayout(props: Readonly<{ children: ReactNode }>) {
               <div className="dashboard-background flex min-h-dvh flex-1 flex-col">
                 {children}
                 <Toaster />
-                <Footer />
-
-                {env.NODE_ENV === 'production' && (
-                  <>
-                    <Analytics />
-                    <SpeedInsights />
-                  </>
-                )}
+                <CookieSettingsProvider analyticsEnabled={isProductionDeployment()}>
+                  <Footer />
+                </CookieSettingsProvider>
               </div>
             </ConfirmationProvider>
           </ThemeProvider>

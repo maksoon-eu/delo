@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { LEGAL_CONTACT_EMAIL, LEGAL_PRIVACY_PATH, LEGAL_TERMS_PATH } from '@/constants/legal';
 import { BrandLogo } from '@/shared/components/layout/brand-logo';
+import { CookieSettingsButton } from '@/shared/components/layout/cookie-settings-button';
 
 export function Footer() {
   return (
@@ -32,6 +33,9 @@ export function Footer() {
                   <Link href={LEGAL_TERMS_PATH} className="hover:text-foreground transition-colors">
                     Условия использования
                   </Link>
+                </li>
+                <li>
+                  <CookieSettingsButton />
                 </li>
               </ul>
               <a

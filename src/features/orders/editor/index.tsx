@@ -12,6 +12,7 @@ import type { FormComboboxLoadOptionsParams } from '@/shared/components/ui/form/
 import type { SelectOption } from '@/shared/types/forms';
 import { OrderSchema, type OrderInput } from '@/shared/schemas/orders';
 import { useAsyncAction } from '@/shared/hooks/use-async-action';
+import { trackGoal } from '@/shared/utils/metrica';
 import { PAYMENT_METHOD_OPTIONS_MAP } from '@/shared/constants/payments';
 import { ORDER_CREATE_DEFAULT_VALUES, ORDER_ITEM_DEFAULT } from './constants';
 import type { OrderEditorOptions } from './types';
@@ -62,6 +63,7 @@ export function OrderEditor(props: OrderEditorProps) {
     if (options.mode === 'create') {
       const result = await createOrder(data);
       if ('error' in result) throw new Error(result.error);
+      trackGoal('order_created');
       toast.success('Заказ создан');
       options.onSuccess?.(result.id);
     } else {
