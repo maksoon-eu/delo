@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import { ClientSchema, type ClientInput } from '@/shared/schemas/clients';
 import { createClient, updateClient } from '@/actions/clients';
 import { useAsyncAction } from '@/shared/hooks/use-async-action';
+import { trackGoal } from '@/shared/utils/metrica';
 import { CLIENT_CREATE_DEFAULT_VALUES } from './constants';
 import type { ClientEditorOptions } from './types';
 import { ClientFormView } from './ui/client-form';
@@ -25,6 +26,7 @@ export function ClientForm(props: ClientFormProps) {
     if (mode === 'create') {
       const result = await createClient(data);
       if ('error' in result) throw new Error(result.error);
+      trackGoal('client_created');
       toast.success('Клиент создан');
       router.refresh();
       onSuccess?.(result.id, result.name);

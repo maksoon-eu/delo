@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { SEO_SITE_URL } from '@/shared/constants/seo';
-import { isIndexableDeployment } from '@/shared/utils/seo';
+import { isProductionDeployment } from '@/shared/utils/deployment';
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: '/api/',
     },
-    ...(isIndexableDeployment() && { sitemap: `${SEO_SITE_URL}/sitemap.xml` }),
+    ...(isProductionDeployment() && { sitemap: `${SEO_SITE_URL}/sitemap.xml` }),
   };
 }

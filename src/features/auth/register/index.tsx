@@ -9,6 +9,7 @@ import { useRouterNavigate } from '@/shared/hooks/use-router-navigate';
 import { RegisterSchema, type RegisterInput } from '@/shared/schemas/auth';
 import { registerUser } from '@/actions/auth';
 import { LOGIN_ROUTE, PROFILE_ROUTE } from '@/shared/constants/routes';
+import { trackGoal } from '@/shared/utils/metrica';
 import { REGISTER_DEFAULT_VALUES } from './constants';
 import { RegisterFormView } from './ui/register-form';
 
@@ -25,6 +26,7 @@ export function RegisterForm() {
     if (error) {
       throw new Error(error);
     }
+    trackGoal('registration_success');
     const { error: signInError } = await signIn('credentials', {
       email,
       password,
