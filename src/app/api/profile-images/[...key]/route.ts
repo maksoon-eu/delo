@@ -1,4 +1,5 @@
 import { auth } from '@/config/auth';
+import { db } from '@/shared/config/db';
 import { getS3Object } from '@/shared/utils/s3';
 
 type ProfileImageRouteContext = {
@@ -11,14 +12,20 @@ export async function GET(_request: Request, context: ProfileImageRouteContext) 
 
   const { key: keyParts } = await context.params;
   const key = keyParts.join('/');
+  const user = await db.user.findUnique({
+    where: { id: session.user.id },
+    select: { image: true },
+  });
+
+  if (!user?.image || user.image !== key) return new Response(null, { status: 404 });
 
   try {
-    const object = await getS3Object(key);
+    const object = await getS3Object(user.image);
     if (!object.Body) return new Response(null, { status: 404 });
 
     const headers = new Headers({
       'Content-Type': object.ContentType ?? 'application/octet-stream',
-      'Cache-Control': object.CacheControl ?? 'private, max-age=3600',
+      'Cache-Control': 'private, no-store',
     });
 
     if (object.ContentLength) {
